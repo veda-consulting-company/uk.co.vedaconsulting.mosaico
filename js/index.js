@@ -1,4 +1,5 @@
 (function($, _) {
+//(function() {
       var initialEdits = [];
       if (localStorage.getItem('edits')) {
         var editKeys = JSON.parse(localStorage.getItem('edits'));
@@ -58,8 +59,8 @@
         var rnd = Math.random().toString(36).substr(2, 7);
 
         //DS: fixme with extension resource url (CRM.resourceUrls)
-        //var template = 'templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
-        var template = 'http://cms46.loc/sites/cms46.loc/modules/civicrm/tools/extensions/uk.co.vedaconsulting.mosaico/packages/mosaico/' + 'templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
+        var template = 'templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
+        //var template = 'http://cms46.loc/sites/cms46.loc/modules/civicrm/tools/extensions/uk.co.vedaconsulting.mosaico/packages/mosaico/' + 'templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
         viewModel.edits.unshift({ created: Date.now(), key: rnd, name: shorttmplname, template: template });
 
         //DS: use civi path
@@ -139,5 +140,6 @@ $(function() {
   $('.logoImage').remove();
 });
 // $('<hr/>').appendTo($('body'));
+//})();
 })(CRM.$, CRM._);
 

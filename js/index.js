@@ -56,9 +56,15 @@
         console.log("new", this, template);
         var d = new Date();
         var rnd = Math.random().toString(36).substr(2, 7);
-        var template = 'templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
+
+        //DS: fixme with extension resource url (CRM.resourceUrls)
+        //var template = 'templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
+        var template = 'http://cms46.loc/sites/cms46.loc/modules/civicrm/tools/extensions/uk.co.vedaconsulting.mosaico/packages/mosaico/' + 'templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
         viewModel.edits.unshift({ created: Date.now(), key: rnd, name: shorttmplname, template: template });
-        document.location = 'editor.html#'+rnd;
+
+        //DS: use civi path
+        //document.location = 'editor.html#'+rnd;
+        document.location = 'mosaico/editor?snippet=2#'+rnd;
         // { data: 'AAAA-MM-GG', key: 'ABCDE' }
         // viewModel.edits.push(template);
       };

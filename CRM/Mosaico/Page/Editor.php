@@ -12,7 +12,6 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
    * @param CRM_Core_Resources $res
    */
   public function registerResources(CRM_Core_Resources $res) {
-    //CRM_Core_Error::debug('$res', $res);
     $weight = self::DEFAULT_MODULE_WEIGHT;
     $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/vendor/knockout.js', $weight++, 'html-header', FALSE);
     $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/vendor/jquery.min.js', $weight++, 'html-header', FALSE);
@@ -31,5 +30,9 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/mosaico.min.js?v=0.11', $weight++, 'html-header', FALSE);
 
     $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'js/editor.js', $weight++, 'html-header', FALSE);
+    
+    $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/mosaico-material.min.css?v=0.10', $weight++, 'html-header', TRUE);
+    $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/vendor/notoregular/stylesheet.css', $weight++, 'html-header', TRUE);
+    $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/vendor/evol.colorpicker.min.css', $weight++, 'html-header', TRUE);
   }
 }

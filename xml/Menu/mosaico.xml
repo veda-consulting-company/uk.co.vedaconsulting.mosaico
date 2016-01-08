@@ -1,9 +1,15 @@
 <?xml version="1.0"?>
 <menu>
   <item>
+   <path>civicrm/mosaico</path>
+   <page_callback>CRM_Mosaico_Page_Index</page_callback>
+   <title>Integration with Mosaico</title>
+   <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
    <path>civicrm/mosaico/editor</path>
    <page_callback>CRM_Mosaico_Page_Editor</page_callback>
-   <title>Integrating with CiviCRM</title>
+   <title>Integration with Mosaico</title>
    <access_arguments>access CiviCRM</access_arguments>
   </item>
 </menu>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{literal}
   <body style="overflow: auto; text-align: center; background-color: #3f3d33; padding: 0; margin: 0; display: none;" data-bind="visible: true">
   <div style="background-color: #d2cbb1; padding: 10px;">
     <table class="logoWrapper" valign="bottom" align="center"><tr><td valign="bottom"><img class="logoImage" alt="Mosaico.io" style="display: block;" src="dist/img/mosaicologo.png" /><div class="logoContainer"></div></td><td class="byTable" valign="bottom"><a href="http://www.voxmail.it"><img src="dist/img/byvoxmail.png" alt="by VOXmail" /></a></td></tr></table>
@@ -16,12 +16,12 @@
       </tr></thead>
     <tbody data-bind="foreach: edits">
       <tr>
-        <td align="left"><a href="#" data-bind="attr: { href: 'editor.html#'+key }"><code>#<span data-bind="text: key">key</span></code></a></td>
-        <td style="font-weight: bold" align="left"><a href="#" data-bind="attr: { href: 'editor.html#'+key }"><span data-bind="text: name">versamix</span></a></td>
+        <td align="left"><a href="#" data-bind="attr: { href: 'editor?snippet=2#'+key }"><code>#<span data-bind="text: key">key</span></code></a></td>
+        <td style="font-weight: bold" align="left"><a href="#" data-bind="attr: { href: 'editor?snippet=2#'+key }"><span data-bind="text: name">versamix</span></a></td>
         <td><span data-bind="text: typeof created !== 'undefined' ? $root.dateFormat(created) : '-'">YYYY-MM-DD</span></td>
         <td><span style="font-weight: bold" data-bind="text: typeof changed !== 'undefined' ? $root.dateFormat(changed) : '-'">YYYY-MM-DD</span></td>
         <td>
-        <a class="operationButton" href="#" data-bind="attr: { href: 'editor.html#'+key }" title="edit"><i class="fa fa-pencil"></i></a>
+        <a class="operationButton" href="#" data-bind="attr: { href: 'editor?snippet=2#'+key }" title="edit"><i class="fa fa-pencil"></i></a>
         <!--(<a href="#" data-bind="click: $root.renameEdit.bind(undefined, $index())" title="rinomina"><i class="fa fa-trash-o"></i></a>)-->
         <a class="operationButton" href="#" data-bind="click: $root.deleteEdit.bind(undefined, $index())" title="delete"><i class="fa fa-trash-o"></i></a>
         </td>
@@ -36,7 +36,7 @@
     <div data-bind="foreach: templates">
       <div class="template template-xx" style="" data-bind="attr: { class: 'template template-'+name }">
         <div class="description" style="padding-bottom:5px"><b data-bind="text: name">xx</b>: <span data-bind="text: desc">xx</span></div>
-        <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: 'editor.html#templates/'+name+'/template-'+name+'.html' }">
+        <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: 'editor?snippet=2#templates/'+name+'/template-'+name+'.html' }">
           <img src width="100%" alt="xx" data-bind="attr: { src: 'templates/'+name+'/edres/_full.png' }">
         </a>
       </div>
@@ -67,3 +67,4 @@
       Void Labs Snc 2015® - All rights reserved - P.IVA 02137700395
     </div>
   </body>
+{/literal}

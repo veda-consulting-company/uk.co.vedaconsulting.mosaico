@@ -26,5 +26,6 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
 
 
     $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'css/index.css', $weight++, 'html-header', TRUE);
+    $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'js/index2.js', $weight++, 'html-header', TRUE);
   }
 }

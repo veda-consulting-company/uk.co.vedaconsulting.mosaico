@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <menu>
   <item>
-    <path>civicrm/mosaicoi/index</path>
+    <path>civicrm/mosaico/index</path>
    <page_callback>CRM_Mosaico_Page_Index</page_callback>
    <title>Integration with Mosaico</title>
    <access_arguments>access CiviCRM</access_arguments>
@@ -21,6 +21,18 @@
   <item>
    <path>civicrm/mosaico/upload</path>
    <page_callback>CRM_Mosaico_Utils::processUpload</page_callback>
+   <title>Integration with Mosaico</title>
+   <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+   <path>civicrm/mosaico/img</path>
+   <page_callback>CRM_Mosaico_Utils::processImg</page_callback>
+   <title>Integration with Mosaico</title>
+   <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+   <path>civicrm/mosaico/dl</path>
+   <page_callback>CRM_Mosaico_Utils::processDl</page_callback>
    <title>Integration with Mosaico</title>
    <access_arguments>access CiviCRM</access_arguments>
   </item>

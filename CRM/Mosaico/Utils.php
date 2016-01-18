@@ -323,10 +323,20 @@ class CRM_Mosaico_Utils {
 
     /* perform the requested action */
 
-    switch ( $_POST[ "action" ] )
-    {
-    case "download":
-    {
+    switch ( $_POST[ "action" ] ) {
+    case "download": {
+      // save to message templates
+      $messageTemplate = array(
+        //'msg_text' => $formValues['text_message'],
+        'msg_html'    => $html,
+        'msg_subject' => "Mosaico saved - " . date('YmdHis'),
+        'is_active'   => TRUE,
+      );
+
+      $messageTemplate['msg_title'] = $messageTemplate['msg_subject'];
+      CRM_Core_BAO_MessageTemplate::add($messageTemplate);
+
+      // download
       header( "Content-Type: application/force-download" );
       header( "Content-Disposition: attachment; filename=\"" . $_POST[ "filename" ] . "\"" );
       header( "Content-Length: " . strlen( $html ) );
@@ -336,11 +346,11 @@ class CRM_Mosaico_Utils {
       break;
     }
 
-    case "email":
-    {
+    case "email": {
       $to = $_POST[ "rcpt" ];
       $subject = $_POST[ "subject" ];
 
+      /* mosaico
       $headers = array();
 
       $headers[] = "MIME-Version: 1.0";
@@ -354,6 +364,22 @@ class CRM_Mosaico_Utils {
       {
         $http_return_code = 500;
         return;
+      }
+       */
+
+      $mailParams = array(
+        //'groupName' => 'Activity Email Sender',
+        'from' => 'cms46@mosaicoexample.org',
+        'toName' => 'Test Recipient',
+        'toEmail' => $to,
+        'subject' => $subject,
+        //'text' => $text_message,
+        'html' => $html,
+      );
+
+      CRM_Core_Error::debug_var('$mailParams', $mailParams);
+      if (!CRM_Utils_Mail::send($mailParams)) {
+        return FALSE;
       }
 
       break;

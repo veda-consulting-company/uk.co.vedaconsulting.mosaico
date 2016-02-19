@@ -136,3 +136,23 @@ function mosaico_civicrm_preProcess($formName, &$form) {
 }
 
 */
+
+function mosaico_civicrm_navigationMenu(&$params){
+  $parentId = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Mailings', 'id', 'name');
+  //$msgTpls  = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Message Templates', 'id', 'name');
+
+  $maxId       = max(array_keys($params));
+  $msgTplMaxId = empty($msgTpls) ? $maxId+1 : $msgTpls;
+  $params[$parentId]['child'][$msgTplMaxId] = array(
+    'attributes' => array(
+      'label'     => ts('Message Template Builder'),
+      'name'      => 'Message_Template_Builder',
+      'url'       => CRM_Utils_System::url('civicrm/mosaico/index', NULL, TRUE),
+      'active'    => 1,
+      'parentID'  => $parentId,
+      'operator'  => NULL,
+      'navID'     => $msgTplMaxId,
+      'permission'=> 'administer CiviCRM',
+    ),
+  );
+}

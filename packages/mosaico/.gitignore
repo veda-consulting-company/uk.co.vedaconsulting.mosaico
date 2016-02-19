@@ -5,4 +5,5 @@ uploads/**
 .tmp/**
 !.tmp/README.md
 build
-dist
+#DS: let git track dist
+#dist

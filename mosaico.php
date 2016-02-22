@@ -1,7 +1,7 @@
 <?php
 
 require_once 'mosaico.civix.php';
-
+define('MOSAICO_TABLE_NAME', 'civicrm_mosaico_msg_template');
 /**
  * Implements hook_civicrm_config().
  *

@@ -135,7 +135,10 @@ class CRM_Mosaico_Utils {
             $image = new Imagick( $file_path );
 
             $image->resizeImage( $config[ THUMBNAIL_WIDTH ], $config[ THUMBNAIL_HEIGHT ], Imagick::FILTER_LANCZOS, 1.0, TRUE );
-            $image->writeImage( $config['BASE_DIR'] . $config[ THUMBNAILS_DIR ] . $file_name );
+            // $image->writeImage( $config['BASE_DIR'] . $config[ THUMBNAILS_DIR ] . $file_name );
+            if($f = fopen( $config['BASE_DIR'] . $config[ THUMBNAILS_DIR ] . $file_name, "w")){
+              $image->writeImageFile($f);
+            }            
             $image->destroy();
 
             $file = array(

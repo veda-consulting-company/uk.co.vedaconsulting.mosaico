@@ -347,6 +347,13 @@ class CRM_Mosaico_Utils {
     }
 
     case "save": {
+      $msgTplId = NULL;
+      $mosTpl   = new CRM_Mosaico_DAO_MessageTemplate();
+      $mosTpl->hash_key   = $_POST['key'];
+      if($mosTpl->find(TRUE)){
+        $msgTplId = $mosTpl->msg_tpl_id;
+      }
+      
       // save to message templates
       $messageTemplate = array(
         //'msg_text' => $formValues['text_message'],
@@ -355,6 +362,9 @@ class CRM_Mosaico_Utils {
         'is_active'   => TRUE,
       );
       $messageTemplate['msg_title'] = $messageTemplate['msg_subject'];
+      if ($msgTplId) {
+        $messageTemplate['id'] = $msgTplId;
+      }
       $msgTpl = CRM_Core_BAO_MessageTemplate::add($messageTemplate);
       
       $mosaicoTemplate = array(
@@ -368,6 +378,7 @@ class CRM_Mosaico_Utils {
       );
       $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
       $mosTpl->msg_tpl_id = $msgTpl->id;
+      $mosTpl->hash_key   = $_POST['key'];
       $mosTpl->find(TRUE);
       $mosTpl->copyValues($mosaicoTemplate);
       $mosTpl->save();

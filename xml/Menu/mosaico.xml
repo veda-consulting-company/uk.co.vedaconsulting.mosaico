@@ -37,6 +37,12 @@
    <access_arguments>access CiviCRM</access_arguments>
   </item>
   <item>
+    <path>civicrm/mosaico/ajax/getallmd</path>
+   <page_callback>CRM_Mosaico_Utils::getAllMetadata</page_callback>
+   <title>Integration with Mosaico</title>
+   <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
    <path>civicrm/mosaico/dist</path>
    <page_callback>CRM_Mosaico_Utils::getResource</page_callback>
    <title>Integration with Mosaico</title>

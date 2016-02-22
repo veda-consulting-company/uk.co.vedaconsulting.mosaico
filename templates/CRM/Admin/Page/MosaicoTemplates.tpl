@@ -51,6 +51,19 @@
           $('#mosaicoTemplates').hide();
         }
       });
+      var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/getallmd' h=0 }"{literal};
+      console.log('posturl=' + postUrl);
+      $.ajax({ type: "POST", url: postUrl, data: {}, async: true, dataType: 'json',
+        success: function(result) {
+          console.log(result);
+          $.each(result, function(key, mtpl) { 
+            if (mtpl.id) {
+              localStorage.setItem("metadata-" + mtpl.hash_key, mtpl.metadata);
+              localStorage.setItem("template-" + mtpl.hash_key, mtpl.template);
+            }
+          }); 
+        }
+      });
     });
   {/literal}
 </script>

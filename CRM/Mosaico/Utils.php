@@ -436,6 +436,20 @@ class CRM_Mosaico_Utils {
   }
 
   /**
+   */
+  static function getAllMetadata()
+  {
+    $result = array();
+    $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
+    $mosTpl->find();
+    while ($mosTpl->fetch()) {
+      CRM_Core_DAO::storeValues($mosTpl, $result[$mosTpl->hash_key]);
+      unset($result[$mosTpl->hash_key]['html']);
+    }
+    CRM_Utils_JSON::output($result);
+  }
+
+  /**
    * function to resize images using resize or cover methods
    */
   static function resizeImage( $file_name, $method, $width, $height )

@@ -172,7 +172,7 @@ function mosaico_civicrm_pageRun(&$page){
     while ($dao->fetch()) {
       $resultArray[$dao->id] = $dao->toArray();
       
-      $editURL= CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2#'.$dao->key);
+      $editURL= CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2#'.$dao->hash_key);
       $delURL = CRM_Utils_System::url('civicrm/admin/messageTemplates', 'action=delete&id='.$dao->id);
       
       $action = sprintf('<span>

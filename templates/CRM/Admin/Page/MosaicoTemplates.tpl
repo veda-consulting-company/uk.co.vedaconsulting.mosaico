@@ -6,7 +6,6 @@
           <table class="display">
             <thead>
               <tr>
-                <th class="sortable">{ts}Mosaico Name{/ts}</th>
                 <th class="sortable">{ts}Message Title{/ts}</th>
                 <th>{ts}Message Subject{/ts}</th>
                 <th>{ts}Enabled?{/ts}</th>
@@ -16,7 +15,6 @@
             <tbody>
             {foreach from=$mosaicoTemplates item=row}
                 <tr id="message_template-{$row.id}" class="crm-entity {$row.class}{if NOT $row.is_active} disabled{/if}">
-                  <td>{$row.name}</td>
                   <td>{$row.msg_title}</td>
                   <td>{$row.msg_subject}</td>
                   <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>

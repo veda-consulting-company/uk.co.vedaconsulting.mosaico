@@ -368,6 +368,10 @@ class CRM_Mosaico_Utils {
       if ($msgTplId) {
         $messageTemplate['id'] = $msgTplId;
       }
+      if ($_POST['name']) {
+        $messageTemplate['msg_title'] = $messageTemplate['msg_subject'] = $_POST['name'];
+      }
+
       $msgTpl = CRM_Core_BAO_MessageTemplate::add($messageTemplate);
       
       $mosaicoTemplate = array(

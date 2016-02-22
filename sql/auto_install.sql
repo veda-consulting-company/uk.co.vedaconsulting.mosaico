@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `civicrm_mosaico_msg_template` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `msg_tpl_id` int(10) unsigned NOT NULL,
   `key` varchar(32) NOT NULL,
   `name` varchar(32) NOT NULL,

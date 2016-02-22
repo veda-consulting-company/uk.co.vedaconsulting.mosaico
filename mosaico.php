@@ -156,3 +156,23 @@ function mosaico_civicrm_navigationMenu(&$params){
     ),
   );
 }
+
+
+function mosaico_civicrm_pageRun(&$page){
+  $pageName = $page->getVar('_name');
+  if ($pageName == 'CRM_Admin_Page_MessageTemplates') {
+    # code...
+    $resultArray= array();
+    $smarty     = CRM_Core_Smarty::singleton();
+    $tableName  = MOSAICO_TABLE_NAME;
+    $dao = CRM_Core_DAO::executeQuery("SELECT mosaico.*, cmt.msg_title, cmt.msg_subject, cmt.is_active 
+      FROM {$tableName} mosaico 
+      JOIN civicrm_msg_template cmt ON (cmt.id = mosaico.msg_tpl_id)
+    ");
+    while ($dao->fetch()) {
+      $resultArray[$dao->id] = $dao->toArray();
+    }
+    
+    $smarty->assign('mosaicoTemplates', $resultArray);
+  }
+}

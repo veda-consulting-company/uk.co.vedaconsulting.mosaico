@@ -32,6 +32,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
     saveCmd.execute = function() {
       saveCmd.enabled(false);
       viewModel.metadata.changed = Date.now();
+      console.log(viewModel.metadata);
       if (typeof viewModel.metadata.key == 'undefined') {
         console.warn("Unable to find ket in metadata object...", viewModel.metadata);
         viewModel.metadata.key = mdkey;
@@ -39,6 +40,26 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       global.localStorage.setItem("metadata-" + mdkey, viewModel.exportMetadata());
       global.localStorage.setItem("template-" + mdkey, viewModel.exportJSON());
       saveCmd.enabled(true);
+
+      console.log(viewModel.metadata.key);
+
+      var postUrl = emailProcessorBackend ? emailProcessorBackend : '/dl/';
+      var post = $.post(postUrl, {
+        action: 'save',
+        key:  viewModel.metadata.key,
+        name: viewModel.metadata.name,
+        html: viewModel.exportHTML(),
+        metadata: viewModel.exportMetadata(),
+        template: viewModel.exportJSON(),
+      }, null, 'html');
+      post.fail(function() {
+        console.log("fail", arguments);
+        viewModel.notifier.error(viewModel.t('Unexpected error talking to server: contact us!'));
+      });
+      post.success(function() {
+        console.log("success", arguments);
+        viewModel.notifier.success(viewModel.t("Template saved in DB."));
+      });
     };
     var testCmd = {
       name: 'Test', // l10n happens in the template

@@ -346,6 +346,35 @@ class CRM_Mosaico_Utils {
       break;
     }
 
+    case "save": {
+      // save to message templates
+      $messageTemplate = array(
+        //'msg_text' => $formValues['text_message'],
+        'msg_html'    => $html,
+        'msg_subject' => "Mosaico saved - " . date('YmdHis'),
+        'is_active'   => TRUE,
+      );
+      $messageTemplate['msg_title'] = $messageTemplate['msg_subject'];
+      $msgTpl = CRM_Core_BAO_MessageTemplate::add($messageTemplate);
+      
+      $mosaicoTemplate = array(
+        //'msg_text' => $formValues['text_message'],
+        'msg_tpl_id' => $msgTpl->id,
+        'hash_key'   => $_POST['key'],
+        'name'    => $_POST['name'],
+        'html'    => $_POST['html'],
+        'metadata' => $_POST['metadata'],
+        'template' => $_POST['template'],
+      );
+      $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
+      $mosTpl->msg_tpl_id = $msgTpl->id;
+      $mosTpl->find(TRUE);
+      $mosTpl->copyValues($mosaicoTemplate);
+      $mosTpl->save();
+
+      break;
+    }
+
     case "email": {
       $to = $_POST[ "rcpt" ];
       $subject = $_POST[ "subject" ];

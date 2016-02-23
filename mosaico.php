@@ -160,6 +160,9 @@ function mosaico_civicrm_navigationMenu(&$params){
 
 function mosaico_civicrm_pageRun(&$page){
   $pageName = $page->getVar('_name');
+  if ($pageName == 'Civi\Angular\Page\Main') {
+    CRM_Core_Resources::singleton()->addScriptFile('uk.co.vedaconsulting.mosaico', 'js/crmMailingCustom.js', 800);
+  }
   if ($pageName == 'CRM_Admin_Page_MessageTemplates') {
     # code...
     $resultArray= array();
@@ -187,3 +190,4 @@ function mosaico_civicrm_pageRun(&$page){
     $smarty->assign('mosaicoTemplates', $resultArray);
   }
 }
+

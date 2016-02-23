@@ -1,5 +1,9 @@
 <div id="mosaicoTemplates" class='ui-tabs-panel ui-widget-content ui-corner-bottom' style="display:none;">
   <div class="help">FIXME: Mosaico Templates Help message</div>
+    <div class="action-link">
+      {crmButton p='civicrm/mosaico/index' q="reset=1" id="newMessageTemplates"  icon="circle-plus"}{ts}Add Mosaico Template{/ts}{/crmButton}
+    </div>
+    <div class="spacer"></div>
     <div>
       <p></p>
         {if !empty( $mosaicoTemplates ) }
@@ -14,7 +18,7 @@
             </thead>
             <tbody>
             {foreach from=$mosaicoTemplates item=row}
-                <tr id="message_template-{$row.id}" class="crm-entity {$row.class}{if NOT $row.is_active} disabled{/if}">
+                <tr id="message_template-{$row.msg_tpl_id}" class="crm-entity {$row.class}{if NOT $row.is_active} disabled{/if}">
                   <td>{$row.msg_title}</td>
                   <td>{$row.msg_subject}</td>
                   <td id="row_{$row.id}_status">{if $row.is_active eq 1} {ts}Yes{/ts} {else} {ts}No{/ts} {/if}</td>
@@ -25,8 +29,9 @@
           </table>
           {/if}
 
+          <div class="spacer"></div>
           <div class="action-link">
-            {crmButton p='civicrm/admin/messageTemplates/add' q="action=add&reset=1" id="newMessageTemplates"  icon="circle-plus"}{ts}Add Message Template{/ts}{/crmButton}
+            {crmButton p='civicrm/mosaico/index' q="reset=1" id="newMessageTemplates"  icon="circle-plus"}{ts}Add Mosaico Template{/ts}{/crmButton}
           </div>
           <div class="spacer"></div>
 
@@ -43,6 +48,7 @@
 <script type='text/javascript'>
   {literal}
     CRM.$(function($) {
+      {/literal}{if $selectedChild}$('#mosaicoTemplates').show();{/if}{literal}
       //MV: to display mosaicoTemplates in tab
       $('#mainTabContainer li').click( function(){
         if($(this).attr('id') == 'tab_mosaico'){

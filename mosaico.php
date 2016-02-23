@@ -176,7 +176,7 @@ function mosaico_civicrm_pageRun(&$page){
       $resultArray[$dao->id] = $dao->toArray();
       
       $editURL= CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2#'.$dao->hash_key);
-      $delURL = CRM_Utils_System::url('civicrm/admin/messageTemplates', 'action=delete&id='.$dao->id);
+      $delURL = CRM_Utils_System::url('civicrm/admin/messageTemplates', 'action=delete&id='.$dao->msg_tpl_id);
       
       $action = sprintf('<span>
       <a href="%s" class="action-item crm-hover-button" title="Edit this message template" >Edit</a>

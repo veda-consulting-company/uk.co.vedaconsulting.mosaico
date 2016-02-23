@@ -43,6 +43,7 @@
 <script type='text/javascript'>
   {literal}
     CRM.$(function($) {
+      {/literal}{if $selectedChild}$('#mosaicoTemplates').show();{/if}{literal}
       //MV: to display mosaicoTemplates in tab
       $('#mainTabContainer li').click( function(){
         if($(this).attr('id') == 'tab_mosaico'){

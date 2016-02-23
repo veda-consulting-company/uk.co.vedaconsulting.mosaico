@@ -164,7 +164,7 @@ function mosaico_civicrm_pageRun(&$page){
     CRM_Core_Resources::singleton()->addScriptFile('uk.co.vedaconsulting.mosaico', 'js/crmMailingCustom.js', 800);
   }
   if ($pageName == 'CRM_Admin_Page_MessageTemplates') {
-    # code...
+    $activeTab  = CRM_Utils_Request::retrieve('activeTab', 'String', $form, false, null, 'REQUEST');
     $resultArray= array();
     $smarty     = CRM_Core_Smarty::singleton();
     $tableName  = MOSAICO_TABLE_NAME;
@@ -188,6 +188,7 @@ function mosaico_civicrm_pageRun(&$page){
     }
     
     $smarty->assign('mosaicoTemplates', $resultArray);
+    $smarty->assign('selectedChild', $activeTab);
   }
 }
 

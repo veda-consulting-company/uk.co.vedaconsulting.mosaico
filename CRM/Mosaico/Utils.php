@@ -337,11 +337,15 @@ class CRM_Mosaico_Utils {
           $msgTplId = $mosTpl->msg_tpl_id;
         }
 
+        $name = "Mosaico Template " . date('d-m-Y H:i:s'); 
+        if ($_POST['name']) {
+          $name = $_POST['name'];
+        }
+
         // save to message templates
         $messageTemplate = array(
           //'msg_text' => $formValues['text_message'],
           'msg_html'    => $html,
-          'msg_subject' => "Mosaico saved - " . date('YmdHis'),
           'is_active'   => TRUE,
         );
         $messageTemplate['msg_title'] = $messageTemplate['msg_subject'];
@@ -349,14 +353,9 @@ class CRM_Mosaico_Utils {
           $messageTemplate['id'] = $msgTplId;
         }
 
-        $name = date('d-m-Y H:i:s'); 
-        if ($_POST['name']) {
-          $name = $_POST['name'];
-        }
         $messageTemplate['msg_title'] = $messageTemplate['msg_subject'] = $name;
 
         $msgTpl = CRM_Core_BAO_MessageTemplate::add($messageTemplate);
-
         $mosaicoTemplate = array(
           //'msg_text' => $formValues['text_message'],
           'msg_tpl_id' => $msgTpl->id,

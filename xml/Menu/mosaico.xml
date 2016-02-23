@@ -3,7 +3,7 @@
   <item>
     <path>civicrm/mosaico/index</path>
    <page_callback>CRM_Mosaico_Page_Index</page_callback>
-   <title>Integration with Mosaico</title>
+   <title>Message Template Builder: Mosaico</title>
    <access_arguments>access CiviCRM</access_arguments>
   </item>
   <item>

@@ -47,6 +47,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       global.localStorage.setItem("template-" + mdkey, viewModel.exportJSON());
       saveCmd.enabled(true);
 
+      viewModel.notifier.info(viewModel.t("Saving in CiviCRM..."));
       var postUrl = emailProcessorBackend ? emailProcessorBackend : '/dl/';
       var post = $.post(postUrl, {
         action: 'save',
@@ -62,7 +63,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       });
       post.success(function() {
         console.log("success", arguments);
-        viewModel.notifier.success(viewModel.t("Template saved in DB."));
+        viewModel.notifier.success(viewModel.t("Saved as message template in CiviCRM."));
       });
     };
     var testCmd = {

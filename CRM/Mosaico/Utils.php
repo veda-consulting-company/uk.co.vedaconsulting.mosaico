@@ -11,10 +11,8 @@ class CRM_Mosaico_Utils {
       array_shift($args);
 
       $config = CRM_Core_Config::singleton();
-      $file   = $config->extensionsURL . 'uk.co.vedaconsulting.mosaico/packages/mosaico/' . implode('/', $args);
-      CRM_Core_Error::debug_var('$file', $file);
-      $file   = str_replace(" ", "+", $file);
-      CRM_Core_Error::debug_var('$file', $file);
+      $file   = rtrim($config->extensionsURL, '/') . '/uk.co.vedaconsulting.mosaico/packages/mosaico/' . implode('/', $args);
+      $file   = str_replace(" ", "+", $file);//fixme: url encode?
       $contentType = self::getUrlMimeType($file);
 
       header("Content-Type: {$contentType}");
@@ -69,7 +67,7 @@ class CRM_Mosaico_Utils {
         'THUMBNAIL_HEIGHT' => 90
       );
     }
-    CRM_Core_Error::debug_var('$mConfig', $mConfig);
+    //CRM_Core_Error::debug_var('$mConfig', $mConfig);
     return $mConfig;
   }
 
@@ -109,7 +107,6 @@ class CRM_Mosaico_Utils {
           }
 
           $files[] = $file;
-          CRM_Core_Error::debug_var('$files1', $files);
         }
       }
     }
@@ -117,16 +114,13 @@ class CRM_Mosaico_Utils {
     {
       foreach ( $_FILES[ "files" ][ "error" ] as $key => $error )
       {
-        CRM_Core_Error::debug_var('$error', $error);
         if ( $error == UPLOAD_ERR_OK )
         {
           $tmp_name = $_FILES[ "files" ][ "tmp_name" ][ $key ];
-          CRM_Core_Error::debug_var('$tmp_name', $tmp_name);
 
           $file_name = $_FILES[ "files" ][ "name" ][ $key ];
 
           $file_path = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name;
-          CRM_Core_Error::debug_var('$file_path', $file_path);
 
           if ( move_uploaded_file( $tmp_name, $file_path ) === TRUE )
           {
@@ -149,7 +143,6 @@ class CRM_Mosaico_Utils {
             );
 
             $files[] = $file;
-            CRM_Core_Error::debug_var('$files2', $files);
           }
           else
           {
@@ -164,7 +157,6 @@ class CRM_Mosaico_Utils {
         }
       }
     }
-    CRM_Core_Error::debug_var('$files', $files);
 
     header( "Content-Type: application/json; charset=utf-8" );
     header( "Connection: close" );
@@ -326,113 +318,100 @@ class CRM_Mosaico_Utils {
 
     /* perform the requested action */
 
-    switch ( $_POST[ "action" ] ) {
-    case "download": {
-      // save to message templates
-      $messageTemplate = array(
-        //'msg_text' => $formValues['text_message'],
-        'msg_html'    => $html,
-        'msg_subject' => "Mosaico saved - " . date('YmdHis'),
-        'is_active'   => TRUE,
-      );
+    switch ($_POST[ "action"]) {
+      case "download": {
+        // download
+        header( "Content-Type: application/force-download" );
+        header( "Content-Disposition: attachment; filename=\"" . $_POST[ "filename" ] . "\"" );
+        header( "Content-Length: " . strlen( $html ) );
 
-      $messageTemplate['msg_title'] = $messageTemplate['msg_subject'];
-      CRM_Core_BAO_MessageTemplate::add($messageTemplate);
-
-      // download
-      header( "Content-Type: application/force-download" );
-      header( "Content-Disposition: attachment; filename=\"" . $_POST[ "filename" ] . "\"" );
-      header( "Content-Length: " . strlen( $html ) );
-
-      echo $html;
-
-      break;
-    }
-
-    case "save": {
-      $msgTplId = NULL;
-      $mosTpl   = new CRM_Mosaico_DAO_MessageTemplate();
-      $mosTpl->hash_key   = $_POST['key'];
-      if($mosTpl->find(TRUE)){
-        $msgTplId = $mosTpl->msg_tpl_id;
-      }
-      
-      // save to message templates
-      $messageTemplate = array(
-        //'msg_text' => $formValues['text_message'],
-        'msg_html'    => $html,
-        'msg_subject' => "Mosaico saved - " . date('YmdHis'),
-        'is_active'   => TRUE,
-      );
-      $messageTemplate['msg_title'] = $messageTemplate['msg_subject'];
-      if ($msgTplId) {
-        $messageTemplate['id'] = $msgTplId;
-      }
-      if ($_POST['name']) {
-        $messageTemplate['msg_title'] = $messageTemplate['msg_subject'] = $_POST['name'];
+        echo $html;
+        break;
       }
 
-      $msgTpl = CRM_Core_BAO_MessageTemplate::add($messageTemplate);
-      
-      $mosaicoTemplate = array(
-        //'msg_text' => $formValues['text_message'],
-        'msg_tpl_id' => $msgTpl->id,
-        'hash_key'   => $_POST['key'],
-        'name'    => $_POST['name'],
-        'html'    => $_POST['html'],
-        'metadata' => $_POST['metadata'],
-        'template' => $_POST['template'],
-      );
-      $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
-      $mosTpl->msg_tpl_id = $msgTpl->id;
-      $mosTpl->hash_key   = $_POST['key'];
-      $mosTpl->find(TRUE);
-      $mosTpl->copyValues($mosaicoTemplate);
-      $mosTpl->save();
+      case "save": {
+        $msgTplId = NULL;
+        $mosTpl   = new CRM_Mosaico_DAO_MessageTemplate();
+        $mosTpl->hash_key   = $_POST['key'];
+        if($mosTpl->find(TRUE)){
+          $msgTplId = $mosTpl->msg_tpl_id;
+        }
 
-      break;
-    }
+        // save to message templates
+        $messageTemplate = array(
+          //'msg_text' => $formValues['text_message'],
+          'msg_html'    => $html,
+          'msg_subject' => "Mosaico saved - " . date('YmdHis'),
+          'is_active'   => TRUE,
+        );
+        $messageTemplate['msg_title'] = $messageTemplate['msg_subject'];
+        if ($msgTplId) {
+          $messageTemplate['id'] = $msgTplId;
+        }
 
-    case "email": {
-      $to = $_POST[ "rcpt" ];
-      $subject = $_POST[ "subject" ];
+        $name = date('d-m-Y H:i:s'); 
+        if ($_POST['name']) {
+          $name = $_POST['name'];
+        }
+        $messageTemplate['msg_title'] = $messageTemplate['msg_subject'] = $name;
 
-      /* mosaico
-      $headers = array();
+        $msgTpl = CRM_Core_BAO_MessageTemplate::add($messageTemplate);
 
-      $headers[] = "MIME-Version: 1.0";
-      $headers[] = "Content-type: text/html; charset=iso-8859-1";
-      $headers[] = "To: $to";
-      $headers[] = "Subject: $subject";
+        $mosaicoTemplate = array(
+          //'msg_text' => $formValues['text_message'],
+          'msg_tpl_id' => $msgTpl->id,
+          'hash_key'   => $_POST['key'],
+          'name'       => $name,
+          'html'       => $_POST['html'],
+          'metadata'   => $_POST['metadata'],
+          'template'   => $_POST['template'],
+        );
+        $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
+        $mosTpl->msg_tpl_id = $msgTpl->id;
+        $mosTpl->hash_key   = $_POST['key'];
+        $mosTpl->find(TRUE);
+        $mosTpl->copyValues($mosaicoTemplate);
+        $mosTpl->save();
 
-      $headers = implode( "\r\n", $headers );
-
-      if ( mail( $to, $subject, $html, $headers ) === FALSE )
-      {
-        $http_return_code = 500;
-        return;
-      }
-       */
-
-      $mailParams = array(
-        //'groupName' => 'Activity Email Sender',
-        'from' => 'cms46@mosaicoexample.org',
-        'toName' => 'Test Recipient',
-        'toEmail' => $to,
-        'subject' => $subject,
-        //'text' => $text_message,
-        'html' => $html,
-      );
-
-      CRM_Core_Error::debug_var('$mailParams', $mailParams);
-      if (!CRM_Utils_Mail::send($mailParams)) {
-        return FALSE;
+        break;
       }
 
-      break;
-    }
+      case "email": {
+        $to      = $_POST[ "rcpt" ];
+        $subject = $_POST[ "subject" ];
+
+        $mailParams = array(
+          //'groupName' => 'Activity Email Sender',
+          'from'   => 'cms46@mosaicoexample.org', //FIXME: use configured from address
+          'toName' => 'Test Recipient',
+          'toEmail' => $to,
+          'subject' => $subject,
+          //'text' => $text_message,
+          'html'   => $html,
+        );
+
+        if (!CRM_Utils_Mail::send($mailParams)) {
+          return FALSE;
+        }
+
+        break;
+      }
     }
     CRM_Utils_System::civiExit();
+  }
+
+  /**
+   */
+  static function getAllMetadata()
+  {
+    $result = array();
+    $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
+    $mosTpl->find();
+    while ($mosTpl->fetch()) {
+      CRM_Core_DAO::storeValues($mosTpl, $result[$mosTpl->hash_key]);
+      unset($result[$mosTpl->hash_key]['html']);
+    }
+    CRM_Utils_JSON::output($result);
   }
 
   /**
@@ -441,7 +420,6 @@ class CRM_Mosaico_Utils {
   static function resizeImage( $file_name, $method, $width, $height )
   {
     $config = self::getConfig();
-    CRM_Core_Error::debug_var('$config in resizeImage()', $config);
 
     $image = new Imagick( $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name );
 

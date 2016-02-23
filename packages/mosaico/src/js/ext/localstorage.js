@@ -47,8 +47,6 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       global.localStorage.setItem("template-" + mdkey, viewModel.exportJSON());
       saveCmd.enabled(true);
 
-      console.log(viewModel.metadata.key);
-
       var postUrl = emailProcessorBackend ? emailProcessorBackend : '/dl/';
       var post = $.post(postUrl, {
         action: 'save',

@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <extension key="uk.co.vedaconsulting.mosaico" type="module">
   <file>mosaico</file>
-  <name>FIXME</name>
-  <description>FIXME</description>
+  <name>Mosaico</name>
+  <description>Integration with mosaico templates builder. Allows building civi message templates using mosaico template builder.</description>
   <license>AGPL-3.0</license>
   <maintainer>
     <author>deepak-srivastava</author>
-    <email>deepak.srivastava.0303@gmail.com</email>
+    <email>deepak@vedaconsulting.co.uk</email>
   </maintainer>
   <urls>
     <url desc="Main Extension Page">http://FIXME</url>
@@ -18,9 +18,9 @@
   <version>1.0</version>
   <develStage>alpha</develStage>
   <compatibility>
-    <ver>4.2</ver>
+    <ver>4.6</ver>
   </compatibility>
-  <comments>This is a new, undeveloped module</comments>
+  <comments>To help contribute please contact us on support@vedaconsulting.co.uk</comments>
   <civix>
     <namespace>CRM/Mosaico</namespace>
   </civix>

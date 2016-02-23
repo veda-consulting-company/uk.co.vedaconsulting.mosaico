@@ -378,10 +378,10 @@ class CRM_Mosaico_Utils {
       case "email": {
         $to      = $_POST[ "rcpt" ];
         $subject = $_POST[ "subject" ];
-
+        list($domainEmailName, $domainEmailAddress) = CRM_Core_BAO_Domain::getNameAndEmail();
         $mailParams = array(
           //'groupName' => 'Activity Email Sender',
-          'from'   => 'cms46@mosaicoexample.org', //FIXME: use configured from address
+          'from'   => $domainEmailAddress, //FIXME: use configured from address
           'toName' => 'Test Recipient',
           'toEmail' => $to,
           'subject' => $subject,

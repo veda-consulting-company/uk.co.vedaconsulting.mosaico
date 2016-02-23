@@ -177,12 +177,12 @@ function mosaico_civicrm_pageRun(&$page){
       
       $editURL= CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2#'.$dao->hash_key);
       $delURL = CRM_Utils_System::url('civicrm/admin/messageTemplates', 'action=delete&id='.$dao->msg_tpl_id);
-      
+      $enableDisableText = $dao->is_active ? 'Disable' : 'Enable';
       $action = sprintf('<span>
       <a href="%s" class="action-item crm-hover-button" title="Edit this message template" >Edit</a>
-      <a href="#" class="action-item crm-hover-button crm-enable-disable" title="Disable this message template" >Disable</a>
+      <a href="#" class="action-item crm-hover-button crm-enable-disable" title="Disable this message template" >%s</a>
       <a href="%s" class="action-item crm-hover-button small-popup" title="Delete this message template" >Delete</a>
-      </span>', $editURL, $delURL);
+      </span>', $editURL, $enableDisableText, $delURL);
       
       $resultArray[$dao->id]['action'] = $action;
     }

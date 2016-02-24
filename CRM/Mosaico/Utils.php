@@ -318,7 +318,7 @@ class CRM_Mosaico_Utils {
 
     /* perform the requested action */
 
-    switch ($_POST[ "action"]) {
+    switch (CRM_Utils_Type::escape($_POST['action'], 'String')) {
       case "download": {
         // download
         header( "Content-Type: application/force-download" );
@@ -331,14 +331,19 @@ class CRM_Mosaico_Utils {
 
       case "save": {
         $msgTplId = NULL;
+        $hashKey  = CRM_Utils_Type::escape($_POST['key'], 'String');
+        if (!$hashKey) {
+          CRM_Core_Session::setStatus(ts('Mosaico hask key not found...'));
+          return FALSE;
+        }
         $mosTpl   = new CRM_Mosaico_DAO_MessageTemplate();
-        $mosTpl->hash_key   = $_POST['key'];
+        $mosTpl->hash_key   = $hashKey;
         if($mosTpl->find(TRUE)){
           $msgTplId = $mosTpl->msg_tpl_id;
         }
 
         $name = "Mosaico Template " . date('d-m-Y H:i:s'); 
-        if ($_POST['name']) {
+        if (CRM_Utils_Type::escape($_POST['name'], 'String')) {
           $name = $_POST['name'];
         }
 
@@ -359,7 +364,7 @@ class CRM_Mosaico_Utils {
         $mosaicoTemplate = array(
           //'msg_text' => $formValues['text_message'],
           'msg_tpl_id' => $msgTpl->id,
-          'hash_key'   => $_POST['key'],
+          'hash_key'   => $hashKey,
           'name'       => $name,
           'html'       => $_POST['html'],
           'metadata'   => $_POST['metadata'],
@@ -367,7 +372,7 @@ class CRM_Mosaico_Utils {
         );
         $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
         $mosTpl->msg_tpl_id = $msgTpl->id;
-        $mosTpl->hash_key   = $_POST['key'];
+        $mosTpl->hash_key   = $hashKey;
         $mosTpl->find(TRUE);
         $mosTpl->copyValues($mosaicoTemplate);
         $mosTpl->save();
@@ -376,8 +381,12 @@ class CRM_Mosaico_Utils {
       }
 
       case "email": {
-        $to      = $_POST[ "rcpt" ];
-        $subject = $_POST[ "subject" ];
+        if ( !CRM_Utils_Rule::email( $_POST['rcpt'] ) ) {
+          CRM_Core_Session::setStatus('Recipient Email address not found');
+          return FALSE;
+        }
+        $to      =  $_POST['rcpt'] ;
+        $subject = CRM_Utils_Type::escape($_POST['subject'], 'String');
         list($domainEmailName, $domainEmailAddress) = CRM_Core_BAO_Domain::getNameAndEmail();
         $mailParams = array(
           //'groupName' => 'Activity Email Sender',

@@ -61,6 +61,7 @@
             if (mtpl.id) {
               localStorage.setItem("metadata-" + mtpl.hash_key, mtpl.metadata);
               localStorage.setItem("template-" + mtpl.hash_key, mtpl.template);
+              localStorage.setItem("name-"     + mtpl.hash_key, mtpl.name);
             }
           }); 
         }

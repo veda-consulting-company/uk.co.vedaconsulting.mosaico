@@ -38,7 +38,6 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       if (metaName === null || metaName == 'null') metaName   = viewModel.t('No title');
       metaName = global.prompt(viewModel.t("Please enter the Message title"), metaName);
       viewModel.metadata.name = metaName;
-      global.localStorage.setItem("meta_name", metaName);
       // end
       if (typeof viewModel.metadata.key == 'undefined') {
         console.warn("Unable to find ket in metadata object...", viewModel.metadata);

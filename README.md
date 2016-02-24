@@ -11,4 +11,4 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
 ### Known issues
 - Mobile version of template is getting pushed out.
 - Chrome webkit warning. Mosaico has pushed out some commits which we expect to release in some time.
-- 
+

@@ -1,4 +1,4 @@
-# uk.co.vedaconsulting.mosaico
+## uk.co.vedaconsulting.mosaico
 This extension integrates Mosaico a responsive email template editor, with CiviCRM.
 
 ### How to Install

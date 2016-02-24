@@ -1,9 +1,4 @@
 <div id="mosaicoTemplates" class='ui-tabs-panel ui-widget-content ui-corner-bottom' style="display:none;">
-  <div class="help">FIXME: Mosaico Templates Help message</div>
-    <div class="action-link">
-      {crmButton p='civicrm/mosaico/index' q="reset=1" id="newMessageTemplates"  icon="circle-plus"}{ts}Add Mosaico Template{/ts}{/crmButton}
-    </div>
-    <div class="spacer"></div>
     <div>
       <p></p>
         {if !empty( $mosaicoTemplates ) }

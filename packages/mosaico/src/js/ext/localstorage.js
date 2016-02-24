@@ -34,21 +34,6 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       viewModel.metadata.changed = Date.now();
       console.log(viewModel.metadata);
       //MV: ask msg template title
-      var baseURL = window.location.origin;
-      var url = baseURL + "/civicrm/mosaico/ajax/getallmd";
-      var getallmd;
-      $.ajax({
-        url: url,
-        type: "post",
-        async: false,
-        dataType: "json",
-        success: function( data ) {
-          if (data[mdkey]) {
-            getallmd = data[mdkey].name;
-          }
-        },
-      });
-
       var d = new Date();
       var cur_date = d.getDate(); 
       var cur_mon  = d.getMonth();
@@ -57,12 +42,12 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       var cur_min  = d.getMinutes();
       var cur_sec  = d.getSeconds();
       var fulldate = cur_date + "-" + cur_mon + "-" + cur_year + " " + cur_hr + ":" + cur_min + ":" + cur_sec;
-      
 
-      var metaName   = getallmd;
+      var metaName = global.localStorage.getItem("name-" + mdkey);
       if (!metaName || metaName == 'null') metaName   = viewModel.t('MosaicoTemplate ' + fulldate);
       metaName = global.prompt(viewModel.t("Please enter the Message title"), metaName);
       viewModel.metadata.name = metaName;
+      global.localStorage.setItem("name-" + mdkey, metaName);
       // end
       if (typeof viewModel.metadata.key == 'undefined') {
         console.warn("Unable to find ket in metadata object...", viewModel.metadata);

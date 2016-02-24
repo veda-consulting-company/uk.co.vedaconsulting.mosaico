@@ -35,7 +35,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       console.log(viewModel.metadata);
       //MV: ask msg template title
       var metaName   = global.localStorage.getItem("meta_name");
-      if (!metaName) metaName   = viewModel.t('No title');
+      if (metaName === null || metaName == 'null') metaName   = viewModel.t('No title');
       metaName = global.prompt(viewModel.t("Please enter the Message title"), metaName);
       viewModel.metadata.name = metaName;
       // end

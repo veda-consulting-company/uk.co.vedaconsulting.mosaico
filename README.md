@@ -1,5 +1,7 @@
 ## uk.co.vedaconsulting.mosaico
 This extension integrates Mosaico a responsive email template editor, with CiviCRM.
+- Blog Post - https://civicrm.org/blogs/parvez/a-new-beginning-for-civimail%E2%80%A6
+- Video - https://vimeo.com/156633077
 
 ### How to Install
 1. Have imageMagick installed in your environment. 

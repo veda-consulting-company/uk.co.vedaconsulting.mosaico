@@ -9,6 +9,7 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
 2. Unzip / untar the package and place it in your configured extensions directory.
 3. When you reload the Manage Extensions page the new “Mailchimp” extension should be listed with an Install link.
 4. Proceed with install.
+5. Make sure uk.co.vedaconsulting.mosaico/packages/mosaico/uploads dir is writeable.
 
 ### Known issues
 - Mobile version of template is getting pushed out.

@@ -34,17 +34,12 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       viewModel.metadata.changed = Date.now();
       console.log(viewModel.metadata);
       //MV: ask msg template title
-      var d = new Date();
-      var cur_date = d.getDate(); 
-      var cur_mon  = d.getMonth();
-      var cur_year = d.getFullYear(); 
-      var cur_hr   = d.getHours(); 
-      var cur_min  = d.getMinutes();
-      var cur_sec  = d.getSeconds();
-      var fulldate = cur_date + "-" + cur_mon + "-" + cur_year + " " + cur_hr + ":" + cur_min + ":" + cur_sec;
+      var date  = new Date();
+      var options = { hour: 'numeric', minute: 'numeric', second: 'numeric'};
+      var fulldate = date.toLocaleDateString('en-GB',options);
 
       var metaName = global.localStorage.getItem("name-" + mdkey);
-      if (!metaName || metaName == 'null') metaName   = viewModel.t('MosaicoTemplate ' + fulldate);
+      if (!metaName || metaName == 'null') metaName   = viewModel.t('Mosaico Template ' + fulldate);
       metaName = global.prompt(viewModel.t("Please enter the Message title"), metaName);
       viewModel.metadata.name = metaName;
       global.localStorage.setItem("name-" + mdkey, metaName);

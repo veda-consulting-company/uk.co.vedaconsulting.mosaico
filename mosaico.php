@@ -29,6 +29,9 @@ function mosaico_civicrm_xmlMenu(&$files) {
  */
 function mosaico_civicrm_install() {
   _mosaico_civix_civicrm_install();
+  
+  $schema = new CRM_Logging_Schema();
+  $schema->fixSchemaDifferences();
 }
 
 /**
@@ -38,6 +41,9 @@ function mosaico_civicrm_install() {
  */
 function mosaico_civicrm_uninstall() {
   _mosaico_civix_civicrm_uninstall();
+
+  $schema = new CRM_Logging_Schema();
+  $schema->fixSchemaDifferences();
 }
 
 /**

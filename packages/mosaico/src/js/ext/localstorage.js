@@ -34,10 +34,15 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       viewModel.metadata.changed = Date.now();
       console.log(viewModel.metadata);
       //MV: ask msg template title
-      var metaName   = global.localStorage.getItem("meta_name");
-      if (metaName === null || metaName == 'null') metaName   = viewModel.t('No title');
+      var date  = new Date();
+      var options = { hour: 'numeric', minute: 'numeric', second: 'numeric'};
+      var fulldate = date.toLocaleDateString('en-GB',options);
+
+      var metaName = global.localStorage.getItem("name-" + mdkey);
+      if (!metaName || metaName == 'null') metaName   = viewModel.t('Mosaico Template ' + fulldate);
       metaName = global.prompt(viewModel.t("Please enter the Message title"), metaName);
       viewModel.metadata.name = metaName;
+      global.localStorage.setItem("name-" + mdkey, metaName);
       // end
       if (typeof viewModel.metadata.key == 'undefined') {
         console.warn("Unable to find ket in metadata object...", viewModel.metadata);

@@ -276,10 +276,11 @@ class CRM_Mosaico_Utils {
     global $http_return_code;
 
     /* run this puppy through premailer */
-
-    $premailer = Premailer::html( $_POST[ "html" ], true, "hpricot", $config['BASE_URL'] );
-
-    $html = $premailer[ "html" ];
+    // DS: not sure why we need premailer as it always sends out mobile (inline) layout. 
+    // Lets disable it till we figure out why we need it.
+    //$premailer = Premailer::html( $_POST[ "html" ], true, "hpricot", $config['BASE_URL'] );
+    //$html = $premailer[ "html" ];
+    $html = $_POST[ "html" ];
 
     /* create static versions of resized images */
 
@@ -289,11 +290,11 @@ class CRM_Mosaico_Utils {
 
     for ( $i = 0; $i < $num_full_pattern_matches; $i++ )
     {
-      if ( stripos( $matches[ 1 ][ $i ], "/img?src=" ) !== FALSE )
+      if ( stripos( $matches[ 1 ][ $i ], "/img/?src=" ) !== FALSE )
       {
         $src_matches = [];
 
-        if ( preg_match( '#/img\?src=(.*)&amp;method=(.*)&amp;params=(.*)#i', $matches[ 1 ][ $i ], $src_matches ) !== FALSE )
+        if ( preg_match( '#/img/\?src=(.*)&amp;method=(.*)&amp;params=(.*)#i', $matches[ 1 ][ $i ], $src_matches ) !== FALSE )
         {
           $file_name = urldecode( $src_matches[ 1 ] );
           $file_name = substr( $file_name, strlen( $config['BASE_URL'] . $config['UPLOADS_URL'] ) );

@@ -290,18 +290,18 @@ class CRM_Mosaico_Utils {
 
     for ( $i = 0; $i < $num_full_pattern_matches; $i++ )
     {
-      if ( stripos( $matches[ 1 ][ $i ], "/img/?src=" ) !== FALSE )
+      if (preg_match( '#/img/(\?|&amp;)src=#i', $matches[ 1 ][ $i ] ))
       {
         $src_matches = [];
 
-        if ( preg_match( '#/img/\?src=(.*)&amp;method=(.*)&amp;params=(.*)#i', $matches[ 1 ][ $i ], $src_matches ) !== FALSE )
+        if ( preg_match( '#/img/(\?|&amp;)src=(.*)&amp;method=(.*)&amp;params=(.*)#i', $matches[ 1 ][ $i ], $src_matches ) !== FALSE )
         {
-          $file_name = urldecode( $src_matches[ 1 ] );
+          $file_name = urldecode( $src_matches[ 2 ] );
           $file_name = substr( $file_name, strlen( $config['BASE_URL'] . $config['UPLOADS_URL'] ) );
 
-          $method = urldecode( $src_matches[ 2 ] );
+          $method = urldecode( $src_matches[ 3 ] );
 
-          $params = urldecode( $src_matches[ 3 ] );
+          $params = urldecode( $src_matches[ 4 ] );
           $params = explode( ",", $params );
           $width = (int) $params[ 0 ];
           $height = (int) $params[ 1 ];

@@ -1,7 +1,7 @@
 {literal}
   <body style="overflow: auto; text-align: center; background-color: #3f3d33; padding: 0; margin: 0; display: none;" data-bind="visible: true">
   <div style="background-color: #d2cbb1; padding: 10px;">
-    <table class="logoWrapper" valign="bottom" align="center"><tr><td valign="bottom"><img class="logoImage" alt="Mosaico.io" style="display: block;" src="dist/img/mosaicologo.png" /><div class="logoContainer"></div></td><td class="byTable" valign="bottom"><a href="http://www.voxmail.it"><img src="dist/img/byvoxmail.png" alt="by VOXmail" /></a></td></tr></table>
+    <table class="logoWrapper" valign="bottom" align="center"><tr><td valign="bottom"><img class="logoImage" alt="Mosaico.io" style="display: block;" src="{/literal}{crmURL p='civicrm/mosaico/dist/img/mosaicologo.png' h=0}{literal}" /><div class="logoContainer"></div></td><td class="byTable" valign="bottom"><a href="http://www.voxmail.it"><img src="{/literal}{crmURL p='civicrm/mosaico/dist/img/byvoxmail.png' h=0}{literal}" alt="by VOXmail" /></a></td></tr></table>
     <div class="ribbon">opensource email template editor <span class="byRibbon" style="display: none;">by VOXmail</span></div>
   </div>
   <div class="disclaimer" style="position: absolute; top: 10px; right: 10px; width: 140px; padding: .5em; background-color: #900000; color: white; border: 2px dashed #d2cbb1">WARNING: experimental beta version, use with care!</div>
@@ -16,12 +16,12 @@
       </tr></thead>
     <tbody data-bind="foreach: edits">
       <tr>
-        <td align="left"><a href="#" data-bind="attr: { href: 'editor?snippet=2#'+key }"><code>#<span data-bind="text: key">key</span></code></a></td>
-        <td style="font-weight: bold" align="left"><a href="#" data-bind="attr: { href: 'editor?snippet=2#'+key }"><span data-bind="text: name">versamix</span></a></td>
+        <td align="left"><a href="#" data-bind="attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2#'}{literal}'+key }"><code>#<span data-bind="text: key">key</span></code></a></td>
+        <td style="font-weight: bold" align="left"><a href="#" data-bind="attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2#'}{literal}'+key }"><span data-bind="text: name">versamix</span></a></td>
         <td><span data-bind="text: typeof created !== 'undefined' ? $root.dateFormat(created) : '-'">YYYY-MM-DD</span></td>
         <td><span style="font-weight: bold" data-bind="text: typeof changed !== 'undefined' ? $root.dateFormat(changed) : '-'">YYYY-MM-DD</span></td>
         <td>
-        <a class="operationButton" href="#" data-bind="attr: { href: 'editor?snippet=2#'+key }" title="edit"><i class="fa fa-pencil"></i></a>
+        <a class="operationButton" href="#" data-bind="attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2#'}{literal}'+key }" title="edit"><i class="fa fa-pencil"></i></a>
         <!--(<a href="#" data-bind="click: $root.renameEdit.bind(undefined, $index())" title="rinomina"><i class="fa fa-trash-o"></i></a>)-->
         <a class="operationButton" href="#" data-bind="click: $root.deleteEdit.bind(undefined, $index())" title="delete"><i class="fa fa-trash-o"></i></a>
         </td>
@@ -36,8 +36,8 @@
     <div data-bind="foreach: templates">
       <div class="template template-xx" style="" data-bind="attr: { class: 'template template-'+name }">
         <div class="description" style="padding-bottom:5px"><b data-bind="text: name">xx</b>: <span data-bind="text: desc">xx</span></div>
-        <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: 'editor?snippet=2#templates/'+name+'/template-'+name+'.html' }">
-          <img src width="100%" alt="xx" data-bind="attr: { src: 'templates/'+name+'/edres/_full.png' }">
+        <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2#templates/'}{literal}'+name+'/template-'+name+'.html' }">
+          <img src width="100%" alt="xx" data-bind="attr: { src: '{/literal}{crmURL p='civicrm/mosaico/templates/' h=0}{literal}'+name+'/edres/_full.png' }">
         </a>
       </div>
     </div>

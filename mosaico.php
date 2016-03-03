@@ -198,3 +198,14 @@ function mosaico_civicrm_pageRun(&$page){
   }
 }
 
+function mosaico_civicrm_check(&$messages) {
+  //Make sure the ImageMagick library is loaded.
+  if( !(extension_loaded('imagick') || class_exists("Imagick"))){
+    $messages[] = new CRM_Utils_Check_Message(
+      'mosaico_imagick',
+      ts('the ImageMagick library is not installed.  The Email Template Builder extension will not work without it.'),
+      ts('ImageMagick not installed'),
+      \Psr\Log\LogLevel::CRITICAL
+    );
+  }
+}

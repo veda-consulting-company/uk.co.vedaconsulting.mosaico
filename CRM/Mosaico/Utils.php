@@ -37,20 +37,10 @@ class CRM_Mosaico_Utils {
       //DS FIXME: replace this with civi config
       $mConfig = array(
         /* base url for image folders */
-        //'BASE_URL' => ( array_key_exists( "HTTPS", $_SERVER ) ? "https://" : "http://" ) . $_SERVER[ "HTTP_HOST" ] . dirname( dirname( $_SERVER[ "PHP_SELF" ] ) ) . "/",
-        //'BASE_URL' => $civiConfig->extensionsURL . 'uk.co.vedaconsulting.mosaico/packages/mosaico/',
         'BASE_URL' => $civiConfig->imageUploadURL,
 
         /* local file system base path to where image directories are located */
-        //'BASE_DIR' => dirname( dirname( $_SERVER[ "SCRIPT_FILENAME" ] ) ) . "/",
-        //'BASE_DIR' => $civiConfig->extensionsDir . 'uk.co.vedaconsulting.mosaico/packages/mosaico/',
         'BASE_DIR' => $civiConfig->imageUploadDir,
-
-        /* url to the uploads folder (relative to BASE_URL) */
-        'UPLOADS_URL' => "uploads/",
-
-        /* local file system path to the uploads folder (relative to BASE_DIR) */
-        'UPLOADS_DIR' => "uploads/",
 
         /* url to the static images folder (relative to BASE_URL) */
         'STATIC_URL' => "static/",

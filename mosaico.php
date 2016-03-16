@@ -32,6 +32,11 @@ function mosaico_civicrm_install() {
   
   $schema = new CRM_Logging_Schema();
   $schema->fixSchemaDifferences();
+
+  $civiConfig = CRM_Core_Config::singleton();
+  if(!file_exists($civiConfig->imageUploadDir . "static")) {
+    mkdir($civiConfig->imageUploadDir . "static", 0755);
+  }
 }
 
 /**

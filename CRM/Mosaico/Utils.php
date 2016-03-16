@@ -308,13 +308,13 @@ class CRM_Mosaico_Utils {
           $width = (int) $params[ 0 ];
           $height = (int) $params[ 1 ];
 
-          $static_file_name = $method . "_" . $width . "x" . $height . "_" . $file_name;
+          $static_file_name = "static_" . $method . "_" . $width . "x" . $height . "_" . $file_name;
 
-          $html = str_ireplace( $matches[ 1 ][ $i ], $config['BASE_URL'] . $config['STATIC_URL'] . urlencode( $static_file_name ), $html );
+          $html = str_ireplace( $matches[ 1 ][ $i ], $config['BASE_URL'] . urlencode( $static_file_name ), $html );
 
           $image = self::resizeImage( $file_name, $method, $width, $height );
 
-          $image->writeImage( $config['BASE_DIR'] . $config['STATIC_DIR'] . $static_file_name );
+          $image->writeImage( $config['BASE_DIR'] . $static_file_name );
         }
       }
     }

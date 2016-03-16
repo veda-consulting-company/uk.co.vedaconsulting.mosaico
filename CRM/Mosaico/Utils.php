@@ -38,11 +38,13 @@ class CRM_Mosaico_Utils {
       $mConfig = array(
         /* base url for image folders */
         //'BASE_URL' => ( array_key_exists( "HTTPS", $_SERVER ) ? "https://" : "http://" ) . $_SERVER[ "HTTP_HOST" ] . dirname( dirname( $_SERVER[ "PHP_SELF" ] ) ) . "/",
-        'BASE_URL' => $civiConfig->extensionsURL . 'uk.co.vedaconsulting.mosaico/packages/mosaico/',
+        //'BASE_URL' => $civiConfig->extensionsURL . 'uk.co.vedaconsulting.mosaico/packages/mosaico/',
+        'BASE_URL' => $civiConfig->imageUploadURL,
 
         /* local file system base path to where image directories are located */
         //'BASE_DIR' => dirname( dirname( $_SERVER[ "SCRIPT_FILENAME" ] ) ) . "/",
-        'BASE_DIR' => $civiConfig->extensionsDir . 'uk.co.vedaconsulting.mosaico/packages/mosaico/',
+        //'BASE_DIR' => $civiConfig->extensionsDir . 'uk.co.vedaconsulting.mosaico/packages/mosaico/',
+        'BASE_DIR' => $civiConfig->imageUploadDir,
 
         /* url to the uploads folder (relative to BASE_URL) */
         'UPLOADS_URL' => "uploads/",
@@ -51,10 +53,10 @@ class CRM_Mosaico_Utils {
         'UPLOADS_DIR' => "uploads/",
 
         /* url to the static images folder (relative to BASE_URL) */
-        'STATIC_URL' => "uploads/static/",
+        'STATIC_URL' => "static/",
 
         /* local file system path to the static images folder (relative to BASE_DIR) */
-        'STATIC_DIR' => "uploads/static/",
+        'STATIC_DIR' => "static/",
 
         /* url to the thumbnail images folder (relative to'BASE_URL'*/
         'THUMBNAILS_URL' => "uploads/thumbnails/",
@@ -85,11 +87,11 @@ class CRM_Mosaico_Utils {
 
     if ( $_SERVER[ "REQUEST_METHOD" ] == "GET" )
     {
-      $dir = scandir( $config['BASE_DIR'] . $config['UPLOADS_DIR'] );
+      $dir = scandir( $config['BASE_DIR'] );
 
       foreach ( $dir as $file_name )
       {
-        $file_path = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name;
+        $file_path = $config['BASE_DIR'] . $file_name;
 
         if ( is_file( $file_path ) )
         {
@@ -97,7 +99,7 @@ class CRM_Mosaico_Utils {
 
           $file = [
             "name" => $file_name,
-            "url" => $config['BASE_URL'] . $config['UPLOADS_URL'] . $file_name,
+            "url" => $config['BASE_URL'] . $file_name,
             "size" => $size
           ];
 
@@ -120,7 +122,7 @@ class CRM_Mosaico_Utils {
 
           $file_name = $_FILES[ "files" ][ "name" ][ $key ];
 
-          $file_path = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name;
+          $file_path = $config['BASE_DIR'] . $file_name;
 
           if ( move_uploaded_file( $tmp_name, $file_path ) === TRUE )
           {
@@ -137,7 +139,7 @@ class CRM_Mosaico_Utils {
 
             $file = array(
               "name" => $file_name,
-              "url" => $config['BASE_URL'] . $config['UPLOADS_URL'] . $file_name,
+              "url" => $config['BASE_URL'] . $file_name,
               "size" => $size,
               "thumbnailUrl" => $config['BASE_URL'] . $config[ THUMBNAILS_URL ] . $file_name
             );
@@ -297,7 +299,7 @@ class CRM_Mosaico_Utils {
         if ( preg_match( '#/img/(\?|&amp;)src=(.*)&amp;method=(.*)&amp;params=(.*)#i', $matches[ 1 ][ $i ], $src_matches ) !== FALSE )
         {
           $file_name = urldecode( $src_matches[ 2 ] );
-          $file_name = substr( $file_name, strlen( $config['BASE_URL'] . $config['UPLOADS_URL'] ) );
+          $file_name = substr( $file_name, strlen( $config['BASE_URL'] ) );
 
           $method = urldecode( $src_matches[ 3 ] );
 
@@ -430,7 +432,7 @@ class CRM_Mosaico_Utils {
   {
     $config = self::getConfig();
 
-    $image = new Imagick( $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name );
+    $image = new Imagick( $config['BASE_DIR'] . $file_name );
 
     if ( $method == "resize" )
     {

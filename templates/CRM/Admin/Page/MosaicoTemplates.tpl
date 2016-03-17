@@ -26,7 +26,7 @@
 
           <div class="spacer"></div>
           <div class="action-link">
-            {crmButton p='civicrm/mosaico/index' q="reset=1" id="newMessageTemplates"  icon="circle-plus"}{ts}Add Mosaico Template{/ts}{/crmButton}
+            {crmButton p='civicrm/mosaico/index' q="reset=1" id="newMessageTemplates"  icon="plus-circle"}{ts}Add Mosaico Template{/ts}{/crmButton}
           </div>
           <div class="spacer"></div>
 

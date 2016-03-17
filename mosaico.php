@@ -34,8 +34,11 @@ function mosaico_civicrm_install() {
   $schema->fixSchemaDifferences();
 
   $civiConfig = CRM_Core_Config::singleton();
-  if(!file_exists($civiConfig->imageUploadDir . "static")) {
-    mkdir($civiConfig->imageUploadDir . "static", 0755);
+  if ($civiConfig->imageUploadDir) {
+    $staticDir = rtrim($civiConfig->imageUploadDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'static'; 
+    if(!file_exists($staticDir)) {
+      mkdir($staticDir, 0755);
+    }
   }
 }
 
@@ -158,7 +161,7 @@ function mosaico_civicrm_navigationMenu(&$params){
     'attributes' => array(
       'label'     => ts('Message Template Builder'),
       'name'      => 'Message_Template_Builder',
-      'url'       => CRM_Utils_System::url('civicrm/mosaico/index', NULL, TRUE),
+      'url'       => CRM_Utils_System::url('civicrm/mosaico/index', 'reset=1', TRUE),
       'active'    => 1,
       'parentID'  => $parentId,
       'operator'  => NULL,

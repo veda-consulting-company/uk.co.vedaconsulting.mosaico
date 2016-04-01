@@ -14,13 +14,13 @@
     <url desc="Support">http://vedaconsulting.co.uk</url>
     <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
   </urls>
-  <releaseDate>2016-03-17</releaseDate>
-  <version>1.0-alpha3</version>
+  <releaseDate>2016-04-01</releaseDate>
+  <version>1.0-alpha4</version>
   <develStage>alpha</develStage>
   <compatibility>
     <ver>4.6</ver>
   </compatibility>
-  <comments>To help contribute please contact us on support@vedaconsulting.co.uk</comments>
+  <comments>To help contribute please contact us on support@vedaconsulting.co.uk or initiate a conversation / issue on github.</comments>
   <civix>
     <namespace>CRM/Mosaico</namespace>
   </civix>

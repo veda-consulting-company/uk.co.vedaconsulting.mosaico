@@ -4,17 +4,17 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
   const DEFAULT_MODULE_WEIGHT = 200;
 
   function run() {
+    $config = CRM_Core_Config::singleton();
     $this->registerResources(CRM_Core_Resources::singleton());
 
     $messages = array();
     $syscheck = CRM_Utils_Request::retrieve('runcheck', 'Boolean', CRM_Core_DAO::$_nullObject);
     $tplCount = CRM_Core_DAO::singleValueQuery("SELECT count(id) FROM civicrm_mosaico_msg_template");
     if ($syscheck || empty($tplCount)) {
-      $config = CRM_Core_Config::singleton();
       if (!(extension_loaded('imagick') || class_exists("Imagick"))) {
         $messages[] = new CRM_Utils_Check_Message(
           'mosaico_imagick',
-          ts('Email Template Builder extension will not work.'),
+          ts('Email Template Builder extension will not work. Extension requires ImageMagick to be installed as php module. Please double check.'),
           ts('ImageMagick not installed')
         );
       }
@@ -47,10 +47,21 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
           ts('Static dir not writable or configured')
         );
       }
+      $extDirName = basename(dirname(dirname(dirname(dirname(__FILE__)))));
+      if ($extDirName != 'uk.co.vedaconsulting.mosaico') {
+        $messages[] = new CRM_Utils_Check_Message(
+          'mosaico_extdirname',
+          ts("We expect extension dir name to be '%1' instead of '%2'. Images and icons may not load correctly.", array(1 => 'uk.co.vedaconsulting.mosaico', 2 => $extDirName)),
+          ts('Installed extension dir name not suitable')
+        );
+      }
     }
     foreach ($messages as $message) {
       CRM_Core_Session::setStatus($message->getMessage(), $message->getTitle(), 'error');
     }
+
+    $extResUrl = rtrim($config->extensionsURL, '/') . '/uk.co.vedaconsulting.mosaico';
+    $this->assign('extResUrl', $extResUrl);
     return parent::run();
   }
 
@@ -59,6 +70,14 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
    */
   public function registerResources(CRM_Core_Resources $res) {
     $weight = self::DEFAULT_MODULE_WEIGHT;
+
+    $res->addSettingsFactory(function () {
+      // inorder to use ext resource url in JS - e.g CRM.resourceUrls
+      $jsvar = array(
+        'resourceUrls' => CRM_Extension_System::singleton()->getMapper()->getActiveModuleUrls(),
+      );
+      return $jsvar;
+    });
     
     $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/mosaico-material.min.css', $weight++, 'html-header', TRUE);
     $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/vendor/notoregular/stylesheet.css', $weight++, 'html-header', TRUE);

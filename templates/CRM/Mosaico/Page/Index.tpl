@@ -32,7 +32,7 @@
       <div class="template template-xx" style="" data-bind="attr: { class: 'template template-'+name }">
         <div class="description" style="padding-bottom:5px"><b data-bind="text: name">xx</b>: <span data-bind="text: desc">xx</span></div>
         <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2#templates/'}{literal}'+name+'/template-'+name+'.html' }">
-          <img src width="100%" alt="xx" data-bind="attr: { src: '{/literal}{crmURL p='civicrm/mosaico/templates/' h=0}{literal}'+name+'/edres/_full.png' }">
+          <img src width="100%" alt="xx" data-bind="attr: { src: '{/literal}{$extResUrl}{literal}/packages/mosaico/templates/'+name+'/edres/_full.png' }">
         </a>
       </div>
     </div>

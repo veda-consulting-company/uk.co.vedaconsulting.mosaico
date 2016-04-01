@@ -4,24 +4,6 @@ require_once 'packages/mosaico/backend-php/premailer.php';
 
 class CRM_Mosaico_Utils {
 
-  static function getResource() {
-    $args = explode('/', $_GET['q']);
-    if ($args[0] == 'civicrm' && $args[1] == 'mosaico' && ($args[2] == 'templates' || $args[2] == 'dist')) {
-      array_shift($args);
-      array_shift($args);
-
-      $config = CRM_Core_Config::singleton();
-      $file   = rtrim($config->extensionsURL, '/') . '/uk.co.vedaconsulting.mosaico/packages/mosaico/' . implode('/', $args);
-      $file   = str_replace(" ", "+", $file);//fixme: url encode?
-      $contentType = self::getUrlMimeType($file);
-
-      header("Content-Type: {$contentType}");
-      $content = file_get_contents($file);
-      echo $content;
-    }
-    CRM_Utils_System::civiExit();
-  }
-
   static function getUrlMimeType($url) {
     $buffer = file_get_contents($url);
     $finfo = new finfo(FILEINFO_MIME_TYPE);

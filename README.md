@@ -4,7 +4,7 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
 - Video - https://vimeo.com/156633077
 
 ### How to Install
-1. Have imageMagick installed in your environment. 
+1. Have imageMagick installed in your environment. Mainly as php module.
 2. Download extension from https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/releases/latest.
 3. Unzip / untar the package and place it in your configured extensions directory.
 4. Make sure to keep the directory name as "uk.co.vedaconsulting.mosaico" (for e.g not like - uk.co.vedaconsulting.mosaico-1.0-alphaX) to avoid any icon / image loading issues.

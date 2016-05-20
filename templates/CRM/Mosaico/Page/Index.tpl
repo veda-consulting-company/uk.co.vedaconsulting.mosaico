@@ -11,12 +11,12 @@
       </tr></thead>
     <tbody data-bind="foreach: edits">
       <tr>
-        <td align="left"><a href="#" data-bind="attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2#'}{literal}'+key }"><code>#<span data-bind="text: key">key</span></code></a></td>
-        <td style="font-weight: bold" align="left"><a href="#" data-bind="attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2#'}{literal}'+key }"><span data-bind="text: name">versamix</span></a></td>
+        <td align="left"><a href="#" data-bind="attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2' f=''}{literal}'+key }"><code>#<span data-bind="text: key">key</span></code></a></td>
+        <td style="font-weight: bold" align="left"><a href="#" data-bind="attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2' f=''}{literal}'+key }"><span data-bind="text: name">versamix</span></a></td>
         <td><span data-bind="text: typeof created !== 'undefined' ? $root.dateFormat(created) : '-'">YYYY-MM-DD</span></td>
         <td><span style="font-weight: bold" data-bind="text: typeof changed !== 'undefined' ? $root.dateFormat(changed) : '-'">YYYY-MM-DD</span></td>
         <td>
-        <a class="operationButton" href="#" data-bind="attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2#'}{literal}'+key }" title="edit"><i class="fa fa-pencil"></i></a>
+        <a class="operationButton" href="#" data-bind="attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2' f=''}{literal}'+key }" title="edit"><i class="fa fa-pencil"></i></a>
         <!--(<a href="#" data-bind="click: $root.renameEdit.bind(undefined, $index())" title="rinomina"><i class="fa fa-trash-o"></i></a>)-->
         <a class="operationButton" href="#" data-bind="click: $root.deleteEdit.bind(undefined, $index())" title="delete"><i class="fa fa-trash-o"></i></a>
         </td>
@@ -31,7 +31,7 @@
     <div data-bind="foreach: templates">
       <div class="template template-xx" style="" data-bind="attr: { class: 'template template-'+name }">
         <div class="description" style="padding-bottom:5px"><b data-bind="text: name">xx</b>: <span data-bind="text: desc">xx</span></div>
-        <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2#templates/'}{literal}'+name+'/template-'+name+'.html' }">
+        <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: '{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2' f='templates/'}{literal}'+name+'/template-'+name+'.html' }">
           <img src width="100%" alt="xx" data-bind="attr: { src: '{/literal}{$extResUrl}{literal}/packages/mosaico/templates/'+name+'/edres/_full.png' }">
         </a>
       </div>

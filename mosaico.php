@@ -189,7 +189,7 @@ function mosaico_civicrm_pageRun(&$page){
     while ($dao->fetch()) {
       $resultArray[$dao->id] = $dao->toArray();
       
-      $editURL= CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2#'.$dao->hash_key);
+      $editURL= CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2', FALSE, $dao->hash_key);
       $delURL = CRM_Utils_System::url('civicrm/admin/messageTemplates', 'action=delete&id='.$dao->msg_tpl_id);
       $enableDisableText = $dao->is_active ? 'Disable' : 'Enable';
       $action = sprintf('<span>

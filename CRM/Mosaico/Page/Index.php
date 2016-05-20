@@ -31,6 +31,16 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
           ts('Make sure "Extension Resource URL" is configured with Administer » System Settings » Resouce URLs.'),
           ts('Extension resource url not configured')
         );
+      } else {
+        // check if the resource url is correct.
+        $file = rtrim($config->extensionsURL, '/') . '/uk.co.vedaconsulting.mosaico/packages/mosaico/templates/versafix-1/template-versafix-1.html';
+        if (FALSE === file_get_contents($file)) {
+          $messages[] = new CRM_Utils_Check_Message(
+            'mosaico_exturl',
+            ts('Make sure "Extension Resource URL" is configured correctly with Administer » System Settings » Resouce URLs.'),
+            ts('Extension resource url not correct')
+          );
+        }
       }
       if (!is_writable($config->imageUploadDir)) {
         $messages[] = new CRM_Utils_Check_Message(

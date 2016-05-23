@@ -10,6 +10,7 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
 4. Make sure to keep the directory name as "uk.co.vedaconsulting.mosaico" (for e.g not like - uk.co.vedaconsulting.mosaico-1.0-alphaX) to avoid any icon / image loading issues.
 5. When you reload the Manage Extensions page the new “Mosaico” extension should be listed with an Install link.
 6. Click the "Install" link.
+7. Make sure "Extension Resource URL" is configured with Administer » System Settings » Resouce URLs.
 
 ### Usage
 1. Go to the CiviCRM Mailings menu.  Select the new option "Message Template Builder".

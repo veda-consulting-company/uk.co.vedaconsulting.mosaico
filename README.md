@@ -22,7 +22,7 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
 
 Please make sure you have followed installation instructions. 
 
-To the "Message Template Builder" screen add a runcheck=1 argument in the url to see any errors that might be causing it - url e.g: ../civicrm/mosaico/index?reset=1&runcheck=1.
+To the "Message Template Builder" screen add a runcheck=1 argument in the url to see any errors that might be causing it - url e.g: http://example.org/civicrm/mosaico/index?reset=1&runcheck=1.
 
 Open issues on [github](https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues) with:
 - screenshot of failure with any possible errors in firebug or js console

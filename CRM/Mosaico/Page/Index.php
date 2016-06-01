@@ -57,6 +57,20 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
           ts('Static dir not writable or configured')
         );
       }
+      if ($config->imageUploadURL) {
+        // detect incorrect image upload url
+        $handle = curl_init($config->imageUploadURL);
+        curl_setopt($handle,  CURLOPT_RETURNTRANSFER, TRUE);
+        $response = curl_exec($handle);
+        $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+        if($httpCode == 404) {
+          $messages[] = new CRM_Utils_Check_Message(
+            'mosaico_uploadurl',
+            ts('Image upload url seems incorrect - %1. Images when uploaded, may not appear correctly as thumbnails. Make sure "Image Upload URL" is configured correctly with Administer » System Settings » Resouce URLs.', array(1 => $config->imageUploadURL)),
+            ts('Incorrect image upload url')
+          );
+        }
+      }
       $extDirName = basename(dirname(dirname(dirname(dirname(__FILE__)))));
       if ($extDirName != 'uk.co.vedaconsulting.mosaico') {
         $messages[] = new CRM_Utils_Check_Message(

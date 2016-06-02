@@ -1,62 +1,94 @@
 (function(angular, $, _) {
 
-  // Controller for the in-place msg-template management
-  angular.module('crmMailing').controller('MsgTemplateCtrl', function MsgTemplateCtrl($route, $scope, crmMsgTemplates, dialogService, crmApi) {
+  // Controller for the in-place Save-msg-template management
+  //
+  // Controller for the "Save Message Template" dialog
+  // Scope members:
+  //   - [input] "model": Object
+  //     - "selected_id": int
+  //     - "tpl": Object
+  //       - "msg_subject": string
+  //       - "msg_text": string
+  //       - "msg_html": string
+  angular.module('crmMailing').controller('SaveMsgTemplateDialogCtrl', function SaveMsgTemplateDialogCtrl($scope, crmMsgTemplates, dialogService, crmApi) {
     var ts = $scope.ts = CRM.ts(null);
-    $scope.crmMsgTemplates = crmMsgTemplates;
-    $scope.checkPerm = CRM.checkPerm;
-    // @return Promise MessageTemplate (per APIv3)
-    $scope.saveTemplate = function saveTemplate(mailing) {
-      var model = {
-        selected_id: mailing.msg_template_id,
-        tpl: {
-          msg_title: '',
-          msg_subject: mailing.subject,
-          msg_text: mailing.body_text,
-          msg_html: mailing.body_html
-        }
-      };
-      var options = CRM.utils.adjustDialogDefaults({
-        autoOpen: false,
-        height: 'auto',
-        width: '40%',
-        title: ts('Save Template')
-      });
-      return dialogService.open('saveTemplateDialog', '~/crmMailing/SaveMsgTemplateDialogCtrl.html', model, options)
-        .then(function(item) {
-          mailing.msg_template_id = item.id;
+    $scope.saveOpt = {mode: '', newTitle: ''};
+    $scope.selected = null;
+
+    $scope.save = function save() {
+      var tpl = _.extend({}, $scope.model.tpl);
+      switch ($scope.saveOpt.mode) {
+        case 'add':
+          tpl.msg_title = $scope.saveOpt.newTitle;
+          break;
+        case 'update':
+          tpl.id = $scope.selected.id;
+          tpl.msg_title = $scope.selected.msg_title;
+          break;
+        default:
+          throw 'SaveMsgTemplateDialogCtrl: Unrecognized mode: ' + $scope.saveOpt.mode;
+      }
+      return crmMsgTemplates.save(tpl)
+        .then(function (item) {
+          CRM.status(ts('Saved'));
           return item;
         });
     };
 
-    // mosaicoTemplateLoad(67);
-    // @param int id
-    // @return Promise
-    $scope.loadTemplate = function loadTemplate(mailing, id) {
-      mosaicoTemplateLoad(id);
-      return crmMsgTemplates.get(id).then(function(tpl) {
-        mailing.subject = tpl.msg_subject;
-        mailing.body_text = tpl.msg_text;
-        mailing.body_html = tpl.msg_html;
-      });
-    };
-    
-    function mosaicoTemplateLoad(id) {
-      //get mosaico Ids
-      crmApi('Mosaico', 'gettemplateid', {'sequential': '1'}).then(
-      function (data) { // success
-        $mosaicoIds = data.values;
-        if ($mosaicoIds.indexOf(id) != -1 ) {
-          $('#crmUiId_1').parents('.crm-accordion-body').parents('.crm-accordion-wrapper').parent().hide();
-          $('#crmUiId_2').parents('.crm-accordion-body').parents('.crm-accordion-wrapper').parent().hide();
-        }else{
-          $('#crmUiId_1').parents('.crm-accordion-body').parents('.crm-accordion-wrapper').parent().show();
-          $('#crmUiId_2').parents('.crm-accordion-body').parents('.crm-accordion-wrapper').parent().show();
+    function scopeApply(f) {
+      return function () {
+        var args = arguments;
+        $scope.$apply(function () {
+          f.apply(args);
+        });
+      };
+    }
+
+    function init() {
+      crmMsgTemplates.get($scope.model.selected_id).then(
+        function (tpl) {
+          crmApi('Mosaico', 'gettemplateid', {'sequential': '1'}).then(
+          function (data) { // success
+            $mosaicoIds = data.values;
+            if ($mosaicoIds.indexOf($scope.model.selected_id) != -1 ) {
+              $scope.saveOpt.mode = 'add';
+              $scope.selected = null;
+            } else {
+              $scope.saveOpt.mode = 'update';
+              $scope.selected = tpl;
+           }
+         })
+        },
+        function () {
+          $scope.saveOpt.mode = 'add';
+          $scope.selected = null;
         }
-      });
-    };
-    
-  mosaicoTemplateLoad($route.current.scope.mailing.msg_template_id);
+      );
+      // When using dialogService with a button bar, the major button actions
+      // need to be registered with the dialog widget (and not embedded in
+      // the body of the dialog).
+      var buttons = [
+        {
+          text: ts('Save'),
+          icons: {primary: 'fa-check'},
+          click: function () {
+            $scope.save().then(function (item) {
+              dialogService.close('saveTemplateDialog', item);
+            });
+          }
+        },
+        {
+          text: ts('Cancel'),
+          icons: {primary: 'fa-times'},
+          click: function () {
+            dialogService.cancel('saveTemplateDialog');
+          }
+        }
+      ];
+      dialogService.setButtons('saveTemplateDialog', buttons);
+    }
+
+    setTimeout(scopeApply(init), 0);
   });
 
 })(angular, CRM.$, CRM._);

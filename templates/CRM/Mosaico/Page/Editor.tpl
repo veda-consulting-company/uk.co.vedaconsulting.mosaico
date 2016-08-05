@@ -15,5 +15,8 @@
       setTimeout(addCustomButton, 50);
     }
   }
+  window.print = function() {
+    return false;
+  }
 </script>
 {/literal}

@@ -8,11 +8,11 @@ $(function() {
   // A basic plugin that expose the "viewModel" object as a global variable.
   // plugins = [function(vm) {window.viewModel = vm;}];
   var ok = Mosaico.init({
-    imgProcessorBackend: cmsPath+'/img/',
-    emailProcessorBackend: cmsPath+'/dl/',
+    imgProcessorBackend: cmsPath+'/img',
+    emailProcessorBackend: cmsPath+'/dl',
     titleToken: "MOSAICO Responsive Email Designer",
     fileuploadConfig: {
-      url: cmsPath+'/upload/',
+      url: cmsPath+'/upload',
       // messages??
     }
   }, plugins);

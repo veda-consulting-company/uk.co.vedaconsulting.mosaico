@@ -41,8 +41,8 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
         );
       }
       if ($config->imageUploadURL) {
-        // detect incorrect image upload url
-        $handle = curl_init($config->imageUploadURL);
+        // detect incorrect image upload url. (Note: Since v4.4.4, CRM_Utils_Check_Security has installed index.html placeholder.)
+        $handle = curl_init($config->imageUploadURL . '/index.html');
         curl_setopt($handle,  CURLOPT_RETURNTRANSFER, TRUE);
         $response = curl_exec($handle);
         $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);

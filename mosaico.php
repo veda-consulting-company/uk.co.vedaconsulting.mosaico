@@ -35,9 +35,11 @@ function mosaico_civicrm_install() {
 
   $civiConfig = CRM_Core_Config::singleton();
   if ($civiConfig->imageUploadDir) {
-    $staticDir = rtrim($civiConfig->imageUploadDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . 'static'; 
-    if(!file_exists($staticDir)) {
-      mkdir($staticDir, 0755);
+    $prefix = rtrim($civiConfig->imageUploadDir, DIRECTORY_SEPARATOR);
+    foreach (array("$prefix/static", "$prefix/uploads", "$prefix/uploads/thumbnails") as $staticDir) {
+      if(!file_exists($staticDir)) {
+        mkdir($staticDir, 0755);
+      }
     }
   }
 }

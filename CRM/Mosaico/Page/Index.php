@@ -25,23 +25,6 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
           ts('PHP extension Fileinfo not loaded or enabled')
         );
       }
-      if (empty($config->extensionsURL)) {
-        $messages[] = new CRM_Utils_Check_Message(
-          'mosaico_exturl',
-          ts('Make sure "Extension Resource URL" is configured with Administer » System Settings » Resouce URLs.'),
-          ts('Extension resource url not configured')
-        );
-      } else {
-        // check if the resource url is correct.
-        $file = rtrim($config->extensionsURL, '/') . '/uk.co.vedaconsulting.mosaico/packages/mosaico/templates/versafix-1/template-versafix-1.html';
-        if (FALSE === file_get_contents($file)) {
-          $messages[] = new CRM_Utils_Check_Message(
-            'mosaico_exturl',
-            ts('Make sure "Extension Resource URL" is configured correctly with Administer » System Settings » Resouce URLs.'),
-            ts('Extension resource url not correct')
-          );
-        }
-      }
       if (!is_writable($config->imageUploadDir)) {
         $messages[] = new CRM_Utils_Check_Message(
           'mosaico_uploaddir',
@@ -58,8 +41,8 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
         );
       }
       if ($config->imageUploadURL) {
-        // detect incorrect image upload url
-        $handle = curl_init($config->imageUploadURL);
+        // detect incorrect image upload url. (Note: Since v4.4.4, CRM_Utils_Check_Security has installed index.html placeholder.)
+        $handle = curl_init($config->imageUploadURL . '/index.html');
         curl_setopt($handle,  CURLOPT_RETURNTRANSFER, TRUE);
         $response = curl_exec($handle);
         $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
@@ -84,8 +67,7 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
       CRM_Core_Session::setStatus($message->getMessage(), $message->getTitle(), 'error');
     }
 
-    $extResUrl = rtrim($config->extensionsURL, '/') . '/uk.co.vedaconsulting.mosaico';
-    $this->assign('extResUrl', $extResUrl);
+    $this->assign('extResUrl', CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico'));
     return parent::run();
   }
 

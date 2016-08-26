@@ -282,7 +282,7 @@ class CRM_Mosaico_Utils {
 
           $static_file_name = $method . "_" . $width . "x" . $height . "_" . $file_name;
 
-          $html = str_ireplace( $matches[ 1 ][ $i ], $config['BASE_URL'] . $config['STATIC_URL'] . urlencode( $static_file_name ), $html );
+          $html = str_ireplace( $matches[ 1 ][ $i ], $config['BASE_URL'] . $config['STATIC_URL'] . rawurlencode( $static_file_name ), $html );//Changed to rawurlencode because space gets into + in the image file name if it has space
 
           $image = self::resizeImage( $file_name, $method, $width, $height );
 

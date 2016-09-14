@@ -63,6 +63,9 @@ class CRM_Mosaico_Utils {
 
       foreach ( $dir as $file_name )
       {
+        //issue - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/28
+        //Change file name to unique by adding hash so every time uploading same image it will create new image name
+        $file_name = CRM_Utils_File::makeFileName($file_name);
         $file_path = $config['BASE_DIR'] . $file_name;
 
         if ( is_file( $file_path ) )
@@ -93,6 +96,9 @@ class CRM_Mosaico_Utils {
           $tmp_name = $_FILES[ "files" ][ "tmp_name" ][ $key ];
 
           $file_name = $_FILES[ "files" ][ "name" ][ $key ];
+          //issue - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/28
+          //Change file name to unique by adding hash so every time uploading same image it will create new image name
+          $file_name = CRM_Utils_File::makeFileName($file_name);
 
           $file_path = $config['BASE_DIR'] . $file_name;
 

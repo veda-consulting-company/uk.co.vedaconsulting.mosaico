@@ -87,8 +87,10 @@
 
 {if $rows and $action ne 2 and $action ne 4}
 
+{if $showTinymceTpl}
   {* include wysiwyg related files*}
   {include file="CRM/common/wysiwyg.tpl" includeWysiwygEditor=true}
+{/if}
 
   <div id='mainTabContainer'>
     <ul>

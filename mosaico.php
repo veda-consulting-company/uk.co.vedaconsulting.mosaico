@@ -205,6 +205,14 @@ function mosaico_civicrm_pageRun(&$page){
     
     $smarty->assign('mosaicoTemplates', $resultArray);
     $smarty->assign('selectedChild', $activeTab);
+    // From civi 4.7, no more tinymce, so if only civi version is less than 4.7 show tinymce.
+    //https://civicrm.org/blog/colemanw/big-changes-to-wysiwyg-editing-in-47
+    $showTinymceTpl = FALSE;
+    $currentVer = CRM_Core_BAO_Domain::version(TRUE);
+    if (version_compare($currentVer, '4.7') < 0) {
+      $showTinymceTpl = TRUE;
+    }
+    $smarty->assign('showTinymceTpl', $showTinymceTpl);
   }
 }
 

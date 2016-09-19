@@ -198,7 +198,8 @@ function mosaico_civicrm_pageRun(&$page){
       <a href="%s" class="action-item crm-hover-button" title="Edit this message template" >Edit</a>
       <a href="#" class="action-item crm-hover-button crm-enable-disable" title="Disable this message template" >%s</a>
       <a href="%s" class="action-item crm-hover-button small-popup" title="Delete this message template" >Delete</a>
-      </span>', $editURL, $enableDisableText, $delURL);
+      <a href="#" class="action-item crm-hover-button copy-template" value = "%s" title="Copy this message template">Copy</a>
+      </span>', $editURL, $enableDisableText, $delURL, $dao->msg_tpl_id);
       
       $resultArray[$dao->id]['action'] = $action;
     }

@@ -66,6 +66,55 @@
           }); 
         }
       });
+      //Copy mosaico template
+      $('.copy-template').click(function(event) {
+	var msgTplId = $(this).attr('value');
+	var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/copy' h=0 }"{literal};
+	$.ajax({ type: "POST", url: postUrl, data: {id:msgTplId}, async: true, dataType: 'json',
+	  success: function(result) {
+	    //create mos template and update meta data in civicrm_mosaico_msg_template table
+	    createMetaData(result.newMosaicoTplId, result.from_hash_key, result.name);
+	  },
+	  error : function() {
+	    CRM.alert('Could not copy mosaico template', 'Error');
+	  }
+	});
+      });
+      
+      function createMetaData(newMosaicoTplId, from_hash_key, name) {
+	// mosaico tab url
+	var mosaicoTabUrl = {/literal}"{crmURL p='civicrm/admin/messageTemplates' q="reset=1&activeTab=mosaico" h=0 }"{literal};
+	//generate random hash key
+	var rnd = Math.random().toString(36).substr(2, 7);
+	// get template of original mosaico msg template & metadata
+	var template = localStorage.getItem("template-" + from_hash_key);
+	var fromMetaData =  JSON.parse(localStorage.getItem("metadata-" + from_hash_key));
+      
+	// Create new meta data
+	var metadata = {"template":fromMetaData.template, "name":name, "created":Date.now(),"changed":Date.now(),"key":rnd};
+	// Save metadata, template and name details in local storage.
+	localStorage.setItem("name-" + rnd, name);
+	localStorage.setItem("metadata-" + rnd, JSON.stringify(metadata));
+	localStorage.setItem("template-" + rnd, template);
+	// get new meta data saved on local
+	var newMetaData = localStorage.getItem("metadata-" + rnd);
+	
+	// Post new meta data , new hash key to update in civicrm_mosaico_msg_template table
+	var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/setmd' h=0 }"{literal};
+	$.ajax({ type: "POST", url: postUrl, data: {md:newMetaData, id:newMosaicoTplId, hash_key:rnd}, async: true, dataType: 'json',
+	  success: function(result) {
+	    console.log(result);
+	    if (result.data == 'success') {
+	      var successMsg = "Mosaico Message template copied";
+	      CRM.status(successMsg, "success");
+	      window.location.href = mosaicoTabUrl;
+	    }
+	  },
+	  error : function() {
+	    CRM.alert('Could not update meta data for newly created mosaico msg template', 'Error');
+	  }
+	});
+      }
     });
   {/literal}
 </script>

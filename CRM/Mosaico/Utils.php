@@ -447,5 +447,89 @@ class CRM_Mosaico_Utils {
 
     return $image;
   }
-
+  
+  /*function to get msg templlate id from mosaico msg template id
+   * @param $msgTplId
+   * @return $mosaicoTplId
+   */
+  static function getMosaicoMsgTplIdFromMsgTplId($msgTplId) {
+    $query        = "SELECT id FROM civicrm_mosaico_msg_template WHERE msg_tpl_id = %1";
+    $queryParams  = array(1=>array($msgTplId, 'Int'));
+    return CRM_Core_DAO::singleValueQuery($query, $queryParams);
+    
+  }
+  
+  /*function to get mosaico msg template detilas
+   * 
+   */
+  static function getMosaicoMsgTemplate($mosaicoTemplateId) {
+    $tableName = MOSAICO_TABLE_NAME;
+    $getSQL  = "SELECT hash_key, html, metadata, template FROM {$tableName} WHERE id = %1";
+    $getSQLParams = array(1=>array($mosaicoTemplateId, 'Int'));
+    $dao = CRM_Core_DAO::executeQuery($getSQL, $getSQLParams);
+    $mosaicoTemplate = array();
+    while ($dao->fetch()) {
+      $mosaicoTemplate = array(
+              'hash_key'   => $dao->hash_key,
+              'html'       => $dao->html,
+              'metadata'   => $dao->metadata,
+              'template'   => $dao->template,
+            );
+      
+    }
+    return $mosaicoTemplate;
+  }
+  
+  /* function to set metadata
+   * 
+   */
+  static function setMetadata() {
+    $result = array();
+    $mosaicoTemplateId = CRM_Utils_Request::retrieve('id', 'Positive');
+    $metadata = CRM_Utils_Request::retrieve('md', 'String');
+    $hashKey = CRM_Utils_Request::retrieve('hash_key', 'String');
+    $tableName = MOSAICO_TABLE_NAME;
+    $updateQuery = "UPDATE {$tableName} SET metadata = %1, hash_key = %2 WHERE id = %3";
+    $updateQueryParams = array(1=>array($metadata, 'String'), 2=>array($hashKey, 'String'), 3=>array($mosaicoTemplateId, 'Int'));
+    $result['data'] = 'success';
+    CRM_Core_DAO::executeQuery($updateQuery, $updateQueryParams);
+    CRM_Utils_JSON::output($result);
+  }
+  
+  /*
+   * function to copy template
+   * 
+   */
+  
+  static function copyTemplate() {
+    $msgTplId = CRM_Utils_Request::retrieve('id', 'Positive');
+    $mosaicoMsgTplId        = CRM_Mosaico_Utils::getMosaicoMsgTplIdFromMsgTplId($msgTplId);
+    // get the message template which is going to be copied.
+    $messageTemplate = new CRM_Core_DAO_MessageTemplate();
+    $messageTemplate->id = $msgTplId;
+    if ($messageTemplate->find(TRUE)) {
+      $buildNewMsgTemplate = array();
+      $buildNewMsgTemplate['msg_title'] = 'Copy of '.$messageTemplate->msg_title;
+      $buildNewMsgTemplate['msg_subject'] = 'Copy of '.$messageTemplate->msg_subject;
+      $buildNewMsgTemplate['msg_html'] = $messageTemplate->msg_html;
+      $newMessageTemplate = new CRM_Core_DAO_MessageTemplate();
+      $newMessageTemplate->copyValues($buildNewMsgTemplate);
+      $newMessageTemplate->save();
+      
+      $copiedMsgTplId = $newMessageTemplate->id;
+      $copiedMsgTplName = $newMessageTemplate->msg_title;
+      
+      // Build mosaico message template params to create new mosaico msg template
+      $mosaicoTemplate = CRM_Mosaico_Utils::getMosaicoMsgTemplate($mosaicoMsgTplId);
+      $mosaicoTemplate['msg_tpl_id'] = $copiedMsgTplId;
+      $mosaicoTemplate['name']       = $copiedMsgTplName;
+      $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
+      $mosTpl->copyValues($mosaicoTemplate);
+      $mosTpl->save();
+      $result = array('newMosaicoTplId' => $mosTpl->id, 'hash_key' => $mosTpl->hash_key, 'name' => $mosTpl->name);
+      CRM_Utils_JSON::output($result);
+    }
+    
+  }
+    
 }

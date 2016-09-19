@@ -66,6 +66,54 @@
           }); 
         }
       });
+      //Copy mosaico template
+      $('.copy-template').click(function(event) {
+	$el = $(this);
+	var msgTplId = $(this).attr('value');
+	console.log('copying msg template ' + msgTplId);
+	var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/copy' h=0 }"{literal};
+	console.log('posturl copy=' + postUrl);
+	$.ajax({ type: "POST", url: postUrl, data: {id:msgTplId}, async: true, dataType: 'json',
+	  success: function(result) {
+	    console.log(result.newMosaicoTplId);
+	    console.log(result.hash_key);
+	    console.log(result.name);
+	    //create mos template and update meta data in civicrm_mosaico_msg_template table
+	    createmostpl(result.newMosaicoTplId, result.hash_key, result.name);
+	    CRM.refreshParent($el);
+	  }
+	});
+	$("#mainTabContainer").tabs( {active: tabIndex} );
+      });
+      
+      function createmostpl(newMosaicoTplId, hash_key, name) {
+	//generate random hash key
+	var rnd = Math.random().toString(36).substr(2, 7);
+	// get template of original mosaico msg template & metadata
+	var template = localStorage.getItem("template-" + hash_key);
+	var origmetadata =  JSON.parse(localStorage.getItem("metadata-" + hash_key));
+      
+	// Create new meta data
+	var metadata = {"template":origmetadata.template, "name":name, "created":Date.now(),"changed":Date.now(),"key":rnd};
+	// Save metadata, template and name details in local storage.
+	localStorage.setItem("name-" + rnd, name);
+	localStorage.setItem("metadata-" + rnd, JSON.stringify(metadata));
+	localStorage.setItem("template-" + rnd, template);
+	// get new meta data saved on local
+	var newMetaData = localStorage.getItem("metadata-" + rnd);
+	
+	// Post new meta data , new hash key to update in civicrm_mosaico_msg_template table
+	var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/setmd' h=0 }"{literal};
+	$.ajax({ type: "POST", url: postUrl, data: {md:newMetaData, id:newMosaicoTplId, hash_key:rnd}, async: true, dataType: 'json',
+	  success: function(result) {
+	    console.log(result);
+	    if (result.data == 'success') {
+	      var successMsg = "Mosaico Message template copied";
+	      CRM.status(successMsg, "success");
+	    }
+	  }
+	});
+      }
     });
   {/literal}
 </script>

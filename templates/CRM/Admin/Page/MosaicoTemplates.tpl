@@ -68,33 +68,30 @@
       });
       //Copy mosaico template
       $('.copy-template').click(function(event) {
-	$el = $(this);
 	var msgTplId = $(this).attr('value');
-	console.log('copying msg template ' + msgTplId);
 	var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/copy' h=0 }"{literal};
-	console.log('posturl copy=' + postUrl);
 	$.ajax({ type: "POST", url: postUrl, data: {id:msgTplId}, async: true, dataType: 'json',
 	  success: function(result) {
-	    console.log(result.newMosaicoTplId);
-	    console.log(result.hash_key);
-	    console.log(result.name);
 	    //create mos template and update meta data in civicrm_mosaico_msg_template table
-	    createmostpl(result.newMosaicoTplId, result.hash_key, result.name);
-	    CRM.refreshParent($el);
+	    createMetaData(result.newMosaicoTplId, result.from_hash_key, result.name);
+	  },
+	  error : function() {
+	    CRM.alert('Could not copy mosaico template', 'Error');
 	  }
 	});
-	$("#mainTabContainer").tabs( {active: tabIndex} );
       });
       
-      function createmostpl(newMosaicoTplId, hash_key, name) {
+      function createMetaData(newMosaicoTplId, from_hash_key, name) {
+	// mosaico tab url
+	var mosaicoTabUrl = {/literal}"{crmURL p='civicrm/admin/messageTemplates' q="reset=1&activeTab=mosaico" h=0 }"{literal};
 	//generate random hash key
 	var rnd = Math.random().toString(36).substr(2, 7);
 	// get template of original mosaico msg template & metadata
-	var template = localStorage.getItem("template-" + hash_key);
-	var origmetadata =  JSON.parse(localStorage.getItem("metadata-" + hash_key));
+	var template = localStorage.getItem("template-" + from_hash_key);
+	var fromMetaData =  JSON.parse(localStorage.getItem("metadata-" + from_hash_key));
       
 	// Create new meta data
-	var metadata = {"template":origmetadata.template, "name":name, "created":Date.now(),"changed":Date.now(),"key":rnd};
+	var metadata = {"template":fromMetaData.template, "name":name, "created":Date.now(),"changed":Date.now(),"key":rnd};
 	// Save metadata, template and name details in local storage.
 	localStorage.setItem("name-" + rnd, name);
 	localStorage.setItem("metadata-" + rnd, JSON.stringify(metadata));
@@ -110,7 +107,11 @@
 	    if (result.data == 'success') {
 	      var successMsg = "Mosaico Message template copied";
 	      CRM.status(successMsg, "success");
+	      window.location.href = mosaicoTabUrl;
 	    }
+	  },
+	  error : function() {
+	    CRM.alert('Could not update meta data for newly created mosaico msg template', 'Error');
 	  }
 	});
       }

@@ -448,7 +448,7 @@ class CRM_Mosaico_Utils {
     return $image;
   }
   
-  /*function to get msg templlate id from mosaico msg template id
+  /*function to get mosaico msg templlate id from mosaico msg template id
    * @param $msgTplId
    * @return $mosaicoTplId
    */
@@ -485,9 +485,9 @@ class CRM_Mosaico_Utils {
    */
   static function setMetadata() {
     $result = array();
-    $mosaicoTemplateId = CRM_Utils_Request::retrieve('id', 'Positive');
-    $metadata = CRM_Utils_Request::retrieve('md', 'String');
-    $hashKey = CRM_Utils_Request::retrieve('hash_key', 'String');
+    $mosaicoTemplateId = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, TRUE);
+    $metadata = CRM_Utils_Request::retrieve('md', 'String', CRM_Core_DAO::$_nullObject, TRUE);
+    $hashKey = CRM_Utils_Request::retrieve('hash_key', 'String', CRM_Core_DAO::$_nullObject, TRUE);
     $tableName = MOSAICO_TABLE_NAME;
     $updateQuery = "UPDATE {$tableName} SET metadata = %1, hash_key = %2 WHERE id = %3";
     $updateQueryParams = array(1=>array($metadata, 'String'), 2=>array($hashKey, 'String'), 3=>array($mosaicoTemplateId, 'Int'));
@@ -502,7 +502,7 @@ class CRM_Mosaico_Utils {
    */
   
   static function copyTemplate() {
-    $msgTplId = CRM_Utils_Request::retrieve('id', 'Positive');
+    $msgTplId = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, TRUE);
     $mosaicoMsgTplId        = CRM_Mosaico_Utils::getMosaicoMsgTplIdFromMsgTplId($msgTplId);
     // get the message template which is going to be copied.
     $messageTemplate = new CRM_Core_DAO_MessageTemplate();
@@ -526,7 +526,7 @@ class CRM_Mosaico_Utils {
       $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
       $mosTpl->copyValues($mosaicoTemplate);
       $mosTpl->save();
-      $result = array('newMosaicoTplId' => $mosTpl->id, 'hash_key' => $mosTpl->hash_key, 'name' => $mosTpl->name);
+      $result = array('newMosaicoTplId' => $mosTpl->id, 'from_hash_key' => $mosTpl->hash_key, 'name' => $mosTpl->name);
       CRM_Utils_JSON::output($result);
     }
     

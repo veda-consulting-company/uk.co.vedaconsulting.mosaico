@@ -157,19 +157,152 @@
          </div>
       </div>
     {/foreach}
-    
+
     <!-- MV include mosaico templates -->
     {include file="CRM/Admin/Page/MosaicoTemplates.tpl"}
     <!-- END -->
+    <div id='template_dialog' style="display:none;">
+      <label>Select template : </label>
+      <select id="template_list" class="crm-form-select">
+        <option value="versafix-1">versafix-1</option>
+        <option value="tedc15">tedc15</option>
+        <option value="tutorial">tutorial</option>
+      </select>
+    </div>
   </div>
+
+  {include file="packages/mosaico/index.html"}
 
   <script type='text/javascript'>
     var selectedTab = 'user';
     {if $selectedChild}selectedTab = '{$selectedChild}';{/if}
     {literal}
       CRM.$(function($) {
-        var tabIndex = $('#tab_' + selectedTab).prevAll().length
+        var tabIndex  = $('#tab_' + selectedTab).prevAll().length
         $("#mainTabContainer").tabs( {active: tabIndex} );
+
+        var editorUrl = "{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2'}{literal}";
+        var rndHashKeyForEditMosaico= Math.random().toString(36).substr(2, 7);
+
+
+        $('a.edit_msg_tpl_to_mosaico').click(function(){
+          var msgTplId = $(this).attr('value');
+          console.log(msgTplId);
+          $('#template_dialog').dialog({
+            modal: true,
+            title: 'Mosaico Template',
+            buttons: {
+              Open: function() {
+                var selectTemplateName = $('#template_list').val();
+                console.log(selectTemplateName);
+                var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/edit' h=0 }"{literal};
+                $.ajax({ type: "POST"
+                  , url: postUrl
+                  , data: {id:msgTplId, hash_key:rndHashKeyForEditMosaico, template_name: selectTemplateName}
+                  , async: true
+                  , dataType: 'json'
+                  , success: function(result) {
+                    editMsgTempalteInMosaico(result, selectTemplateName);
+                  },
+                  error : function() {
+                    CRM.alert('Could not copy mosaico template', 'Error');
+                  }
+                });
+              },
+              Cancel: function() {
+                $('#template_dialog').hide();
+                $(this).dialog("close");
+              }
+            }
+          });
+        });
+
+
+      function editMsgTempalteInMosaico(result, selectTemplateName) {
+
+        //generate random hash key
+        var rnd = result.new_hash_key;
+
+        // get template of original mosaico msg template & metadata
+        var template = localStorage.getItem("template-" + rnd);
+        if (template) {
+          document.location = editorUrl+'#'+rnd;
+        }
+        else{
+          var parseTemplate = JSON.parse(result.template);
+          // var blocksValues = result.blockValues
+          console.log(parseTemplate);
+          switch(selectTemplateName) {
+              case 'tedc15':
+                var blocksValues = {
+                  "type":"heroBlock"
+                   ,"insertWidth":"340"
+                   ,"customStyle":false
+                   ,"id":"ko_heroBlock_1"
+                   ,"topImage":{
+                      "type":"image"
+                      ,"src":""
+                      ,"url":"http://sierrawild.gov/wilderness/ansel-adams"
+                      ,"alt":""
+                    }
+                   ,"link":{"type":"link","url":"http://sierrawild.gov/wilderness/ansel-adams","text":"Plan Your Visit"}
+                   ,"bottomRightImage":{"type":"image","src":"","url":"http://sierrawild.gov/wilderness/ansel-adams","alt":""}
+                   ,"title":"Ansel Adams Wilderness"
+                   ,"subTitle":"<p>"+result.msg_html+"<br></p>"
+                  };
+                break;
+              case 'tutorial':
+                 var blocksValues = {
+                      "type":"fixedlist"
+                      ,"customStyle":false
+                      ,"id":"ko_fixedlist_1"
+                      ,"color":null
+                      ,"listsize":"1 "
+                      ,"headerText":"fixed size list"
+                      ,"firstBodyText":"<p>"+result.msg_html+"<br></p>"
+                      ,"secondBodyText":"item 2"
+                      ,"thirdBodyText":""
+                    };
+                  break;
+              default:
+                var blocksValues = {
+                    "type":"textBlock"
+                    ,"customStyle":false
+                    ,"backgroundColor":null
+                    ,"longTextStyle":{"type":"longTextStyle","face":null,"color":null,"size":null,"linksColor":null}
+                    ,"longText":"<p>"+result.msg_html+"<br></p>"
+                    ,"id":"ko_textBlock_1"
+                    ,"externalBackgroundColor":null
+                  };
+          }
+
+
+          parseTemplate.mainBlocks.blocks.push(blocksValues);
+          // // Save metadata, template and name details in local storage.
+          localStorage.setItem("edit_msg_tpl_id-" + rnd, result.msg_tpl_id);
+          localStorage.setItem("name-" + rnd, result.name);
+          localStorage.setItem("metadata-" + rnd, result.metadata);
+          localStorage.setItem("template-" + rnd, JSON.stringify(parseTemplate));
+
+          //Update DB with new Template.
+          // Post new meta data , new hash key to update in civicrm_mosaico_msg_template table
+          var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/settemplate' h=0 }"{literal};
+          console.log(result.id)
+          $.ajax({ type: "POST", url: postUrl, data: {template:JSON.stringify(parseTemplate), id:result.id}, async: true, dataType: 'json',
+            success: function(updateResult) {
+              console.log(updateResult);
+              //redirect to editor
+              document.location = editorUrl+'#'+rnd;
+            },
+            error : function() {
+              CRM.alert('Could not update meta data for newly created mosaico msg template', 'Error');
+            }
+          });
+
+        }
+      }
+
+
       });
     {/literal}
   </script>

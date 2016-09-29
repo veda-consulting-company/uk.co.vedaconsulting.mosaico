@@ -79,6 +79,25 @@ var removeElements = function($elements, tryDetach) {
   $elements.remove();
 };
 
+
+var _ensureAbsolute = function(url, basePath) {
+  if (!url.match(/^[^\/]*:/) && !url.match(/^\//) && !url.match(/^\[/) && !url.match(/^#?$/)) {
+    return basePath + url;
+  } else {
+    return null;
+  }
+};
+
+// TODO fixing URLs is also needed where styles uses path (e.g: background-image, @import)
+var _fixRelativePath = function(element, attribute, basePath) {
+  var url = getAttribute(element, attribute);
+  var newUrl = _ensureAbsolute(url, basePath);
+  if (newUrl !== null) {
+    setAttribute(element, attribute, newUrl);
+  }
+};
+
+
 module.exports = {
   getAttribute: getAttribute,
   setAttribute: setAttribute,
@@ -89,5 +108,7 @@ module.exports = {
   setContent: setContent,
   replaceHtml: replaceHtml,
   removeElements: removeElements,
-  objExtend: objExtend
+  objExtend: objExtend,
+  ensureAbsolute: _ensureAbsolute,
+  fixRelativePath: _fixRelativePath
 };

@@ -12,14 +12,10 @@ var render = function() {
 
   timeout = undefined;
 
-  if (typeof tinymce.activeEditor !== 'undefined' && typeof tinymce.activeEditor.theme !== 'undefined' && typeof tinymce.activeEditor.theme.panel !== 'undefined' && typeof tinymce.activeEditor.theme.panel.visible !== 'undefined') {
+  if (typeof tinymce.activeEditor !== 'undefined' && typeof tinymce.activeEditor.theme !== 'undefined' && typeof tinymce.activeEditor.theme.panel !== 'undefined' && typeof tinymce.activeEditor.theme.panel.visible !== 'undefined' && typeof tinymce.activeEditor.theme.panel._visible !== 'undefined' && tinymce.activeEditor.theme.panel._visible) {
     // @see FloatPanel.js function repositionPanel(panel)
-    // First condition group is for Tinymce 4.0/4.1
-    // Second condition group is for Tinymce 4.2/4.3 where "._property" are now available as ".state.get('property')".
-    if ((typeof tinymce.activeEditor.theme.panel._visible !== 'undefined' && tinymce.activeEditor.theme.panel._visible && tinymce.activeEditor.theme.panel._fixed) || 
-        (typeof tinymce.activeEditor.theme.panel.state !== 'undefined' && tinymce.activeEditor.theme.panel.state.get('visible') && tinymce.activeEditor.theme.panel.state.get('fixed'))) {
+    if (tinymce.activeEditor.theme.panel._fixed)
       tinymce.activeEditor.theme.panel.fixed(false);
-    }
 
     tinymce.activeEditor.nodeChanged();
     tinymce.activeEditor.theme.panel.visible(true);

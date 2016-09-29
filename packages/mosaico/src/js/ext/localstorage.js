@@ -4,25 +4,8 @@ var console = require("console");
 var ko = require("knockout");
 var $ = require("jquery");
 
-var lsLoader = function(hash_key, emailProcessorBackend) {
-  var mdStr = global.localStorage.getItem("metadata-" + hash_key);
-  if (mdStr !== null) {
-    var model;
-    var td = global.localStorage.getItem("template-" + hash_key);
-    if (td !== null) model = JSON.parse(td);
-    var md = JSON.parse(mdStr);
-    return {
-      metadata: md,
-      model: model,
-      extension: lsCommandPluginFactory(md, emailProcessorBackend)
-    };
-  } else {
-    throw "Cannot find stored data for "+hash_key;
-  }
-};
-
 var lsCommandPluginFactory = function(md, emailProcessorBackend) {
-  var commandsPlugin = function(mdkey, mdname, viewModel) {
+  var commandsPlugin = function(md, viewModel) {
 
     // console.log("loading from metadata", md, model);
     var saveCmd = {
@@ -32,64 +15,13 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
     saveCmd.execute = function() {
       saveCmd.enabled(false);
       viewModel.metadata.changed = Date.now();
-      console.log(viewModel.metadata);
-      //MV: ask msg template title
-      var date  = new Date();
-      var options = { hour: 'numeric', minute: 'numeric', second: 'numeric'};
-      var fulldate = date.toLocaleDateString('en-GB',options);
-
-      var metaName = global.localStorage.getItem("name-" + mdkey);
-      if (!metaName || metaName == 'null') metaName   = viewModel.t('Mosaico Template ' + fulldate);
-      metaName = global.prompt(viewModel.t("Please enter the Message title"), metaName);
-      viewModel.metadata.name = metaName;
-      global.localStorage.setItem("name-" + mdkey, metaName);
-
-      var editMsgTplId = null;
-      if(global.localStorage.getItem("edit_msg_tpl_id-" + mdkey)){
-        editMsgTplId = global.localStorage.getItem("edit_msg_tpl_id-" + mdkey);
-      }
-      if(editMsgTplId){
-        viewModel.metadata.msgtplid = editMsgTplId;
-      }
-      // end
       if (typeof viewModel.metadata.key == 'undefined') {
         console.warn("Unable to find ket in metadata object...", viewModel.metadata);
-        viewModel.metadata.key = mdkey;
+        viewModel.metadata.key = md.key;
       }
-      global.localStorage.setItem("metadata-" + mdkey, viewModel.exportMetadata());
-      global.localStorage.setItem("template-" + mdkey, viewModel.exportJSON());
+      global.localStorage.setItem("metadata-" + md.key, viewModel.exportMetadata());
+      global.localStorage.setItem("template-" + md.key, viewModel.exportJSON());
       saveCmd.enabled(true);
-
-      viewModel.notifier.info(viewModel.t("Saving in CiviCRM..."));
-      var postUrl = emailProcessorBackend ? emailProcessorBackend : '/dl/';
-      var post = $.post(postUrl, {
-        action: 'save',
-        key:  viewModel.metadata.key,
-        name: viewModel.metadata.name,
-        edit_msg_tpl_id: viewModel.metadata.msgtplid, //MV include edited msg tpl id in post, to avoid duplication template we use this id when save template,
-        html: viewModel.exportHTML(),
-        metadata: viewModel.exportMetadata(),
-        template: viewModel.exportJSON(),
-      }, null, 'html');
-      post.fail(function() {
-        console.log("fail", arguments);
-        viewModel.notifier.error(viewModel.t('Unexpected error talking to server: contact us!'));
-      });
-      post.success(function() {
-        console.log("success", arguments);
-        try {
-          var result = JSON.parse(arguments[0]);
-          if ('id' in result) {
-            console.log("id", result.id);
-            viewModel.notifier.success(viewModel.t("Saved as message template in CiviCRM."));
-          } else {
-            viewModel.notifier.error(viewModel.t('Something went wrong while saving message template!'));
-          }
-        }
-        catch(e) {
-          viewModel.notifier.error(viewModel.t('Something went wrong while saving message template!'));
-        }
-      });
     };
     var testCmd = {
       name: 'Test', // l10n happens in the template
@@ -111,7 +43,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
         var post = $.post(postUrl, {
           action: 'email',
           rcpt: email,
-          subject: "[test] " + mdkey + " - " + mdname,
+          subject: "[test] " + md.key + " - " + md.name,
           html: viewModel.exportHTML()
         }, null, 'html');
         post.fail(function() {
@@ -120,18 +52,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
         });
         post.success(function() {
           console.log("success", arguments);
-          try {
-            var result = JSON.parse(arguments[0]);
-            if ('sent' in result) {
-              console.log("sent", result.sent);
-              viewModel.notifier.success(viewModel.t("Test email sent..."));
-            } else {
-              viewModel.notifier.error(viewModel.t('Something went wrong while sending email!'));
-            }
-          }
-          catch(e) {
-            viewModel.notifier.error(viewModel.t('Something went wrong while sending email!'));
-          }
+          viewModel.notifier.success(viewModel.t("Test email sent..."));
         });
         post.always(function() {
           testCmd.enabled(true);
@@ -154,9 +75,9 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
     viewModel.save = saveCmd;
     viewModel.test = testCmd;
     viewModel.download = downloadCmd;
-  }.bind(undefined, md.key, md.name);
+  }.bind(undefined, md);
 
   return commandsPlugin;
 };
 
-module.exports = lsLoader;
+module.exports = lsCommandPluginFactory;

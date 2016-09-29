@@ -29,6 +29,7 @@
   .propInput .evo-pointer::before {
     width: 31px;
     padding: 0 10px;
+    font-size: 80%;
   }
   .propInput .ui-textbutton .ui-textbutton-button.ui-button-icon-only {
     width: 30px;
@@ -46,21 +47,6 @@
   }
 }
 #toolimages {
-  .img-dropzone {
-    position: relative;
-  }
-  .img-dropzone.ui-state-highlight:before {
-    .makeDroppable();
-    line-height: 45px;
-    height: auto;
-    top: -10px;
-    bottom: -10px;
-  }
-  .img-dropzone.ui-state-draghover:before {
-    background-color: fade(@mosaico-selection-color, 80%);
-    animation: none;
-  } 
-
   .uploadzone {
     font-size: 1.2em;
   }
@@ -100,8 +86,39 @@
       }
     }
     .data-select {
-      display: block;
-      .input-select();
+      select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        @media screen and (-webkit-min-device-pixel-ratio:0) { 
+          padding-right:30px;
+        }
+
+        .input-button-common;
+        // sovrapposizioni arrotondamenti
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+      }
+
+      &:after {
+        content: "▼";
+        .button-style();
+        margin: 0;
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        font-size: 60%;
+        line-height: 30px;
+        width: 28px;
+        margin-right: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+
+        // padding: 0 8px;
+        pointer-events:none;
+        // box-sizing: border-box;
+      }
     }
     .ui-textbutton {
       width: 100%;
@@ -402,11 +419,8 @@
     border-bottom-right-radius: 15px;
 
     &:before {
+      content: "▼";
       .button-style();
-
-      font-family: FontAwesome;
-      content: "\f0d7";
-      font-weight: normal;
 
       // see .button_dropdown_split styles
       border-left: @input-border-size solid fade(@button-border-color-split, 50%) !important; // !important to work also on .big and .primary
@@ -417,6 +431,7 @@
       top: -1px;
       right: -1px;
       bottom: -1px;
+      font-size: 60%;
       line-height: 30px;
       width: 28px;
       padding: 0 8px;

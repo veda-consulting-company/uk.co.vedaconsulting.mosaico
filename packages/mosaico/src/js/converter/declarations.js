@@ -9,10 +9,10 @@ var cssParse = require("mensch/lib/parser.js");
 var console = require("console");
 var domutils = require("./domutils.js");
 
-var _declarationValueLookup = function(declarations, propertyname, templateUrlConverter) {
+var _declarationValueLookup = function(declarations, propertyname, basePath) {
   for (var i = declarations.length - 1; i >= 0; i--) {
     if (declarations[i].type == 'property' && declarations[i].name == propertyname) {
-      return _declarationValueUrlPrefixer(declarations[i].value, templateUrlConverter);
+      return _declarationValueUrlPrefixer(declarations[i].value, basePath);
     }
   }
   return null;
@@ -24,7 +24,7 @@ var _propToCamelCase = function(propName) {
   });
 };
 
-var _declarationValueUrlPrefixer = function(value, templateUrlConverter) {
+var _declarationValueUrlPrefixer = function(value, basePath) {
   if (value.match(/url\(.*\)/)) {
     var replaced = value.replace(/(url\()([^\)]*)(\))/g, function(matched, prefix, url, postfix) {
       var trimmed = url.trim();
@@ -34,7 +34,11 @@ var _declarationValueUrlPrefixer = function(value, templateUrlConverter) {
       } else {
         apice = '';
       }
-      var newUrl = templateUrlConverter(trimmed);
+      if (trimmed.substr(0, basePath.length) == basePath) {
+        console.log("TODO this recursion protection is bad... please FIX me");
+        return matched;
+      }
+      var newUrl = domutils.ensureAbsolute(trimmed, basePath);
       if (newUrl !== null) {
         return prefix + apice + newUrl + apice + postfix;
       } else {
@@ -47,7 +51,7 @@ var _declarationValueUrlPrefixer = function(value, templateUrlConverter) {
   }
 };
 
-var elaborateDeclarations = function(style, declarations, templateUrlConverter, bindingProvider, element, basicBindings, removeDisplayNone) {
+var elaborateDeclarations = function(style, declarations, basePath, bindingProvider, element, basicBindings, removeDisplayNone) {
   var newBindings = typeof basicBindings == 'object' && basicBindings !== null ? basicBindings : {};
   var newStyle = null;
   var skipLines = 0;
@@ -81,7 +85,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
 
           if (isIf) {
             condDecl = declarations[i].name.substr(0, declarations[i].name.length - decl[3].length);
-            var conditionedDeclaration = _declarationValueLookup(declarations, condDecl, templateUrlConverter);
+            var conditionedDeclaration = _declarationValueLookup(declarations, condDecl, basePath);
             if (conditionedDeclaration === null) throw "Unable to find declaration " + condDecl + " for " + declarations[i].name;
           } else {
 
@@ -95,7 +99,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
               bindType = 'virtualAttr';
             } else if (!isBind) {
               needDefaultValue = typeof style !== 'undefined';
-              if (needDefaultValue) propDefaultValue = _declarationValueLookup(declarations, propName, templateUrlConverter);
+              if (needDefaultValue) propDefaultValue = _declarationValueLookup(declarations, propName, basePath);
               bindType = 'virtualStyle';
             } else {
               bindType = null;
@@ -146,13 +150,13 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
 
             // TODO evaluate the use of "-then" (and -else) postfixes to complete the -if instead of relaying
             // on the same basic sintax (or maybe it is better to support ternary operator COND ? THEN : ELSE).
-            var declarationCondition = _declarationValueLookup(declarations, declarations[i].name + '-if', templateUrlConverter);
+            var declarationCondition = _declarationValueLookup(declarations, declarations[i].name + '-if', basePath);
             var not = false;
             if (declarationCondition === null) {
-              declarationCondition = _declarationValueLookup(declarations, declarations[i].name + '-ifnot', templateUrlConverter);
+              declarationCondition = _declarationValueLookup(declarations, declarations[i].name + '-ifnot', basePath);
               not = true;
             } else {
-              if (_declarationValueLookup(declarations, declarations[i].name + '-ifnot', templateUrlConverter) !== null) {
+              if (_declarationValueLookup(declarations, declarations[i].name + '-ifnot', basePath) !== null) {
                 throw "Unexpected error: cannot use both -if and -ifnot property conditions";
               }
             }
@@ -193,7 +197,7 @@ var elaborateDeclarations = function(style, declarations, templateUrlConverter, 
 
         } else {
           // prefixing urls
-          var replacedValue = _declarationValueUrlPrefixer(declarations[i].value, templateUrlConverter);
+          var replacedValue = _declarationValueUrlPrefixer(declarations[i].value, basePath);
           if (replacedValue != declarations[i].value) {
             if (newStyle === null && typeof style !== 'undefined') newStyle = style;
             if (newStyle !== null) {

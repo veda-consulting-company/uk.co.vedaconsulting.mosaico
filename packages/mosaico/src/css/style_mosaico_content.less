@@ -1,5 +1,3 @@
-@import (inline) 'safarihack.css';
-
 #main-edit-area .editable {
   position: relative;
   // display: table;
@@ -103,13 +101,11 @@
 }
 
 #main-edit-area .editable.sortable-placeholder:hover .tools {
-  // display: none;
-  visibility: hidden;
+  display: none;
 }
 
 #main-edit-area .editable:hover .tools {
-  // display: block;
-  visibility: visible;
+  display: block;
 }
 
 #main-edit-area .ui-sortable-helper > *,
@@ -168,8 +164,7 @@
 }
 
 #main-edit-area .midtools {
-  // display: none;
-  visibility: hidden;
+  display: none;
   z-index: 30; 
   position: absolute; 
   bottom: 16px;
@@ -177,29 +172,29 @@
   text-align: left;
 }
 #main-edit-area .img-wysiwyg:hover .midtools {
-  // display: block;
-  visibility: visible;
+  display: block;
 }
 // nascondo un po' di cose durante l'upload
 #main-edit-area .uploading {
   .midtools {
-    // display: none !important;
-    visibility: hidden !important;
+    display: none !important;
   }
   .fileuploadtext {
-    // display: none !important;
-    visibility: hidden !important;
+    display: none !important;
   }
   .fileupload.withfile {
-    // display: none;
-    visibility: hidden;
+    display: none;
   }
 }
 
 
 #main-edit-area .img-wysiwyg .img-size {
-  visibility: hidden;
+  display: none;
+}
+
+#main-edit-area .img-wysiwyg:hover .img-size {
   position: absolute;
+  display: block;
   top: 0;
   right: 0;
   padding: 2px;
@@ -209,10 +204,6 @@
   color: white;  
 }
 
-#main-edit-area .img-wysiwyg:hover .img-size {
-  visibility: visible;
-}
-
 #main-edit-area .midtools .tool {
   z-index: 20;
   margin-left: 8px;
@@ -220,13 +211,11 @@
 
 #main-edit-area .tools {
   position: absolute;
-  // display: none;
-  visibility: hidden;
+  display: none;
   margin: 0;
   top: -16px;
   left: 0;
   right: 0;
-  height: 1px;
   z-index: 20;
   text-align: center;
   /* width: 100%;*/

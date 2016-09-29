@@ -142,10 +142,9 @@ module.exports = function(grunt) {
     express: {
       dev: {
         options: {
-          port: 9006,
+          port: 9000,
           showStack: true,
-          hostname: '127.0.0.1',
-          open: true,
+          hostname: '*',
           bases: ['.'],
           server: 'backend/main.js'
         }

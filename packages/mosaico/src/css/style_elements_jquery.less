@@ -265,16 +265,12 @@
   margin: @input-margin-top 0 @input-margin-bottom 0; padding: 0;
   position: relative;
   
-  // hides natives spinner on Chrome, FF and the "clear-cross" by IE10-11
+  // hides natives spinner on Chrome and FF
   input[type=number] {
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
-    }
-    &::-ms-clear {
-      width: 0;
-      height: 0;
     }
     -moz-appearance:textfield;
   }
@@ -292,31 +288,24 @@
     padding: 0; margin: 0;
     position: absolute;
     right: 0;
-    line-height: 1em;
+    font-size: 80%;
     cursor: pointer;
-    .ui-icon {
-      display: none;
-    }
+  }
+  .ui-icon {
+    position: absolute;
+    margin-top: -7px; // 1/2 di 16px
+    top: 50%;
+    left: .35em;
   }
   .ui-spinner-up {
     top: 0;
     border-bottom: none;
     border-radius: 0 @button-border-radius 0 0;
-    .ui-button-text:after {
-      font-family: FontAwesome;
-      font-weight: normal;
-      content: "\f0d8";
-    }
   }
   .ui-spinner-down {
     bottom: 0;
     border-top: none;
     border-radius: 0 0 @button-border-radius 0;
-    .ui-button-text:after {
-      font-family: FontAwesome;
-      font-weight: normal;
-      content: "\f0d7";
-    }
   }
 }
 

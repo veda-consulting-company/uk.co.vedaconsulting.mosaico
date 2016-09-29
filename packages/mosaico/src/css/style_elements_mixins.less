@@ -1,5 +1,4 @@
-@ie8hackprop: ~"\9"; // Match solo di IE8
-@ie10modernhack: ~"(-ms-high-contrast: active), (-ms-high-contrast: none), not screen\0"; // Match di IE10+ e altri browser moderni
+@ie8hack: \0screen;
 
 @input-padding-v: 5px; // .35em
 @input-padding-h: 7px; // .5em
@@ -12,7 +11,9 @@
   font-size: 1.0em;
   line-height: normal; // Firefox uses a "line-height: normal !important" for input elements, resulting in "1.2". If we use "1.2" on chrome we get bigger text (li has 1.25). Using "normal" works fine on both.
   min-height: (18px + @input-border-size * 2 + @input-padding-v * 2); // Select size on Firefox is 18px, while another input is 16px, this creates differences fixed by min-height.
-  min-height: (18px + @input-border-size * 2 )@ie8hackprop; // IE8 ignores box-sizing for minheight, so we don't add @input-padding-v
+  @media @ie8hack {
+    min-height: (18px + @input-border-size * 2 ); // IE8 ignores box-sizing for minheight, so we don't add @input-padding-v
+  }
   vertical-align: middle;
 }
 
@@ -148,61 +149,13 @@
   }
 }
 
-.input-select() {
-  @media @ie10modernhack {
-    position: relative;
-    select {
-      -webkit-appearance: none;
-      -moz-appearance: none;
-
-      // IE10 & 11 for appearance: none
-      &::-ms-expand {
-        display: none;
-      }
-
-      padding-right:30px;
-
-      .input-button-common;
-      // sovrapposizioni arrotondamenti
-      border-top-right-radius: 15px;
-      border-bottom-right-radius: 15px;
-    }
-
-    &:after {
-      .button-style();
-      margin: 0;
-
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      line-height: 30px;
-      width: 28px;
-      margin-right: 0;
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      
-      /*
-      content: "▼";
-      font-size: 60%;
-      */
-      
-      font-family: FontAwesome;
-      content: "\f0d7";
-      font-weight: normal;
-
-      // padding: 0 8px;
-      pointer-events:none;
-      // box-sizing: border-box;
-    }
-  }
-}
-
 .win() {
   border-radius: @large-border-radius;
   // IE8 border
   border: 0px solid @shadow-color;
-  border-width: 1px@ie8hackprop;
+  @media @ie8hack {
+    border-width: 1px;
+  }
   border-color: fade(@shadow-color, 0%);
   box-shadow: 0 2px 20px @shadow-color;
   color: @helpwin-text-color;
@@ -308,7 +261,9 @@
   border-radius: @button-border-radius;
   // IE8 border
   border: 0px solid @shadow-color;
-  border-width: 1px@ie8hackprop;
+  @media @ie8hack {
+    border-width: 1px;
+  }
   // trasparented border for supporting browsers
   border-color: fade(@shadow-color, 0%);
   box-shadow: 0 4px 10px @shadow-color;

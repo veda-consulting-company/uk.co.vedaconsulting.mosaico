@@ -3,17 +3,16 @@
 
 var $ = require("jquery");
 var ko = require("knockout");
-var kojqui = require("knockout-jqueryui"); // just for the widget plugins
 var templateConverter = require("./converter/main.js");
 var console = require("console");
+var performanceAwareCaller = require('./timed-call.js').timedCall;
 var initializeViewmodel = require("./viewmodel.js");
 var templateSystem = require('./bindings/choose-template.js');
 
 // call a given method on every plugin implementing it.
 // supports a "reverse" parameter to call the methods from the last one to the first one.
 var pluginsCall = function(plugins, methodName, args, reverse) {
-  var start, end, diff, res, results;
-  results = [];
+  var start, end, diff;
   if (typeof reverse !== 'undefined' && reverse) {
     start = plugins.length - 1;
     end = 0;
@@ -25,11 +24,9 @@ var pluginsCall = function(plugins, methodName, args, reverse) {
   }
   for (var i = start; i != end + diff; i += diff) {
     if (typeof plugins[i][methodName] !== 'undefined') {
-      res = plugins[i][methodName].apply(plugins[i], args);
-      if (typeof res !== 'undefined') results.push(res);
+      plugins[i][methodName].apply(plugins[i], args);
     }
   }
-  return results;
 };
 
 // workaround for knockout-jqueryui's buttonset/button disposal:
@@ -46,25 +43,35 @@ ko.utils.domNodeDisposal.addDisposeCallback = function(node, callback) {
   origDisposeCallback(node, newCallback);
 };
 
-var bindingPluginMaker = function(performanceAwareCaller) {
-  return {
-    viewModel: function(viewModel) {
-      try {
-        performanceAwareCaller('applyBindings', ko.applyBindings.bind(undefined, viewModel));
-      } catch (err) {
-        console.log(err, err.stack);
-        throw err;
+var bindingPlugin = {
+  viewModel: function(viewModel) {
+    applyBindings(viewModel);
+  },
+  dispose: function() {
+    unapplyBindings(global.document.body);
+  }
+};
+var applyBindings = function(viewModel) {
+  try {
+    performanceAwareCaller('applyBindings', ko.applyBindings.bind(this, viewModel));
+    return {
+      dispose: function() {
+        unapplyBindings(global.document.body);
       }
-    },
-    dispose: function() {
-      try {
-        performanceAwareCaller('unapplyBindings', ko.cleanNode.bind(this, global.document.body));
-      } catch (err) {
-        console.log(err, err.stack);
-        throw err;
-      }
-    }
-  };
+    };
+  } catch (err) {
+    console.log(err, err.stack);
+    throw err;
+  }
+};
+
+var unapplyBindings = function(element) {
+  try {
+    performanceAwareCaller('unapplyBindings', ko.cleanNode.bind(this, element));
+  } catch (err) {
+    console.log(err, err.stack);
+    throw err;
+  }
 };
 
 var templateCreator = function(templatePlugin, htmlOrElement, optionalName, templateMode) {
@@ -86,9 +93,8 @@ var templateCreator = function(templatePlugin, htmlOrElement, optionalName, temp
     templatePlugin.adder(tmpName + '-preview', $el.html());
     templatePlugin.adder(tmpName + '-wysiwyg', $el.html());
 
-    // $head.attr('data-bind', 'block: content');
+    $head.attr('data-bind', 'block: content');
     $head.children().detach();
-    $head.html("<!-- ko block: content --><!-- /ko -->");
     $head.before('<!-- ko withProperties: { templateMode: \'head\' } -->');
     $head.after('<!-- /ko -->');
     $body.html("<!-- ko block: content --><!-- /ko -->");
@@ -120,76 +126,56 @@ function _viewModelPluginInstance(pluginFunction) {
   };
 }
 
-var _templateUrlConverter = function(basePath, url) {
-  if (!url.match(/^[^\/]*:/) && !url.match(/^\//) && !url.match(/^\[/) && !url.match(/^#?$/)) {
-    // TODO this could be smarter joining the urls...
-    return basePath + url;
-  } else {
-    return null;
-  }
-};
+function canonicalize(url) {
+  var div = global.document.createElement('div');
+  div.innerHTML = "<a></a>";
+  div.firstChild.href = url; // Ensures that the href is properly escaped
+  div.innerHTML = div.innerHTML; // Run the current innerHTML back through the parser
+  return div.firstChild.href;
+}
 
-var templateLoader = function(performanceAwareCaller, templateFileName, templateMetadata, jsorjson, extensions, galleryUrl) {
-  var templateFile = typeof templateFileName == 'string' ? templateFileName : templateMetadata.template;
+var templateLoader = function(templateFileOrMetadata, jsorjson, extensions, galleryUrl) {
+  var templateFile = typeof templateFileOrMetadata == 'string' ? templateFileOrMetadata : templateFileOrMetadata.template;
   var templatePath = "./";
   var p = templateFile.lastIndexOf('/');
   if (p != -1) {
     templatePath = templateFile.substr(0, p + 1);
   }
-
-  var templateUrlConverter = _templateUrlConverter.bind(undefined, templatePath);
+  templatePath = canonicalize(templatePath);
 
   var metadata;
-  if (typeof templateFile == 'string') {
+  if (typeof templateFileOrMetadata == 'string') {
     metadata = {
-      template: templateFile,
+      template: templateFileOrMetadata,
       // TODO l10n?
       name: 'No name',
       created: Date.now()
     };
   } else {
-    metadata = templateMetadata;
+    metadata = templateFileOrMetadata;
   }
 
   $.get(templateFile, function(templatecode) {
-    var res = templateCompiler(performanceAwareCaller, templateUrlConverter, "template", templatecode, jsorjson, metadata, extensions, galleryUrl);
+    var res = templateCompiler(templatePath, "template", templatecode, jsorjson, metadata, extensions, galleryUrl);
     res.init();
   });
 };
 
-var templateCompiler = function(performanceAwareCaller, templateUrlConverter, templateName, templatecode, jsorjson, metadata, extensions, galleryUrl) {
+var templateCompiler = function(basePath, templateName, templatecode, jsorjson, metadata, extensions, galleryUrl) {
   // we strip content before <html> tag and after </html> because jquery doesn't parse it.
   // we'll keep it "raw" and use it in the preview/output methods.
   var res = templatecode.match(/^([\S\s]*)([<]html[^>]*>[\S\s]*<\/html>)([\S\s]*)$/i);
   if (res === null) throw "Unable to find <html> opening and closing tags in the template";
   var prefix = res[1];
   // we parse the html content after replacing the tag name for html/head/body so to avoid jquery issues in parsing.
-  var basicStructure = { '<html': 0, '<head': 0, '<body': 0, '</html': 0, '</body': 0, '</head': 0 };
   var html = res[2].replace(/(<\/?)(html|head|body)([^>]*>)/gi, function(match, p1, p2, p3) {
-    basicStructure[(p1+p2).toLowerCase()] += 1;
     return p1 + 'replaced' + p2 + p3;
   });
-  for (var ele in basicStructure) if (basicStructure.hasOwnProperty(ele)) if (basicStructure[ele] != 1) {
-    if (basicStructure[ele] === 0) throw "ERROR: missing mandatory element "+ele+">";
-    if (basicStructure[ele] > 1) throw "ERROR: multiple element "+ele+"> occourences are not supported (found "+basicStructure[ele]+" occourences)";
-  }
   var postfix = res[3];
   var blockDefs = [];
   var enableUndo = true;
   var enableRecorder = true;
   var baseThreshold = '+$root.contentListeners()';
-
-  var plugins = [];
-
-  if (typeof extensions !== 'undefined') {
-    for (var i = 0; i < extensions.length; i++) {
-      if (typeof extensions[i] == 'function') {
-        plugins.push(_viewModelPluginInstance(extensions[i]));
-      } else {
-        plugins.push(extensions[i]);
-      }
-    }
-  }
 
   var createdTemplates = [];
   var templatesPlugin = {
@@ -220,20 +206,14 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
   var myTemplateCreator = templateCreator.bind(undefined, templatesPlugin);
 
   // first pass: we "compile" the template into a termplateDef object
-  var templateDef = performanceAwareCaller('translateTemplate', templateConverter.translateTemplate.bind(undefined, templateName, html, templateUrlConverter, myTemplateCreator));
+  var templateDef = performanceAwareCaller('translateTemplate', templateConverter.translateTemplate.bind(undefined, templateName, html, basePath, myTemplateCreator));
 
   // second pass: given the templateDef we create a base content model object for this template.
   var content = performanceAwareCaller('generateModel', templateConverter.wrappedResultModel.bind(undefined, templateDef));
 
   // third pass: we create "style/content editors" for every block
-  var widgets = {};
-  var widgetPlugins = pluginsCall(plugins, 'widget', [$, ko, kojqui]);
-  for (var wi = 0; wi < widgetPlugins.length; wi++) {
-    widgets[widgetPlugins[wi].widget] = widgetPlugins[wi];
-  }
-  blockDefs.push.apply(blockDefs, performanceAwareCaller('generateEditors', templateConverter.generateEditors.bind(undefined, templateDef, widgets, templateUrlConverter, myTemplateCreator, baseThreshold)));
+  blockDefs.push.apply(blockDefs, performanceAwareCaller('generateEditors', templateConverter.generateEditors.bind(undefined, templateDef, basePath, myTemplateCreator, baseThreshold)));
 
-  var incompatibleTemplate = false;
   if (typeof jsorjson !== 'undefined' && jsorjson !== null) {
     var unwrapped;
     if (typeof jsorjson == 'string') {
@@ -246,16 +226,19 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
     var checkModelRes = performanceAwareCaller('checkModel', templateConverter.checkModel.bind(undefined, content._unwrap(), blockDefs, unwrapped));
     // if checkModelRes is 1 then the model is not fully compatible but we fixed it
     if (checkModelRes == 2) {
-      console.error("Trying to compile an incompatible template version!", content._unwrap(), blockDefs, unwrapped);
-      incompatibleTemplate = true;
+      console.error("Trying to compile an incompatible template version!");
+      $('#incompatible-template').dialog({
+        modal: true,
+        appendTo: '#mo-body',
+        buttons: {
+          Ok: function() {
+            $(this).dialog("close");
+          }
+        }
+      });
     }
 
-    try {
-      content._wrap(unwrapped);
-    } catch (ex) {
-      console.error("Unable to inject model content!", ex);
-      incompatibleTemplate = true;
-    }
+    content._wrap(unwrapped);
   }
 
   // This build the template for the preview/output, but concatenating prefix, template and content and stripping the "replaced" prefix added to "problematic" tag (html/head/body)
@@ -272,11 +255,20 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
     }
   };
 
-  plugins.push(iFramePlugin);
-  plugins.push(templatesPlugin);
+  var plugins = [iFramePlugin, templatesPlugin];
+
+  if (typeof extensions !== 'undefined') {
+    for (var i = 0; i < extensions.length; i++) {
+      if (typeof extensions[i] == 'function') {
+        plugins.push(_viewModelPluginInstance(extensions[i]));
+      } else {
+        plugins.push(extensions[i]);
+      }
+    }
+  }
 
   // initialize the viewModel object based on the content model.
-  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockDefs, templateUrlConverter, galleryUrl));
+  var viewModel = performanceAwareCaller('initializeViewmodel', initializeViewmodel.bind(this, content, blockDefs, basePath, galleryUrl));
 
   viewModel.metadata = metadata;
   // let's run some version check on template and editor used to build the model being loaded.
@@ -295,31 +287,24 @@ var templateCompiler = function(performanceAwareCaller, templateUrlConverter, te
 
   templateSystem.init();
 
+
+
   // everything's ready, start knockout bindings.
-  plugins.push(bindingPluginMaker(performanceAwareCaller));
+  plugins.push(bindingPlugin);
 
   pluginsCall(plugins, 'viewModel', [viewModel]);
 
-  if (incompatibleTemplate) {
-    $('#incompatible-template').dialog({
-      modal: true,
-      appendTo: '#mo-body',
-      buttons: {
-        Ok: function() {
-          $(this).dialog("close");
-        }
-      }
-    });
-  }
+  // dispose function      
+  var dispose = function() {
+    pluginsCall(plugins, 'dispose', undefined, true);
+  };
 
   return {
     model: viewModel,
     init: function() {
       pluginsCall(plugins, 'init', undefined, true);
     },
-    dispose: function() {
-      pluginsCall(plugins, 'dispose', undefined, true);
-    }
+    dispose: dispose
   };
 
 };

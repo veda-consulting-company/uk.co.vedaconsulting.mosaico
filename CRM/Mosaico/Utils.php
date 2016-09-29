@@ -311,6 +311,7 @@ class CRM_Mosaico_Utils {
       }
 
       case "save": {
+        $result = array();
         $msgTplId = NULL;
         $hashKey  = CRM_Utils_Type::escape($_POST['key'], 'String');
         if (!$hashKey) {
@@ -357,11 +358,15 @@ class CRM_Mosaico_Utils {
         $mosTpl->find(TRUE);
         $mosTpl->copyValues($mosaicoTemplate);
         $mosTpl->save();
-
+        if ($mosTpl->id) {
+          $result['id']     = $mosTpl->id;
+        }
+        CRM_Utils_JSON::output($result);
         break;
       }
 
       case "email": {
+        $result = array();
         if ( !CRM_Utils_Rule::email( $_POST['rcpt'] ) ) {
           CRM_Core_Session::setStatus('Recipient Email address not found');
           return FALSE;
@@ -379,10 +384,15 @@ class CRM_Mosaico_Utils {
           'html'   => $html,
         );
 
-        if (!CRM_Utils_Mail::send($mailParams)) {
+        $sent    = FALSE;
+        if (CRM_Utils_Mail::send($mailParams)) {
+          $result['sent'] = TRUE;
+          CRM_Utils_JSON::output($result);
+        } else {
+          CRM_Utils_JSON::output($result);
           return FALSE;
         }
-
+        
         break;
       }
     }

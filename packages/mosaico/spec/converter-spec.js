@@ -17,7 +17,7 @@ return currentDocument.apply(currentDocument, arguments);
 */
 mockery.registerMock('jquery', require('cheerio'));
 
-mockery.registerMock('jsep-local', require('../bower_components/jsep/src/jsep.js'));
+mockery.registerMock('jsep', require('../bower_components/jsep/src/jsep.js'));
 mockery.registerMock('mensch/lib/parser.js', function() {
   var parse = require('../bower_components/mensch').parse;
   return parse.apply(parse, arguments);
@@ -28,6 +28,10 @@ var mockedBindingProvider = function(a, b) {
   // console.log("binding provider for", a, b);
   return "$" + a + "[" + b + "]";
 };
+
+var templateUrlConverter = function(url) {
+  return url;
+}
 
 describe('Template converter', function() {
 
@@ -100,10 +104,10 @@ describe('Template converter', function() {
       return p1 + 'replaced' + p2 + p3;
     });
 
-    var templateDef = translateTemplate('template', html, '', myTemplateCreator);
+    var templateDef = translateTemplate('template', html, templateUrlConverter, myTemplateCreator);
     var model = modelDef.generateResultModel(templateDef);
 
-    var expectedModel = JSON.parse("" + fs.readFileSync("templates/versafix-1/template-versafix-1.model.json"));
+    var expectedModel = JSON.parse("" + fs.readFileSync("spec/data/template-versafix-1.model.json"));
 
     expect(model).toEqual(expectedModel);
   });

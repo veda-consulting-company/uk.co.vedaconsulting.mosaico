@@ -21,7 +21,8 @@
   },
   "browserify-shim": {
     "jquery": "global:jQuery",
-    "jquery.ui/sortable": "global:jQuery",
+    "jquery-ui/sortable": "global:jQuery",
+    "jquery-ui/draggable": "global:jQuery",
     "knockout": "global:ko",
     "evol-colorpicker": {},
     "knockout-jqueryui": "global:kojqui",
@@ -74,6 +75,7 @@
   "license": "GPL",
   "scripts": {
     "postinstall": "bower-npm-install --non-interactive",
-    "deps": "bower-npm-install --non-interactive"
+    "deps": "bower-npm-install --non-interactive",
+    "test": "grunt jasmine_node"
   }
 }

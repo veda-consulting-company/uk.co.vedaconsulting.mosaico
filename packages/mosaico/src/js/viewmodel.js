@@ -23,6 +23,7 @@ toastr.options = {
   "hideMethod": "fadeOut"
 };
 
+/* NOTE: translations moved to "plugin"
 var strings = {
   'show preview and send test': 'Visualizza una anteprima e fai un invio di test',
   // Strings for app.js
@@ -53,6 +54,9 @@ var strings = {
   'Gallery': 'Galleria',
   'Preview': 'Anteprima',
   'Show live preview': 'Mostra anteprima live',
+  'Large screen': 'Schermo grande',
+  'Tablet': 'Tablet',
+  'Smartphone': 'Smartphone',
   'Show preview and send test': 'Visualizza una anteprima e fai un invio di test',
   'Download template': 'Scarica il template',
   'Save template': 'Salva il template',
@@ -112,8 +116,9 @@ var strings = {
   'Drop here': 'Rilascia qui',
 
 };
+*/
 
-function initializeEditor(content, blockDefs, basePath, galleryUrl) {
+function initializeEditor(content, blockDefs, thumbPathConverter, galleryUrl) {
 
   var viewModel = {
     galleryRecent: ko.observableArray([]).extend({
@@ -135,10 +140,7 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     showTheme: ko.observable(false),
     showGallery: ko.observable(false),
     debug: ko.observable(false),
-    lang: ko.observable('en'),
-    contentListeners: ko.observable(0),
-
-    basePath: basePath
+    contentListeners: ko.observable(0)
   };
 
   // viewModel.content = content._instrument(ko, content, undefined, true);
@@ -147,36 +149,61 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
 
   viewModel.notifier = toastr;
 
-  viewModel.t = function(key, paramObj) {
-    var lang = viewModel.lang();
-    var res = strings[key];
-    if (typeof res == 'undefined') res = '##' + key + '##';
-    // TODO Temporary setting to show english strings.
-    else if (lang == 'en') res = key;
+  // Does token substitution in i18next style
+  viewModel.tt = function(key, paramObj) {
     if (typeof paramObj !== 'undefined')
       for (var prop in paramObj)
         if (paramObj.hasOwnProperty(prop)) {
-          res = res.replace(new RegExp('__' + prop + '__', 'g'), paramObj[prop]);
+          key = key.replace(new RegExp('__' + prop + '__', 'g'), paramObj[prop]);
         }
-    return res;
+    return key;
+  };
+
+  // Simply maps to tt: language plugins can override this method to define their own language
+  // handling.
+  // If this method invokes an observable (e.g: viewModel.lang()) then the UI language will automatically
+  // update when the "lang" observable changes.
+  viewModel.t = viewModel.tt;
+
+  // currently called by editor.html to translate template-defined keys (label, help, descriptions)
+  // the editor always uses the "template" category for that strings.
+  // you can override this method as you like in order to provide translation or change the strings in any way.
+  viewModel.ut = function(category, key) {
+    return key;
+  };
+
+  viewModel.templatePath = thumbPathConverter;
+
+  viewModel.remoteUrlProcessor = function(url) {
+    return url;
+  };
+
+  viewModel.remoteFileProcessor = function(fileObj) {
+    if (typeof fileObj.url !== 'undefined') fileObj.url = viewModel.remoteUrlProcessor(fileObj.url);
+    if (typeof fileObj.thumbnailUrl !== 'undefined') fileObj.thumbnailUrl = viewModel.remoteUrlProcessor(fileObj.thumbnailUrl);
+    // deleteUrl?
+    return fileObj;
   };
 
   // toolbox.tmpl.html
   viewModel.loadGallery = function() {
     viewModel.galleryLoaded('loading');
-    // TODO l'upload non puo' chiaramente avvenire su bago.it
-    // lo stesso url e' usato anche nei bindings
     var url = galleryUrl ? galleryUrl : '/upload/';
     // retrieve the full list of remote files
     $.getJSON(url, function(data) {
+      for (var i = 0; i < data.files.length; i++) data.files[i] = viewModel.remoteFileProcessor(data.files[i]);
       viewModel.galleryLoaded(data.files.length);
+      // TODO do I want this call to return relative paths? Or just absolute paths?
       viewModel.galleryRemote(data.files.reverse());
+    }).fail(function() {
+      viewModel.galleryLoaded(false);
+      viewModel.notifier.error(viewModel.t('Unexpected error listing files'));
     });
   };
 
   // img-wysiwyg.tmpl.html
   viewModel.fileToImage = function(obj, event, ui) {
-    console.log("fileToImage", obj);
+    // console.log("fileToImage", obj);
     return obj.url;
   };
 
@@ -276,7 +303,8 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     // find the newly added block and select it!
     var added = viewModel.content().mainBlocks().blocks()[pos]();
     viewModel.selectBlock(added, true);
-    return true;
+    // prevent click propagation (losing url hash - see #43)
+    return false;
   };
 
   // Used by stylesheet.js to create multiple styles
@@ -434,23 +462,32 @@ function initializeEditor(content, blockDefs, basePath, galleryUrl) {
     ko.removeNode(frameEl);
 
     content = content.replace(/<script ([^>]* )?type="text\/html"[^>]*>[\s\S]*?<\/script>/gm, '');
-    content = content.replace(/<!-- ko [^>]* -->/g, '');
+    // content = content.replace(/<!-- ko .*? -->/g, ''); // sometimes we have expressions like (<!-- ko var > 2 -->)
+    content = content.replace(/<!-- ko ((?!--).)*? -->/g, ''); // this replaces the above with a more formal (but slower) solution
     content = content.replace(/<!-- \/ko -->/g, '');
     // Remove data-bind/data-block attributes
     content = content.replace(/ data-bind="[^"]*"/gm, '');
     // Remove trash leftover by TinyMCE
     content = content.replace(/ data-mce-(href|src)="[^"]*"/gm, '');
+
     // Replace "replacedstyle" to "style" attributes (chrome puts replacedstyle after style)
     content = content.replace(/ style="[^"]*"([^>]*) replaced(style="[^"]*")/gm, '$1 $2');
     // Replace "replacedstyle" to "style" attributes (ie/ff have reverse order)
     content = content.replace(/ replaced(style="[^"]*")([^>]*) style="[^"]*"/gm, ' $1$2');
-    // Replace replacedhttp-equiv and other "replaced" attributes (TODO: maybe too broad!)
-    content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
+    content = content.replace(/ replaced(style="[^"]*")/gm, ' $1');
+
+    // same as style, but for http-equiv (some browser break it if we don't replace, but then we find it duplicated)
+    content = content.replace(/ http-equiv="[^"]*"([^>]*) replaced(http-equiv="[^"]*")/gm, '$1 $2');
+    content = content.replace(/ replaced(http-equiv="[^"]*")([^>]*) http-equiv="[^"]*"/gm, ' $1$2');
+    content = content.replace(/ replaced(http-equiv="[^"]*")/gm, ' $1');
+
+    // We already replace style and http-equiv and we don't need this.
+    // content = content.replace(/ replaced([^= ]*=)/gm, ' $1');
     // Restore conditional comments
     content = conditional_restore(content);
-    var trash = content.match(/ data-[^ =]+(="[^"]+")? /);
+    var trash = content.match(/ data-[^ =]+(="[^"]+")? /) || content.match(/ replaced([^= ]*=)/);
     if (trash) {
-      console.warn("Output HTML contains unexpected data- attributes...", trash);
+      console.warn("Output HTML contains unexpected data- attributes or replaced attributes", trash);
     }
 
     return content;

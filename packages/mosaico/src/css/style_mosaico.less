@@ -130,7 +130,8 @@
 
   &@{borderElementSelector} {
     content: "";
-    display: none;
+    // display: none;
+    visibility: hidden;
     position: absolute;
     z-index: -1;
     top: -3px; bottom: -3px;
@@ -144,6 +145,7 @@
   }
   &@{selectedSelector}@{borderElementSelector} {
     display: block;
+    visibility: visible;
 
     border: @selectedSize dashed @mosaico-selection-color;
     border-left-width: @size;
@@ -153,6 +155,7 @@
   }
   &:hover@{borderElementSelector} {
     display: block;
+    visibility: visible;
     outline-width: 1px;
     outline-style: solid;
     border-top-width: 0;

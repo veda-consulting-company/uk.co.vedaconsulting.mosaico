@@ -323,7 +323,12 @@ class CRM_Mosaico_Utils {
         if($mosTpl->find(TRUE)){
           $msgTplId = $mosTpl->msg_tpl_id;
         }
-
+        //Mv: editied msg template id stored in local storage now. because we cleared up dummy template in DB once we build hashkey with template and metadata.
+        //if we not find edited msg template here, then its assumes is a new template and creates duplicates.  
+        elseif (!empty($_POST['edit_msg_tpl_id'])) {
+          $msgTplId = $_POST['edit_msg_tpl_id'];
+        }
+		
         $name = "Mosaico Template " . date('d-m-Y H:i:s'); 
         if (CRM_Utils_Type::escape($_POST['name'], 'String')) {
           $name = $_POST['name'];

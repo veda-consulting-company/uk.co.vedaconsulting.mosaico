@@ -43,6 +43,14 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       metaName = global.prompt(viewModel.t("Please enter the Message title"), metaName);
       viewModel.metadata.name = metaName;
       global.localStorage.setItem("name-" + mdkey, metaName);
+
+      var editMsgTplId = null;
+      if(global.localStorage.getItem("edit_msg_tpl_id-" + mdkey)){
+        editMsgTplId = global.localStorage.getItem("edit_msg_tpl_id-" + mdkey);
+      }
+      if(editMsgTplId){
+        viewModel.metadata.msgtplid = editMsgTplId;
+      }
       // end
       if (typeof viewModel.metadata.key == 'undefined') {
         console.warn("Unable to find ket in metadata object...", viewModel.metadata);
@@ -58,6 +66,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
         action: 'save',
         key:  viewModel.metadata.key,
         name: viewModel.metadata.name,
+        edit_msg_tpl_id: viewModel.metadata.msgtplid, //MV include edited msg tpl id in post, to avoid duplication template we use this id when save template,
         html: viewModel.exportHTML(),
         metadata: viewModel.exportMetadata(),
         template: viewModel.exportJSON(),

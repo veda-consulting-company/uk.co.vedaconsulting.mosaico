@@ -49,4 +49,17 @@
    <title>Integration with Mosaico</title>
    <access_arguments>access CiviCRM</access_arguments>
   </item>
+  <item>
+    <path>civicrm/mosaico/ajax/edit</path>
+   <page_callback>CRM_Mosaico_Utils::editCiviMsgTemplateInMosaico</page_callback>
+   <title>Integration with Mosaico</title>
+   <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+   <path>civicrm/mosaico/ajax/settemplate</path>
+   <page_callback>CRM_Mosaico_Utils::setTemplateinMosaicoCustomTable</page_callback>
+   <title>Update Mosaico Template</title>
+   <access_arguments>access CiviCRM</access_arguments>
+  </item>
+
 </menu>

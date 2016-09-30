@@ -78,7 +78,9 @@
       	$.ajax({ type: "POST", url: postUrl, data: {id:msgTplId}, async: true, dataType: 'json',
       	  success: function(result) {
       	    //create mos template and update meta data in civicrm_mosaico_msg_template table
-      	    createMetaData(result);
+            if (result.newMosaicoTplId) {
+              createMetaData(result);
+            }
       	  },
       	  error : function() {
       	    CRM.alert('Could not copy mosaico template', 'Error');

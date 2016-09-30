@@ -1123,6 +1123,10 @@ ORDER BY   civicrm_email.is_bulkmail DESC
         "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
         TRUE, NULL, TRUE, TRUE
       ),
+      'mosaicounsubscribeUrl' => CRM_Utils_System::url('civicrm/mailing/unsubscribe',
+        "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
+        TRUE, NULL, TRUE, TRUE
+      ),//Make this token url as same as unsubscribeUrl token, We will replace this url with <a> tag in token replacement method
       'resubscribeUrl' => CRM_Utils_System::url('civicrm/mailing/resubscribe',
         "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
         TRUE, NULL, TRUE, TRUE
@@ -1199,7 +1203,7 @@ ORDER BY   civicrm_email.is_bulkmail DESC
       $email,
       $isForward
     );
-
+    
     //set from email who is forwarding it and not original one.
     if ($fromEmail) {
       unset($headers['From']);
@@ -1499,8 +1503,13 @@ ORDER BY   civicrm_email.is_bulkmail DESC
     elseif ($type == 'contact') {
       $data = CRM_Utils_Token::getContactTokenReplacement($token, $contact, FALSE, FALSE, $useSmarty);
     }
-    elseif ($type == 'action') {
-      $data = CRM_Utils_Token::getActionTokenReplacement($token, $verp, $urls, $html);
+    elseif ($type == 'action') {// mosaicounsubscribeUrl token is also type of action and here we append the url in <a tag for unsubscribe text
+      if ($token == 'mosaicounsubscribeUrl') {
+        $mosaicounsubscribeUrl = $urls['mosaicounsubscribeUrl'];
+        $data = "<a href={$mosaicounsubscribeUrl}>Unsubscribe</a>";
+      } else {
+        $data = CRM_Utils_Token::getActionTokenReplacement($token, $verp, $urls, $html);
+      }
     }
     elseif ($type == 'domain') {
       $domain = CRM_Core_BAO_Domain::getDomain();

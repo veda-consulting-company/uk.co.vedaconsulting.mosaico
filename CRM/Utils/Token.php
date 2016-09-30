@@ -48,7 +48,8 @@ class CRM_Utils_Token {
       'resubscribe',
       'resubscribeUrl',
       'subscribeUrl',
-      'mosaicounsubscribeUrl',// new mosaico unsubscribe token
+      'etbUnsubscribeUrl',// new mosaico unsubscribe token
+      'etbOptOutUrl',// new mosaico optout token
     ),
     'mailing' => array(
       'id',
@@ -102,7 +103,8 @@ class CRM_Utils_Token {
           'action.optOutUrl' => ts("'Opt out via web page' - creates a link for recipients to click if they want to opt out of receiving emails from your organization. Alternatively, you can include the 'Opt out via email' token."),
           'action.unsubscribe' => ts("'Unsubscribe via email' - displays an email address for recipients to unsubscribe from the specific mailing list used to send this message."),
           'action.unsubscribeUrl' => ts("'Unsubscribe via web page' - creates a link for recipients to unsubscribe from the specific mailing list used to send this message. Alternatively, you can include the 'Unsubscribe via email' token or one of the Opt-out tokens."),
-          'action.mosaicounsubscribeUrl' => ts("'Unsubscribe via web page' - creates a link for recipients to unsubscribe from the specific mailing list used to send this message. Alternatively, you can include the 'Unsubscribe via email' token or one of the Opt-out tokens."),//make mosaico unsubscribe token is also in this required section, so that mailing will pass to next when creating mailing. Otherwise it will complaain.
+          'action.etbUnsubscribeUrl' => ts("'Unsubscribe via web page' - creates a link for recipients to unsubscribe from the specific mailing list used to send this message. Alternatively, you can include the 'Unsubscribe via email' token or one of the Opt-out tokens."),//make mosaico unsubscribe url token is also in this required section, so that mailing will pass to next when creating mailing. Otherwise it will complaain.
+          'action.etbOptOutUrl' => ts("'Opt out via web page' - creates a link for recipients to click if they want to opt out of receiving emails from your organization. Alternatively, you can include the 'Opt out via email' token."),//make mosaico optout url token is also in this required section, so that mailing will pass to next when creating mailing. Otherwise it will complaain.
         ),
       );
     }

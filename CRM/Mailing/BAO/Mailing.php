@@ -1123,7 +1123,7 @@ ORDER BY   civicrm_email.is_bulkmail DESC
         "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
         TRUE, NULL, TRUE, TRUE
       ),
-      'mosaicounsubscribeUrl' => CRM_Utils_System::url('civicrm/mailing/unsubscribe',
+      'etbUnsubscribeUrl' => CRM_Utils_System::url('civicrm/mailing/unsubscribe',
         "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
         TRUE, NULL, TRUE, TRUE
       ),//Make this token url as same as unsubscribeUrl token, We will replace this url with <a> tag in token replacement method
@@ -1135,6 +1135,10 @@ ORDER BY   civicrm_email.is_bulkmail DESC
         "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
         TRUE, NULL, TRUE, TRUE
       ),
+      'etbOptOutUrl' => CRM_Utils_System::url('civicrm/mailing/optout',
+        "reset=1&jid={$job_id}&qid={$event_queue_id}&h={$hash}",
+        TRUE, NULL, TRUE, TRUE
+      ),//Make this token url as same as optOutUrl token, We will replace this url with <a> tag in token replacement method
       'subscribeUrl' => CRM_Utils_System::url('civicrm/mailing/subscribe',
         'reset=1',
         TRUE, NULL, TRUE, TRUE
@@ -1503,11 +1507,14 @@ ORDER BY   civicrm_email.is_bulkmail DESC
     elseif ($type == 'contact') {
       $data = CRM_Utils_Token::getContactTokenReplacement($token, $contact, FALSE, FALSE, $useSmarty);
     }
-    elseif ($type == 'action') {// mosaicounsubscribeUrl token is also type of action and here we append the url in <a tag for unsubscribe text
-      if ($token == 'mosaicounsubscribeUrl') {
-        $mosaicounsubscribeUrl = $urls['mosaicounsubscribeUrl'];
-        $data = "<a href={$mosaicounsubscribeUrl}>Unsubscribe</a>";
-      } else {
+    elseif ($type == 'action') {// etbUnsubscribeUrl token is also type of action and here we append the url in <a tag for unsubscribe text
+      if ($token == 'etbUnsubscribeUrl') {
+        $mosaicoUnsubscribeUrl = $urls['etbUnsubscribeUrl'];
+        $data = "<a href={$mosaicoUnsubscribeUrl}>Unsubscribe</a>";
+      } elseif ($token == 'etbOptOutUrl') { // etbOptOutUrl is also type of action and here we append the url in <a tag for optout text
+        $mosaicoOptOutUrl = $urls['etbOptOutUrl'];
+        $data = "<a href={$mosaicoOptOutUrl}>Opt out</a>";
+      }else {
         $data = CRM_Utils_Token::getActionTokenReplacement($token, $verp, $urls, $html);
       }
     }

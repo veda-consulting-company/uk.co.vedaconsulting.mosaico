@@ -78,7 +78,7 @@
       	$.ajax({ type: "POST", url: postUrl, data: {id:msgTplId}, async: true, dataType: 'json',
       	  success: function(result) {
       	    //create mos template and update meta data in civicrm_mosaico_msg_template table
-      	    createMetaData(result.newMosaicoTplId, result.from_hash_key, result.name, result.from_template, result.from_metadata);
+      	    createMetaData(result);
       	  },
       	  error : function() {
       	    CRM.alert('Could not copy mosaico template', 'Error');
@@ -86,13 +86,17 @@
       	});
       });
             
-      function createMetaData(newMosaicoTplId, from_hash_key, name, from_template, from_metadata) {
+      function createMetaData(result) {
+        //define variables we need 
+        var newMosaicoTplId = result.newMosaicoTplId;
+        var from_template   = result.from_template;
+        var from_metadata   = result.from_metadata;
+        var name            = result.name;
       	// mosaico tab url
       	var mosaicoTabUrl = {/literal}"{crmURL p='civicrm/admin/messageTemplates' q="reset=1&activeTab=mosaico" h=0 }"{literal};
       	//generate random hash key
       	var rnd = Math.random().toString(36).substr(2, 7);
-      	// get template of original mosaico msg template & metadata
-      	var template = from_template;
+      	// get metadata of original mosaico msg template
       	var fromMetaData =  JSON.parse(from_metadata);
             
       	// Create new meta data
@@ -100,7 +104,7 @@
       	// Save metadata, template and name details in local storage.
       	localStorage.setItem("name-" + rnd, name);
       	localStorage.setItem("metadata-" + rnd, JSON.stringify(metadata));
-      	localStorage.setItem("template-" + rnd, template);
+      	localStorage.setItem("template-" + rnd, from_template);
       	// get new meta data saved on local
       	var newMetaData = localStorage.getItem("metadata-" + rnd);
       	

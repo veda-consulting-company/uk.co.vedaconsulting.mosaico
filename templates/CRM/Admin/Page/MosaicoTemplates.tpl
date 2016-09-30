@@ -52,6 +52,9 @@
           $('#mosaicoTemplates').hide();
         }
       });
+      // Fill the localstaorage for mosaico builder to work. This way data infact is being loaded from database
+      // even if it may not seem so, for the mosaico builder.
+      // FIXME: do it only for template whose edit is clicked.
       var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/getallmd' h=0 }"{literal};
       console.log('posturl=' + postUrl);
       $.ajax({ type: "POST", url: postUrl, data: {}, async: true, dataType: 'json',

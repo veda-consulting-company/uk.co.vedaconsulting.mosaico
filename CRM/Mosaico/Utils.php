@@ -544,7 +544,5 @@ class CRM_Mosaico_Utils {
       $result = array('newMosaicoTplId' => $mosTpl->id, 'from_hash_key' => $mosTpl->hash_key, 'name' => $mosTpl->name);
       CRM_Utils_JSON::output($result);
     }
-    
   }
-    
 }

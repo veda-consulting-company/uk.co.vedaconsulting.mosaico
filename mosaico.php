@@ -223,7 +223,8 @@ function mosaico_civicrm_pageRun(&$page){
       $action = sprintf('<span>
         <a href="%s" class="action-item crm-hover-button %s"  value="xx" title="Open in Mosaico" >Open in Mosaico Editor</a>
       </span>', $editURL, $editableClassName);
-      $rows['userTemplates'][$key]['action'] .= $action;
+      // DS: not fully working yet.
+      //$rows['userTemplates'][$key]['action'] .= $action;
     }
 
     $smarty->assign('rows', $rows);    

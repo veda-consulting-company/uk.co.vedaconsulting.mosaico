@@ -80,6 +80,8 @@
       	    //create mos template and update meta data in civicrm_mosaico_msg_template table
             if (result.newMosaicoTplId) {
               createMetaData(result);
+            } else {
+              CRM.alert('Something went wrong on coping', 'Error');
             }
       	  },
       	  error : function() {

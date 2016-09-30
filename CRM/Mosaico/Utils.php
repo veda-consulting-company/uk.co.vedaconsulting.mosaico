@@ -541,10 +541,14 @@ class CRM_Mosaico_Utils {
       $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
       $mosTpl->copyValues($mosaicoTemplate);
       $mosTpl->save();
-      $result = array('newMosaicoTplId' => $mosTpl->id, 'from_hash_key' => $mosTpl->hash_key, 'name' => $mosTpl->name);
+      $result = array(
+        'newMosaicoTplId' => $mosTpl->id,
+        'from_hash_key' => $mosTpl->hash_key,
+        'name' => $mosTpl->name,
+        'from_template' => $mosTpl->template,
+        'from_metadata' => $mosTpl->metadata,
+        );
       CRM_Utils_JSON::output($result);
     }
-    
   }
-    
 }

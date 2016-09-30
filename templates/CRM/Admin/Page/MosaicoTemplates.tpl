@@ -52,6 +52,9 @@
           $('#mosaicoTemplates').hide();
         }
       });
+      // Fill the localstaorage for mosaico builder to work. This way data infact is being loaded from database
+      // even if it may not seem so, for the mosaico builder.
+      // FIXME: do it only for template whose edit is clicked.
       var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/getallmd' h=0 }"{literal};
       console.log('posturl=' + postUrl);
       $.ajax({ type: "POST", url: postUrl, data: {}, async: true, dataType: 'json',
@@ -67,53 +70,66 @@
         }
       });
       //Copy mosaico template
+      // step1: create new civicrm msg template using msg template id which is being copied
+      // step2: crate new civicrm mosaico msg template using created new civicrm msg tpl id in step 1 + civicrm mosaico msg template fields(metadata, template, etc) which are linked to copying msg temple
+      // step3: generate new hash key and new metadata using the data which is availabe in newly created civicrm mosaico msg template in step 2
+      // step4: save name, metadata and template in local storage
+      // step5: update metadata, hash key for newly created civicrm mosaico template in step 2
       $('.copy-template').click(function(event) {
-	var msgTplId = $(this).attr('value');
-	var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/copy' h=0 }"{literal};
-	$.ajax({ type: "POST", url: postUrl, data: {id:msgTplId}, async: true, dataType: 'json',
-	  success: function(result) {
-	    //create mos template and update meta data in civicrm_mosaico_msg_template table
-	    createMetaData(result.newMosaicoTplId, result.from_hash_key, result.name);
-	  },
-	  error : function() {
-	    CRM.alert('Could not copy mosaico template', 'Error');
-	  }
-	});
+      	var msgTplId = $(this).attr('value');
+      	var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/copy' h=0 }"{literal};
+      	$.ajax({ type: "POST", url: postUrl, data: {id:msgTplId}, async: true, dataType: 'json',
+      	  success: function(result) {
+      	    //create mos template and update meta data in civicrm_mosaico_msg_template table
+            if (result.newMosaicoTplId) {
+              createMetaData(result);
+            } else {
+              CRM.alert('Something went wrong on coping', 'Error');
+            }
+      	  },
+      	  error : function() {
+      	    CRM.alert('Could not copy mosaico template', 'Error');
+      	  }
+      	});
       });
-      
-      function createMetaData(newMosaicoTplId, from_hash_key, name) {
-	// mosaico tab url
-	var mosaicoTabUrl = {/literal}"{crmURL p='civicrm/admin/messageTemplates' q="reset=1&activeTab=mosaico" h=0 }"{literal};
-	//generate random hash key
-	var rnd = Math.random().toString(36).substr(2, 7);
-	// get template of original mosaico msg template & metadata
-	var template = localStorage.getItem("template-" + from_hash_key);
-	var fromMetaData =  JSON.parse(localStorage.getItem("metadata-" + from_hash_key));
-      
-	// Create new meta data
-	var metadata = {"template":fromMetaData.template, "name":name, "created":Date.now(),"changed":Date.now(),"key":rnd};
-	// Save metadata, template and name details in local storage.
-	localStorage.setItem("name-" + rnd, name);
-	localStorage.setItem("metadata-" + rnd, JSON.stringify(metadata));
-	localStorage.setItem("template-" + rnd, template);
-	// get new meta data saved on local
-	var newMetaData = localStorage.getItem("metadata-" + rnd);
-	
-	// Post new meta data , new hash key to update in civicrm_mosaico_msg_template table
-	var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/setmd' h=0 }"{literal};
-	$.ajax({ type: "POST", url: postUrl, data: {md:newMetaData, id:newMosaicoTplId, hash_key:rnd}, async: true, dataType: 'json',
-	  success: function(result) {
-	    console.log(result);
-	    if (result.data == 'success') {
-	      var successMsg = "Mosaico Message template copied";
-	      CRM.status(successMsg, "success");
-	      window.location.href = mosaicoTabUrl;
-	    }
-	  },
-	  error : function() {
-	    CRM.alert('Could not update meta data for newly created mosaico msg template', 'Error');
-	  }
-	});
+            
+      function createMetaData(result) {
+        //define variables we need 
+        var newMosaicoTplId = result.newMosaicoTplId;
+        var from_template   = result.from_template;
+        var from_metadata   = result.from_metadata;
+        var name            = result.name;
+      	// mosaico tab url
+      	var mosaicoTabUrl = {/literal}"{crmURL p='civicrm/admin/messageTemplates' q="reset=1&activeTab=mosaico" h=0 }"{literal};
+      	//generate random hash key
+      	var rnd = Math.random().toString(36).substr(2, 7);
+      	// get metadata of original mosaico msg template
+      	var fromMetaData =  JSON.parse(from_metadata);
+            
+      	// Create new meta data
+      	var metadata = {"template":fromMetaData.template, "name":name, "created":Date.now(),"changed":Date.now(),"key":rnd};
+      	// Save metadata, template and name details in local storage.
+      	localStorage.setItem("name-" + rnd, name);
+      	localStorage.setItem("metadata-" + rnd, JSON.stringify(metadata));
+      	localStorage.setItem("template-" + rnd, from_template);
+      	// get new meta data saved on local
+      	var newMetaData = localStorage.getItem("metadata-" + rnd);
+      	
+      	// Post new meta data , new hash key to update in civicrm_mosaico_msg_template table
+      	var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/setmd' h=0 }"{literal};
+      	$.ajax({ type: "POST", url: postUrl, data: {md:newMetaData, id:newMosaicoTplId, hash_key:rnd}, async: true, dataType: 'json',
+      	  success: function(result) {
+      	    console.log(result);
+      	    if (result.data == 'success') {
+      	      var successMsg = "Mosaico Message template copied";
+      	      CRM.status(successMsg, "success");
+      	      window.location.href = mosaicoTabUrl;
+      	    }
+      	  },
+      	  error : function() {
+      	    CRM.alert('Could not update meta data for newly created mosaico msg template', 'Error');
+      	  }
+      	});
       }
     });
   {/literal}

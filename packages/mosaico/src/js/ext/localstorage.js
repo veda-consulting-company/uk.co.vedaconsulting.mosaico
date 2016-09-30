@@ -33,7 +33,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       saveCmd.enabled(false);
       viewModel.metadata.changed = Date.now();
       console.log(viewModel.metadata);
-      //MV: ask msg template title
+      // DS: a popup asking msg template title to save in civi
       var date  = new Date();
       var options = { hour: 'numeric', minute: 'numeric', second: 'numeric'};
       var fulldate = date.toLocaleDateString('en-GB',options);

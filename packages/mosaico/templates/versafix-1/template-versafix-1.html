@@ -403,6 +403,75 @@
 
   <center>
 
+  <!-- preheaderBlock -->
+  <div data-ko-display="preheaderVisible" data-ko-wrap="false">
+
+  <table class="vb-outer" width="100%" cellpadding="0" border="0" cellspacing="0" bgcolor="#3f3f3f"
+    style="background-color: #3f3f3f; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor" data-ko-block="preheaderBlock">
+    <tr>
+      <td class="vb-outer" align="center" valign="top" bgcolor="#3f3f3f"
+        style="background-color: #3f3f3f; -ko-background-color: @backgroundColor; -ko-attr-bgcolor: @backgroundColor">
+        <div style="display: none; font-size:1px; color: #333333; line-height: 1px; max-height:0px; max-width: 0px; opacity: 0; overflow: hidden; 
+          -ko-bind-text: @preheaderText"></div>
+
+<!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="570"><tr><td align="center" valign="top"><![endif]-->
+        <div class="oldwebkit">
+        <table width="570" border="0" cellpadding="0" cellspacing="0" class="vb-row halfpad" bgcolor="#3f3f3f" 
+          style="width: 100%; max-width: 570px; background-color: #3f3f3f; -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor;">
+          <tr>
+            <td align="center" valign="top" bgcolor="#3f3f3f" style="font-size: 0; background-color: #3f3f3f;
+              -ko-attr-bgcolor: @backgroundColor; -ko-background-color: @backgroundColor" align="left">
+
+<!--[if (gte mso 9)|(lte ie 8)]><table align="center" border="0" cellspacing="0" cellpadding="0" width="552"><tr><![endif]-->
+<!--[if (gte mso 9)|(lte ie 8)]><td align="left" valign="top" width="276"><![endif]--> 
+<div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full"> 
+                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%;" align="left">
+                      <tr>
+                        <td width="100%" valign="top" align="left" style="font-weight: normal; text-align:left; font-size: 13px;
+                          font-family: Arial, Helvetica, sans-serif; color: #ffffff;
+                          -ko-font-size: @[linkStyle.size]px; -ko-color: @linkStyle.color; -ko-font-family: @linkStyle.face">
+                          <a data-ko-display="preheaderLinkOption neq 'none'" data-ko-editable="unsubscribeText" href="{action.unsubscribeUrl}" 
+                             style="text-decoration: underline; color: #ffffff; -ko-attr-href: @preheaderLinkOption; 
+                             -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">Unsubscribe</a> 
+                          <span data-ko-display="preheaderLinkOption eq 'none'" style="font-size: 13px;color: #919191; font-weight: normal; text-align:center;
+                            font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color;
+                            -ko-font-family: @longTextStyle.face; -ko-bind-text: @preheaderText; display: none"></span>
+                        </td>
+                      </tr>
+                    </table>
+</div><!--[if (gte mso 9)|(lte ie 8)]>
+</td><td align="left" valign="top" width="276">
+<![endif]--><div style="display:inline-block; max-width:276px; vertical-align:top; width:100%;" class="mobile-full mobile-hide"> 
+
+                    <table class="vb-content" border="0" cellspacing="9" cellpadding="0" width="276" style="width: 100%; text-align: right;" align="left">
+                      <tr>
+                        <td width="100%" valign="top" style="font-weight: normal;  font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #ffffff;
+                      -ko-font-size: @[linkStyle.size]px; -ko-color: @linkStyle.color; -ko-font-family: @linkStyle.face">
+                      <span style="color: #ffffff; text-decoration: underline;
+                        -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">
+                          <a data-ko-editable="webversionText" href="[show_link]" 
+                          style="text-decoration: underline; color: #ffffff;
+                           -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">View in your browser</a>
+                         </span>
+                       </td>
+                      </tr>
+                    </table>
+
+</div><!--[if (gte mso 9)|(lte ie 8)]>
+</td></tr></table><![endif]-->
+
+            </td>
+          </tr>
+        </table>
+        </div>
+<!--[if (gte mso 9)|(lte ie 8)]></td></tr></table><![endif]-->
+      </td>
+    </tr>
+  </table>
+
+  </div>
+  <!-- /preheaderBlock -->
+
   <div data-ko-container="main" data-ko-wrap="false">
 
   <!-- logoBlock -->
@@ -1340,27 +1409,27 @@
                           <a data-ko-display="ggVisible" href="" style="-ko-attr-href: @ggUrl">
                             <img src="img/social_def/google+_ok.png" alt="Google+" border="0" class="socialIcon" />
                           </a>
-                          <span data-ko-display="webVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="webVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="webVisible" href="" style="-ko-attr-href: @webUrl; display: none">
                             <img src="img/social_def/web_ok.png" alt="Web" border="0" class="socialIcon" />
                           </a>
-                          <span data-ko-display="inVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="inVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="inVisible" href="" style="-ko-attr-href: @inUrl; display: none">
                             <img src="img/social_def/linkedin_ok.png" alt="Linkedin" border="0" class="socialIcon" />
                           </a>
-                          <span data-ko-display="flVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="flVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="flVisible" href="" style="-ko-attr-href: @flUrl; display: none">
                             <img src="img/social_def/flickr_ok.png" alt="Flickr" border="0" class="socialIcon" />
                           </a>
-                          <span data-ko-display="viVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="viVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="viVisible" href="" style="-ko-attr-href: @viUrl; display: none">
                             <img src="img/social_def/vimeo_ok.png" alt="Vimeo" border="0" class="socialIcon" />
                           </a>
-                          <span data-ko-display="instVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="instVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="instVisible" href="" style="-ko-attr-href: @instUrl; display: none">
                             <img src="img/social_def/instagram_ok.png" alt="Instagram" border="0"  class="socialIcon" />
                           </a>
-                          <span data-ko-display="youVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="youVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="youVisible" href="" style="-ko-attr-href: @youUrl; display: none">
                             <img src="img/social_def/youtube_ok.png" alt="Youtube" border="0" class="socialIcon" />
                           </a>
@@ -1379,27 +1448,27 @@
                           <a data-ko-display="ggVisible" href="" style="-ko-attr-href: @ggUrl">
                             <img src="img/social_def/google+_bw_ok.png" alt="Google+" border="0" class="socialIcon" />
                           </a>
-                          <span data-ko-display="webVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="webVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="webVisible" href="" style="-ko-attr-href: @webUrl; display: none">
                             <img src="img/social_def/web_bw_ok.png" alt="Web" border="0" class="socialIcon" />
                           </a>
-                          <span data-ko-display="inVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="inVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="inVisible" href="" style="-ko-attr-href: @inUrl; display: none">
                             <img src="img/social_def/linkedin_bw_ok.png" alt="Linkedin" border="0" class="socialIcon" />
                           </a>
-                          <span data-ko-display="flVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="flVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="flVisible" href="" style="-ko-attr-href: @flUrl; display: none">
                             <img src="img/social_def/flickr_bw_ok.png" alt="Flickr" border="0" class="socialIcon" />
                           </a>
-                          <span data-ko-display="viVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="viVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="viVisible" href="" style="-ko-attr-href: @viUrl; display: none">
                             <img src="img/social_def/vimeo_bw_ok.png" alt="Vimeo" border="0" class="socialIcon" />
                           </a>
-                          <span data-ko-display="instVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="instVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="instVisible" href="" style="-ko-attr-href: @instUrl; display: none">
                             <img src="img/social_def/instagram_bw_ok.png" alt="Instagram" border="0"  class="socialIcon" />
                           </a>
-                          <span data-ko-display="youVisible" data-ko-wrap="false">&nbsp;</span>
+                          <span data-ko-display="youVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="youVisible" href="" style="-ko-attr-href: @youUrl; display: none">
                             <img src="img/social_def/youtube_bw_ok.png" alt="Youtube" border="0" class="socialIcon" />
                           </a>
@@ -1422,7 +1491,6 @@
   <!-- /socialBlock -->
    
   </div>
-
   </center>
 </body>
 </html>

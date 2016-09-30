@@ -171,8 +171,6 @@
     </div>
   </div>
 
-  {include file="packages/mosaico/index.html"}
-
   <script type='text/javascript'>
     var selectedTab = 'user';
     {if $selectedChild}selectedTab = '{$selectedChild}';{/if}

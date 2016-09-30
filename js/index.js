@@ -57,9 +57,8 @@
         console.log("new", this, template);
         var d = new Date();
         var rnd = Math.random().toString(36).substr(2, 7);
-
-        //DS: url to fetch template with
-        //var template = CRM.url('civicrm/mosaico/') + 'templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
+        // DS: url to fetch template with
+        // var template = 'templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
         var template = CRM.resourceUrls['uk.co.vedaconsulting.mosaico'] + '/packages/mosaico/templates/'+shorttmplname+'/template-'+shorttmplname+'.html';
         viewModel.edits.unshift({ created: Date.now(), key: rnd, name: shorttmplname, template: template });
 

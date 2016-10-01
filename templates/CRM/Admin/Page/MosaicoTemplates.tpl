@@ -39,6 +39,16 @@
      </div>
 </div>
 
+<!-- MV:Drop down list of available mosaico templates, which use to display in dialog -->
+<div id='template_dialog' style="display:none;">
+  <label>Select template : </label>
+  <select id="template_list" class="crm-form-select">
+    <option value="versafix-1">versafix-1</option>
+    <option value="tedc15">tedc15</option>
+    <option value="tutorial">tutorial</option>
+  </select>
+</div>
+
 
 <script type='text/javascript'>
   {literal}
@@ -57,13 +67,13 @@
       $.ajax({ type: "POST", url: postUrl, data: {}, async: true, dataType: 'json',
         success: function(result) {
           console.log(result);
-          $.each(result, function(key, mtpl) { 
+          $.each(result, function(key, mtpl) {
             if (mtpl.id) {
               localStorage.setItem("metadata-" + mtpl.hash_key, mtpl.metadata);
               localStorage.setItem("template-" + mtpl.hash_key, mtpl.template);
               localStorage.setItem("name-"     + mtpl.hash_key, mtpl.name);
             }
-          }); 
+          });
         }
       });
       //Copy mosaico template
@@ -80,7 +90,102 @@
       	  }
       	});
       });
-            
+
+      //MV: Open in mosaico editor link
+      //Provide link to open a Civi Message template in Mosaico Editors
+      //amended $row action link in pageRun hook itself.
+      var editorUrl = "{/literal}{crmURL p='civicrm/mosaico/editor' h=0 q='snippet=2'}{literal}";
+
+      //Random Unique hash key for mosaico template.
+      var rndHashKeyForEditMosaico= Math.random().toString(36).substr(2, 7);
+
+      //allow user to click 'Open in Mosaico editor', Show dialog with list of available template
+      $('a.edit_msg_tpl_to_mosaico').click(function(){
+        var msgTplId = $(this).attr('value');
+        console.log(msgTplId);
+        $('#template_dialog').dialog({
+          modal: true,
+          title: 'Mosaico Template',
+          buttons: {
+            Open: function() {
+              var selectTemplateName = $('#template_list').val();
+              var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/edit' h=0 }"{literal};
+              $.ajax({ type: "POST"
+                , url: postUrl
+                , data: {id:msgTplId, hash_key:rndHashKeyForEditMosaico, template_name: selectTemplateName}
+                , async: true
+                , dataType: 'json'
+                , success: function(result) {
+                  editMsgTempalteInMosaico(result, selectTemplateName);
+                },
+                error : function() {
+                  CRM.alert('Could not copy mosaico template', 'Error');
+                }
+              });
+            },
+            Cancel: function() {
+              $('#template_dialog').hide();
+              $(this).dialog("close");
+            }
+          }
+        });
+      });
+
+
+      function editMsgTempalteInMosaico(result, selectTemplateName) {
+
+        //we dont want generate hash key over and over again, so we reuse the hash key from result variables.
+        var rnd = result.new_hash_key;
+
+        //if we edit existing template, then we dont want to wait for dummy template. redirect straight away to Mosaico template,
+        //otherwise, we create dummy template and metadata with required values and redirect with new hash key.
+        var template = localStorage.getItem("template-" + rnd);
+        if (template) {
+          document.location = editorUrl+'#'+rnd;
+        }
+        else{
+          var parseTemplate = JSON.parse(result.template);
+          //every template have different block structure and block ids.
+          switch(selectTemplateName) {
+              case 'tedc15':
+                var blocksValues = {
+                  "type":"heroBlock"
+                   ,"customStyle":false
+                   ,"id":"ko_heroBlock_1"
+                   ,"subTitle":"<p>"+result.msg_html+"<br></p>"
+                  };
+                break;
+              case 'tutorial':
+                 var blocksValues = {
+                      "type":"fixedlist"
+                      ,"customStyle":false
+                      ,"id":"ko_fixedlist_1"
+                      ,"firstBodyText":"<p>"+result.msg_html+"<br></p>"
+                    };
+                  break;
+              default:
+                var blocksValues = {
+                    "type":"textBlock"
+                    ,"customStyle":false
+                    ,"longText":"<p>"+result.msg_html+"<br></p>"
+                    ,"id":"ko_textBlock_1"
+                  };
+          }
+
+
+          parseTemplate.mainBlocks.blocks.push(blocksValues);
+
+          //we can reuse / catch data by using local storage.
+          localStorage.setItem("edit_msg_tpl_id-" + rnd, result.msg_tpl_id);
+          localStorage.setItem("name-" + rnd, result.name);
+          localStorage.setItem("metadata-" + rnd, result.metadata);
+          localStorage.setItem("template-" + rnd, JSON.stringify(parseTemplate));
+
+          //once set new values in local storage.then all set to go to Mosaico editor.
+          document.location = editorUrl+'#'+rnd;
+        }
+      }
+
       function createMetaData(newMosaicoTplId, from_hash_key, name) {
       	// mosaico tab url
       	var mosaicoTabUrl = {/literal}"{crmURL p='civicrm/admin/messageTemplates' q="reset=1&activeTab=mosaico" h=0 }"{literal};
@@ -89,7 +194,7 @@
       	// get template of original mosaico msg template & metadata
       	var template = localStorage.getItem("template-" + from_hash_key);
       	var fromMetaData =  JSON.parse(localStorage.getItem("metadata-" + from_hash_key));
-            
+
       	// Create new meta data
       	var metadata = {"template":fromMetaData.template, "name":name, "created":Date.now(),"changed":Date.now(),"key":rnd};
       	// Save metadata, template and name details in local storage.
@@ -98,7 +203,7 @@
       	localStorage.setItem("template-" + rnd, template);
       	// get new meta data saved on local
       	var newMetaData = localStorage.getItem("metadata-" + rnd);
-      	
+
       	// Post new meta data , new hash key to update in civicrm_mosaico_msg_template table
       	var postUrl = {/literal}"{crmURL p='civicrm/mosaico/ajax/setmd' h=0 }"{literal};
       	$.ajax({ type: "POST", url: postUrl, data: {md:newMetaData, id:newMosaicoTplId, hash_key:rnd}, async: true, dataType: 'json',

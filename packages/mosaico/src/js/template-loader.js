@@ -121,7 +121,10 @@ function _viewModelPluginInstance(pluginFunction) {
 }
 
 var _templateUrlConverter = function(basePath, url) {
-  if (!url.match(/^[^\/]*:/) && !url.match(/^\//) && !url.match(/^\[/) && !url.match(/^#?$/)) {
+  if (url.match("^{[A-Za-z0-9_\.]+}")) {
+    // DS: civi tokens - leave them as it is
+    return url;
+  } else if (!url.match(/^[^\/]*:/) && !url.match(/^\//) && !url.match(/^\[/) && !url.match(/^#?$/)) {
     // TODO this could be smarter joining the urls...
     return basePath + url;
   } else {

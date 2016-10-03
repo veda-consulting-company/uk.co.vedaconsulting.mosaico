@@ -225,8 +225,11 @@ function mosaico_civicrm_pageRun(&$page){
       $action = sprintf('<span>
         <a href="%s" class="action-item crm-hover-button %s"  value="xx" title="Open in Mosaico" >%s</a>
       </span>', $editURL, $editableClassName, $editableLinkName);
-      //MV: allow open msg template in mosaico editor. 
-      $rows['userTemplates'][$key]['action'] .= $action;
+
+      if (defined('CIVICRM_MOSAICO_IMPORT') && CIVICRM_MOSAICO_IMPORT == 1) {
+        //MV: allow open msg template in mosaico editor. 
+        $rows['userTemplates'][$key]['action'] .= $action;
+      }
     }
 
     $smarty->assign('rows', $rows);    

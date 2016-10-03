@@ -296,6 +296,15 @@ class CRM_Mosaico_Utils {
         }
       }
     }
+    if (defined('CIVICRM_MAIL_SMARTY') && CIVICRM_MAIL_SMARTY == 1) {
+      // keep head section in literal to avoid smarty errors. Specially when CIVICRM_MAIL_SMARTY is turned on.
+      $html = str_ireplace(array('<head>', '</head>'), array('{literal}<head>', '</head>{/literal}'), $html); 
+    } 
+    else if (defined('CIVICRM_MAIL_SMARTY') && CIVICRM_MAIL_SMARTY == 0) {
+      // get rid of any injected literal tags to avoid them appearing in emails
+      $html = str_ireplace(array('{literal}<head>', '</head>{/literal}'), array('<head>', '</head>'), $html); 
+    }
+
 
     /* perform the requested action */
 

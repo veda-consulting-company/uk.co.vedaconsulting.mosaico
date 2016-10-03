@@ -43,7 +43,9 @@
 <div id='template_dialog' style="display:none;">
   <div class="messages status no-popup">
     <div class="icon inform-icon"> </div>
-    WARNING: This is experimental feature..
+    <p>WARNING: This is experimental feature. Please note that the content may not appear exactly in same layout. However using the builder, by adding new blocks, you can turn it into a layout you desire. This feature is intended to import your old message templates in builder, so you can re-use and create new mosaico templates.</p>
+    <p>If you really want to make most of mosaico builder, its recommended to create a new one from "Mosaico Message" tab.</p>
+    <p>Note that the feature doesn't modify your existing message template. Pressing SAVE in template builder will create new message template. If you intend to create a copy of an existing mosaico template, use the new copy feature instead, available in "Mosaico Messages" tab.</p>
   </div>
   <div class="clear"></div>
   <br>
@@ -125,7 +127,7 @@
         console.log(msgTplId);
         $('#template_dialog').dialog({
           modal: true,
-          title: 'Mosaico Template',
+          title: 'Import in Mosaico',
           buttons: {
             Open: function() {
               var selectTemplateName = $('#template_list').val();

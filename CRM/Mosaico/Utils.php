@@ -551,4 +551,100 @@ class CRM_Mosaico_Utils {
       CRM_Utils_JSON::output($result);
     }
   }
+    
+  /**
+   * create  mosaico template structure with default values.
+   * In packages, we have sample template HTML, we reuse the HTML and create JSON format template variables and metadata values
+   */
+  static function createDummyMosaicoTempalte($hashKey, $type, $msgTplId, $name){
+    //we have sample template HTML in mosaico package, we use that HTML as a dummy HTML to build metadata.	  
+    $extResUrl    =  CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico');
+    $tempalteUrl  = $extResUrl.'/packages/mosaico/templates/'.$type.'/template-'.$type.'.html';
+    $html         = file_get_contents($tempalteUrl);
+    $metadata     = array(
+      "created" => date('Y-m-d')
+      ,"key"    => $hashKey
+      ,"name"   => $name
+      ,"template" => $tempalteUrl
+    );
+    $metadata = json_encode($metadata);
+
+    switch ($type) {
+      case 'tedc15':
+        $template = array(
+          "type" => "template"
+          ,"gutterWidth" => "20"
+          ,"mainBlocks" => array(
+            "type" => "blocks"
+            ,"blocks" => array()
+          )
+          ,"theme" => array("type" => "theme","bodyTheme" => null)
+        );
+        break;
+      case 'tutorial':
+        $template = array(
+          "type" => "template"
+          ,"mainBlocks" => array(
+            "type" => "blocks"
+            ,"blocks" => array()
+            )
+          ,"theme" => array(
+            "type" => "theme"
+            ,"bodyTheme" => array(
+                "type" => "bodyTheme"
+                ,"color" => "#f0f0f0"
+              )
+            )
+          );
+        break;
+      default:
+        $template = array(
+          "type" => "template"
+          ,"customStyle" => false
+          ,"mainBlocks" => array(
+            "type" => "blocks"
+            ,"blocks" => array()
+          )
+          ,"theme" => array(
+            "type" => "theme"
+            ,"frameTheme" => null
+          )
+        );
+    }
+
+    $template = json_encode($template);
+
+    return array($metadata, $template);
+  }
+
+  /**
+   * Allow Edit Civi message template in Mosaico Editor
+   * This method used to build all required params/values for new mosaico template
+   * with dummy values, we just build JSON data of template values and metadata, with unique hash key,
+   * once we have the dummy template then we can amend Civi msg HTML into template block.
+   */
+  static function editCiviMsgTemplateInMosaico(){
+    $msgTplId     = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, TRUE);
+    $hashKey      = CRM_Utils_Request::retrieve('hash_key', 'String', CRM_Core_DAO::$_nullObject, TRUE);
+    $templateName = CRM_Utils_Request::retrieve('template_name', 'String', CRM_Core_DAO::$_nullObject, TRUE);
+
+    // get the message template which is going to be copied.
+    $messageTemplate = new CRM_Core_DAO_MessageTemplate();
+    $messageTemplate->id = $msgTplId;
+    if ($messageTemplate->find(TRUE)) {
+
+      list($metadata, $template) = CRM_Mosaico_Utils::createDummyMosaicoTempalte($hashKey, $templateName, $msgTplId, $messageTemplate->msg_title);
+
+      $result = array(
+        'new_hash_key'  => $hashKey
+        , 'name'        => $messageTemplate->msg_title
+        , 'msg_tpl_id'  => $messageTemplate->id
+        , 'msg_html'    => $messageTemplate->msg_html
+        , 'template'    => $template
+        , 'metadata'    => $metadata
+      );
+      CRM_Utils_JSON::output($result);
+    }
+  }	
+
 }

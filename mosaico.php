@@ -212,17 +212,19 @@ function mosaico_civicrm_pageRun(&$page){
     foreach ($rows['userTemplates'] as $key => $value) {
       $editURL = '#';
       $editableClassName = "edit_msg_tpl_to_mosaico";
-
+      $editableLinkName = "Import in Mosaico";
+	  
       //url for existing mosaico templates. otherwise we create dummy with new hashkey and link to open up in mosaico editor.
       //and using classname to allow edit only if not exist in mosaico template.
-      // if (array_key_exists($key, $exsitingTemplates)) {
-      //   $editURL    = CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2', FALSE, $exsitingTemplates[$key]);
-      //   $editableClassName = NULL;
-      // }
+      if (array_key_exists($key, $exsitingTemplates)) {
+        $editURL    = CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2', FALSE, $exsitingTemplates[$key]);
+        $editableClassName = NULL;
+        $editableLinkName = "Edit In Mosaico";
+      }
 
       $action = sprintf('<span>
-        <a href="%s" class="action-item crm-hover-button %s"  value="xx" title="Open in Mosaico" >Open in Mosaico Editor</a>
-      </span>', $editURL, $editableClassName);
+        <a href="%s" class="action-item crm-hover-button %s"  value="xx" title="Open in Mosaico" >%s</a>
+      </span>', $editURL, $editableClassName, $editableLinkName);
       //MV: allow open msg template in mosaico editor. 
       $rows['userTemplates'][$key]['action'] .= $action;
     }

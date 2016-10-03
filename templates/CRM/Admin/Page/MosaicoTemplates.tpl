@@ -41,12 +41,20 @@
 
 <!-- MV:Drop down list of available mosaico templates, which use to display in dialog -->
 <div id='template_dialog' style="display:none;">
+  <div class="messages status no-popup">
+    <div class="icon inform-icon"> </div>
+    WARNING: This is experimental feature..
+  </div>
+  <div class="clear"></div>
+  <br>
   <label>Select template : </label>
   <select id="template_list" class="crm-form-select">
     <option value="versafix-1">versafix-1</option>
     <option value="tedc15">tedc15</option>
     <option value="tutorial">tutorial</option>
   </select>
+  <br>
+  <br>
 </div>
 
 

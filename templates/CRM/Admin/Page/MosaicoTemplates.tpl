@@ -171,10 +171,10 @@
           switch(selectTemplateName) {
               case 'tedc15':
                 var blocksValues = {
-                  "type":"heroBlock"
+                  "type":"footerBlock"
                    ,"customStyle":false
-                   ,"id":"ko_heroBlock_1"
-                   ,"subTitle":"<p>"+result.msg_html+"<br></p>"
+                   ,"id":"ko_footerBlock_1"
+                   ,"footerText":"<p>"+result.msg_html+"<br></p>"
                   };
                 break;
               case 'tutorial':

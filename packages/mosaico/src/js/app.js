@@ -11,8 +11,12 @@ var performanceAwareCaller = require("./timed-call.js").timedCall;
 
 var addUndoStackExtensionMaker = require("./undomanager/undomain.js");
 var colorPlugin = require("./ext/color.js");
+var inlinerPlugin = require("./ext/inliner.js");
 
 var localStorageLoader = require("./ext/localstorage.js");
+
+if (typeof ko == 'undefined') throw "Cannot find knockout.js library!";
+if (typeof $ == 'undefined') throw "Cannot find jquery library!";
 
 function _canonicalize(url) {
   var div = global.document.createElement('div');
@@ -29,7 +33,7 @@ var applyBindingOptions = function(options, ko) {
     var backEndMatch = imgProcessorBackend.match(/^(https?:\/\/[^\/]*\/).*$/);
     var srcMatch = src.match(/^(https?:\/\/[^\/]*\/).*$/);
     if (backEndMatch === null || (srcMatch !== null && backEndMatch[1] == srcMatch[1])) {
-      // DS: determine if to use ? or &
+      // DS: determine if to use ? or &. ? alone is certainly not going to work for wordpress
       return imgProcessorBackend + ((imgProcessorBackend.indexOf('?') == -1) ? '?' : '&') + "src=" + encodeURIComponent(src) + "&method=" + encodeURIComponent(method) + "&params=" + encodeURIComponent(width + "," + height);
     } else {
       console.log("Cannot apply backend image resizing to non-local resources ", src, method, width, height, backEndMatch, srcMatch);
@@ -38,7 +42,7 @@ var applyBindingOptions = function(options, ko) {
   };
 
   ko.bindingHandlers.wysiwygSrc.placeholderUrl = function(width, height, text) {
-    // DS: determine if to use ? or &
+    // DS: determine if to use ? or &. ? alone is certainly not going to work for wordpress
     return options.imgProcessorBackend + ((options.imgProcessorBackend.indexOf('?') == -1) ? '?' : '&') + "method=" + 'placeholder' + "&params=" + width + encodeURIComponent(",") + height;
   };
 
@@ -50,6 +54,8 @@ var applyBindingOptions = function(options, ko) {
 };
 
 var start = function(options, templateFile, templateMetadata, jsorjson, customExtensions) {
+
+
 
   templateLoader.fixPageEvents();
 
@@ -97,7 +103,8 @@ var start = function(options, templateFile, templateMetadata, jsorjson, customEx
     }
   };
 
-  var extensions = [addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin, simpleTranslationPlugin];
+  // simpleTranslationPlugin must be before the undoStack to translate undo/redo labels
+  var extensions = [simpleTranslationPlugin, addUndoStackExtensionMaker(performanceAwareCaller), colorPlugin, inlinerPlugin];
   if (typeof customExtensions !== 'undefined')
     for (var k = 0; k < customExtensions.length; k++) extensions.push(customExtensions[k]);
   extensions.push(fileUploadMessagesExtension);

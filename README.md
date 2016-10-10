@@ -1,6 +1,7 @@
 ## uk.co.vedaconsulting.mosaico
 This extension integrates Mosaico a responsive email template editor, with CiviCRM.
-- Blog Post - https://civicrm.org/blogs/parvez/a-new-beginning-for-civimail
+- Initial Blog Post - https://civicrm.org/blogs/parvez/a-new-beginning-for-civimail
+- Beta Blog Post - https://civicrm.org/blog/deepaksrivastava/email-template-builder-civimosaico-is-now-beta
 - Video - https://vimeo.com/156633077
 
 ### How to Install
@@ -29,7 +30,3 @@ Open issues on [github](https://github.com/veda-consulting/uk.co.vedaconsulting.
 - any related logs or backtrace from civicrm
 - tell us what version of CiviCRM and extension, you using.
 - tell us the browser you are using (name and version) and test at least a second browser to tell us if this happen in both or only one (tell us the details about the second browser too).
-
-### Known issues
-- Chrome webkit warning. Mosaico has pushed out some commits which we expect to release in some time.
-

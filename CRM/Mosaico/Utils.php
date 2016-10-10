@@ -302,6 +302,15 @@ class CRM_Mosaico_Utils {
         }
       }
     }
+    if (defined('CIVICRM_MAIL_SMARTY') && CIVICRM_MAIL_SMARTY == 1) {
+      // keep head section in literal to avoid smarty errors. Specially when CIVICRM_MAIL_SMARTY is turned on.
+      $html = str_ireplace(array('<head>', '</head>'), array('{literal}<head>', '</head>{/literal}'), $html); 
+    } 
+    else if (defined('CIVICRM_MAIL_SMARTY') && CIVICRM_MAIL_SMARTY == 0) {
+      // get rid of any injected literal tags to avoid them appearing in emails
+      $html = str_ireplace(array('{literal}<head>', '</head>{/literal}'), array('<head>', '</head>'), $html); 
+    }
+
 
     /* perform the requested action */
 
@@ -317,6 +326,7 @@ class CRM_Mosaico_Utils {
       }
 
       case "save": {
+        $result = array();
         $msgTplId = NULL;
         $hashKey  = CRM_Utils_Type::escape($_POST['key'], 'String');
         if (!$hashKey) {
@@ -328,7 +338,7 @@ class CRM_Mosaico_Utils {
         if($mosTpl->find(TRUE)){
           $msgTplId = $mosTpl->msg_tpl_id;
         }
-
+		
         $name = "Mosaico Template " . date('d-m-Y H:i:s'); 
         if (CRM_Utils_Type::escape($_POST['name'], 'String')) {
           $name = $_POST['name'];
@@ -363,11 +373,15 @@ class CRM_Mosaico_Utils {
         $mosTpl->find(TRUE);
         $mosTpl->copyValues($mosaicoTemplate);
         $mosTpl->save();
-
+        if ($mosTpl->id) {
+          $result['id']     = $mosTpl->id;
+        }
+        CRM_Utils_JSON::output($result);
         break;
       }
 
       case "email": {
+        $result = array();
         if ( !CRM_Utils_Rule::email( $_POST['rcpt'] ) ) {
           CRM_Core_Session::setStatus('Recipient Email address not found');
           return FALSE;
@@ -385,10 +399,15 @@ class CRM_Mosaico_Utils {
           'html'   => $html,
         );
 
-        if (!CRM_Utils_Mail::send($mailParams)) {
+        $sent    = FALSE;
+        if (CRM_Utils_Mail::send($mailParams)) {
+          $result['sent'] = TRUE;
+          CRM_Utils_JSON::output($result);
+        } else {
+          CRM_Utils_JSON::output($result);
           return FALSE;
         }
-
+        
         break;
       }
     }
@@ -532,10 +551,110 @@ class CRM_Mosaico_Utils {
       $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
       $mosTpl->copyValues($mosaicoTemplate);
       $mosTpl->save();
-      $result = array('newMosaicoTplId' => $mosTpl->id, 'from_hash_key' => $mosTpl->hash_key, 'name' => $mosTpl->name);
+      $result = array(
+        'newMosaicoTplId' => $mosTpl->id,
+        'from_hash_key' => $mosTpl->hash_key,
+        'name' => $mosTpl->name,
+        'from_template' => $mosTpl->template,
+        'from_metadata' => $mosTpl->metadata,
+        );
       CRM_Utils_JSON::output($result);
     }
-    
   }
     
+  /**
+   * create  mosaico template structure with default values.
+   * In packages, we have sample template HTML, we reuse the HTML and create JSON format template variables and metadata values
+   */
+  static function createDummyMosaicoTempalte($hashKey, $type, $msgTplId, $name){
+    //we have sample template HTML in mosaico package, we use that HTML as a dummy HTML to build metadata.	  
+    $extResUrl    =  CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico');
+    $tempalteUrl  = $extResUrl.'/packages/mosaico/templates/'.$type.'/template-'.$type.'.html';
+    $html         = file_get_contents($tempalteUrl);
+    $metadata     = array(
+      "created" => date('Y-m-d')
+      ,"key"    => $hashKey
+      ,"name"   => $name
+      ,"template" => $tempalteUrl
+    );
+    $metadata = json_encode($metadata);
+
+    switch ($type) {
+      case 'tedc15':
+        $template = array(
+          "type" => "template"
+          ,"gutterWidth" => "20"
+          ,"mainBlocks" => array(
+            "type" => "blocks"
+            ,"blocks" => array()
+          )
+          ,"theme" => array("type" => "theme","bodyTheme" => null)
+        );
+        break;
+      case 'tutorial':
+        $template = array(
+          "type" => "template"
+          ,"mainBlocks" => array(
+            "type" => "blocks"
+            ,"blocks" => array()
+            )
+          ,"theme" => array(
+            "type" => "theme"
+            ,"bodyTheme" => array(
+                "type" => "bodyTheme"
+                ,"color" => "#f0f0f0"
+              )
+            )
+          );
+        break;
+      default:
+        $template = array(
+          "type" => "template"
+          ,"customStyle" => false
+          ,"mainBlocks" => array(
+            "type" => "blocks"
+            ,"blocks" => array()
+          )
+          ,"theme" => array(
+            "type" => "theme"
+            ,"frameTheme" => null
+          )
+        );
+    }
+
+    $template = json_encode($template);
+
+    return array($metadata, $template);
+  }
+
+  /**
+   * Allow Edit Civi message template in Mosaico Editor
+   * This method used to build all required params/values for new mosaico template
+   * with dummy values, we just build JSON data of template values and metadata, with unique hash key,
+   * once we have the dummy template then we can amend Civi msg HTML into template block.
+   */
+  static function editCiviMsgTemplateInMosaico(){
+    $msgTplId     = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, TRUE);
+    $hashKey      = CRM_Utils_Request::retrieve('hash_key', 'String', CRM_Core_DAO::$_nullObject, TRUE);
+    $templateName = CRM_Utils_Request::retrieve('template_name', 'String', CRM_Core_DAO::$_nullObject, TRUE);
+
+    // get the message template which is going to be copied.
+    $messageTemplate = new CRM_Core_DAO_MessageTemplate();
+    $messageTemplate->id = $msgTplId;
+    if ($messageTemplate->find(TRUE)) {
+
+      list($metadata, $template) = CRM_Mosaico_Utils::createDummyMosaicoTempalte($hashKey, $templateName, $msgTplId, $messageTemplate->msg_title);
+
+      $result = array(
+        'new_hash_key'  => $hashKey
+        , 'name'        => $messageTemplate->msg_title
+        , 'msg_tpl_id'  => $messageTemplate->id
+        , 'msg_html'    => $messageTemplate->msg_html
+        , 'template'    => $template
+        , 'metadata'    => $metadata
+      );
+      CRM_Utils_JSON::output($result);
+    }
+  }	
+
 }

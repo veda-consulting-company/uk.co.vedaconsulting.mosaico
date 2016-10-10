@@ -157,7 +157,7 @@
          </div>
       </div>
     {/foreach}
-    
+
     <!-- MV include mosaico templates -->
     {include file="CRM/Admin/Page/MosaicoTemplates.tpl"}
     <!-- END -->
@@ -168,7 +168,7 @@
     {if $selectedChild}selectedTab = '{$selectedChild}';{/if}
     {literal}
       CRM.$(function($) {
-        var tabIndex = $('#tab_' + selectedTab).prevAll().length
+        var tabIndex  = $('#tab_' + selectedTab).prevAll().length
         $("#mainTabContainer").tabs( {active: tabIndex} );
       });
     {/literal}

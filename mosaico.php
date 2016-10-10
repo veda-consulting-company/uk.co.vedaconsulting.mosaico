@@ -181,7 +181,7 @@ function mosaico_civicrm_pageRun(&$page){
   }
   if ($pageName == 'CRM_Admin_Page_MessageTemplates') {
     $activeTab  = CRM_Utils_Request::retrieve('activeTab', 'String', $form, false, null, 'REQUEST');
-    $resultArray= array();
+    $resultArray= $exsitingTemplates = array();
     $smarty     = CRM_Core_Smarty::singleton();
     $tableName  = MOSAICO_TABLE_NAME;
     $dao = CRM_Core_DAO::executeQuery("SELECT mosaico.*, cmt.msg_title, cmt.msg_subject, cmt.is_active 
@@ -202,8 +202,37 @@ function mosaico_civicrm_pageRun(&$page){
       </span>', $editURL, $enableDisableText, $delURL, $dao->msg_tpl_id);
       
       $resultArray[$dao->id]['action'] = $action;
+	  
+      //all tempalte values which are exist in Mosaico tempalte and related hash key
+      $exsitingTemplates[$dao->msg_tpl_id] = $dao->hash_key; 
     }
-    
+    //To inject new action link with default actions.
+    //row already assinged in smarty, so get template variable , and append action and assigned new row values to tpl.
+    $rows = $smarty->get_template_vars('rows');
+    foreach ($rows['userTemplates'] as $key => $value) {
+      $editURL = '#';
+      $editableClassName = "edit_msg_tpl_to_mosaico";
+      $editableLinkName = "Import in Mosaico";
+	  
+      //url for existing mosaico templates. otherwise we create dummy with new hashkey and link to open up in mosaico editor.
+      //and using classname to allow edit only if not exist in mosaico template.
+      if (array_key_exists($key, $exsitingTemplates)) {
+        $editURL    = CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2', FALSE, $exsitingTemplates[$key]);
+        $editableClassName = NULL;
+        $editableLinkName = "Edit In Mosaico";
+      }
+
+      $action = sprintf('<span>
+        <a href="%s" class="action-item crm-hover-button %s"  value="xx" title="Open in Mosaico" >%s</a>
+      </span>', $editURL, $editableClassName, $editableLinkName);
+
+      if (defined('CIVICRM_MOSAICO_IMPORT') && CIVICRM_MOSAICO_IMPORT == 1) {
+        //MV: allow open msg template in mosaico editor. 
+        $rows['userTemplates'][$key]['action'] .= $action;
+      }
+    }
+
+    $smarty->assign('rows', $rows);    
     $smarty->assign('mosaicoTemplates', $resultArray);
     $smarty->assign('selectedChild', $activeTab);
     // From civi 4.7, no more tinymce, so if only civi version is less than 4.7 show tinymce.

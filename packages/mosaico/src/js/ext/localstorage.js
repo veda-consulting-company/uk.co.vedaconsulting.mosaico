@@ -33,7 +33,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       saveCmd.enabled(false);
       viewModel.metadata.changed = Date.now();
       console.log(viewModel.metadata);
-      //MV: ask msg template title
+      // DS: a popup asking msg template title to save in civi
       var date  = new Date();
       var options = { hour: 'numeric', minute: 'numeric', second: 'numeric'};
       var fulldate = date.toLocaleDateString('en-GB',options);
@@ -68,7 +68,18 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
       });
       post.success(function() {
         console.log("success", arguments);
-        viewModel.notifier.success(viewModel.t("Saved as message template in CiviCRM."));
+        try {
+          var result = JSON.parse(arguments[0]);
+          if ('id' in result) {
+            console.log("id", result.id);
+            viewModel.notifier.success(viewModel.t("Saved as message template in CiviCRM."));
+          } else {
+            viewModel.notifier.error(viewModel.t('Something went wrong while saving message template!'));
+          }
+        }
+        catch(e) {
+          viewModel.notifier.error(viewModel.t('Something went wrong while saving message template!'));
+        }
       });
     };
     var testCmd = {
@@ -100,7 +111,18 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
         });
         post.success(function() {
           console.log("success", arguments);
-          viewModel.notifier.success(viewModel.t("Test email sent..."));
+          try {
+            var result = JSON.parse(arguments[0]);
+            if ('sent' in result) {
+              console.log("sent", result.sent);
+              viewModel.notifier.success(viewModel.t("Test email sent..."));
+            } else {
+              viewModel.notifier.error(viewModel.t('Something went wrong while sending email!'));
+            }
+          }
+          catch(e) {
+            viewModel.notifier.error(viewModel.t('Something went wrong while sending email!'));
+          }
         });
         post.always(function() {
           testCmd.enabled(true);

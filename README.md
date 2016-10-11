@@ -2,7 +2,7 @@
 This extension integrates Mosaico a responsive email template editor, with CiviCRM.
 - Initial Blog Post - https://civicrm.org/blogs/parvez/a-new-beginning-for-civimail
 - Beta Blog Post - https://civicrm.org/blog/deepaksrivastava/email-template-builder-civimosaico-is-now-beta
-- Video - https://vimeo.com/156633077
+- Initial Video - https://vimeo.com/156633077
 
 ### How to Install
 1. Have imageMagick installed in your environment. Mainly as php module.
@@ -17,7 +17,9 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
 1. Go to the CiviCRM Mailings menu.  Select the new option "Message Template Builder".
 2. Build a template in Mosaico.  If you haven't used Mosaico before, a tutorial is available when you select a template when trying it at http://mosaico.io/index.html#about.
 3. When you're done creating your template, click the "Save" link at the top right of the screen.
-4. To use the template, create a new CiviMail mailing.  Your Mosaico template will be available from the "Templates" drop-down menu.
+4. Clicking Done button after save, will land you on "Mosaico Messages" Tab on civi message templates screen.
+5. To use the template, create a new CiviMail mailing.  Your Mosaico template will be available from the "Templates" drop-down menu.
+6. To duplicate mosaico templates, use "copy" link from "Mosaico Messages" tab.
 
 ### Having issues with this extension?
 

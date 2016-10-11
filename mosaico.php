@@ -267,6 +267,6 @@ function mosaico_civicrm_check(&$messages) {
 function mosaico_civicrm_permission(&$permissions) {
     $prefix = ts('CiviMail Mosaico') . ': '; // name of extension or module
     $permissions += array(
-        'access CiviMail Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
+        'access CiviCRM Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
     );
 }

@@ -25,18 +25,14 @@
       var viewModel = {
         showSaved: ko.observable(false),
         edits: ko.observableArray(initialEdits),
-       /* templates: [{
+        templates: [{
           name: 'versafix-1', desc: 'The versatile template'
         },{
           name: 'tedc15', desc: 'The TEDC15 template'
         },{
           name: 'tutorial', desc: 'The Tutorial'
-        }]*/
-          templates: [{
-              name: 'alumni', desc: 'Development and Alumni Relations'
-          },{
-              name: 'homerton-enews', desc: 'Homerton'
-          }]
+        }]
+         
       };
 
       viewModel.edits.subscribe(function(newEdits) {

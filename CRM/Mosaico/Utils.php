@@ -298,7 +298,11 @@ class CRM_Mosaico_Utils {
 
           $image = self::resizeImage( $file_name, $method, $width, $height );
 
-          $image->writeImage( $config['BASE_DIR'] . $config['STATIC_DIR'] . $static_file_name );
+          //not needed (resizeImage() now stores a static version if one doesn't already exist
+          //save image for next time so don't need to resize each time
+          /*if($f = fopen( $config['BASE_DIR'] . $config[ 'STATIC_DIR' ] . $file_name, "w")){
+            $image->writeImageFile($f);
+          }*/
         }
       }
     }
@@ -435,6 +439,12 @@ class CRM_Mosaico_Utils {
   {
     $config = self::getConfig();
 
+	if(file_exists($config['BASE_DIR'].$config['STATIC_DIR'] . $file_name)){
+	  //use existing file
+	  $image = new Imagick($config['BASE_DIR'] . $config['STATIC_DIR'] . $file_name);
+
+    } else {
+	
     $image = new Imagick( $config['BASE_DIR'].$config['UPLOADS_DIR'] . $file_name );
 
     if ( $method == "resize" )
@@ -469,6 +479,12 @@ class CRM_Mosaico_Utils {
 
       $image->cropImage( $width, $height, $x, $y );
     }
+	//save image for next time so don't need to resize each time
+	if ($f = fopen($config['BASE_DIR'] . $config['STATIC_DIR'] . $file_name, "w")) {
+		$image->writeImageFile($f);
+	}
+	
+	}
 
     return $image;
   }

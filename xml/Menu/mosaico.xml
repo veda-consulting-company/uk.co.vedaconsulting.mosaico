@@ -1,65 +1,70 @@
 <?xml version="1.0"?>
 <menu>
   <item>
-    <path>civicrm/mosaico/index</path>
-   <page_callback>CRM_Mosaico_Page_Index</page_callback>
-   <title>Message Template Builder</title>
-   <access_arguments>access CiviCRM</access_arguments>
-  </item>
-  <item>
-   <path>civicrm/mosaico/editor</path>
-   <page_callback>CRM_Mosaico_Page_Editor</page_callback>
-   <title>Integration with Mosaico</title>
-   <access_arguments>access CiviCRM</access_arguments>
-  </item>
-  <item>
-   <path>civicrm/mosaico/upload</path>
-   <page_callback>CRM_Mosaico_Utils::processUpload</page_callback>
-   <title>Integration with Mosaico</title>
-   <access_arguments>access CiviCRM</access_arguments>
-  </item>
-  <item>
-   <path>civicrm/mosaico/img</path>
-   <page_callback>CRM_Mosaico_Utils::processImg</page_callback>
-   <title>Integration with Mosaico</title>
-   <access_callback>1</access_callback>
-   <is_public>true</is_public>
-  </item>
-  <item>
-   <path>civicrm/mosaico/dl</path>
-   <page_callback>CRM_Mosaico_Utils::processDl</page_callback>
-   <title>Integration with Mosaico</title>
-   <access_arguments>access CiviCRM</access_arguments>
-  </item>
-  <item>
-    <path>civicrm/mosaico/ajax/getallmd</path>
-   <page_callback>CRM_Mosaico_Utils::getAllMetadata</page_callback>
-   <title>Integration with Mosaico</title>
-   <access_arguments>access CiviCRM</access_arguments>
-  </item>
-  <item>
     <path>civicrm/mosaico/ajax/setmd</path>
-   <page_callback>CRM_Mosaico_Utils::setMetadata</page_callback>
-   <title>Integration with Mosaico</title>
-   <access_arguments>access CiviCRM</access_arguments>
+    <page_callback>CRM_Mosaico_Utils::setMetadata</page_callback>
+    <title>Integration with Mosaico</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
   </item>
   <item>
     <path>civicrm/mosaico/ajax/copy</path>
-   <page_callback>CRM_Mosaico_Utils::copyTemplate</page_callback>
-   <title>Integration with Mosaico</title>
-   <access_arguments>access CiviCRM</access_arguments>
+    <page_callback>CRM_Mosaico_Utils::copyTemplate</page_callback>
+    <title>Integration with Mosaico</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
+  </item> 
+  <item>
+    <path>civicrm/mosaico</path>
+    <page_callback>CRM_Mosaico_Page_Index</page_callback>
+    <title>Message Template Builder</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
+  </item>
+  <item>
+    <path>civicrm/mosaico/index</path>
+    <page_callback>CRM_Mosaico_Page_Index</page_callback>
+    <title>Message Template Builder</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
+  </item>
+  <item>
+    <path>civicrm/mosaico/editor</path>
+    <page_callback>CRM_Mosaico_Page_Editor</page_callback>
+    <title>Integration with Mosaico</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
+  </item>
+  <item>
+    <path>civicrm/mosaico/upload</path>
+    <page_callback>CRM_Mosaico_Utils::processUpload</page_callback>
+    <title>Integration with Mosaico</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
+  </item>
+  <item>
+    <path>civicrm/mosaico/img</path>
+    <page_callback>CRM_Mosaico_Utils::processImg</page_callback>
+    <title>Integration with Mosaico</title>
+    <access_callback>1</access_callback>
+    <is_public>true</is_public>
+  </item>
+  <item>
+    <path>civicrm/mosaico/dl</path>
+    <page_callback>CRM_Mosaico_Utils::processDl</page_callback>
+    <title>Integration with Mosaico</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
+  </item>
+  <item>
+    <path>civicrm/mosaico/ajax/getallmd</path>
+    <page_callback>CRM_Mosaico_Utils::getAllMetadata</page_callback>
+    <title>Integration with Mosaico</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
   </item>
   <item>
     <path>civicrm/mosaico/ajax/edit</path>
-   <page_callback>CRM_Mosaico_Utils::editCiviMsgTemplateInMosaico</page_callback>
-   <title>Integration with Mosaico</title>
-   <access_arguments>access CiviCRM</access_arguments>
+    <page_callback>CRM_Mosaico_Utils::editCiviMsgTemplateInMosaico</page_callback>
+    <title>Integration with Mosaico</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
   </item>
   <item>
-   <path>civicrm/mosaico/ajax/settemplate</path>
-   <page_callback>CRM_Mosaico_Utils::setTemplateinMosaicoCustomTable</page_callback>
-   <title>Update Mosaico Template</title>
-   <access_arguments>access CiviCRM</access_arguments>
+    <path>civicrm/mosaico/ajax/settemplate</path>
+    <page_callback>CRM_Mosaico_Utils::setTemplateinMosaicoCustomTable</page_callback>
+    <title>Update Mosaico Template</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
   </item>
-
 </menu>

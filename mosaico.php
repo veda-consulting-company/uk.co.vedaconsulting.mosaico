@@ -168,7 +168,7 @@ function mosaico_civicrm_navigationMenu(&$params){
       'parentID'  => $parentId,
       'operator'  => NULL,
       'navID'     => $msgTplMaxId,
-      'permission'=> 'administer CiviCRM',
+      'permission'=> 'access CiviCRM Mosaico',
     ),
   );
 }
@@ -256,4 +256,17 @@ function mosaico_civicrm_check(&$messages) {
       \Psr\Log\LogLevel::CRITICAL
     );
   }
+}
+
+/**
+ * Implementation of hook_civicrm_permission
+ *
+ * @param array $permissions
+ * @return void
+ */
+function mosaico_civicrm_permission(&$permissions) {
+    $prefix = ts('CiviMail Mosaico') . ': '; // name of extension or module
+    $permissions += array(
+        'access CiviCRM Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
+    );
 }

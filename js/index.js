@@ -32,6 +32,7 @@
         },{
           name: 'tutorial', desc: 'The Tutorial'
         }]
+         
       };
 
       viewModel.edits.subscribe(function(newEdits) {

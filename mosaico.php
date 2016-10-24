@@ -281,17 +281,24 @@ function mosaico_civicrm_permission(&$permissions) {
 function mosaico_civicrm_alterMailContent(&$content)
 {
 
-   //create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
-   //convert string below into just the absolute url and add static directory
-   //img?src=https%3A%2F%2Fwww.*****.com%2Ffiles%2Fcivicrm%2Fpersist%2Fcontribute%2Fuploads%2Flionel_in_harry_potter_dress.jpg&amp;method=resize&amp;params=570
-   //@TODO load Mosaico directory config and use that below.
+function mosaico_civicrm_alterMailContent(&$content)
+{
+   /** 
+    * create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
+    * convert string below into just the absolute url with addition of static directory where correctly sized image is stored
+    * Mosaico image urls are in this format:
+    * img?src=BASE_URL+UPLOADS_URL+imagename+imagemagickparams
+    */
+    $mosaico_config = CRM_Mosaico_Utils::getConfig();
+    $mosaico_image_upload_dir = urlencode($mosaico_config['BASE_URL'].$mosaico_config['UPLOADS_URL']);
 
     $content = preg_replace_callback(
-        "/src=\"h.+img\?src=(.+persist%2Fcontribute%2Fimages%2Fuploads%2F)(.+)&.*\"/U",
+        "/src=\"h.+img\?src=(".$mosaico_image_upload_dir.")(.+)&.*\"/U",
         function($matches){
           return "src=\"" . urldecode($matches[1]) . "static/" . urldecode($matches[2]) . "\"";
         },
         $content
     );
+}
 
 }

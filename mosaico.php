@@ -274,7 +274,7 @@ function mosaico_civicrm_permission(&$permissions) {
 /**
  * Implementation of hook_civicrm_alterMailContent
  *
- * @param array $permissions
+ * @param array $content  html, text, subject
  * @return void
  */
 

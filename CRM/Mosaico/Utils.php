@@ -245,7 +245,11 @@ class CRM_Mosaico_Utils {
 
         $image = self::resizeImage( $file_name, $method, $width, $height );
 
-        header( "Content-type: " . $mime_type );
+        $expiry_time = 2592000;  //30days (60sec * 60min * 24hours * 30days)
+        header("Pragma: cache");
+        header("Cache-Control: max-age=".$expiry_time.", public");
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expiry_time) . ' GMT');
+        header("Content-type:" . $mime_type );
 
         echo $image;
       }

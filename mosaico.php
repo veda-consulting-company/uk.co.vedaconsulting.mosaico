@@ -270,3 +270,28 @@ function mosaico_civicrm_permission(&$permissions) {
         'access CiviCRM Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
     );
 }
+
+/**
+ * Implementation of hook_civicrm_alterMailContent
+ *
+ * @param array $permissions
+ * @return void
+ */
+
+function mosaico_civicrm_alterMailContent(&$content)
+{
+
+   //create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
+   //convert string below into just the absolute url and add static directory
+   //img?src=https%3A%2F%2Fwww.*****.com%2Ffiles%2Fcivicrm%2Fpersist%2Fcontribute%2Fuploads%2Flionel_in_harry_potter_dress.jpg&amp;method=resize&amp;params=570
+   //@TODO load Mosaico directory config and use that below.
+
+    $content = preg_replace_callback(
+        "/src=\"h.+img\?src=(.+persist%2Fcontribute%2Fimages%2Fuploads%2F)(.+)&.*\"/U",
+        function($matches){
+          return "src=\"" . urldecode($matches[1]) . "static/" . urldecode($matches[2]) . "\"";
+        },
+        $content
+    );
+
+}

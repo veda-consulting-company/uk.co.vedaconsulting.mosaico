@@ -280,9 +280,6 @@ function mosaico_civicrm_permission(&$permissions) {
 
 function mosaico_civicrm_alterMailContent(&$content)
 {
-
-function mosaico_civicrm_alterMailContent(&$content)
-{
    /** 
     * create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
     * convert string below into just the absolute url with addition of static directory where correctly sized image is stored
@@ -299,6 +296,4 @@ function mosaico_civicrm_alterMailContent(&$content)
         },
         $content
     );
-}
-
 }

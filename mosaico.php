@@ -292,7 +292,7 @@ function mosaico_civicrm_alterMailContent(&$content)
     $content = preg_replace_callback(
         "/src=\"h.+img\?src=(".$mosaico_image_upload_dir.")(.+)&.*\"/U",
         function($matches){
-          return "src=\"" . urldecode($matches[1]) . "static/" . urldecode($matches[2]) . "\"";
+          return "src=\"" . rawurldecode($matches[1]) . "static/" . rawurldecode($matches[2]) . "\"";
         },
         $content
     );

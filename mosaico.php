@@ -158,7 +158,7 @@ function mosaico_civicrm_navigationMenu(&$params){
   //$msgTpls  = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Message Templates', 'id', 'name');
 
   $maxId       = max(array_keys($params));
-  $msgTplMaxId = empty($msgTpls) ? $maxId+1 : $msgTpls;
+  $msgTplMaxId = empty($msgTpls) ? $maxId+10 : $msgTpls;
   $params[$parentId]['child'][$msgTplMaxId] = array(
     'attributes' => array(
       'label'     => ts('Message Template Builder'),

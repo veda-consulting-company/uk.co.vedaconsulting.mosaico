@@ -287,7 +287,7 @@ function mosaico_civicrm_alterMailContent(&$content)
     * img?src=BASE_URL+UPLOADS_URL+imagename+imagemagickparams
     */
     $mosaico_config = CRM_Mosaico_Utils::getConfig();
-    $mosaico_image_upload_dir = urlencode($mosaico_config['BASE_URL'].$mosaico_config['UPLOADS_URL']);
+    $mosaico_image_upload_dir = rawurlencode($mosaico_config['BASE_URL'].$mosaico_config['UPLOADS_URL']);
 
     $content = preg_replace_callback(
         "/src=\"h.+img\?src=(".$mosaico_image_upload_dir.")(.+)&.*\"/U",

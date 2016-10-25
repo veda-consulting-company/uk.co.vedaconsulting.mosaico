@@ -29,19 +29,9 @@ function mosaico_civicrm_xmlMenu(&$files) {
  */
 function mosaico_civicrm_install() {
   _mosaico_civix_civicrm_install();
-  
+
   $schema = new CRM_Logging_Schema();
   $schema->fixSchemaDifferences();
-
-  $civiConfig = CRM_Core_Config::singleton();
-  if ($civiConfig->imageUploadDir) {
-    $prefix = rtrim($civiConfig->imageUploadDir, DIRECTORY_SEPARATOR);
-    foreach (array("$prefix/static", "$prefix/uploads", "$prefix/uploads/thumbnails") as $staticDir) {
-      if(!file_exists($staticDir)) {
-        mkdir($staticDir, 0755);
-      }
-    }
-  }
 }
 
 /**
@@ -126,7 +116,7 @@ function mosaico_civicrm_caseTypes(&$caseTypes) {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
  */
 function mosaico_civicrm_angularModules(&$angularModules) {
-_mosaico_civix_civicrm_angularModules($angularModules);
+  _mosaico_civix_civicrm_angularModules($angularModules);
 }
 
 /**
@@ -151,14 +141,14 @@ function mosaico_civicrm_preProcess($formName, &$form) {
 
 }
 
-*/
+ */
 
 function mosaico_civicrm_navigationMenu(&$params){
   $parentId = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Mailings', 'id', 'name');
   //$msgTpls  = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Message Templates', 'id', 'name');
 
   $maxId       = max(array_keys($params));
-  $msgTplMaxId = empty($msgTpls) ? $maxId+10 : $msgTpls;
+  $msgTplMaxId = empty($msgTpls) ? $maxId+1 : $msgTpls;
   $params[$parentId]['child'][$msgTplMaxId] = array(
     'attributes' => array(
       'label'     => ts('Message Template Builder'),
@@ -190,7 +180,7 @@ function mosaico_civicrm_pageRun(&$page){
     ");
     while ($dao->fetch()) {
       $resultArray[$dao->id] = $dao->toArray();
-      
+
       $editURL= CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2', FALSE, $dao->hash_key);
       $delURL = CRM_Utils_System::url('civicrm/admin/messageTemplates', 'action=delete&id='.$dao->msg_tpl_id);
       $enableDisableText = $dao->is_active ? 'Disable' : 'Enable';
@@ -200,11 +190,11 @@ function mosaico_civicrm_pageRun(&$page){
       <a href="%s" class="action-item crm-hover-button small-popup" title="Delete this message template" >Delete</a>
       <a href="#" class="action-item crm-hover-button copy-template" value = "%s" title="Copy this message template">Copy</a>
       </span>', $editURL, $enableDisableText, $delURL, $dao->msg_tpl_id);
-      
+
       $resultArray[$dao->id]['action'] = $action;
-	  
+
       //all tempalte values which are exist in Mosaico tempalte and related hash key
-      $exsitingTemplates[$dao->msg_tpl_id] = $dao->hash_key; 
+      $exsitingTemplates[$dao->msg_tpl_id] = $dao->hash_key;
     }
     //To inject new action link with default actions.
     //row already assinged in smarty, so get template variable , and append action and assigned new row values to tpl.
@@ -213,7 +203,7 @@ function mosaico_civicrm_pageRun(&$page){
       $editURL = '#';
       $editableClassName = "edit_msg_tpl_to_mosaico";
       $editableLinkName = "Import in Mosaico";
-	  
+
       //url for existing mosaico templates. otherwise we create dummy with new hashkey and link to open up in mosaico editor.
       //and using classname to allow edit only if not exist in mosaico template.
       if (array_key_exists($key, $exsitingTemplates)) {
@@ -227,12 +217,12 @@ function mosaico_civicrm_pageRun(&$page){
       </span>', $editURL, $editableClassName, $editableLinkName);
 
       if (defined('CIVICRM_MOSAICO_IMPORT') && CIVICRM_MOSAICO_IMPORT == 1) {
-        //MV: allow open msg template in mosaico editor. 
+        //MV: allow open msg template in mosaico editor.
         $rows['userTemplates'][$key]['action'] .= $action;
       }
     }
 
-    $smarty->assign('rows', $rows);    
+    $smarty->assign('rows', $rows);
     $smarty->assign('mosaicoTemplates', $resultArray);
     $smarty->assign('selectedChild', $activeTab);
     // From civi 4.7, no more tinymce, so if only civi version is less than 4.7 show tinymce.
@@ -265,35 +255,35 @@ function mosaico_civicrm_check(&$messages) {
  * @return void
  */
 function mosaico_civicrm_permission(&$permissions) {
-    $prefix = ts('CiviMail Mosaico') . ': '; // name of extension or module
-    $permissions += array(
-        'access CiviCRM Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
-    );
+  $prefix = ts('CiviCRM Mosaico') . ': '; // name of extension or module
+  $permissions += array(
+    'access CiviCRM Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
+  );
 }
 
 /**
  * Implementation of hook_civicrm_alterMailContent
  *
- * @param array $content  html, text, subject
+ * @param array $permissions
  * @return void
  */
 
 function mosaico_civicrm_alterMailContent(&$content)
 {
-   /** 
-    * create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
-    * convert string below into just the absolute url with addition of static directory where correctly sized image is stored
-    * Mosaico image urls are in this format:
-    * img?src=BASE_URL+UPLOADS_URL+imagename+imagemagickparams
-    */
-    $mosaico_config = CRM_Mosaico_Utils::getConfig();
-    $mosaico_image_upload_dir = rawurlencode($mosaico_config['BASE_URL'].$mosaico_config['UPLOADS_URL']);
+  /**
+   * create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
+   * convert string below into just the absolute url with addition of static directory where correctly sized image is stored
+   * Mosaico image urls are in this format:
+   * img?src=BASE_URL+UPLOADS_URL+imagename+imagemagickparams
+   */
+  $mosaico_config = CRM_Mosaico_Utils::getConfig();
+  $mosaico_image_upload_dir = rawurlencode($mosaico_config['BASE_URL'].$mosaico_config['UPLOADS_URL']);
 
-    $content = preg_replace_callback(
-        "/src=\"h.+img\?src=(".$mosaico_image_upload_dir.")(.+)&.*\"/U",
-        function($matches){
-          return "src=\"" . rawurldecode($matches[1]) . "static/" . rawurldecode($matches[2]) . "\"";
-        },
-        $content
-    );
+  $content = preg_replace_callback(
+    "/src=\"h.+img\?src=(".$mosaico_image_upload_dir.")(.+)&.*\"/U",
+    function($matches){
+      return "src=\"" . rawurldecode($matches[1]) . "static/" . rawurldecode($matches[2]) . "\"";
+    },
+    $content
+  );
 }

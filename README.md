@@ -47,4 +47,10 @@ cd uk.co.vedaconsulting.mosaico
 
 ## Download dependencies
 ./bin/setup.sh -D
+
+## Regenerate DAOs
+./bin/setup.sh -g
+
+## Build zip archive
+./bin/setup.sh -z
 ```

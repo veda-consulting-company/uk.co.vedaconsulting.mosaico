@@ -24,6 +24,7 @@ function do_help() {
   echo "  -a     (All)            Implies -Dg (default)"
   echo "  -D     (Download)       Download dependencies"
   echo "  -g     (GenCode)        Generate DAO files, SQL files, etc"
+  echo "  -z     (Zip)            Build installable ZIP file"
 }
 
 ##############################
@@ -89,25 +90,51 @@ function do_download() {
 }
 
 ##############################
+## Build installable ZIP file
+function do_zipfile() {
+  local canary="$EXTROOT/packages/mosaico/dist/mosaico.min.css"
+  if [ ! -f "$canary" ]; then
+    echo "Error: File $canary missing. Are you sure the build is ready?"
+    exit 1
+  fi
+
+  local zipfile="$EXTROOT/build/build.zip"
+  [ -f "$zipfile" ] && rm -f "$zipfile"
+  local basedir=$(basename "$EXTROOT")
+  pushd "$EXTROOT/../" >> /dev/null
+    zip "$zipfile" --exclude="*~" "$basedir"/{LICENSE*,README*,info.xml,mosaico*php}
+    zip "$zipfile" --exclude="*~" -r "$basedir"/{CRM,api,bin,css,js,sql,templates,xml}
+    zip "$zipfile" --exclude="*~" -r "$basedir"/packages/mosaico/{NOTICE,README,LICENSE,dist,templates}*
+  popd >> /dev/null
+  echo "Created: $zipfile"
+}
+
+##############################
 ## Main
-while getopts "aDgh" opt; do
+HAS_ACTION=
+
+while getopts "aDghz" opt; do
   case $opt in
     h)
       do_help
-      exit 0
+      HAS_ACTION=1
       ;;
     a)
       do_download
       do_gencode
-      exit 0
+      HAS_ACTION=1
       ;;
     D)
       do_download
-      exit 0
+      HAS_ACTION=1
       ;;
     g)
       do_gencode
-      exit 0
+      HAS_ACTION=1
+      ;;
+    z)
+      do_zipfile
+      HAS_ACTION=1
       ;;
     \?)
       do_help
@@ -121,5 +148,7 @@ while getopts "aDgh" opt; do
   esac
 done
 
-do_help
-exit 2
+if [ -z "$HAS_ACTION" ]; then
+  do_help
+  exit 2
+fi

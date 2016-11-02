@@ -4,6 +4,55 @@ require_once 'packages/mosaico/backend-php/premailer.php';
 
 class CRM_Mosaico_Utils {
 
+  /**
+   * Determine the URL of the (upstream) Mosaico libraries.
+   *
+   * @param string $preferFormat
+   *   'absolute' or 'relative'.
+   * @param string|NULL $file
+   *   The file within the Mosaico library.
+   * @return string
+   *   Ex: "https://example.com/sites/all/modules/civicrm/tools/extension/uk.co.vedaconsulting.mosaico/packages/mosaico/dist".
+   */
+  public static function getMosaicoDistUrl($preferFormat, $file = NULL) {
+    $key = "distUrl";
+    if (!isset(Civi::$statics[__CLASS__][$key])) {
+      Civi::$statics[__CLASS__][$key] = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist');
+    }
+    return self::filterAbsoluteRelative($preferFormat, Civi::$statics[__CLASS__][$key] . ($file ? "/$file" : ''));
+  }
+
+  /**
+   * Determine the URL of the Mosaico templates folder.
+   *
+   * @param string $preferFormat
+   *   'absolute' or 'relative'.
+   * @param string|NULL $file
+   *   The file within the template library.
+   * @return string
+   *   Ex: "https://example.com/sites/all/modules/civicrm/tools/extension/uk.co.vedaconsulting.mosaico/packages/mosaico/templates".
+   */
+  public static function getTemplatesUrl($preferFormat, $file = NULL) {
+    $key = "templatesUrl";
+    if (!isset(Civi::$statics[__CLASS__][$key])) {
+      Civi::$statics[__CLASS__][$key] = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico', 'packages/mosaico/templates');
+    }
+    return self::filterAbsoluteRelative($preferFormat, Civi::$statics[__CLASS__][$key] . ($file ? "/$file" : ''));
+  }
+
+  /**
+   * @param string $preferFormat
+   *   'absolute' or 'relative'.
+   * @param string $url
+   * @return string
+   */
+  private static function filterAbsoluteRelative($preferFormat, $url) {
+    if ($preferFormat === 'absolute' && !preg_match('/^https?:/', $url)) {
+      $url = (\CRM_Utils_System::isSSL() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $url;
+    }
+    return $url;
+  }
+
   public static function getUrlMimeType($url) {
     $buffer = file_get_contents($url);
     $finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -589,9 +638,8 @@ class CRM_Mosaico_Utils {
     $name
   ) {
     //we have sample template HTML in mosaico package, we use that HTML as a dummy HTML to build metadata.
-    $extResUrl = CRM_Core_Resources::singleton()
-      ->getUrl('uk.co.vedaconsulting.mosaico');
-    $tempalteUrl = $extResUrl . '/packages/mosaico/templates/' . $type . '/template-' . $type . '.html';
+
+    $tempalteUrl = CRM_Mosaico_Utils::getTemplatesUrl('absolute', $type . '/template-' . $type . '.html');
     $html = file_get_contents($tempalteUrl);
     $metadata = array(
       "created" => date('Y-m-d'),

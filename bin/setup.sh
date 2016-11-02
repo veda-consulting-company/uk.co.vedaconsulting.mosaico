@@ -1,17 +1,30 @@
 #!/usr/bin/env bash
+set -e
+
+DEFAULT_MOSAICO_BRANCH="v0.15-civicrm-1"
 EXTROOT=$(cd `dirname $0`/..; pwd)
-CIVIROOT="$1"
+CIVIROOT=$(cv ev 'echo $GLOBALS["civicrm_root"];')
 XMLBUILD="$EXTROOT/build/xml/schema"
 
 if [ -z "$CIVIROOT" -o ! -d "$CIVIROOT" ]; then
-  echo "ERROR: invalid civicrm-dir: [$CIVIROOT]"
+  do_help
   echo ""
-  echo "usage: $0 <civicrm-dir>"
-  echo "example: $0 /var/www/drupal/sites/all/modules/civicrm"
+  echo "ERROR: invalid civicrm-dir: [$CIVIROOT]"
   exit
 fi
 
+
 #echo "[$EXTROOT] [$CIVIROOT]"; exit
+
+##############################
+function do_help() {
+  echo "usage: $0 [options]"
+  echo "example: $0"
+  echo "  -h     (Help)           Show this help screen"
+  echo "  -a     (All)            Implies -Dg (default)"
+  echo "  -D     (Download)       Download dependencies"
+  echo "  -g     (GenCode)        Generate DAO files, SQL files, etc"
+}
 
 ##############################
 ## Make a tempdir, $ext/build/xml/schema; compile full XML tree
@@ -50,12 +63,63 @@ function cleanup() {
   done
 }
 
+##############################
+function do_gencode() {
+  cleanup
+  buildXmlSchema
+  buildDAO
+  echo
+  echo "If there have been XML schema changes, then be sure to manually update the .sql files!"
+}
+
+##############################
+function do_download() {
+  if [ ! -d "$EXTROOT/packages" ]; then
+    mkdir "$EXTROOT/packages"
+  fi
+  if [ ! -d "$EXTROOT/packages/mosaico" ]; then
+    git clone -b "$DEFAULT_MOSAICO_BRANCH" https://github.com/civicrm/mosaico "$EXTROOT/packages/mosaico"
+  fi
+  pushd "$EXTROOT/packages/mosaico" >> /dev/null
+    git fetch --all
+    git checkout "$DEFAULT_MOSAICO_BRANCH"
+    npm install
+    grunt build
+  popd >> /dev/null
+}
 
 ##############################
 ## Main
-set -e
-cleanup
-buildXmlSchema
-buildDAO
-echo
-echo "If there have been XML schema changes, then be sure to manually update the .sql files!"
+while getopts "aDgh" opt; do
+  case $opt in
+    h)
+      do_help
+      exit 0
+      ;;
+    a)
+      do_download
+      do_gencode
+      exit 0
+      ;;
+    D)
+      do_download
+      exit 0
+      ;;
+    g)
+      do_gencode
+      exit 0
+      ;;
+    \?)
+      do_help
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+do_help
+exit 2

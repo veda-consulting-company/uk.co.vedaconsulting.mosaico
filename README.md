@@ -32,3 +32,19 @@ Open issues on [github](https://github.com/veda-consulting/uk.co.vedaconsulting.
 - any related logs or backtrace from civicrm
 - tell us what version of CiviCRM and extension, you using.
 - tell us the browser you are using (name and version) and test at least a second browser to tell us if this happen in both or only one (tell us the details about the second browser too).
+
+### Development: Requirements
+
+ * [`cv`](https://github.com/civicrm/cv)
+ * [`grunt-cli`](http://gruntjs.com/getting-started)
+
+### Development: Installation
+
+```
+## Clone the main git repository
+git clone https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico
+cd uk.co.vedaconsulting.mosaico
+
+## Download dependencies
+./bin/setup.sh -D
+```

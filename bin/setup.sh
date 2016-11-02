@@ -82,8 +82,13 @@ function do_download() {
     git clone -b "$DEFAULT_MOSAICO_BRANCH" https://github.com/civicrm/mosaico "$EXTROOT/packages/mosaico"
   fi
   pushd "$EXTROOT/packages/mosaico" >> /dev/null
-    git fetch --all
-    git checkout "$DEFAULT_MOSAICO_BRANCH"
+    local currentBranch=$(basename /$(git symbolic-ref HEAD 2>/dev/null))
+    if [ "$currentBranch" != "$DEFAULT_MOSAICO_BRANCH" ]; then
+      echo "Error: packages/mosaico is not on expected branch ($DEFAULT_MOSAICO_BRANCH). You may either:"
+      echo " (1) Manage the branch manualy using 'npm' and 'grunt', or"
+      echo " (2) Checkout the branch '$DEFAULT_MOSAICO_BRANCH'"
+      exit 1
+    fi
     npm install
     grunt build
   popd >> /dev/null

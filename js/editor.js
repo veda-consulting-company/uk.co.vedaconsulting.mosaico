@@ -5,9 +5,12 @@ $(function() {
   }
   var cmsPath = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
   var imageUrl = cmsPath;
-  if (cmsPath.indexOf('wp-admin/admin.php') !== -1) {//Fix me CRM.url 
-    imageUrl = cmsPath.replace('wp-admin/admin.php','');//In order to stop image urls get admin in there which causes images not being displayed in email for wordpress
+  if (cmsPath.indexOf('wp-admin/admin.php') !== -1) {//Fix me CRM.url for Wordpress
+    imageUrl = cmsPath.replace('wp-admin/admin.php',''); //In order to stop image urls get admin in there which causes images not being displayed in email for wordpress
+  } else if (cmsPath.indexOf('administrator/') !== -1) { //Fix me CRM.url 
+    imageUrl = cmsPath.replace('administrator/',''); //In order to stop image urls get admin in there which causes images not being displayed in email for joomla
   }
+
   var plugins;
   // A basic plugin that expose the "viewModel" object as a global variable.
   // plugins = [function(vm) {window.viewModel = vm;}];

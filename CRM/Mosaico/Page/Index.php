@@ -33,7 +33,7 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
         );
       } else {
         // check if the resource url is correct.
-        $file = rtrim($config->extensionsURL, '/') . '/uk.co.vedaconsulting.mosaico/packages/mosaico/templates/versafix-1/template-versafix-1.html';
+        $file = CRM_Mosaico_Utils::getTemplatesUrl('absolute', 'versafix-1/template-versafix-1.html');
         if (FALSE === file_get_contents($file)) {
           $messages[] = new CRM_Utils_Check_Message(
             'mosaico_exturl',
@@ -84,7 +84,7 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
       CRM_Core_Session::setStatus($message->getMessage(), $message->getTitle(), 'error');
     }
 
-    $this->assign('extResUrl', CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico'));
+    $this->assign('mosaicoTemplatesUrl', CRM_Mosaico_Utils::getTemplatesUrl('relative'));
     return parent::run();
   }
 
@@ -101,14 +101,20 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
       );
       return $jsvar;
     });
-    
-    $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/mosaico-material.min.css', $weight++, 'html-header', TRUE);
-    $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/vendor/notoregular/stylesheet.css', $weight++, 'html-header', TRUE);
 
-    $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/vendor/knockout.js', $weight++, 'html-header', TRUE);
+    $res->addVars('mosaico', array(
+      'distUrl' => CRM_Mosaico_Utils::getMosaicoDistUrl('relative'),
+      'templatesUrl' => CRM_Mosaico_Utils::getTemplatesUrl('relative'),
+    ));
+
+    $distUrl = CRM_Mosaico_Utils::getMosaicoDistUrl('relative');
+    $res->addStyleUrl("$distUrl/mosaico-material.min.css", $weight++, 'html-header', TRUE);
+    $res->addStyleUrl("$distUrl/vendor/notoregular/stylesheet.css", $weight++, 'html-header', TRUE);
+
+    $res->addScriptUrl("$distUrl/vendor/knockout.js", $weight++, 'html-header', TRUE);
 
     // civi already has jquery.min
-    //$res->addScriptFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/vendor/jquery.min.js', $weight++, 'html-header', TRUE);
+    //$res->addScriptUrl("$distUrl/vendor/jquery.min.js", $weight++, 'html-header', TRUE);
     $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'js/index.js', $weight++, 'html-header', FALSE);
 
 

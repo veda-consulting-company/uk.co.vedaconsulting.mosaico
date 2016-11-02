@@ -1,6 +1,7 @@
 <?php
 
-require_once 'packages/mosaico/backend-php/premailer.php';
+//this may not be required as it doesn't appear to be used anywhere?
+//require_once 'packages/premailer/premailer.php';
 
 class CRM_Mosaico_Utils {
 

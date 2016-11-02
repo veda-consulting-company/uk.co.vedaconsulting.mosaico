@@ -1,9 +1,0 @@
-bower_components
-node_modules
-uploads/**
-!uploads/README.md
-.tmp/**
-!.tmp/README.md
-build
-#DS: let git track dist
-#dist

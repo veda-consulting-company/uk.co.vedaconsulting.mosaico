@@ -3,18 +3,7 @@ set -e
 
 DEFAULT_MOSAICO_BRANCH="v0.15-civicrm-1"
 EXTROOT=$(cd `dirname $0`/..; pwd)
-CIVIROOT=$(cv ev 'echo $GLOBALS["civicrm_root"];')
 XMLBUILD="$EXTROOT/build/xml/schema"
-
-if [ -z "$CIVIROOT" -o ! -d "$CIVIROOT" ]; then
-  do_help
-  echo ""
-  echo "ERROR: invalid civicrm-dir: [$CIVIROOT]"
-  exit
-fi
-
-
-#echo "[$EXTROOT] [$CIVIROOT]"; exit
 
 ##############################
 function do_help() {
@@ -28,8 +17,23 @@ function do_help() {
 }
 
 ##############################
+function use_civiroot() {
+  if [ -z "$CIVIROOT" ]; then
+    CIVIROOT=$(cv ev 'echo $GLOBALS["civicrm_root"];')
+    if [ -z "$CIVIROOT" -o ! -d "$CIVIROOT" ]; then
+      do_help
+      echo ""
+      echo "ERROR: invalid civicrm-dir: [$CIVIROOT]"
+      exit
+    fi
+  fi
+}
+
+##############################
 ## Make a tempdir, $ext/build/xml/schema; compile full XML tree
 function buildXmlSchema() {
+  use_civiroot
+
   mkdir -p "$XMLBUILD"
 
   ## Mix together main xml files
@@ -47,6 +51,7 @@ function buildXmlSchema() {
 ##############################
 ## Run GenCode; copy out the DAOs
 function buildDAO() {
+  use_civiroot
   pushd $CIVIROOT/xml > /dev/null
     php GenCode.php $XMLBUILD/Schema.xml
   popd > /dev/null
@@ -57,6 +62,7 @@ function buildDAO() {
 
 ##############################
 function cleanup() {
+  use_civiroot
   for DIR in "$XMLBUILD" "$CIVIROOT/CRM/Mosaico" "$EXTROOT/CRM/Mosaico/DAO/" ; do
     if [ -e "$DIR" ]; then
       rm -rf "$DIR"

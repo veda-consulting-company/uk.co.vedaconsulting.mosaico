@@ -3,6 +3,7 @@ set -e
 
 DEFAULT_MOSAICO_BRANCH="v0.15-civicrm-1"
 EXTROOT=$(cd `dirname $0`/..; pwd)
+EXTKEY="uk.co.vedaconsulting.mosaico"
 XMLBUILD="$EXTROOT/build/xml/schema"
 
 ##############################
@@ -111,11 +112,19 @@ function do_zipfile() {
 
   local zipfile="$EXTROOT/build/build.zip"
   [ -f "$zipfile" ] && rm -f "$zipfile"
-  local basedir=$(basename "$EXTROOT")
-  pushd "$EXTROOT/../" >> /dev/null
-    zip "$zipfile" --exclude="*~" "$basedir"/{LICENSE*,README*,info.xml,mosaico*php}
-    zip "$zipfile" --exclude="*~" -r "$basedir"/{CRM,api,bin,css,js,sql,templates,xml}
-    zip "$zipfile" --exclude="*~" -r "$basedir"/packages/mosaico/{NOTICE,README,LICENSE,dist,templates}*
+  pushd "$EXTROOT" >> /dev/null
+    ## Build a list of files to include.
+    ## Put the files into the *.zip, using a $EXTKEY as a prefix.
+    {
+       ## Get any files in the project root.
+       find . -mindepth 1 -maxdepth 1 -type f
+       ## Get any files in the main subfolders.
+       find CRM/ api/ bin/ css/ js/ sql/ templates/ xml/ -type f
+       ## Get the distributable files for Mosaico.
+       find packages/mosaico/{NOTICE,README,LICENSE,dist,templates}* -type f
+    } \
+      | grep -v '~$' \
+      | php bin/add-zip-regex.php "$zipfile" ":^:" "$EXTKEY/"
   popd >> /dev/null
   echo "Created: $zipfile"
 }

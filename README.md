@@ -54,3 +54,28 @@ cd uk.co.vedaconsulting.mosaico
 ## Build zip archive
 ./bin/setup.sh -z
 ```
+
+### Development: Patching Mosaico
+
+This extensions ships with a patched version of Mosaico. The patches are maintained as a fork
+in https://github.com/civicrm/mosaico using [Twigflow (Rebase)](https://gist.github.com/totten/39e932e5d10bc9e73e82790b2475eff2).
+
+### Development: Publication
+
+Whenever a change is merged or pushed to `uk.co.vedaconsulting.mosaico`, a bot automatically builds a new `zip` archive
+and publishes to [http://dist.civicrm.org/extension/uk.co.vedaconsulting.mosaico/](http://dist.civicrm.org/extension/uk.co.vedaconsulting.mosaico/).
+
+The build/publish process has a few properties:
+ * It combines [`uk.co.vedaconsulting.mosaico`](https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico),
+   [`civicrm/mosaic`](https://github.com/civicrm/mosaico), and any other runtime dependencies into one `zip` file.
+ * The version number is determined by reading `info.xml` (`<version>`) and appending the current Unix timestamp.
+   * Example: If the `version` is declared as `1.0.beta1`, then it will be published as `1.0.beta1.1478151288`.
+ * Three files are published:
+   * The `zip` archive
+   * The new `info.xml` file
+   * A JSON document describing the build.
+ * An alias is provided under the folder `latest`.
+
+The bot does *not* publish the new version to `civicrm.org`.  To do this, take the new `info.xml` file and manually
+upload it.  Since `civicrm.org` provides a directory of past and current versions, be sure to specify the download-URL
+for a specific version number (e.g.  `1.0.beta1.1478151288`) rather than an alias (`latest`).

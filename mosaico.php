@@ -116,7 +116,7 @@ function mosaico_civicrm_caseTypes(&$caseTypes) {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
  */
 function mosaico_civicrm_angularModules(&$angularModules) {
-  _mosaico_civix_civicrm_angularModules($angularModules);
+_mosaico_civix_civicrm_angularModules($angularModules);
 }
 
 /**

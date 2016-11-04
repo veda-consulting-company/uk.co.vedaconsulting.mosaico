@@ -61,19 +61,18 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
     // check if Mosaico extension is in the correctly named extension directory
     $extDirName = basename(dirname(dirname(dirname(dirname(__FILE__)))));
     if ($extDirName != 'uk.co.vedaconsulting.mosaico') {
-      $messages[] = new CRM_Utils_Check_Message('mosaico_extdirname', ts("We expect extension directory name to be '%1' instead of '%2'. Images and icons may not load correctly.", array(
-        1 => 'uk.co.vedaconsulting.mosaico',
-        2 => $extDirName
-      )), ts('Installed extension directory name not suitable'));
+      $messages[] = new CRM_Utils_Check_Message(
+        'mosaico_extdirname',
+        ts("We expect extension directory name to be '%1' instead of '%2'. Images and icons may not load correctly.", array(1 => 'uk.co.vedaconsulting.mosaico', 2 => $extDirName)),
+        ts('Installed extension directory name not suitable')
+      );
     }
 
     foreach ($messages as $message) {
       CRM_Core_Session::setStatus($message->getMessage(), $message->getTitle(), 'error');
     }
 
-    $this->assign('extResUrl', CRM_Core_Resources::singleton()
-      ->getUrl('uk.co.vedaconsulting.mosaico'));
-
+    $this->assign('mosaicoTemplatesUrl', CRM_Mosaico_Utils::getTemplatesUrl('relative'));
     return parent::run();
   }
 
@@ -86,20 +85,28 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
     $res->addSettingsFactory(function () {
       // in order to use ext resource url in JS - e.g CRM.resourceUrls
       $jsvar = array(
-        'resourceUrls' => CRM_Extension_System::singleton()
-          ->getMapper()
-          ->getActiveModuleUrls(),
+        'resourceUrls' => CRM_Extension_System::singleton()->getMapper()->getActiveModuleUrls(),
       );
       return $jsvar;
     });
 
-    $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/mosaico-material.min.css', $weight++, 'html-header');
-    $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/vendor/notoregular/stylesheet.css', $weight++, 'html-header');
+    $res->addVars('mosaico', array(
+      'distUrl' => CRM_Mosaico_Utils::getMosaicoDistUrl('relative'),
+      'templatesUrl' => CRM_Mosaico_Utils::getTemplatesUrl('relative'),
+    ));
 
-    $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/vendor/knockout.js', $weight++, 'html-header', TRUE);
+    $distUrl = CRM_Mosaico_Utils::getMosaicoDistUrl('relative');
+    $res->addStyleUrl("$distUrl/mosaico-material.min.css", $weight++, 'html-header', TRUE);
+    $res->addStyleUrl("$distUrl/vendor/notoregular/stylesheet.css", $weight++, 'html-header', TRUE);
+
+    $res->addScriptUrl("$distUrl/vendor/knockout.js", $weight++, 'html-header', TRUE);
+
+    // civi already has jquery.min
+    //$res->addScriptUrl("$distUrl/vendor/jquery.min.js", $weight++, 'html-header', TRUE);
     $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'js/index.js', $weight++, 'html-header', FALSE);
 
-    $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'css/index.css', $weight++, 'html-header');
-    $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'js/index2.js', $weight++, 'html-header');
+
+    $res->addStyleFile('uk.co.vedaconsulting.mosaico', 'css/index.css', $weight++, 'html-header', TRUE);
+    $res->addScriptFile('uk.co.vedaconsulting.mosaico', 'js/index2.js', $weight++, 'html-header', TRUE);
   }
 }

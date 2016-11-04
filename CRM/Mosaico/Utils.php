@@ -1,17 +1,66 @@
 <?php
 
 //this may not be required as it doesn't appear to be used anywhere?
-//require_once 'packages/mosaico/backend-php/premailer.php';
+//require_once 'packages/premailer/premailer.php';
 
 class CRM_Mosaico_Utils {
 
-  static function getUrlMimeType($url) {
+  /**
+   * Determine the URL of the (upstream) Mosaico libraries.
+   *
+   * @param string $preferFormat
+   *   'absolute' or 'relative'.
+   * @param string|NULL $file
+   *   The file within the Mosaico library.
+   * @return string
+   *   Ex: "https://example.com/sites/all/modules/civicrm/tools/extension/uk.co.vedaconsulting.mosaico/packages/mosaico/dist".
+   */
+  public static function getMosaicoDistUrl($preferFormat, $file = NULL) {
+    $key = "distUrl";
+    if (!isset(Civi::$statics[__CLASS__][$key])) {
+      Civi::$statics[__CLASS__][$key] = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist');
+    }
+    return self::filterAbsoluteRelative($preferFormat, Civi::$statics[__CLASS__][$key] . ($file ? "/$file" : ''));
+  }
+
+  /**
+   * Determine the URL of the Mosaico templates folder.
+   *
+   * @param string $preferFormat
+   *   'absolute' or 'relative'.
+   * @param string|NULL $file
+   *   The file within the template library.
+   * @return string
+   *   Ex: "https://example.com/sites/all/modules/civicrm/tools/extension/uk.co.vedaconsulting.mosaico/packages/mosaico/templates".
+   */
+  public static function getTemplatesUrl($preferFormat, $file = NULL) {
+    $key = "templatesUrl";
+    if (!isset(Civi::$statics[__CLASS__][$key])) {
+      Civi::$statics[__CLASS__][$key] = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico', 'packages/mosaico/templates');
+    }
+    return self::filterAbsoluteRelative($preferFormat, Civi::$statics[__CLASS__][$key] . ($file ? "/$file" : ''));
+  }
+
+  /**
+   * @param string $preferFormat
+   *   'absolute' or 'relative'.
+   * @param string $url
+   * @return string
+   */
+  private static function filterAbsoluteRelative($preferFormat, $url) {
+    if ($preferFormat === 'absolute' && !preg_match('/^https?:/', $url)) {
+      $url = (\CRM_Utils_System::isSSL() ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $url;
+    }
+    return $url;
+  }
+
+  public static function getUrlMimeType($url) {
     $buffer = file_get_contents($url);
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     return $finfo->buffer($buffer);
   }
 
-  static function getConfig() {
+  public static function getConfig() {
     static $mConfig = array();
 
     if (empty($mConfig)) {
@@ -44,7 +93,7 @@ class CRM_Mosaico_Utils {
 
         /* width and height of generated thumbnails */
         'THUMBNAIL_WIDTH' => 90,
-        'THUMBNAIL_HEIGHT' => 90
+        'THUMBNAIL_HEIGHT' => 90,
       );
     }
 
@@ -55,7 +104,7 @@ class CRM_Mosaico_Utils {
   /**
    * handler for upload requests
    */
-  static function processUpload() {
+  public static function processUpload() {
     $config = self::getConfig();
 
     global $http_return_code;
@@ -140,7 +189,7 @@ class CRM_Mosaico_Utils {
   /**
    * handler for img requests
    */
-  static function processImg() {
+  public static function processImg() {
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
       $method = $_GET["method"];
 
@@ -200,10 +249,10 @@ class CRM_Mosaico_Utils {
         header("Content-type: image/png");
 
         echo $image;
-
-      } else {
-
+      }
+      else {
         $file_name = $_GET["src"];
+
         $path_parts = pathinfo($file_name);
 
         switch ($path_parts["extension"]) {
@@ -239,7 +288,7 @@ class CRM_Mosaico_Utils {
   /**
    * handler for dl requests
    */
-  static function processDl() {
+  public static function processDl() {
     $config = self::getConfig();
     global $http_return_code;
 
@@ -254,15 +303,19 @@ class CRM_Mosaico_Utils {
 
     $matches = [];
 
-    $num_full_pattern_matches = preg_match_all('#<img.*?src="([^"]*?\/[^/]*\.[^"]+)#i', $html, $matches);
+    $num_full_pattern_matches = preg_match_all('#<img.*?src="([^"]*?\/[^/]*\.[^"]+)#i',
+      $html, $matches);
 
     for ($i = 0; $i < $num_full_pattern_matches; $i++) {
       if (preg_match('#/img/(\?|&amp;)src=#i', $matches[1][$i])) {
         $src_matches = [];
 
-        if (preg_match('#/img/(\?|&amp;)src=(.*)&amp;method=(.*)&amp;params=(.*)#i', $matches[1][$i], $src_matches) !== FALSE) {
+        if (preg_match('#/img/(\?|&amp;)src=(.*)&amp;method=(.*)&amp;params=(.*)#i',
+            $matches[1][$i], $src_matches) !== FALSE
+        ) {
           $file_name = urldecode($src_matches[2]);
-          $file_name = substr($file_name, strlen($config['BASE_URL'] . $config['UPLOADS_DIR']));
+          $file_name = substr($file_name,
+            strlen($config['BASE_URL'] . $config['UPLOADS_DIR']));
 
           $method = urldecode($src_matches[3]);
 
@@ -273,7 +326,9 @@ class CRM_Mosaico_Utils {
 
           $static_file_name = $method . "_" . $width . "x" . $height . "_" . $file_name;
 
-          $html = str_ireplace($matches[1][$i], $config['BASE_URL'] . $config['STATIC_URL'] . rawurlencode($static_file_name), $html);//Changed to rawurlencode because space gets into + in the image file name if it has space
+          $html = str_ireplace($matches[1][$i],
+            $config['BASE_URL'] . $config['STATIC_URL'] . rawurlencode($static_file_name),
+            $html);//Changed to rawurlencode because space gets into + in the image file name if it has space
 
           // resize and save static version of image
           self::resizeImage($file_name, $method, $width, $height);
@@ -283,10 +338,15 @@ class CRM_Mosaico_Utils {
     }
     if (defined('CIVICRM_MAIL_SMARTY') && CIVICRM_MAIL_SMARTY == 1) {
       // keep head section in literal to avoid smarty errors. Specially when CIVICRM_MAIL_SMARTY is turned on.
-      $html = str_ireplace(array('<head>', '</head>'), array('{literal}<head>', '</head>{/literal}'), $html);
-    } else if (defined('CIVICRM_MAIL_SMARTY') && CIVICRM_MAIL_SMARTY == 0) {
-      // get rid of any injected literal tags to avoid them appearing in emails
-      $html = str_ireplace(array('{literal}<head>', '</head>{/literal}'), array('<head>', '</head>'), $html);
+      $html = str_ireplace(array('<head>', '</head>'),
+        array('{literal}<head>', '</head>{/literal}'), $html);
+    }
+    else {
+      if (defined('CIVICRM_MAIL_SMARTY') && CIVICRM_MAIL_SMARTY == 0) {
+        // get rid of any injected literal tags to avoid them appearing in emails
+        $html = str_ireplace(array('{literal}<head>', '</head>{/literal}'),
+          array('<head>', '</head>'), $html);
+      }
     }
 
     /* perform the requested action */
@@ -380,7 +440,8 @@ class CRM_Mosaico_Utils {
         if (CRM_Utils_Mail::send($mailParams)) {
           $result['sent'] = TRUE;
           CRM_Utils_JSON::output($result);
-        } else {
+        }
+        else {
           CRM_Utils_JSON::output($result);
           return FALSE;
         }
@@ -393,7 +454,7 @@ class CRM_Mosaico_Utils {
 
   /**
    */
-  static function getAllMetadata() {
+  public static function getAllMetadata() {
     $result = array();
     $mosTpl = new CRM_Mosaico_DAO_MessageTemplate();
     $mosTpl->find();
@@ -407,20 +468,22 @@ class CRM_Mosaico_Utils {
   /**
    * function to resize images using resize or cover methods
    */
-  static function resizeImage($file_name, $method, $width, $height) {
+  public static function resizeImage($file_name, $method, $width, $height) {
     $config = self::getConfig();
 
     if (file_exists($config['BASE_DIR'] . $config['STATIC_DIR'] . $file_name)) {
       //use existing file
       $image = new Imagick($config['BASE_DIR'] . $config['STATIC_DIR'] . $file_name);
 
-    } else {
+    }
+    else {
 
       $image = new Imagick($config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name);
 
       if ($method == "resize") {
         $image->resizeImage($width, $height, Imagick::FILTER_LANCZOS, 1.0);
-      } else // $method == "cover"
+      }
+      else // $method == "cover"
       {
         $image_geometry = $image->getImageGeometry();
 
@@ -432,11 +495,13 @@ class CRM_Mosaico_Utils {
 
         if ($width_ratio > $height_ratio) {
           $resize_width = 0;
-        } else {
+        }
+        else {
           $resize_height = 0;
         }
 
-        $image->resizeImage($resize_width, $resize_height, Imagick::FILTER_LANCZOS, 1.0);
+        $image->resizeImage($resize_width, $resize_height,
+          Imagick::FILTER_LANCZOS, 1.0);
 
         $image_geometry = $image->getImageGeometry();
 
@@ -445,31 +510,34 @@ class CRM_Mosaico_Utils {
 
         $image->cropImage($width, $height, $x, $y);
       }
-
       //save image for next time so don't need to resize each time
       if ($f = fopen($config['BASE_DIR'] . $config['STATIC_DIR'] . $file_name, "w")) {
         $image->writeImageFile($f);
       }
+
     }
 
     return $image;
   }
 
-  /*function to get mosaico msg templlate id from mosaico msg template id
+  /**
+   * function to get mosaico msg template id from mosaico msg template id
+   *
    * @param $msgTplId
-   * @return $mosaicoTplId
+   * @return int
+   *   The $mosaicoTplId
    */
-  static function getMosaicoMsgTplIdFromMsgTplId($msgTplId) {
+  public static function getMosaicoMsgTplIdFromMsgTplId($msgTplId) {
     $query = "SELECT id FROM civicrm_mosaico_msg_template WHERE msg_tpl_id = %1";
     $queryParams = array(1 => array($msgTplId, 'Int'));
     return CRM_Core_DAO::singleValueQuery($query, $queryParams);
 
   }
 
-  /*function to get mosaico msg template detilas
-   *
+  /**
+   * function to get mosaico msg template detilas
    */
-  static function getMosaicoMsgTemplate($mosaicoTemplateId) {
+  public static function getMosaicoMsgTemplate($mosaicoTemplateId) {
     $tableName = MOSAICO_TABLE_NAME;
     $getSQL = "SELECT hash_key, html, metadata, template FROM {$tableName} WHERE id = %1";
     $getSQLParams = array(1 => array($mosaicoTemplateId, 'Int'));
@@ -487,29 +555,35 @@ class CRM_Mosaico_Utils {
     return $mosaicoTemplate;
   }
 
-  /* function to set metadata
-   *
+  /**
+   * function to set metadata
    */
-  static function setMetadata() {
+  public static function setMetadata() {
     $result = array();
-    $mosaicoTemplateId = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, TRUE);
-    $metadata = CRM_Utils_Request::retrieve('md', 'String', CRM_Core_DAO::$_nullObject, TRUE);
-    $hashKey = CRM_Utils_Request::retrieve('hash_key', 'String', CRM_Core_DAO::$_nullObject, TRUE);
+    $mosaicoTemplateId = CRM_Utils_Request::retrieve('id', 'Positive',
+      CRM_Core_DAO::$_nullObject, TRUE);
+    $metadata = CRM_Utils_Request::retrieve('md', 'String',
+      CRM_Core_DAO::$_nullObject, TRUE);
+    $hashKey = CRM_Utils_Request::retrieve('hash_key', 'String',
+      CRM_Core_DAO::$_nullObject, TRUE);
     $tableName = MOSAICO_TABLE_NAME;
     $updateQuery = "UPDATE {$tableName} SET metadata = %1, hash_key = %2 WHERE id = %3";
-    $updateQueryParams = array(1 => array($metadata, 'String'), 2 => array($hashKey, 'String'), 3 => array($mosaicoTemplateId, 'Int'));
+    $updateQueryParams = array(
+      1 => array($metadata, 'String'),
+      2 => array($hashKey, 'String'),
+      3 => array($mosaicoTemplateId, 'Int'),
+    );
     $result['data'] = 'success';
     CRM_Core_DAO::executeQuery($updateQuery, $updateQueryParams);
     CRM_Utils_JSON::output($result);
   }
 
-  /*
+  /**
    * function to copy template
-   *
    */
-
-  static function copyTemplate() {
-    $msgTplId = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, TRUE);
+  public static function copyTemplate() {
+    $msgTplId = CRM_Utils_Request::retrieve('id', 'Positive',
+      CRM_Core_DAO::$_nullObject, TRUE);
     $mosaicoMsgTplId = CRM_Mosaico_Utils::getMosaicoMsgTplIdFromMsgTplId($msgTplId);
     // get the message template which is going to be copied.
     $messageTemplate = new CRM_Core_DAO_MessageTemplate();
@@ -548,59 +622,66 @@ class CRM_Mosaico_Utils {
    * create  mosaico template structure with default values.
    * In packages, we have sample template HTML, we reuse the HTML and create JSON format template variables and metadata values
    */
-  static function createDummyMosaicoTempalte($hashKey, $type, $msgTplId, $name) {
+  public static function createDummyMosaicoTempalte(
+    $hashKey,
+    $type,
+    $msgTplId,
+    $name
+  ) {
     //we have sample template HTML in mosaico package, we use that HTML as a dummy HTML to build metadata.
-    $extResUrl = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico');
-    $tempalteUrl = $extResUrl . '/packages/mosaico/templates/' . $type . '/template-' . $type . '.html';
+
+    $tempalteUrl = CRM_Mosaico_Utils::getTemplatesUrl('absolute', $type . '/template-' . $type . '.html');
     $html = file_get_contents($tempalteUrl);
     $metadata = array(
-      "created" => date('Y-m-d')
-    , "key" => $hashKey
-    , "name" => $name
-    , "template" => $tempalteUrl
+      "created" => date('Y-m-d'),
+      "key" => $hashKey,
+      "name" => $name,
+      "template" => $tempalteUrl,
     );
     $metadata = json_encode($metadata);
 
     switch ($type) {
       case 'tedc15':
         $template = array(
-          "type" => "template"
-        , "gutterWidth" => "20"
-        , "mainBlocks" => array(
-            "type" => "blocks"
-          , "blocks" => array()
-          )
-        , "theme" => array("type" => "theme", "bodyTheme" => null)
+          "type" => "template",
+          "gutterWidth" => "20",
+          "mainBlocks" => array(
+            "type" => "blocks",
+            "blocks" => array(),
+          ),
+          "theme" => array("type" => "theme", "bodyTheme" => NULL),
         );
         break;
+
       case 'tutorial':
         $template = array(
-          "type" => "template"
-        , "mainBlocks" => array(
-            "type" => "blocks"
-          , "blocks" => array()
-          )
-        , "theme" => array(
-            "type" => "theme"
-          , "bodyTheme" => array(
-              "type" => "bodyTheme"
-            , "color" => "#f0f0f0"
-            )
-          )
+          "type" => "template",
+          "mainBlocks" => array(
+            "type" => "blocks",
+            "blocks" => array(),
+          ),
+          "theme" => array(
+            "type" => "theme",
+            "bodyTheme" => array(
+              "type" => "bodyTheme",
+              "color" => "#f0f0f0",
+            ),
+          ),
         );
         break;
+
       default:
         $template = array(
-          "type" => "template"
-        , "customStyle" => false
-        , "mainBlocks" => array(
-            "type" => "blocks"
-          , "blocks" => array()
-          )
-        , "theme" => array(
-            "type" => "theme"
-          , "frameTheme" => null
-          )
+          "type" => "template",
+          "customStyle" => FALSE,
+          "mainBlocks" => array(
+            "type" => "blocks",
+            "blocks" => array(),
+          ),
+          "theme" => array(
+            "type" => "theme",
+            "frameTheme" => NULL,
+          ),
         );
     }
 
@@ -615,25 +696,29 @@ class CRM_Mosaico_Utils {
    * with dummy values, we just build JSON data of template values and metadata, with unique hash key,
    * once we have the dummy template then we can amend Civi msg HTML into template block.
    */
-  static function editCiviMsgTemplateInMosaico() {
-    $msgTplId = CRM_Utils_Request::retrieve('id', 'Positive', CRM_Core_DAO::$_nullObject, TRUE);
-    $hashKey = CRM_Utils_Request::retrieve('hash_key', 'String', CRM_Core_DAO::$_nullObject, TRUE);
-    $templateName = CRM_Utils_Request::retrieve('template_name', 'String', CRM_Core_DAO::$_nullObject, TRUE);
+  public static function editCiviMsgTemplateInMosaico() {
+    $msgTplId = CRM_Utils_Request::retrieve('id', 'Positive',
+      CRM_Core_DAO::$_nullObject, TRUE);
+    $hashKey = CRM_Utils_Request::retrieve('hash_key', 'String',
+      CRM_Core_DAO::$_nullObject, TRUE);
+    $templateName = CRM_Utils_Request::retrieve('template_name', 'String',
+      CRM_Core_DAO::$_nullObject, TRUE);
 
     // get the message template which is going to be copied.
     $messageTemplate = new CRM_Core_DAO_MessageTemplate();
     $messageTemplate->id = $msgTplId;
     if ($messageTemplate->find(TRUE)) {
 
-      list($metadata, $template) = CRM_Mosaico_Utils::createDummyMosaicoTempalte($hashKey, $templateName, $msgTplId, $messageTemplate->msg_title);
+      list($metadata, $template) = CRM_Mosaico_Utils::createDummyMosaicoTempalte($hashKey,
+        $templateName, $msgTplId, $messageTemplate->msg_title);
 
       $result = array(
-        'new_hash_key' => $hashKey
-      , 'name' => $messageTemplate->msg_title
-      , 'msg_tpl_id' => $messageTemplate->id
-      , 'msg_html' => $messageTemplate->msg_html
-      , 'template' => $template
-      , 'metadata' => $metadata
+        'new_hash_key' => $hashKey,
+        'name' => $messageTemplate->msg_title,
+        'msg_tpl_id' => $messageTemplate->id,
+        'msg_html' => $messageTemplate->msg_html,
+        'template' => $template,
+        'metadata' => $metadata,
       );
       CRM_Utils_JSON::output($result);
     }

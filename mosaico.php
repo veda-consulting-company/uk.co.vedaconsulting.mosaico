@@ -32,16 +32,6 @@ function mosaico_civicrm_install() {
   
   $schema = new CRM_Logging_Schema();
   $schema->fixSchemaDifferences();
-
-  $civiConfig = CRM_Core_Config::singleton();
-  if ($civiConfig->imageUploadDir) {
-    $prefix = rtrim($civiConfig->imageUploadDir, DIRECTORY_SEPARATOR);
-    foreach (array("$prefix/static", "$prefix/uploads", "$prefix/uploads/thumbnails") as $staticDir) {
-      if(!file_exists($staticDir)) {
-        mkdir($staticDir, 0755);
-      }
-    }
-  }
 }
 
 /**
@@ -135,7 +125,7 @@ _mosaico_civix_civicrm_angularModules($angularModules);
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_alterSettingsFolders
  */
 function mosaico_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
-  _mosaico_civix_civicrm_alterSettingsFolders($metaDataFolders);
+_mosaico_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
 /**
@@ -269,4 +259,31 @@ function mosaico_civicrm_permission(&$permissions) {
     $permissions += array(
         'access CiviCRM Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
     );
+}
+
+/**
+ * Implementation of hook_civicrm_alterMailContent
+ *
+ * @param array $permissions
+ * @return void
+ */
+
+function mosaico_civicrm_alterMailContent(&$content)
+{
+  /**
+   * create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
+   * convert string below into just the absolute url with addition of static directory where correctly sized image is stored
+   * Mosaico image urls are in this format:
+   * img?src=BASE_URL+UPLOADS_URL+imagename+imagemagickparams
+   */
+  $mosaico_config = CRM_Mosaico_Utils::getConfig();
+  $mosaico_image_upload_dir = rawurlencode($mosaico_config['BASE_URL'].$mosaico_config['UPLOADS_URL']);
+
+  $content = preg_replace_callback(
+    "/src=\"h.+img\?src=(".$mosaico_image_upload_dir.")(.+)&.*\"/U",
+    function($matches){
+      return "src=\"" . rawurldecode($matches[1]) . "static/" . rawurldecode($matches[2]) . "\"";
+    },
+    $content
+  );
 }

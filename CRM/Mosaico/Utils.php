@@ -66,7 +66,6 @@ class CRM_Mosaico_Utils {
     if (empty($mConfig)) {
       $civiConfig = CRM_Core_Config::singleton();
 
-      //DS FIXME: replace this with civi config
       $mConfig = array(
         /* base url for image folders */
         'BASE_URL' => $civiConfig->imageUploadURL,
@@ -97,7 +96,7 @@ class CRM_Mosaico_Utils {
         'THUMBNAIL_HEIGHT' => 90,
       );
     }
-    //CRM_Core_Error::debug_var('$mConfig', $mConfig);
+
     return $mConfig;
   }
 
@@ -137,54 +136,45 @@ class CRM_Mosaico_Utils {
           $files[] = $file;
         }
       }
-    }
-    else {
-      if (!empty($_FILES)) {
-        foreach ($_FILES["files"]["error"] as $key => $error) {
-          if ($error == UPLOAD_ERR_OK) {
-            $tmp_name = $_FILES["files"]["tmp_name"][$key];
+    } else if (!empty($_FILES)) {
+      foreach ($_FILES["files"]["error"] as $key => $error) {
+        if ($error == UPLOAD_ERR_OK) {
+          $tmp_name = $_FILES["files"]["tmp_name"][$key];
 
-            $file_name = $_FILES["files"]["name"][$key];
-            //issue - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/28
-            //Change file name to unique by adding hash so every time uploading same image it will create new image name
-            $file_name = CRM_Utils_File::makeFileName($file_name);
+          $file_name = $_FILES["files"]["name"][$key];
+          //issue - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/28
+          //Change file name to unique by adding hash so every time uploading same image it will create new image name
+          $file_name = CRM_Utils_File::makeFileName($file_name);
 
-            $file_path = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name;
+          $file_path = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name;
 
-            if (move_uploaded_file($tmp_name, $file_path) === TRUE) {
-              $size = filesize($file_path);
+          if (move_uploaded_file($tmp_name, $file_path) === TRUE) {
+            $size = filesize($file_path);
 
-              $image = new Imagick($file_path);
+            $image = new Imagick($file_path);
 
-              $image->resizeImage($config['THUMBNAIL_WIDTH'],
-                $config['THUMBNAIL_HEIGHT'], Imagick::FILTER_LANCZOS, 1.0,
-                TRUE);
-              // $image->writeImage( $config['BASE_DIR'] . $config[ THUMBNAILS_DIR ] . $file_name );
-              if ($f = fopen($config['BASE_DIR'] . $config['THUMBNAILS_DIR'] . $file_name,
-                "w")
-              ) {
-                $image->writeImageFile($f);
-              }
-              $image->destroy();
-
-              $file = array(
-                "name" => $file_name,
-                "url" => $config['BASE_URL'] . $config['UPLOADS_DIR'] . $file_name,
-                "size" => $size,
-                "thumbnailUrl" => $config['BASE_URL'] . $config['THUMBNAILS_URL'] . $file_name,
-              );
-
-              $files[] = $file;
+            $image->resizeImage($config['THUMBNAIL_WIDTH'], $config['THUMBNAIL_HEIGHT'], Imagick::FILTER_LANCZOS, 1.0, TRUE);
+            // $image->writeImage( $config['BASE_DIR'] . $config[ THUMBNAILS_DIR ] . $file_name );
+            if ($f = fopen($config['BASE_DIR'] . $config['THUMBNAILS_DIR'] . $file_name, "w")) {
+              $image->writeImageFile($f);
             }
-            else {
-              $http_return_code = 500;
-              return;
-            }
-          }
-          else {
-            $http_return_code = 400;
+            $image->destroy();
+
+            $file = array(
+              "name" => $file_name,
+              "url" => $config['BASE_URL'] . $config['UPLOADS_DIR'] . $file_name,
+              "size" => $size,
+              "thumbnailUrl" => $config['BASE_URL'] . $config['THUMBNAILS_URL'] . $file_name
+            );
+
+            $files[] = $file;
+          } else {
+            $http_return_code = 500;
             return;
           }
+        } else {
+          $http_return_code = 400;
+          return;
         }
       }
     }
@@ -283,7 +273,11 @@ class CRM_Mosaico_Utils {
 
         $image = self::resizeImage($file_name, $method, $width, $height);
 
-        header("Content-type: " . $mime_type);
+        $expiry_time = 2592000;  //30days (60sec * 60min * 24hours * 30days)
+        header("Pragma: cache");
+        header("Cache-Control: max-age=" . $expiry_time . ", public");
+        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expiry_time) . ' GMT');
+        header("Content-type:" . $mime_type);
 
         echo $image;
       }
@@ -336,13 +330,9 @@ class CRM_Mosaico_Utils {
             $config['BASE_URL'] . $config['STATIC_URL'] . rawurlencode($static_file_name),
             $html);//Changed to rawurlencode because space gets into + in the image file name if it has space
 
-          $image = self::resizeImage($file_name, $method, $width, $height);
+          // resize and save static version of image
+          self::resizeImage($file_name, $method, $width, $height);
 
-          //not needed (resizeImage() now stores a static version if one doesn't already exist
-          //save image for next time so don't need to resize each time
-          /*if($f = fopen( $config['BASE_DIR'] . $config[ 'STATIC_DIR' ] . $file_name, "w")){
-            $image->writeImageFile($f);
-          }*/
         }
       }
     }
@@ -531,7 +521,7 @@ class CRM_Mosaico_Utils {
   }
 
   /**
-   * function to get mosaico msg templlate id from mosaico msg template id
+   * function to get mosaico msg template id from mosaico msg template id
    *
    * @param $msgTplId
    * @return int

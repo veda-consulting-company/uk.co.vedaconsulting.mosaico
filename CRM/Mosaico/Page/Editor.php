@@ -83,10 +83,10 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
         'civicrmtoken' => array(
           'tokens' => $mailTokens['values'],
           'hotlist' => array(
-            '{contact.contact_id}',
-            '{contact.display_name}',
-            '{contact.first_name}',
-            '{contact.last_name}',
+            ts('First Name') => '{contact.first_name}',
+            ts('Last Name') => '{contact.last_name}',
+            ts('Display Name') => '{contact.display_name}',
+            ts('Contact ID') => '{contact.contact_id}',
           ),
         ),
       ),

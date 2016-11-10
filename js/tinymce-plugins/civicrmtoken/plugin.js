@@ -19,7 +19,7 @@
  *
  *  tinymce.init({
  *    civicrmtoken: {
- *      hotlist: ['{domain.name}'],
+ *      hotlist: {'Domain Name': '{domain.name}'},
  *      tokens: [
  *        {
  *          text: 'Domain',
@@ -58,15 +58,11 @@ tinymce.PluginManager.add('civicrmtoken', function(editor, pluginUrl) {
    */
   function createHotListMenu(tokens, hotlist) {
     var hotlistMenu = [];
-    tinymce.each(tokens, function(category) {
-      tinymce.each(category.children, function(token) {
-        if (hotlist.indexOf(token.id) >= 0) {
-          hotlistMenu.push({
-            text: token.text,
-            onclick: function() {
-              editor.insertContent(token.id);
-            }
-          });
+    tinymce.each(hotlist, function(tokenId, tokenLabel){
+      hotlistMenu.push({
+        text: tokenLabel,
+        onclick: function() {
+          editor.insertContent(tokenId);
         }
       });
     });

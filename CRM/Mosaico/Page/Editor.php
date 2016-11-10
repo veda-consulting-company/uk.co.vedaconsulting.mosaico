@@ -54,6 +54,12 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
    * @return array
    */
   protected function createMosaicoConfig() {
+    $res = CRM_Core_Resources::singleton();
+    $mailTokens = civicrm_api3('Mailing', 'gettokens', array(
+      'entity' => array('contact', 'mailing'),
+      'sequential' => 1,
+    ));
+
     return array(
       'imgProcessorBackend' => $this->getUrl('civicrm/mosaico/img', NULL, TRUE),
       'emailProcessorBackend' => $this->getUrl('civicrm/mosaico/dl', NULL, FALSE),
@@ -61,6 +67,32 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
       'fileuploadConfig' => array(
         'url' => $this->getUrl('civicrm/mosaico/upload', NULL, FALSE),
         // messages??
+      ),
+
+      // Note: Mosaico displays TinyMCE using two configurations.
+      // "tinymceConfig": The standard/base configuration for headings, etc.
+      // "tinymceConfigFull": A derivative configuration for paragraphs, etc.
+      //    It extends "tinymceConfig" and adds more plugins/buttons.
+      // See also: https://www.tinymce.com/docs/configure/integration-and-setup/
+      'tinymceConfig' => array(
+        'external_plugins' => array(
+          'civicrmtoken' => $res->getUrl('uk.co.vedaconsulting.mosaico', 'js/tinymce-plugins/civicrmtoken/plugin.js', 1),
+        ),
+        'plugins' => array('paste civicrmtoken'),
+        'toolbar1' => 'bold italic civicrmtoken',
+        'civicrmtoken' => array(
+          'tokens' => $mailTokens['values'],
+          'hotlist' => array(
+            '{contact.contact_id}',
+            '{contact.display_name}',
+            '{contact.first_name}',
+            '{contact.last_name}',
+          ),
+        ),
+      ),
+      'tinymceConfigFull' => array(
+        'plugins' => array('link hr paste lists textcolor code civicrmtoken'),
+        'toolbar1' => 'bold italic forecolor backcolor hr styleselect removeformat | civicrmtoken | link unlink | pastetext code',
       ),
     );
   }

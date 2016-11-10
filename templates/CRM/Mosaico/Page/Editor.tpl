@@ -17,6 +17,20 @@
   {literal}
   <script type="text/javascript">
     $(function() {
+      if (!Mosaico.isCompatible()) {
+        alert('Update your browser!');
+        return;
+      }
+
+      var plugins;
+      // A basic plugin that expose the "viewModel" object as a global variable.
+      // plugins = [function(vm) {window.viewModel = vm;}];
+      var config = {/literal}{$mosaicoConfig}{literal};
+      var ok = Mosaico.init(config, plugins);
+      if (!ok) {
+        console.log("Missing initialization hash, redirecting to main entrypoint");
+      }
+
       addCustomButton();
     });
     function addCustomButton() {

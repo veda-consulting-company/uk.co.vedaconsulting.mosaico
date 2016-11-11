@@ -60,6 +60,10 @@ cd uk.co.vedaconsulting.mosaico
 This extensions ships with a patched version of Mosaico. The patches are maintained as a fork
 in https://github.com/civicrm/mosaico using [Twigflow (Rebase)](https://gist.github.com/totten/39e932e5d10bc9e73e82790b2475eff2).
 
+### Development: Testing
+
+See [TESTING.md](TESTING.md)
+
 ### Development: Publication
 
 Whenever a change is merged or pushed to `uk.co.vedaconsulting.mosaico`, a bot automatically builds a new `zip` archive

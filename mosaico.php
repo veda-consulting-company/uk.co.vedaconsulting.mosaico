@@ -236,6 +236,12 @@ function mosaico_civicrm_pageRun(&$page){
   }
 }
 
+/**
+ * Implements hook_civicrm_check.
+ *
+ * @param array $messages
+ *   List of CRM_Utils_Check_Message objects.
+ */
 function mosaico_civicrm_check(&$messages) {
   //Make sure the ImageMagick library is loaded.
   if( !(extension_loaded('imagick') || class_exists("Imagick"))){
@@ -243,6 +249,22 @@ function mosaico_civicrm_check(&$messages) {
       'mosaico_imagick',
       ts('the ImageMagick library is not installed.  The Email Template Builder extension will not work without it.'),
       ts('ImageMagick not installed'),
+      \Psr\Log\LogLevel::CRITICAL
+    );
+  }
+  if (CRM_Mailing_Info::workflowEnabled()) {
+    $messages[] = new CRM_Utils_Check_Message(
+      'mosaico_workflow',
+      ts('CiviMail is configured to support advanced workflows. This is currently incompatible with the Mosaico mailer. Navigate to "Administer => CiviMail => CiviMail Component Settings" to disable it.'),
+      ts('Advanced CiviMail workflows unsupported'),
+      \Psr\Log\LogLevel::CRITICAL
+    );
+  }
+  if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('bootstrapcivicrm')) {
+    $messages[] = new CRM_Utils_Check_Message(
+      'mosaico_bootstrap',
+      ts('Mosaico uses Bootstrap CSS. Please install the extension "org.civicrm.bootstrapcivicrm".'),
+      ts('Bootstrap required'),
       \Psr\Log\LogLevel::CRITICAL
     );
   }
@@ -285,5 +307,24 @@ function mosaico_civicrm_alterMailContent(&$content)
       return "src=\"" . rawurldecode($matches[1]) . "static/" . rawurldecode($matches[2]) . "\"";
     },
     $content
+  );
+}
+
+/**
+ * Implements hook_civicrm_mailingTemplateTypes().
+ *
+ * @throws \CRM_Core_Exception
+ */
+function mosaico_civicrm_mailingTemplateTypes(&$types) {
+  $messages = array();
+  mosaico_civicrm_check($messages);
+  $editorUrl = empty($messages)
+    ? '~/crmMosaico/EditMailingCtrl/mosaico.html'
+    : '~/crmMosaico/requirements.html';
+
+  $types[] = array(
+    'name' => 'mosaico',
+    'editorUrl' => $editorUrl,
+    'weight' => -10,
   );
 }

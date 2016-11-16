@@ -1,0 +1,8 @@
+<span class="thumbnail crm-mosaico-template-item">
+  <img alt="{{myOptions.title}}" src="{{myOptions.img}}" style="height: 180px; width: 100%; display: block;" ng-click="fireAction('onItemClick')">
+    <a style="float: right;" class="btn btn-xs btn-info-outline glyphicon glyphicon-search" ng-if="hasAction('onItemPreview')" ng-click="fireAction('onItemPreview')"></a>
+    <a ng-click="fireAction('onItemClick')">
+      {{myOptions.title}}
+      <small ng-if="myOptions.subtitle"><br/>{{myOptions.subtitle}}</small>
+    </a>
+</span>

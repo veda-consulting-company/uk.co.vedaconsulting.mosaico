@@ -19,7 +19,9 @@
       {id: '4', title: 'Special Offer', type: 'TEDC 15', thumbnail: tplsUrl + '/tedc15/edres/_full.png', path: 'templates/tedc15/template-tedc15.html', hasContent: true}
     ];
 
-    var allTemplates = _.extend([], baseTemplates, configuredTemplates);
+    var allTemplates = [];
+    _.each(baseTemplates, function(t){ allTemplates.push(t); });
+    _.each(configuredTemplates, function(t){ allTemplates.push(t); });
 
     return {
       getContent: function getContent(template) {

@@ -538,7 +538,7 @@ class CRM_Mosaico_Utils {
    * function to get mosaico msg template detilas
    */
   public static function getMosaicoMsgTemplate($mosaicoTemplateId) {
-    $tableName = MOSAICO_TABLE_NAME;
+    $tableName = CRM_Mosaico_DAO_MessageTemplate::getTableName();
     $getSQL = "SELECT hash_key, html, metadata, template FROM {$tableName} WHERE id = %1";
     $getSQLParams = array(1 => array($mosaicoTemplateId, 'Int'));
     $dao = CRM_Core_DAO::executeQuery($getSQL, $getSQLParams);
@@ -566,7 +566,7 @@ class CRM_Mosaico_Utils {
       CRM_Core_DAO::$_nullObject, TRUE);
     $hashKey = CRM_Utils_Request::retrieve('hash_key', 'String',
       CRM_Core_DAO::$_nullObject, TRUE);
-    $tableName = MOSAICO_TABLE_NAME;
+    $tableName = CRM_Mosaico_DAO_MessageTemplate::getTableName();
     $updateQuery = "UPDATE {$tableName} SET metadata = %1, hash_key = %2 WHERE id = %3";
     $updateQueryParams = array(
       1 => array($metadata, 'String'),

@@ -1,7 +1,7 @@
 <?php
 
 require_once 'mosaico.civix.php';
-define('MOSAICO_TABLE_NAME', 'civicrm_mosaico_msg_template');
+
 /**
  * Implements hook_civicrm_config().
  *
@@ -173,7 +173,7 @@ function mosaico_civicrm_pageRun(&$page){
     $activeTab  = CRM_Utils_Request::retrieve('activeTab', 'String', $form, false, null, 'REQUEST');
     $resultArray= $exsitingTemplates = array();
     $smarty     = CRM_Core_Smarty::singleton();
-    $tableName  = MOSAICO_TABLE_NAME;
+    $tableName  = CRM_Mosaico_DAO_MessageTemplate::getTableName();
     $dao = CRM_Core_DAO::executeQuery("SELECT mosaico.*, cmt.msg_title, cmt.msg_subject, cmt.is_active 
       FROM {$tableName} mosaico 
       JOIN civicrm_msg_template cmt ON (cmt.id = mosaico.msg_tpl_id)

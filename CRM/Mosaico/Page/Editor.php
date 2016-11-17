@@ -5,6 +5,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
 
   function run() {
     $smarty = CRM_Core_Smarty::singleton();
+    $smarty->assign('baseUrl', CRM_Mosaico_Utils::getMosaicoDistUrl('relative'));
     $smarty->assign('scriptUrls', $this->getScriptUrls());
     $smarty->assign('styleUrls', $this->getStyleUrls());
     $smarty->assign('mosaicoConfig', json_encode(

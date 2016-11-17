@@ -4,6 +4,7 @@
 <head>
   <title>CiviCRM Mosaico</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <base href="{$baseUrl|htmlspecialchars}">
 
   {foreach from=$scriptUrls item=scriptUrl}
   <script type="text/javascript" src="{$scriptUrl|htmlspecialchars}">

@@ -483,10 +483,10 @@ class CRM_Mosaico_Utils {
       if ($method == "resize") {
         // We get 0 for height variable from mosaico
         // In order to use last parameter(best fit), this will make right scale, as true in 'resizeImage' menthod, we can't have 0 for height
-        // hence retreiving height from image file
+        // hence retreiving height from image
         // more details about best fit http://php.net/manual/en/imagick.resizeimage.php
-        $imageSize= getimagesize($config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name);
-        $image->resizeImage( $width, $imageSize[1], Imagick::FILTER_LANCZOS, 1.0, TRUE );
+        $image_geometry = $image->getImageGeometry();
+        $image->resizeImage( $width, $image_geometry["height"], Imagick::FILTER_LANCZOS, 1.0, TRUE );
       }
       else // $method == "cover"
       {

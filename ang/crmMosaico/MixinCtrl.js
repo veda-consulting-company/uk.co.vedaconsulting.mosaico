@@ -16,6 +16,7 @@
           topt.mosaicoTemplate = template.id;
           topt.mosaicoMetadata = tplCtnt.metadata;
           topt.mosaicoContent = tplCtnt.content;
+          // FIXME mailing.body_html = tplCnt.html;
           $scope.mosaicoCtrl.edit(mailing);
         });
         return crmStatus({start: ts('Loading...'), success: null}, promise)

@@ -119,7 +119,7 @@ function do_zipfile() {
        ## Get any files in the project root.
        find . -mindepth 1 -maxdepth 1 -type f
        ## Get any files in the main subfolders.
-       find CRM/ api/ bin/ css/ js/ sql/ templates/ xml/ -type f
+       find CRM/ ang/ api/ bin/ css/ js/ sql/ templates/ xml/ -type f
        ## Get the distributable files for Mosaico.
        find packages/mosaico/{NOTICE,README,LICENSE,dist,templates}* -type f
     } \

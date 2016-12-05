@@ -2,7 +2,7 @@
 
   // This provides additional actions for editing a Mosaico mailing.
   // It coexists with crmMailing's EditMailingCtrl.
-  angular.module('crmCxn').controller('CrmMosaicoMixinCtrl', function CrmMosaicoMixinCtrl($scope, dialogService, crmMosaicoTemplates) {
+  angular.module('crmCxn').controller('CrmMosaicoMixinCtrl', function CrmMosaicoMixinCtrl($scope, dialogService, crmMosaicoTemplates, crmStatus) {
     // var ts = $scope.ts = CRM.ts(null);
 
     // Main data is in $scope.mailing, $scope.mosaicoCtrl.template
@@ -10,11 +10,15 @@
     // Hrm, would like `ng-controller="CrmMosaicoMixinCtrl as mosaicoCtrl`, but that's not working...
     $scope.mosaicoCtrl = {
       templates: [],
-      /** @param Object template - One of crmMosaicoTemplates */
       select: function(mailing, template) {
-        mailing.template_options = $scope.mailing.template_options || {};
-        mailing.template_options.mosaicoTemplate = template.id;
-        return $scope.mosaicoCtrl.edit(mailing);
+        var topt = mailing.template_options = $scope.mailing.template_options || {};
+        var promise = crmMosaicoTemplates.getContent(template).then(function(tplCtnt){
+          topt.mosaicoTemplate = template.id;
+          topt.mosaicoMetadata = tplCtnt.metadata;
+          topt.mosaicoContent = tplCtnt.content;
+          $scope.mosaicoCtrl.edit(mailing);
+        });
+        return crmStatus({start: ts('Loading...'), success: null}, promise)
       },
       getTemplate: function(mailing) {
         if (!mailing || !mailing.template_options || !mailing.template_options.mosaicoTemplate) {

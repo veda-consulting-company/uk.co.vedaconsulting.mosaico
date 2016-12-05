@@ -9,16 +9,33 @@
 
     // Hrm, would like `ng-controller="CrmMosaicoMixinCtrl as mosaicoCtrl`, but that's not working...
     $scope.mosaicoCtrl = {
-      template: null,
       templates: [],
-      select: function(template) {
-        $scope.mosaicoCtrl.template = template;
-        $scope.mosaicoCtrl.edit();
+      /** @param Object template - One of crmMosaicoTemplates */
+      select: function(mailing, template) {
+        mailing.template_options = $scope.mailing.template_options || {};
+        mailing.template_options.mosaicoTemplate = template.id;
+        return $scope.mosaicoCtrl.edit(mailing);
+      },
+      getTemplate: function(mailing) {
+        if (!mailing || !mailing.template_options || !mailing.template_options.mosaicoTemplate) {
+          return null;
+        }
+        var matches = _.where($scope.mosaicoCtrl.templates, {
+          id: mailing.template_options.mosaicoTemplate
+        });
+        return matches.length > 0 ? matches[0] : null;
       },
       preview: function(template) {
         CRM.alert('Preview: ' + template.title);
       },
-      edit: function() {
+      reset: function(mailing) {
+        delete mailing.template_options.mosaicoTemplate;
+        delete mailing.template_options.mosaicoMetadata;
+        delete mailing.template_options.mosaicoContent;
+        mailing.body_html = '';
+      },
+      // Open a dialog running Mosaico in an iframe.
+      edit: function(mailing) {
         var model = {url: CRM.url('civicrm/mosaico/iframe', 'snippet=1')};
         var options = CRM.utils.adjustDialogDefaults(angular.extend(
           {
@@ -29,12 +46,26 @@
           },
           options
         ));
-        window.top.crmMosaicoIframe = function(newWindow, config, plugins) {
-          config.template = $scope.mosaicoCtrl.template.path;
-          config.data = null;
+        window.top.crmMosaicoIframe = function(newWindow, Mosaico, config, plugins) {
           plugins.push(function(viewModel) {
             mosaicoPlugin(newWindow.ko, viewModel);
           });
+
+          if (mailing.template_options && mailing.template_options.mosaicoMetadata) {
+            Mosaico.start(config, undefined,
+              JSON.parse(mailing.template_options.mosaicoMetadata),
+              JSON.parse(mailing.template_options.mosaicoContent),
+              plugins);
+            return;
+          }
+
+          var template = $scope.mosaicoCtrl.getTemplate(mailing);
+          if (template) {
+            Mosaico.start(config, template.path, undefined, undefined, plugins);
+            return;
+          }
+
+          CRM.alert('Cannot edit mailing');
         };
         return dialogService.open('crmMosaicoEditorDialog', '~/crmMosaico/EditorDialogCtrl.html', model, options)
           .then(function(item) {
@@ -61,18 +92,23 @@
     });
 
     // See https://github.com/voidlabs/mosaico/wiki/Mosaico-Plugins
+    // Generally: Implement the in-dialog "Save" and "Test" buttons.
     function mosaicoPlugin(ko, viewModel) {
       var saveCmd = {
         name: 'Save', // l10n happens in the template
         enabled: ko.observable(true)
       };
       saveCmd.execute = function() {
-        CRM.alert('TODO: Save');
         saveCmd.enabled(false);
         viewModel.metadata.changed = Date.now();
-        console.log({metadata: viewModel.exportMetadata(), content: viewModel.exportJSON(), html: viewModel.exportHTML()});
+        $scope.mailing.body_html = viewModel.exportHTML();
+        $scope.mailing.template_options = $scope.mailing.template_options || {};
+        // Mosaico exports JSON. Keep their original encoding... or else the loader throws an error.
+        $scope.mailing.template_options.mosaicoMetadata = viewModel.exportMetadata();
+        $scope.mailing.template_options.mosaicoContent = viewModel.exportJSON();
         saveCmd.enabled(true);
         dialogService.close('crmMosaicoEditorDialog');
+        $scope.save();
       };
       viewModel.save = saveCmd;
 

@@ -13,8 +13,8 @@
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <div style="float: right" ng-show="!!mosaicoCtrl.template">
-              <button class="btn btn-danger-outline btn-xs" crm-confirm="{title: ts('Reset Design?'), message: ts('Resetting will destroy any content you created. You will be able to choose a new template.')}" on-yes="mosaicoCtrl.template = null">
+            <div style="float: right" ng-show="!!mailing.template_options.mosaicoTemplate">
+              <button class="btn btn-danger-outline btn-xs" crm-confirm="{title: ts('Reset Design?'), message: ts('Resetting will destroy any content you created. You will be able to choose a new template.')}" on-yes="mosaicoCtrl.reset(mailing)">
                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 {{ts('Reset')}}
               </button>
@@ -26,15 +26,15 @@
             <div class="row">
               <div
                   class="col-xs-6 col-md-3"
-                  crm-mosaico-template-item="{title: ts('My Design'), subtitle: mosaicoCtrl.template.type, img: mosaicoCtrl.template.thumbnail}"
-                  on-item-click="mosaicoCtrl.edit()"
-                  ng-show="!!mosaicoCtrl.template"
+                  crm-mosaico-template-item="{title: ts('My Design'), subtitle: mosaicoCtrl.getTemplate(mailing).type, img: mosaicoCtrl.getTemplate(mailing).thumbnail}"
+                  on-item-click="mosaicoCtrl.edit(mailing)"
+                  ng-show="!!mailing.template_options.mosaicoTemplate"
               ></div>
-              <div ng-repeat="template in mosaicoCtrl.templates" ng-show="!mosaicoCtrl.template">
+              <div ng-repeat="template in mosaicoCtrl.templates" ng-show="!mailing.template_options.mosaicoTemplate">
                 <div
                     class="col-xs-6 col-md-3"
                     crm-mosaico-template-item="{title: template.title, subtitle: template.type, img: template.thumbnail}"
-                    on-item-click="mosaicoCtrl.select(template)"
+                    on-item-click="mosaicoCtrl.select(mailing, template)"
                     on-item-preview="mosaicoCtrl.preview(template)"
                 ></div>
               </div>
@@ -54,7 +54,7 @@
           </div>
           <div class="panel-body">
             <!--<div style="float:right">-->
-              <!--<button class="btn btn-primary" ng-click="fixme()">-->
+              <!--<button class="btn btn-primary" ng-click="openAdvancedOptions(mailing)">-->
                 <!--<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>-->
                 <!--{{ts('Advanced Mailing Options')}}-->
               <!--</button>-->

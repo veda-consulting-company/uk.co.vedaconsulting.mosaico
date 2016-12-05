@@ -12,11 +12,11 @@
       templates: [],
       select: function(mailing, template) {
         var topt = mailing.template_options = $scope.mailing.template_options || {};
-        var promise = crmMosaicoTemplates.getContent(template).then(function(tplCtnt){
+        var promise = crmMosaicoTemplates.getFull(template).then(function(tplCtnt){
           topt.mosaicoTemplate = template.id;
           topt.mosaicoMetadata = tplCtnt.metadata;
           topt.mosaicoContent = tplCtnt.content;
-          // FIXME mailing.body_html = tplCnt.html;
+          mailing.body_html = tplCtnt.html;
           $scope.mosaicoCtrl.edit(mailing);
         });
         return crmStatus({start: ts('Loading...'), success: null}, promise)
@@ -92,8 +92,8 @@
       return dialogService.open('crmMosaicoAdvancedDialog', '~/crmMosaico/AdvancedDialogCtrl.html', model, options);
     };
 
-    crmMosaicoTemplates.getAll().then(function(tpls){
-      $scope.mosaicoCtrl.templates = tpls;
+    crmMosaicoTemplates.whenLoaded().then(function(){
+      $scope.mosaicoCtrl.templates = crmMosaicoTemplates.getAll();
     });
 
     // See https://github.com/voidlabs/mosaico/wiki/Mosaico-Plugins

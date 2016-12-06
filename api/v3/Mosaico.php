@@ -3,7 +3,7 @@
 
 function civicrm_api3_mosaico_gettemplateid($params) {
   
-  $tableName = MOSAICO_TABLE_NAME;
+  $tableName = CRM_Mosaico_DAO_MessageTemplate::getTableName();
   $dao = CRM_Core_DAO::executeQuery("SELECT msg_tpl_id FROM {$tableName}");
   $results = array();
   while ($dao->fetch()) {

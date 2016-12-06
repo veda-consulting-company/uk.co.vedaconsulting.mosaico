@@ -12,7 +12,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
       $this->createMosaicoConfig(),
       defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : 0
     ));
-    echo $smarty->fetch('CRM/Mosaico/Page/Editor.tpl');
+    echo $smarty->fetch(self::getTemplateFileName());
     CRM_Utils_System::civiExit();
   }
 

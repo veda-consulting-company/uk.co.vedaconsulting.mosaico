@@ -1,0 +1,26 @@
+<!-- Requires: baseTemplates, configuredTemplates -->
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div style="float: right" ng-show="!!selectedMosaicoTemplate">
+      <button class="btn btn-danger-outline btn-xs" crm-confirm="{title: ts('Reset Design?'), message: ts('Resetting will destroy any content you created. You will be able to choose a new template.')}" on-yes="selectedMosaicoTemplate = null">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        {{ts('Reset')}}
+      </button>
+    </div>
+    <span>
+      {{ts('Design')}}
+    </span>
+    <div style="clear: both"></div>
+  </div>
+  <div class="panel-body" >
+    <div class="row">
+      <div class="col-xs-6 col-md-3" crm-mosaico-template-item="{title: ts('Design'), subtitle: selectedMosaicoTemplate.type, img: selectedMosaicoTemplate.thumbnail}" on-item-click="doOpen(template)" ng-show="!!selectedMosaicoTemplate"></div>
+      <div ng-repeat="template in baseTemplates" ng-show="!selectedMosaicoTemplate">
+        <div class="col-xs-6 col-md-3" crm-mosaico-template-item="{title: template.title, subtitle: template.type, img: template.thumbnail}" on-item-click="doSelect(template)" on-item-preview="doPreview(template)"></div>
+      </div>
+      <div ng-repeat="template in configuredTemplates" ng-show="!selectedMosaicoTemplate">
+        <div class="col-xs-6 col-md-3" crm-mosaico-template-item="{title: template.title, subtitle: template.type, img: template.thumbnail}" on-item-click="doSelect(template)" on-item-preview="doPreview(template)"></div>
+      </div>
+    </div>
+  </div>
+</div>

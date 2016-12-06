@@ -1,0 +1,9 @@
+/* Add any CSS rules for Angular module "crmMosaico" */
+
+.crm-mosaico-template-item {
+    opacity: 1.0;
+}
+
+.crm-mosaico-template-item:hover img {
+    opacity: 0.66;
+}

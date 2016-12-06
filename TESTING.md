@@ -5,6 +5,26 @@
 At the moment, this extension does not have any automated tests. However, we
 can still track manual test scripts.
 
+## Manual Test: Save/Load Mailing
+
+ 1. Create a mailing
+   1. Navigate to "Mailings => New Mailing" (`civicrm/a/#/mailing/new` or `civicrm/a/#/mailing/new/mosaico`)
+   2. _Observe_: Redirect to `civicrm/a/#/mailing/123` and open with Mosaico layout
+   3. Enter a mailing name. (Make a mental note of the name.)
+   4. Under "Design", choose a template.
+   5. _Observe_: A dialog opens with Mosaico.
+   6. Create a block. Edit some text. (Make a mental note of the content.)
+   7. Save.
+ 2. Immediately re-edit
+   1. Under "Design", open the template again.
+   2. _Observe_: A dialog opens with Mosaico. It restores the content from before.
+   3. Save or close
+ 3. Try a full reload
+   1. Navigate to "Mailings => Draft and Unscheduled"
+   2. Find your mailing. Click "Continue".
+   3. Under "Design", open the template again.
+   4. _Observe_: A dialog opens with Mosaico. It restores the content from before.
+
 ## Manual Test: Tokens
 
 This extension defines a TinyMCE plugin called "civicrmtoken".  To test this

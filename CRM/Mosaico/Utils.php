@@ -123,11 +123,11 @@ class CRM_Mosaico_Utils {
         if (is_file($file_path)) {
           $size = filesize($file_path);
 
-          $file = [
+          $file = array(
             "name" => $file_name,
             "url" => $config['BASE_URL'] . $config['UPLOADS_DIR'] . $file_name,
             "size" => $size
-          ];
+          );
 
           if (file_exists($config['BASE_DIR'] . $config['THUMBNAILS_DIR'] . $file_name)) {
             $file["thumbnailUrl"] = $config['BASE_URL'] . $config['THUMBNAILS_URL'] . $file_name;
@@ -213,20 +213,20 @@ class CRM_Mosaico_Utils {
         while ($y < $height) {
           $draw->setFillColor("#808080");
 
-          $points = [
-            ["x" => $x, "y" => $y],
-            ["x" => $x + $size, "y" => $y],
-            ["x" => $x + $size * 2, "y" => $y + $size],
-            ["x" => $x + $size * 2, "y" => $y + $size * 2]
-          ];
+          $points = array(
+            array("x" => $x, "y" => $y),
+            array("x" => $x + $size, "y" => $y),
+            array("x" => $x + $size * 2, "y" => $y + $size),
+            array("x" => $x + $size * 2, "y" => $y + $size * 2)
+          );
 
           $draw->polygon($points);
 
-          $points = [
-            ["x" => $x, "y" => $y + $size],
-            ["x" => $x + $size, "y" => $y + $size * 2],
-            ["x" => $x, "y" => $y + $size * 2]
-          ];
+          $points = array(
+            array("x" => $x, "y" => $y + $size),
+            array("x" => $x + $size, "y" => $y + $size * 2),
+            array("x" => $x, "y" => $y + $size * 2)
+          );
 
           $draw->polygon($points);
 
@@ -301,14 +301,14 @@ class CRM_Mosaico_Utils {
 
     /* create static versions of resized images */
 
-    $matches = [];
+    $matches = array();
 
     $num_full_pattern_matches = preg_match_all('#<img.*?src="([^"]*?\/[^/]*\.[^"]+)#i',
       $html, $matches);
 
     for ($i = 0; $i < $num_full_pattern_matches; $i++) {
       if (preg_match('#/img/(\?|&amp;)src=#i', $matches[1][$i])) {
-        $src_matches = [];
+        $src_matches = array();
 
         if (preg_match('#/img/(\?|&amp;)src=(.*)&amp;method=(.*)&amp;params=(.*)#i',
             $matches[1][$i], $src_matches) !== FALSE
@@ -542,7 +542,7 @@ class CRM_Mosaico_Utils {
    * function to get mosaico msg template detilas
    */
   public static function getMosaicoMsgTemplate($mosaicoTemplateId) {
-    $tableName = MOSAICO_TABLE_NAME;
+    $tableName = CRM_Mosaico_DAO_MessageTemplate::getTableName();
     $getSQL = "SELECT hash_key, html, metadata, template FROM {$tableName} WHERE id = %1";
     $getSQLParams = array(1 => array($mosaicoTemplateId, 'Int'));
     $dao = CRM_Core_DAO::executeQuery($getSQL, $getSQLParams);
@@ -570,7 +570,7 @@ class CRM_Mosaico_Utils {
       CRM_Core_DAO::$_nullObject, TRUE);
     $hashKey = CRM_Utils_Request::retrieve('hash_key', 'String',
       CRM_Core_DAO::$_nullObject, TRUE);
-    $tableName = MOSAICO_TABLE_NAME;
+    $tableName = CRM_Mosaico_DAO_MessageTemplate::getTableName();
     $updateQuery = "UPDATE {$tableName} SET metadata = %1, hash_key = %2 WHERE id = %3";
     $updateQueryParams = array(
       1 => array($metadata, 'String'),

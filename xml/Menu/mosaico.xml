@@ -31,6 +31,12 @@
     <access_arguments>access CiviCRM Mosaico</access_arguments>
   </item>
   <item>
+    <path>civicrm/mosaico/iframe</path>
+    <page_callback>CRM_Mosaico_Page_EditorIframe</page_callback>
+    <title>Integration with Mosaico</title>
+    <access_arguments>access CiviCRM Mosaico</access_arguments>
+  </item>
+  <item>
     <path>civicrm/mosaico/upload</path>
     <page_callback>CRM_Mosaico_Utils::processUpload</page_callback>
     <title>Integration with Mosaico</title>

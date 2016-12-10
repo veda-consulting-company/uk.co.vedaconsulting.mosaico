@@ -328,3 +328,14 @@ function mosaico_civicrm_mailingTemplateTypes(&$types) {
     'weight' => -10,
   );
 }
+
+/**
+ * Implements hook_civicrm_entityTypes().
+ */
+function mosaico_civicrm_entityTypes(&$entityTypes) {
+  $entityTypes[] = array(
+    'name' => 'MosaicoTemplate',
+    'class' => 'CRM_Mosaico_DAO_MosaicoTemplate',
+    'table' => 'civicrm_mosaico_template',
+  );
+}

@@ -57,7 +57,7 @@
               $scope.saveOpt.mode = 'update';
               $scope.selected = tpl;
            }
-         })
+         });
         },
         function () {
           $scope.saveOpt.mode = 'add';

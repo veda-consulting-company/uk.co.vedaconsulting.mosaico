@@ -19,7 +19,7 @@
           mailing.body_html = tplCtnt.html;
           $scope.mosaicoCtrl.edit(mailing);
         });
-        return crmStatus({start: ts('Loading...'), success: null}, promise)
+        return crmStatus({start: ts('Loading...'), success: null}, promise);
       },
       getTemplate: function(mailing) {
         if (!mailing || !mailing.template_options || !mailing.template_options.mosaicoTemplate) {

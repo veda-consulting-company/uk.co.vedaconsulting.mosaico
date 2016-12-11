@@ -30,9 +30,6 @@
         });
         return matches.length > 0 ? matches[0] : null;
       },
-      preview: function(template) {
-        CRM.alert('Preview: ' + template.title);
-      },
       reset: function(mailing) {
         delete mailing.template_options.mosaicoTemplate;
         delete mailing.template_options.mosaicoMetadata;

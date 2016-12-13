@@ -37,18 +37,25 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
   }
 
   /**
-   * Example: Run a couple simple queries.
+   * Add table `civicrm_mosaico_template`.
    *
    * @return TRUE on success
    * @throws Exception
-   *
-  public function upgrade_4200() {
-    $this->ctx->log->info('Applying update 4200');
-    CRM_Core_DAO::executeQuery('UPDATE foo SET bar = "whiz"');
-    CRM_Core_DAO::executeQuery('DELETE FROM bang WHERE willy = wonka(2)');
+   */
+  public function upgrade_4700() {
+    $this->ctx->log->info('Applying update 4700');
+    CRM_Core_DAO::executeQuery('CREATE TABLE `civicrm_mosaico_template` (
+      `id` int unsigned NOT NULL AUTO_INCREMENT  COMMENT \'Unique Template ID\',
+      `title` varchar(64)    COMMENT \'Title\',
+      `base` varchar(64)    COMMENT \'Name of the Mosaico base template (e.g. versafix-1)\',
+      `html` longtext    COMMENT \'Fully renderd HTML\',
+      `metadata` longtext    COMMENT \'Mosaico metadata (JSON)\',
+      `content` longtext    COMMENT \'Mosaico content (JSON)\' ,
+       PRIMARY KEY ( `id` )
+    )  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;
+    ');
     return TRUE;
   } // */
-
 
   /**
    * Example: Run an external SQL script.

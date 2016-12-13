@@ -328,3 +328,31 @@ function mosaico_civicrm_mailingTemplateTypes(&$types) {
     'weight' => -10,
   );
 }
+
+/**
+ * Implements hook_civicrm_entityTypes().
+ */
+function mosaico_civicrm_entityTypes(&$entityTypes) {
+  $entityTypes[] = array(
+    'name' => 'MosaicoTemplate',
+    'class' => 'CRM_Mosaico_DAO_MosaicoTemplate',
+    'table' => 'civicrm_mosaico_template',
+  );
+}
+
+/**
+ * Implements hook_civicrm_pre().
+ *
+ * @param string $op
+ * @param string $objectName
+ * @param int|null $id
+ * @param array|object $params
+ */
+function mosaico_civicrm_pre($op, $objectName, $id, &$params) {
+  if ($objectName === 'Mailing' && $op === 'create') {
+    if (isset($params['template_type']) && $params['template_type'] === 'mosaico') {
+      $params['header_id'] = null;
+      $params['footer_id'] = null;
+    }
+  }
+}

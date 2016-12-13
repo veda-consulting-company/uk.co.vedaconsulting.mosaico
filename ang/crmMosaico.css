@@ -7,3 +7,13 @@
 .crm-mosaico-template-item:hover img {
     opacity: 0.66;
 }
+
+
+/* Subtly differentiate selected design from template designs */
+#bootstrap-theme .thumbnail.crm-mosaico-template-item {
+    border: 1px dashed;
+}
+#bootstrap-theme .thumbnail.crm-mosaico-template-item:hover,
+#bootstrap-theme .crm-mosaico-selected .thumbnail.crm-mosaico-template-item {
+    border: 1px dotted;
+}

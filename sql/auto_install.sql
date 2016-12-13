@@ -9,3 +9,13 @@ CREATE TABLE IF NOT EXISTS `civicrm_mosaico_msg_template` (
   PRIMARY KEY (`id`),
   CONSTRAINT `FK_civicrm_mosaico_msg_template_msg_tpl_id` FOREIGN KEY (`msg_tpl_id`) REFERENCES `civicrm_msg_template` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `civicrm_mosaico_template` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Template ID',
+  `title` varchar(64)    COMMENT 'Title',
+  `base` varchar(64)    COMMENT 'Name of the Mosaico base template (e.g. versafix-1)',
+  `html` longtext    COMMENT 'Fully renderd HTML',
+  `metadata` longtext    COMMENT 'Mosaico metadata (JSON)',
+  `content` longtext    COMMENT 'Mosaico content (JSON)' ,
+   PRIMARY KEY ( `id` )
+)  ENGINE=InnoDB DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci  ;

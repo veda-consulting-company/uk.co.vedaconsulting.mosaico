@@ -1,7 +1,7 @@
 <!--
 Vars: mailing:obj, testContact:obj, testGroup:obj, crmMailing:FormController
 -->
-<div class="panel panel-default">
+<div class="panel panel-default crm-mosaico-test-browser">
   <div class="panel-heading">{{ts('Preview')}}</div>
   <div class="panel-body">
     <div ng-show="!mailing.body_html && !mailing.body_text">
@@ -21,7 +21,7 @@ Vars: mailing:obj, testContact:obj, testGroup:obj, crmMailing:FormController
   </div>
 </div>
 
-<div class="panel panel-default">
+<div class="panel panel-default crm-mosaico-test-email">
   <div class="panel-heading">
     {{ts('Send test email:')}}
     <a crm-ui-help="hs({id: 'test', title: ts('Test Email')})"></a>
@@ -45,7 +45,7 @@ Vars: mailing:obj, testContact:obj, testGroup:obj, crmMailing:FormController
   </div>
 </div>
 
-<div class="panel panel-default">
+<div class="panel panel-default crm-mosaico-test-group">
   <div class="panel-heading">
     {{ts('Send test email to group:')}}
     <a crm-ui-help="hs({id: 'test', title: ts('Test Email')})"></a>
@@ -65,7 +65,6 @@ Vars: mailing:obj, testContact:obj, testGroup:obj, crmMailing:FormController
     </div>
     <!--fa-paper-plane-->
     <button
-        style=""
         class="btn btn-sm btn-primary"
         title="{{crmMailing.$invalid || !testGroup.gid ? ts('Complete all required fields first') : ts('Send test message to group')}}"
         ng-disabled="crmMailing.$invalid || !testGroup.gid"

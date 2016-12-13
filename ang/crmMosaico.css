@@ -25,7 +25,10 @@
 #bootstrap-theme.crm-mosaico-page select[name=visibility],
 #bootstrap-theme.crm-mosaico-page select[name=preview_test_group] {
     width: 98%;
-    margin-bottom: 1em;
+}
+
+#bootstrap-theme.crm-mosaico-page .crm-mosaico-test-group button {
+    margin-top: 1em;
 }
 
 #bootstrap-theme.crm-mosaico-page .crm-mailing-recipients-row select {

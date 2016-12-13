@@ -7,23 +7,26 @@ Vars: mailing:obj, testContact:obj, testGroup:obj, crmMailing:FormController
     <div ng-show="!mailing.body_html && !mailing.body_text">
       <em>({{ts('No content to preview')}})</em>
     </div>
-    <div ng-hide="!mailing.body_html">
-      <!-- fa-television -->
-      <a class="btn btn-sm btn-primary" ng-disabled="crmMailing.$invalid" ng-click="doPreview('html')">{{ts('Preview as HTML')}}</a>
+    <div ng-hide="!mailing.body_html" class="btn-group btn-group-justified">
+        <div class="btn-group">
+          <button class="btn btn-primary" ng-disabled="crmMailing.$invalid" ng-click="doPreview('html')">{{ts('Preview as HTML')}}</button>
+        </div>
     </div>
-    <div ng-hide="!mailing.body_html && !mailing.body_text" style="margin-top: 1em;">
-      <!-- fa-file-text-o -->
-      <a class="btn btn-sm btn-primary"  ng-disabled="crmMailing.$invalid" ng-click="doPreview('text')">{{ts('Preview as Plain Text')}}</a>
+    <div ng-hide="!mailing.body_html && !mailing.body_text" style="margin-top: 1em;" class="btn-group btn-group-justified">
+      <div class="btn-group">
+        <!--<a class="btn btn-sm btn-primary"  ng-disabled="crmMailing.$invalid" ng-click="doPreview('text')">{{ts('Preview as Plain Text')}}</a>  -->
+        <button class="btn btn-primary"  ng-disabled="crmMailing.$invalid" ng-click="doPreview('text')">{{ts('Preview as Plain Text')}}</button>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    {{ts('Send test email to group:')}}
+    {{ts('Send test email:')}}
     <a crm-ui-help="hs({id: 'test', title: ts('Test Email')})"></a>
   </div>
-  <div class="panel-body form-inline">
+  <div class="panel-body">
     <div class="form-group">
       <input
           name="preview_test_email"
@@ -48,18 +51,21 @@ Vars: mailing:obj, testContact:obj, testGroup:obj, crmMailing:FormController
     <a crm-ui-help="hs({id: 'test', title: ts('Test Email')})"></a>
   </div>
   <div class="panel-body">
-    <select
-        name="preview_test_group"
-        ui-jq="crmSelect2"
-        ui-options="{dropdownAutoWidth : true, allowClear: true, placeholder: ts('Select Group')}"
-        ng-model="testGroup.gid"
-        ng-options="group.id as group.title for group in crmMailingConst.groupNames|orderBy:'title'"
-        class="crm-action-menu fa-envelope-o"
-    >
-      <option value=""></option>
-    </select>
+    <div>
+      <select
+          name="preview_test_group"
+          ui-jq="crmSelect2"
+          ui-options="{dropdownAutoWidth : true, allowClear: true, placeholder: ts('Select Group')}"
+          ng-model="testGroup.gid"
+          ng-options="group.id as group.title for group in crmMailingConst.groupNames|orderBy:'title'"
+          class="fa-envelope-o"
+      >
+        <option value=""></option>
+      </select>
+    </div>
     <!--fa-paper-plane-->
     <button
+        style=""
         class="btn btn-sm btn-primary"
         title="{{crmMailing.$invalid || !testGroup.gid ? ts('Complete all required fields first') : ts('Send test message to group')}}"
         ng-disabled="crmMailing.$invalid || !testGroup.gid"

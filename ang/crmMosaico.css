@@ -18,7 +18,16 @@
     border: 1px dotted;
 }
 
+#bootstrap-theme.crm-mosaico-page select[name=reply_id],
+#bootstrap-theme.crm-mosaico-page select[name=optout_id],
+#bootstrap-theme.crm-mosaico-page select[name=resubscribe_id],
+#bootstrap-theme.crm-mosaico-page select[name=unsubscribe_id],
+#bootstrap-theme.crm-mosaico-page select[name=visibility],
 #bootstrap-theme.crm-mosaico-page select[name=preview_test_group] {
     width: 98%;
     margin-bottom: 1em;
+}
+
+#bootstrap-theme.crm-mosaico-page .crm-mailing-recipients-row select {
+    width: 70%;
 }

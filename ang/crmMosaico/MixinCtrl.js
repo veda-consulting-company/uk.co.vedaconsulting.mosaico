@@ -97,6 +97,8 @@
     // See https://github.com/voidlabs/mosaico/wiki/Mosaico-Plugins
     // Generally: Implement the in-dialog "Save" and "Test" buttons.
     function mosaicoPlugin(ko, viewModel) {
+      viewModel.logoUrl = null;
+
       function syncModel() {
         $scope.mailing.body_html = viewModel.exportHTML();
         $scope.mailing.template_options = $scope.mailing.template_options || {};

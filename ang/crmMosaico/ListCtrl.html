@@ -11,7 +11,7 @@
     <div class="panel-heading">{{ts('Configured templates')}}</div>
     <div class="panel-body">
       <div class="row">
-        <div ng-repeat="template in crmMosaicoTemplates.getConfigured()">
+        <div ng-repeat="template in crmMosaicoTemplates.getConfigured() | orderBy:'title'">
           <div
               class="col-xs-6 col-md-3 col-lg-3"
               crm-mosaico-template-item="{title: template.title, subtitle: template.type, img: template.thumbnail}"
@@ -28,7 +28,7 @@
     <div class="panel-heading">{{ts('Create new template from...')}}</div>
     <div class="panel-body">
       <div class="row">
-        <div ng-repeat="template in crmMosaicoTemplates.getBases()">
+        <div ng-repeat="template in crmMosaicoTemplates.getBases() | orderBy:'type'">
           <div
               class="col-xs-6 col-md-3 col-lg-3"
               crm-mosaico-template-item="{title: template.type, img: template.thumbnail}"

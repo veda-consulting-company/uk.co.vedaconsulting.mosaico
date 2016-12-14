@@ -1,6 +1,8 @@
 <span class="thumbnail crm-mosaico-template-item">
   <img alt="{{myOptions.title}}" src="{{myOptions.img}}" style="height: 180px; width: 100%; display: block;" ng-click="fireAction('onItemClick')">
-    <a style="float: right;" class="btn btn-xs btn-info-outline glyphicon glyphicon-search" ng-if="hasAction('onItemPreview')" ng-click="fireAction('onItemPreview')"></a>
+    <a style="float: right;" class="btn btn-xs btn-danger-outline glyphicon glyphicon-remove-sign" title="Delete" ng-if="hasAction('onItemDelete')" crm-confirm="{type: 'delete', obj: {title: 'template'}}" on-yes="fireAction('onItemDelete')"></a>
+    <a style="float: right;" class="btn btn-xs btn-info-outline glyphicon glyphicon-duplicate" title="Copy" ng-if="hasAction('onItemCopy')" ng-click="fireAction('onItemCopy')"></a>
+    <a style="float: right;" class="btn btn-xs btn-info-outline glyphicon glyphicon-search" title="Preview" ng-if="hasAction('onItemPreview')" ng-click="fireAction('onItemPreview')"></a>
     <a ng-click="fireAction('onItemClick')">
       {{myOptions.title}}
       <small ng-if="myOptions.subtitle"><br/>{{myOptions.subtitle}}</small>

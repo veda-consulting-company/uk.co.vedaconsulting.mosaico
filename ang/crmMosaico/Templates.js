@@ -7,6 +7,7 @@
     function filterBase(base) {
       return {
         id: 'base-' + base.name,
+        baseDetails: base,
         title: ts('Empty Template'),
         type: base.title,
         thumbnail: base.thumbnail,
@@ -18,6 +19,7 @@
       var base = cache.basesByName[tpl.base];
       return {
         id: tpl.id,
+        baseDetails: base,
         title: tpl.title,
         type: base.title,
         thumbnail: base.thumbnail,
@@ -36,6 +38,13 @@
       cache.all = _.union(cache.bases, cache.configured);
     });
 
+    function arrayDel(array, item) {
+      var p = _.indexOf(array, item);
+      if (p >= 0) {
+        array.splice(item, 1);
+      }
+    }
+
     return {
       // Return Promise<void>
       whenLoaded: function whenLoaded() {
@@ -45,6 +54,25 @@
             else $timeout(poll, 100);
           };
           poll();
+        });
+      },
+      // @return Promise<Template>
+      copy: function(template, params) {
+        return $q(function(r){
+          var newTemplate = angular.extend({}, template, params);
+          newTemplate.id = Math.round(Math.random() *10000);
+          cache.configured.push(newTemplate);
+          cache.all.push(newTemplate);
+          $timeout(function(){r(newTemplate);}, 500);
+        });
+      },
+      // @return Promise<null>
+      'delete': function(template) {
+        CRM.alert('Delete: ' + template.title); // FIXME
+        return $q(function(r){
+          arrayDel(cache.configured, template);
+          arrayDel(cache.all, template);
+          $timeout(function(){r();}, 500);
         });
       },
       // Load the full content of a template (HTML, metadata, content -- as applicable).

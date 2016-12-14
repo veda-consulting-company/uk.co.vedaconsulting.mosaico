@@ -1,0 +1,7 @@
+<div ng-controller="CrmMosaicoPreviewDialogCtrl" id="bootstrap-theme" class="crm-mosaico-page">
+  <div crm-mosaico-block-preview
+       crm-mailing="model.mailing"
+       on-preview="previewMailing(model.mailing, preview.mode)"
+       on-send="sendTest(model.mailing, model.attachments, preview.recipient)"
+  />
+</div>

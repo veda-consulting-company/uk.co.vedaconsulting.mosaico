@@ -1,18 +1,24 @@
-<div ng-controller="CrmMosaicoAdvancedDialogCtrl" id="bootstrap-theme">
+<div ng-controller="CrmMosaicoAdvancedDialogCtrl" id="bootstrap-theme" class="crm-mosaico-page">
 
   <div class="panel panel-default">
     <div class="panel-heading">{{ts('Attachments')}}</div>
     <div class="panel-body">
       <div crm-attachments="model.attachments"/>
     </div>
+  </div>
+  <div class="panel panel-default">
     <div class="panel-heading">{{ts('Responses')}}</div>
     <div class="panel-body">
       <div crm-mailing-block-responses crm-mailing="model.mailing"/>
     </div>
+  </div>
+  <div class="panel panel-default">
     <div class="panel-heading">{{ts('Tracking')}}</div>
     <div class="panel-body">
       <div crm-mailing-block-tracking crm-mailing="model.mailing"/>
     </div>
+  </div>
+  <div class="panel panel-default">
     <div class="panel-heading">{{ts('Publication')}}</div>
     <div class="panel-body">
       <div crm-mailing-block-publication crm-mailing="model.mailing"/>

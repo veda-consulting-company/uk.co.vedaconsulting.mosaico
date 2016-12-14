@@ -11,15 +11,16 @@
     $scope.mosaicoCtrl = {
       templates: [],
       select: function(mailing, template) {
-        var topt = mailing.template_options = $scope.mailing.template_options || {};
+        var topt = mailing.template_options = mailing.template_options || {};
         var promise = crmMosaicoTemplates.getFull(template).then(function(tplCtnt){
           topt.mosaicoTemplate = template.id;
           topt.mosaicoMetadata = tplCtnt.metadata;
           topt.mosaicoContent = tplCtnt.content;
           mailing.body_html = tplCtnt.html;
+          // console.log('select', {isAr1: _.isArray(mailing.template_options), isAr2: _.isArray(topt), m: mailing, t: template});
           $scope.mosaicoCtrl.edit(mailing);
         });
-        return crmStatus({start: ts('Loading...'), success: null}, promise)
+        return crmStatus({start: ts('Loading...'), success: null}, promise);
       },
       getTemplate: function(mailing) {
         if (!mailing || !mailing.template_options || !mailing.template_options.mosaicoTemplate) {
@@ -29,9 +30,6 @@
           id: mailing.template_options.mosaicoTemplate
         });
         return matches.length > 0 ? matches[0] : null;
-      },
-      preview: function(template) {
-        CRM.alert('Preview: ' + template.title);
       },
       reset: function(mailing) {
         delete mailing.template_options.mosaicoTemplate;
@@ -99,6 +97,16 @@
     // See https://github.com/voidlabs/mosaico/wiki/Mosaico-Plugins
     // Generally: Implement the in-dialog "Save" and "Test" buttons.
     function mosaicoPlugin(ko, viewModel) {
+      viewModel.logoUrl = null;
+
+      function syncModel() {
+        $scope.mailing.body_html = viewModel.exportHTML();
+        $scope.mailing.template_options = $scope.mailing.template_options || {};
+        // Mosaico exports JSON. Keep their original encoding... or else the loader throws an error.
+        $scope.mailing.template_options.mosaicoMetadata = viewModel.exportMetadata();
+        $scope.mailing.template_options.mosaicoContent = viewModel.exportJSON();
+      }
+
       var saveCmd = {
         name: 'Save', // l10n happens in the template
         enabled: ko.observable(true)
@@ -106,11 +114,7 @@
       saveCmd.execute = function() {
         saveCmd.enabled(false);
         viewModel.metadata.changed = Date.now();
-        $scope.mailing.body_html = viewModel.exportHTML();
-        $scope.mailing.template_options = $scope.mailing.template_options || {};
-        // Mosaico exports JSON. Keep their original encoding... or else the loader throws an error.
-        $scope.mailing.template_options.mosaicoMetadata = viewModel.exportMetadata();
-        $scope.mailing.template_options.mosaicoContent = viewModel.exportJSON();
+        syncModel();
         saveCmd.enabled(true);
         dialogService.close('crmMosaicoEditorDialog');
         $scope.save();
@@ -122,9 +126,20 @@
         enabled: ko.observable(true)
       };
       testCmd.execute = function() {
-        saveCmd.enabled(false);
-        CRM.alert('TODO: Test');
-        saveCmd.enabled(true);
+        // testCmd.enabled(false);
+        // CRM.alert('TODO: Test');
+        // testCmd.enabled(true);
+        syncModel();
+
+        var model = {mailing: $scope.mailing, attachments: $scope.attachments};
+        var options = CRM.utils.adjustDialogDefaults(angular.extend(
+          {
+            autoOpen: false,
+            title: ts('Test Mailing')
+          },
+          options
+        ));
+        return dialogService.open('crmMosaicoPreviewDialog', '~/crmMosaico/PreviewDialogCtrl.html', model, options);
       };
       viewModel.test = testCmd;
     }

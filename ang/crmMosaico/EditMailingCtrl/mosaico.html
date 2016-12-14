@@ -1,4 +1,4 @@
-<div id="bootstrap-theme" ng-controller="CrmMosaicoMixinCtrl">
+<div id="bootstrap-theme" ng-controller="CrmMosaicoMixinCtrl" class="crm-mosaico-page">
 
   <div class="container">
     <div class="row">
@@ -35,7 +35,6 @@
                     class="col-xs-6 col-md-3"
                     crm-mosaico-template-item="{title: template.title, subtitle: template.type, img: template.thumbnail}"
                     on-item-click="mosaicoCtrl.select(mailing, template)"
-                    on-item-preview="mosaicoCtrl.preview(template)"
                 ></div>
               </div>
             </div>
@@ -59,7 +58,7 @@
                 <!--{{ts('Advanced Mailing Options')}}-->
               <!--</button>-->
             <!--</div>-->
-            <div crm-mailing-block-schedule crm-mailing="mailing"/>
+            <div crm-mosaico-block-schedule crm-mailing="mailing"/>
           </div>
         </div>
 

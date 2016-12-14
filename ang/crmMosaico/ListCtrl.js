@@ -20,32 +20,38 @@
 
     $scope.crmMosaicoTemplates = crmMosaicoTemplates;
 
-    $scope.createTpl = function(template) {
+    $scope.createTpl = function(tpl) {
       return crmStatus(
         {start: ts('Creating...'), success: ts('Created')},
-        crmMosaicoTemplates.copy(template, {title: 'New template'})
-      ).then(function(newTemplate){
-        return $scope.editTpl(newTemplate);
+        crmMosaicoTemplates.create({
+          base: tpl.baseDetails.name,
+          title: ts('%1 (New Template)', {1: tpl.type})
+        })
+      ).then(function(newTpl){
+        return $scope.editTpl(newTpl);
       });
     };
 
-    $scope.copyTpl = function(template) {
+    $scope.copyTpl = function(tpl) {
       return crmStatus(
         {start: ts('Copying...'), success: ts('Copied')},
-        crmMosaicoTemplates.copy(template, {title: ts('Copy of %1', {1: template.title})})
-      ).then(function(newTemplate){
-        return $scope.editTpl(newTemplate);
+        crmMosaicoTemplates.clone({
+          id: tpl.id,
+          title: ts('%1 (Copy)', {1: tpl.title})
+        })
+      ).then(function(newTpl){
+        return $scope.editTpl(newTpl);
       });
     };
 
-    $scope.editTpl = function(template) {
-      CRM.alert('Edit: ' + template.title); // FIXME
+    $scope.editTpl = function(tpl) {
+      CRM.alert('Edit: ' + tpl.title); // FIXME
     };
 
-    $scope.deleteTpl = function(template) {
+    $scope.deleteTpl = function(tpl) {
       return crmStatus(
         {start: ts('Deleting...'), success: ts('Deleted')},
-        crmMosaicoTemplates.delete(template)
+        crmMosaicoTemplates.delete(tpl)
       );
     };
 

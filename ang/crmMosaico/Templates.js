@@ -40,9 +40,13 @@
 
     function arrayDel(array, item) {
       var p = _.indexOf(array, item);
-      if (p >= 0) {
-        array.splice(item, 1);
-      }
+      if (p >= 0) array.splice(p, 1);
+    }
+
+    function register(tpl) {
+      cache.configured.push(tpl);
+      cache.all.push(tpl);
+      return tpl;
     }
 
     return {
@@ -57,22 +61,23 @@
         });
       },
       // @return Promise<Template>
-      copy: function(template, params) {
-        return $q(function(r){
-          var newTemplate = angular.extend({}, template, params);
-          newTemplate.id = Math.round(Math.random() *10000);
-          cache.configured.push(newTemplate);
-          cache.all.push(newTemplate);
-          $timeout(function(){r(newTemplate);}, 500);
+      create: function(params) {
+        return crmApi('MosaicoTemplate', 'create', params).then(function(r){
+          return register(filterTemplate(r.values[r.id]));
+        });
+      },
+      // @return Promise<Template>
+      clone: function(params) {
+        return crmApi('MosaicoTemplate', 'clone', params).then(function(r){
+          return register(filterTemplate(r.values[r.id]));
         });
       },
       // @return Promise<null>
-      'delete': function(template) {
-        CRM.alert('Delete: ' + template.title); // FIXME
-        return $q(function(r){
-          arrayDel(cache.configured, template);
-          arrayDel(cache.all, template);
-          $timeout(function(){r();}, 500);
+      'delete': function(tpl) {
+        if (tpl.isBase) throw "Cannot delete base template";
+        return crmApi('MosaicoTemplate', 'delete', {id: tpl.id}).then(function(){
+          arrayDel(cache.configured, tpl);
+          arrayDel(cache.all, tpl);
         });
       },
       // Load the full content of a template (HTML, metadata, content -- as applicable).

@@ -12,6 +12,7 @@
     // Hrm, would like `ng-controller="CrmMosaicoMixinCtrl as mosaicoCtrl`, but that's not working...
     $scope.mosaicoCtrl = {
       templates: [],
+      // Fill a given "mailing" which the chosen "template".
       select: function(mailing, template) {
         var topt = mailing.template_options = mailing.template_options || {};
         var promise = crmMosaicoTemplates.getFull(template).then(function(tplCtnt){
@@ -24,6 +25,7 @@
         });
         return crmStatus({start: ts('Loading...'), success: null}, promise);
       },
+      // Figure out which "template" was previously used with a "mailing."
       getTemplate: function(mailing) {
         if (!mailing || !mailing.template_options || !mailing.template_options.mosaicoTemplate) {
           return null;
@@ -33,6 +35,7 @@
         });
         return matches.length > 0 ? matches[0] : null;
       },
+      // Reset all Mosaico data in a "mailing'.
       reset: function(mailing) {
         if (crmMosaicoIframe) crmMosaicoIframe.destroy();
         crmMosaicoIframe = null;
@@ -41,6 +44,7 @@
         delete mailing.template_options.mosaicoContent;
         mailing.body_html = '';
       },
+      // Edit a mailing in Mosaico.
       edit: function(mailing) {
         if (crmMosaicoIframe) {
           crmMosaicoIframe.show();
@@ -86,6 +90,7 @@
       }
     };
 
+    // Open a dialog of advanced options.
     $scope.openAdvancedOptions = function() {
       var model = {mailing: $scope.mailing, attachments: $scope.attachments};
       var options = CRM.utils.adjustDialogDefaults(angular.extend(

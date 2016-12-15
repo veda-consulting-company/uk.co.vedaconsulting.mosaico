@@ -13,14 +13,24 @@
     }
   );
 
-  angular.module('crmMosaico').controller('CrmMosaicoListCtrl', function($scope, crmApi, crmStatus, crmUiHelp, crmMosaicoTemplates) {
+  angular.module('crmMosaico').controller('CrmMosaicoListCtrl', function($scope, crmApi, crmStatus, crmUiHelp, crmMosaicoTemplates, CrmMosaicoIframe, crmBlocker) {
     // The ts() and hs() functions help load strings for this module.
     var ts = $scope.ts = CRM.ts('mosaico');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/crmMosaico/ListCtrl'}); // See: templates/CRM/crmMosaico/ListCtrl.hlp
-
+    var block = $scope.block = crmBlocker();
     $scope.crmMosaicoTemplates = crmMosaicoTemplates;
 
-    $scope.createTpl = function(tpl) {
+    // Track zero or one instances of CrmMosaicoIframe.
+    var crmMosaicoIframe, warmTplId;
+    $scope.$on("$destroy", function() {
+      if (crmMosaicoIframe) {
+        crmMosaicoIframe.destroy();
+        crmMosaicoIframe = null;
+        warmTplId = null;
+      }
+    });
+
+    $scope.createTpl = function createTpl(tpl) {
       return crmStatus(
         {start: ts('Creating...'), success: ts('Created')},
         crmMosaicoTemplates.create({
@@ -32,7 +42,7 @@
       });
     };
 
-    $scope.copyTpl = function(tpl) {
+    $scope.copyTpl = function copyTpl(tpl) {
       return crmStatus(
         {start: ts('Copying...'), success: ts('Copied')},
         crmMosaicoTemplates.clone({
@@ -44,8 +54,47 @@
       });
     };
 
-    $scope.editTpl = function(tpl) {
-      CRM.alert('Edit: ' + tpl.title); // FIXME
+    $scope.editTpl = function editTpl(tpl) {
+      if (block.check()) {
+        return;
+      }
+
+      if (warmTplId == tpl.id) {
+        crmMosaicoIframe.show();
+        return;
+      }
+
+      warmTplId = tpl.id;
+      var openPromise = crmMosaicoTemplates.getFull(tpl).then(function(fullTpl) {
+        if (crmMosaicoIframe) crmMosaicoIframe.destroy();
+        
+        crmMosaicoIframe = new CrmMosaicoIframe({
+          model: {
+            template: tpl.baseDetails.path,
+            metadata: fullTpl.metadata,
+            content: fullTpl.content
+          },
+          actions: {
+            save: function(ko, viewModel) {
+              viewModel.metadata.changed = Date.now();
+
+              var savePromise = crmApi('MosaicoTemplate', 'create', {
+                id: tpl.id,
+                html: viewModel.exportHTML(),
+                metadata: viewModel.exportMetadata(),
+                content: viewModel.exportJSON()
+              }).then(function() {
+                crmMosaicoIframe.hide();
+              });
+
+              crmStatus({start: ts('Saving'), success: ts('Saved')}, savePromise);
+            }
+          }
+        });
+        return crmMosaicoIframe.open();
+      });
+
+      block(crmStatus({start: ts('Loading...'), success: null}, openPromise));
     };
 
     $scope.deleteTpl = function(tpl) {

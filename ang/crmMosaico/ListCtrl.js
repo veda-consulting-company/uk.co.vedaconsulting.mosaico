@@ -13,7 +13,7 @@
     }
   );
 
-  angular.module('crmMosaico').controller('CrmMosaicoListCtrl', function($scope, crmApi, crmStatus, crmUiHelp, crmMosaicoTemplates, CrmMosaicoIframe, crmBlocker) {
+  angular.module('crmMosaico').controller('CrmMosaicoListCtrl', function($scope, crmApi, crmStatus, crmUiHelp, crmMosaicoTemplates, CrmMosaicoIframe, crmBlocker, crmMosaicoPrompt) {
     // The ts() and hs() functions help load strings for this module.
     var ts = $scope.ts = CRM.ts('mosaico');
     var hs = $scope.hs = crmUiHelp({file: 'CRM/crmMosaico/ListCtrl'}); // See: templates/CRM/crmMosaico/ListCtrl.hlp
@@ -31,27 +31,29 @@
     });
 
     $scope.createTpl = function createTpl(tpl) {
-      return crmStatus(
-        {start: ts('Creating...'), success: ts('Created')},
-        crmMosaicoTemplates.create({
-          base: tpl.baseDetails.name,
-          title: ts('%1 (New Template)', {1: tpl.type})
+      return crmMosaicoPrompt(ts('Template name'), ts('New Template (%1)', {1: tpl.type}))
+        .then(function(newTitle) {
+          return crmStatus(
+            {start: ts('Creating...'), success: ts('Created')},
+            crmMosaicoTemplates.create({base: tpl.baseDetails.name, title: newTitle})
+          );
         })
-      ).then(function(newTpl){
-        return $scope.editTpl(newTpl);
-      });
+        .then(function(newTpl) {
+          return $scope.editTpl(newTpl);
+        });
     };
 
     $scope.copyTpl = function copyTpl(tpl) {
-      return crmStatus(
-        {start: ts('Copying...'), success: ts('Copied')},
-        crmMosaicoTemplates.clone({
-          id: tpl.id,
-          title: ts('%1 (Copy)', {1: tpl.title})
+      return crmMosaicoPrompt(ts('Template name'), ts('Copy of %1', {1: tpl.title}))
+        .then(function(newTitle) {
+          return crmStatus(
+            {start: ts('Copying...'), success: ts('Copied')},
+            crmMosaicoTemplates.clone({id: tpl.id, title: newTitle})
+          );
         })
-      ).then(function(newTpl){
-        return $scope.editTpl(newTpl);
-      });
+        .then(function(newTpl) {
+          return $scope.editTpl(newTpl);
+        });
     };
 
     $scope.editTpl = function editTpl(tpl) {
@@ -67,7 +69,7 @@
       warmTplId = tpl.id;
       var openPromise = crmMosaicoTemplates.getFull(tpl).then(function(fullTpl) {
         if (crmMosaicoIframe) crmMosaicoIframe.destroy();
-        
+
         crmMosaicoIframe = new CrmMosaicoIframe({
           model: {
             template: tpl.baseDetails.path,

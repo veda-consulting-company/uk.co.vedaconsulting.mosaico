@@ -56,6 +56,18 @@
         });
     };
 
+    $scope.renameTpl = function renameTpl(tpl) {
+      crmMosaicoPrompt(ts('Template name'), tpl.title)
+        .then(function(newTitle) {
+          return crmStatus(
+            {start: ts('Saving...'), success: ts('Saved')},
+            crmApi('MosaicoTemplate', 'create', {id: tpl.id, title: newTitle}));
+        })
+        .then(function(r){
+          tpl.title = r.values[tpl.id].title;
+        });
+    };
+
     $scope.editTpl = function editTpl(tpl) {
       if (block.check()) {
         return;

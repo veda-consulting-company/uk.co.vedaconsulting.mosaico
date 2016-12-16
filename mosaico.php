@@ -171,6 +171,16 @@ function mosaico_civicrm_navigationMenu(&$params){
     ),
   );
 
+  _mosaico_civix_insert_navigation_menu($params, 'Mailings', array(
+    'label' => ts('Mosaico Templates', array('domain' => 'org.civicrm.styleguide')),
+    'name' => 'mosaico_templates',
+    'permission' => 'access CiviCRM Mosaico',
+    'child' => array(),
+    'operator' => 'OR',
+    'separator' => 0,
+    'url' => CRM_Utils_System::url('civicrm/a/', NULL, TRUE, '/mosaico-template'),
+  ));
+
   _mosaico_civix_navigationMenu($menu);
 }
 

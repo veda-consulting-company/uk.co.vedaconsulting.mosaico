@@ -31,7 +31,7 @@
     });
 
     $scope.createTpl = function createTpl(tpl) {
-      return crmMosaicoPrompt(ts('Template name'), ts('New Template (%1)', {1: tpl.type}))
+      return crmMosaicoPrompt(ts('Create new template'), ts('New Template (%1)', {1: tpl.type}))
         .then(function(newTitle) {
           return crmStatus(
             {start: ts('Creating...'), success: ts('Created')},
@@ -44,7 +44,7 @@
     };
 
     $scope.copyTpl = function copyTpl(tpl) {
-      return crmMosaicoPrompt(ts('Template name'), ts('Copy of %1', {1: tpl.title}))
+      return crmMosaicoPrompt(ts('Create new template'), ts('Copy of %1', {1: tpl.title}))
         .then(function(newTitle) {
           return crmStatus(
             {start: ts('Copying...'), success: ts('Copied')},
@@ -57,7 +57,7 @@
     };
 
     $scope.renameTpl = function renameTpl(tpl) {
-      crmMosaicoPrompt(ts('Template name'), tpl.title)
+      crmMosaicoPrompt(ts('Edit template name'), tpl.title)
         .then(function(newTitle) {
           return crmStatus(
             {start: ts('Saving...'), success: ts('Saved')},

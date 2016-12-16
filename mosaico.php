@@ -35,6 +35,15 @@ function mosaico_civicrm_install() {
 }
 
 /**
+ * Implements hook_civicrm_postInstall().
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_postInstall
+ */
+function mosaico_civicrm_postInstall() {
+  _mosaico_civix_civicrm_postInstall();
+}
+
+/**
  * Implements hook_civicrm_uninstall().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_uninstall
@@ -161,6 +170,8 @@ function mosaico_civicrm_navigationMenu(&$params){
       'permission'=> 'access CiviCRM Mosaico',
     ),
   );
+
+  _mosaico_civix_navigationMenu($menu);
 }
 
 

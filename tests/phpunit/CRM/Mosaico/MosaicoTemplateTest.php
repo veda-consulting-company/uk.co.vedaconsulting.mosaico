@@ -61,4 +61,27 @@ class CRM_Mosaico_MosaicoTemplateTest extends CRM_Mosaico_TestCase implements En
     ));
   }
 
+  public function testClone() {
+    $createResult = $this->callAPISuccess('MosaicoTemplate', 'create', array(
+      'title' => 'MosaicoTemplateTest foo',
+      'base' => 'versafix-1',
+      'html' => '<p>hello</p>',
+      'metadata' => json_encode(array('foo' => 'bar')),
+      'content' => json_encode(array('abc' => 'def')),
+    ));
+
+    $cloneResult = $this->callAPISuccess('MosaicoTemplate', 'clone', array(
+      'id' => $createResult['id'],
+      'title' => 'MosaicoTemplateTest bar',
+    ));
+    $clone = $cloneResult['values'][$cloneResult['id']];
+
+    $this->assertNotEquals($clone['id'], $createResult['id']);
+    $this->assertEquals('MosaicoTemplateTest bar', $clone['title']);
+    $this->assertEquals('versafix-1', $clone['base']);
+    $this->assertEquals('<p>hello</p>', $clone['html']);
+    $this->assertEquals(json_encode(array('foo' => 'bar')), $clone['metadata']);
+    $this->assertEquals(json_encode(array('abc' => 'def')), $clone['content']);
+  }
+
 }

@@ -35,6 +35,15 @@ function mosaico_civicrm_install() {
 }
 
 /**
+ * Implements hook_civicrm_postInstall().
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_postInstall
+ */
+function mosaico_civicrm_postInstall() {
+  _mosaico_civix_civicrm_postInstall();
+}
+
+/**
  * Implements hook_civicrm_uninstall().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_uninstall
@@ -161,6 +170,18 @@ function mosaico_civicrm_navigationMenu(&$params){
       'permission'=> 'access CiviCRM Mosaico',
     ),
   );
+
+  _mosaico_civix_insert_navigation_menu($params, 'Mailings', array(
+    'label' => ts('Mosaico Templates', array('domain' => 'org.civicrm.styleguide')),
+    'name' => 'mosaico_templates',
+    'permission' => 'access CiviCRM Mosaico',
+    'child' => array(),
+    'operator' => 'OR',
+    'separator' => 0,
+    'url' => CRM_Utils_System::url('civicrm/a/', NULL, TRUE, '/mosaico-template'),
+  ));
+
+  _mosaico_civix_navigationMenu($menu);
 }
 
 

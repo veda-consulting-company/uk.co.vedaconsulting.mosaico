@@ -1,11 +1,22 @@
 # Testing
 
-## TODO: Automated testing
+## Automated Tests: Requirements
 
-At the moment, this extension does not have any automated tests. However, we
-can still track manual test scripts.
+ * Working CiviCRM installation
+ * PHPUnit (https://phpunit.de/)
+ * cv (https://github.com/civicrm/cv)
 
-## Manual Test: Save/Load Mailing
+## Automated Tests: End to end
+
+This extension includes a handful of end-to-end API tests.  These tests
+verify that the Mosaico data can be read and written when installed on a
+CiviCRM site.
+
+```
+phpunit4 --group e2e
+```
+
+## Manual Tests: Save/Load Mailing
 
  1. Create a mailing
    1. Navigate to "Mailings => New Mailing" (`civicrm/a/#/mailing/new` or `civicrm/a/#/mailing/new/mosaico`)
@@ -25,7 +36,7 @@ can still track manual test scripts.
    3. Under "Design", open the template again.
    4. _Observe_: A full-screen dialog opens with Mosaico. It restores the content from before.
 
-## Manual Test: Tokens
+## Manual Tests: Tokens
 
 This extension defines a TinyMCE plugin called "civicrmtoken".  To test this
 plugin, create a mailing with a block of content. Then try each of the following:
@@ -35,7 +46,7 @@ plugin, create a mailing with a block of content. Then try each of the following
  3. Edit a paragraph. Press Ctrl-Shift-T and see a dialog. Enter a filter and pick a token using the keyboard. Observe the new token in the paragraph.
  4. Edit a heading or button. Ensure that the the token icon/dropdown/hotkey work as expected. Observe the new token in the heading or button.
 
-## Manual Test: Save/Load Template
+## Manual Tests: Save/Load Template
 
  1. Create a new template
    1. Navigate to "Mailings => Mosaico Templates"

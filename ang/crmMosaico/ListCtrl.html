@@ -3,7 +3,7 @@
   <div crm-ui-debug="crmMosaicoTemplates.getBases()"></div>
   <div crm-ui-debug="crmMosaicoTemplates.getConfigured()"></div>
 
-  <div class="panel panel-default">
+  <div class="panel panel-default" ng-show="crmMosaicoTemplates.getConfigured().length > 0">
     <div class="panel-heading">{{ts('Configured templates')}}</div>
     <div class="panel-body">
       <div class="row">

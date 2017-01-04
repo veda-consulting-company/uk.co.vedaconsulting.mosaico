@@ -4,7 +4,7 @@
   // Scope members:
   //   - [input] "model": Object
   //     - "url": string
-  angular.module('crmCxn').controller('CrmMosaicoEditorDialogCtrl', function CrmMosaicoEditorDialogCtrl($scope, dialogService) {
+  angular.module('crmMosaico').controller('CrmMosaicoEditorDialogCtrl', function CrmMosaicoEditorDialogCtrl($scope, dialogService) {
     var ts = $scope.ts = CRM.ts(null);
   });
 

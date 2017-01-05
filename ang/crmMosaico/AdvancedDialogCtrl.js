@@ -5,7 +5,7 @@
   //   - [input] "model": Object
   //     - "mailing": Object, CiviMail mailing
   //     - "attachments": Object, CrmAttachment
-  angular.module('crmCxn').controller('CrmMosaicoAdvancedDialogCtrl', function CrmMosaicoAdvancedDialogCtrl($scope, dialogService) {
+  angular.module('crmMosaico').controller('CrmMosaicoAdvancedDialogCtrl', function CrmMosaicoAdvancedDialogCtrl($scope, dialogService) {
     var ts = $scope.ts = CRM.ts(null);
   });
 

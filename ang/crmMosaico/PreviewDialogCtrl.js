@@ -5,7 +5,7 @@
   //   - [input] "model": Object
   //     - "mailing": Object, CiviMail mailing
   //     - "attachments": Object, CrmAttachment
-  angular.module('crmCxn').controller('CrmMosaicoPreviewDialogCtrl', function CrmMosaicoPreviewDialogCtrl($scope, crmMailingMgr, crmMailingPreviewMgr, crmBlocker, crmStatus) {
+  angular.module('crmMosaico').controller('CrmMosaicoPreviewDialogCtrl', function CrmMosaicoPreviewDialogCtrl($scope, crmMailingMgr, crmMailingPreviewMgr, crmBlocker, crmStatus) {
     var ts = $scope.ts = CRM.ts(null);
     var block = $scope.block = crmBlocker();
 

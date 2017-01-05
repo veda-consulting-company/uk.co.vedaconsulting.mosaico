@@ -2,7 +2,7 @@
 
   // This provides additional actions for editing a Mosaico mailing.
   // It coexists with crmMailing's EditMailingCtrl.
-  angular.module('crmCxn').controller('CrmMosaicoMixinCtrl', function CrmMosaicoMixinCtrl($scope, dialogService, crmMosaicoTemplates, crmStatus, CrmMosaicoIframe, $timeout) {
+  angular.module('crmMosaico').controller('CrmMosaicoMixinCtrl', function CrmMosaicoMixinCtrl($scope, dialogService, crmMosaicoTemplates, crmStatus, CrmMosaicoIframe, $timeout) {
     // var ts = $scope.ts = CRM.ts(null);
 
     // Main data is in $scope.mailing, $scope.mosaicoCtrl.template

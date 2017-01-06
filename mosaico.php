@@ -14,8 +14,6 @@ function mosaico_civicrm_config(&$config) {
 /**
  * Implements hook_civicrm_xmlMenu().
  *
- * @param $files array(string)
- *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_xmlMenu
  */
 function mosaico_civicrm_xmlMenu(&$files) {
@@ -29,7 +27,7 @@ function mosaico_civicrm_xmlMenu(&$files) {
  */
 function mosaico_civicrm_install() {
   _mosaico_civix_civicrm_install();
-  
+
   $schema = new CRM_Logging_Schema();
   $schema->fixSchemaDifferences();
 }
@@ -76,13 +74,6 @@ function mosaico_civicrm_disable() {
 /**
  * Implements hook_civicrm_upgrade().
  *
- * @param $op string, the type of operation being performed; 'check' or 'enqueue'
- * @param $queue CRM_Queue_Queue, (for 'enqueue') the modifiable list of pending up upgrade tasks
- *
- * @return mixed
- *   Based on op. for 'check', returns array(boolean) (TRUE if upgrades are pending)
- *                for 'enqueue', returns void
- *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_upgrade
  */
 function mosaico_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
@@ -125,7 +116,7 @@ function mosaico_civicrm_caseTypes(&$caseTypes) {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
  */
 function mosaico_civicrm_angularModules(&$angularModules) {
-_mosaico_civix_civicrm_angularModules($angularModules);
+  _mosaico_civix_civicrm_angularModules($angularModules);
 }
 
 /**
@@ -134,30 +125,15 @@ _mosaico_civix_civicrm_angularModules($angularModules);
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_alterSettingsFolders
  */
 function mosaico_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
-_mosaico_civix_civicrm_alterSettingsFolders($metaDataFolders);
+  _mosaico_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
-/**
- * Functions below this ship commented out. Uncomment as required.
- *
-
-/**
- * Implements hook_civicrm_preProcess().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_preProcess
- *
-function mosaico_civicrm_preProcess($formName, &$form) {
-
-}
-
-*/
-
-function mosaico_civicrm_navigationMenu(&$params){
+function mosaico_civicrm_navigationMenu(&$params) {
   $parentId = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Mailings', 'id', 'name');
   //$msgTpls  = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Message Templates', 'id', 'name');
 
   $maxId       = max(array_keys($params));
-  $msgTplMaxId = empty($msgTpls) ? $maxId+10 : $msgTpls;
+  $msgTplMaxId = empty($msgTpls) ? $maxId + 10 : $msgTpls;
   $params[$parentId]['child'][$msgTplMaxId] = array(
     'attributes' => array(
       'label'     => ts('Message Template Builder'),
@@ -167,7 +143,7 @@ function mosaico_civicrm_navigationMenu(&$params){
       'parentID'  => $parentId,
       'operator'  => NULL,
       'navID'     => $msgTplMaxId,
-      'permission'=> 'access CiviCRM Mosaico',
+      'permission' => 'access CiviCRM Mosaico',
     ),
   );
 
@@ -184,26 +160,25 @@ function mosaico_civicrm_navigationMenu(&$params){
   _mosaico_civix_navigationMenu($menu);
 }
 
-
-function mosaico_civicrm_pageRun(&$page){
+function mosaico_civicrm_pageRun(&$page) {
   $pageName = $page->getVar('_name');
   if ($pageName == 'Civi\Angular\Page\Main') {
     CRM_Core_Resources::singleton()->addScriptFile('uk.co.vedaconsulting.mosaico', 'js/crmMailingCustom.js', 800);
   }
   if ($pageName == 'CRM_Admin_Page_MessageTemplates') {
-    $activeTab  = CRM_Utils_Request::retrieve('activeTab', 'String', $form, false, null, 'REQUEST');
-    $resultArray= $exsitingTemplates = array();
+    $activeTab  = CRM_Utils_Request::retrieve('activeTab', 'String', $form, FALSE, NULL, 'REQUEST');
+    $resultArray = $exsitingTemplates = array();
     $smarty     = CRM_Core_Smarty::singleton();
     $tableName  = CRM_Mosaico_DAO_MessageTemplate::getTableName();
-    $dao = CRM_Core_DAO::executeQuery("SELECT mosaico.*, cmt.msg_title, cmt.msg_subject, cmt.is_active 
-      FROM {$tableName} mosaico 
+    $dao = CRM_Core_DAO::executeQuery("SELECT mosaico.*, cmt.msg_title, cmt.msg_subject, cmt.is_active
+      FROM {$tableName} mosaico
       JOIN civicrm_msg_template cmt ON (cmt.id = mosaico.msg_tpl_id)
     ");
     while ($dao->fetch()) {
       $resultArray[$dao->id] = $dao->toArray();
-      
-      $editURL= CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2', FALSE, $dao->hash_key);
-      $delURL = CRM_Utils_System::url('civicrm/admin/messageTemplates', 'action=delete&id='.$dao->msg_tpl_id);
+
+      $editURL = CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2', FALSE, $dao->hash_key);
+      $delURL = CRM_Utils_System::url('civicrm/admin/messageTemplates', 'action=delete&id=' . $dao->msg_tpl_id);
       $enableDisableText = $dao->is_active ? 'Disable' : 'Enable';
       $action = sprintf('<span>
       <a href="%s" class="action-item crm-hover-button" title="Edit this message template" >Edit</a>
@@ -211,11 +186,11 @@ function mosaico_civicrm_pageRun(&$page){
       <a href="%s" class="action-item crm-hover-button small-popup" title="Delete this message template" >Delete</a>
       <a href="#" class="action-item crm-hover-button copy-template" value = "%s" title="Copy this message template">Copy</a>
       </span>', $editURL, $enableDisableText, $delURL, $dao->msg_tpl_id);
-      
+
       $resultArray[$dao->id]['action'] = $action;
-	  
+
       //all tempalte values which are exist in Mosaico tempalte and related hash key
-      $exsitingTemplates[$dao->msg_tpl_id] = $dao->hash_key; 
+      $exsitingTemplates[$dao->msg_tpl_id] = $dao->hash_key;
     }
     //To inject new action link with default actions.
     //row already assinged in smarty, so get template variable , and append action and assigned new row values to tpl.
@@ -224,7 +199,7 @@ function mosaico_civicrm_pageRun(&$page){
       $editURL = '#';
       $editableClassName = "edit_msg_tpl_to_mosaico";
       $editableLinkName = "Import in Mosaico";
-	  
+
       //url for existing mosaico templates. otherwise we create dummy with new hashkey and link to open up in mosaico editor.
       //and using classname to allow edit only if not exist in mosaico template.
       if (array_key_exists($key, $exsitingTemplates)) {
@@ -238,12 +213,12 @@ function mosaico_civicrm_pageRun(&$page){
       </span>', $editURL, $editableClassName, $editableLinkName);
 
       if (defined('CIVICRM_MOSAICO_IMPORT') && CIVICRM_MOSAICO_IMPORT == 1) {
-        //MV: allow open msg template in mosaico editor. 
+        //MV: allow open msg template in mosaico editor.
         $rows['userTemplates'][$key]['action'] .= $action;
       }
     }
 
-    $smarty->assign('rows', $rows);    
+    $smarty->assign('rows', $rows);
     $smarty->assign('mosaicoTemplates', $resultArray);
     $smarty->assign('selectedChild', $activeTab);
     // From civi 4.7, no more tinymce, so if only civi version is less than 4.7 show tinymce.
@@ -258,14 +233,11 @@ function mosaico_civicrm_pageRun(&$page){
 }
 
 /**
- * Implements hook_civicrm_check.
- *
- * @param array $messages
- *   List of CRM_Utils_Check_Message objects.
+ * Implements hook_civicrm_check().
  */
 function mosaico_civicrm_check(&$messages) {
   //Make sure the ImageMagick library is loaded.
-  if( !(extension_loaded('imagick') || class_exists("Imagick"))){
+  if (!(extension_loaded('imagick') || class_exists("Imagick"))) {
     $messages[] = new CRM_Utils_Check_Message(
       'mosaico_imagick',
       ts('the ImageMagick library is not installed.  The Email Template Builder extension will not work without it.'),
@@ -292,27 +264,19 @@ function mosaico_civicrm_check(&$messages) {
 }
 
 /**
- * Implementation of hook_civicrm_permission
- *
- * @param array $permissions
- * @return void
+ * Implements hook_civicrm_permission().
  */
 function mosaico_civicrm_permission(&$permissions) {
-    $prefix = ts('CiviMail Mosaico') . ': '; // name of extension or module
-    $permissions += array(
-        'access CiviCRM Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
-    );
+  $prefix = ts('CiviMail Mosaico') . ': '; // name of extension or module
+  $permissions += array(
+    'access CiviCRM Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
+  );
 }
 
 /**
- * Implementation of hook_civicrm_alterMailContent
- *
- * @param array $permissions
- * @return void
+ * Implements hook_civicrm_alterMailContent().
  */
-
-function mosaico_civicrm_alterMailContent(&$content)
-{
+function mosaico_civicrm_alterMailContent(&$content) {
   /**
    * create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
    * convert string below into just the absolute url with addition of static directory where correctly sized image is stored
@@ -320,10 +284,10 @@ function mosaico_civicrm_alterMailContent(&$content)
    * img?src=BASE_URL+UPLOADS_URL+imagename+imagemagickparams
    */
   $mosaico_config = CRM_Mosaico_Utils::getConfig();
-  $mosaico_image_upload_dir = rawurlencode($mosaico_config['BASE_URL'].$mosaico_config['UPLOADS_URL']);
+  $mosaico_image_upload_dir = rawurlencode($mosaico_config['BASE_URL'] . $mosaico_config['UPLOADS_URL']);
 
   $content = preg_replace_callback(
-    "/src=\"h.+img\?src=(".$mosaico_image_upload_dir.")(.+)&.*\"/U",
+    "/src=\"h.+img\?src=(" . $mosaico_image_upload_dir . ")(.+)&.*\"/U",
     function($matches){
       return "src=\"" . rawurldecode($matches[1]) . "static/" . rawurldecode($matches[2]) . "\"";
     },
@@ -363,17 +327,12 @@ function mosaico_civicrm_entityTypes(&$entityTypes) {
 
 /**
  * Implements hook_civicrm_pre().
- *
- * @param string $op
- * @param string $objectName
- * @param int|null $id
- * @param array|object $params
  */
 function mosaico_civicrm_pre($op, $objectName, $id, &$params) {
   if ($objectName === 'Mailing' && $op === 'create') {
     if (isset($params['template_type']) && $params['template_type'] === 'mosaico') {
-      $params['header_id'] = null;
-      $params['footer_id'] = null;
+      $params['header_id'] = NULL;
+      $params['footer_id'] = NULL;
     }
   }
 }

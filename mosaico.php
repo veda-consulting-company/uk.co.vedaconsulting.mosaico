@@ -336,3 +336,14 @@ function mosaico_civicrm_pre($op, $objectName, $id, &$params) {
     }
   }
 }
+
+/**
+ * Implements hook_civicrm_container().
+ */
+function mosaico_civicrm_container(\Symfony\Component\DependencyInjection\ContainerBuilder $container) {
+  if (version_compare(\CRM_Utils_System::version(), '4.7.0', '>=')) {
+    $container->addResource(new \Symfony\Component\Config\Resource\FileResource(__FILE__));
+  }
+  require_once 'CRM/Mosaico/Services.php';
+  CRM_Mosaico_Services::registerServices($container);
+}

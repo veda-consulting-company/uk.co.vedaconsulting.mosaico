@@ -274,9 +274,15 @@ function mosaico_civicrm_permission(&$permissions) {
 }
 
 /**
- * Implements hook_civicrm_alterMailContent().
+ * Convert dyanmic-y image URLs to static-y URLs.
+ *
+ * This is analogous to alterMailContent, but we only apply to Mosaico mailings.
+ *
+ * @param $content
+ *   This parameter seems a bit confused.
+ * @see CRM_Mosaico_MosaicoComposer
  */
-function mosaico_civicrm_alterMailContent(&$content) {
+function _mosaico_civicrm_alterMailContent(&$content) {
   /**
    * create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
    * convert string below into just the absolute url with addition of static directory where correctly sized image is stored

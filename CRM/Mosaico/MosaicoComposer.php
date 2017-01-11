@@ -34,8 +34,10 @@ class CRM_Mosaico_MosaicoComposer extends \Civi\FlexMailer\Listener\DefaultCompo
   }
 
   public function createMessageTemplates($mailing) {
+    // Currently building on the BAO's behavior for reconciling
+    // HTML/text and header/body/footer.
     $templates = parent::createMessageTemplates($mailing);
-    // unset($templates['text']);
+    \_mosaico_civicrm_alterMailContent($templates);
     return $templates;
   }
 

@@ -261,6 +261,14 @@ function mosaico_civicrm_check(&$messages) {
       \Psr\Log\LogLevel::CRITICAL
     );
   }
+  if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('flexmailer')) {
+    $messages[] = new CRM_Utils_Check_Message(
+      'mosaico_flexmailer',
+      ts('Mosaico uses FlexMailer for delivery. Please install the extension "org.civicrm.flexmailer".'),
+      ts('FlexMailer required'),
+      \Psr\Log\LogLevel::CRITICAL
+    );
+  }
 }
 
 /**
@@ -274,9 +282,15 @@ function mosaico_civicrm_permission(&$permissions) {
 }
 
 /**
- * Implements hook_civicrm_alterMailContent().
+ * Convert dyanmic-y image URLs to static-y URLs.
+ *
+ * This is analogous to alterMailContent, but we only apply to Mosaico mailings.
+ *
+ * @param $content
+ *   This parameter seems a bit confused.
+ * @see CRM_Mosaico_MosaicoComposer
  */
-function mosaico_civicrm_alterMailContent(&$content) {
+function _mosaico_civicrm_alterMailContent(&$content) {
   /**
    * create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
    * convert string below into just the absolute url with addition of static directory where correctly sized image is stored
@@ -335,4 +349,15 @@ function mosaico_civicrm_pre($op, $objectName, $id, &$params) {
       $params['footer_id'] = NULL;
     }
   }
+}
+
+/**
+ * Implements hook_civicrm_container().
+ */
+function mosaico_civicrm_container(\Symfony\Component\DependencyInjection\ContainerBuilder $container) {
+  if (version_compare(\CRM_Utils_System::version(), '4.7.0', '>=')) {
+    $container->addResource(new \Symfony\Component\Config\Resource\FileResource(__FILE__));
+  }
+  require_once 'CRM/Mosaico/Services.php';
+  CRM_Mosaico_Services::registerServices($container);
 }

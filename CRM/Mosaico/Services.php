@@ -21,7 +21,7 @@ class CRM_Mosaico_Services {
       return;
     }
     $container->setDefinition('mosaico_flexmail_composer', new Definition('CRM_Mosaico_MosaicoComposer'));
-    // $container->setDefinition('mosaico_flexmail_url_filter', new Definition('CRM_Mosaico_UrlFilter'));
+    $container->setDefinition('mosaico_flexmail_url_filter', new Definition('CRM_Mosaico_UrlFilter'));
 
     foreach (self::getListenerSpecs() as $listenerSpec) {
       $container->findDefinition('dispatcher')->addMethodCall('addListenerService', $listenerSpec);
@@ -32,7 +32,7 @@ class CRM_Mosaico_Services {
     $listenerSpecs = array();
 
     $listenerSpecs[] = array(FM::EVENT_COMPOSE, array('mosaico_flexmail_composer', 'onCompose'), FM::WEIGHT_MAIN);
-    // $listenerSpecs[] = array(FM::EVENT_COMPOSE, array('mosaico_flexmail_url_filter', 'onCompose'), FM::WEIGHT_ALTER - 100);
+    $listenerSpecs[] = array(FM::EVENT_COMPOSE, array('mosaico_flexmail_url_filter', 'onCompose'), FM::WEIGHT_ALTER - 100);
 
     return $listenerSpecs;
   }

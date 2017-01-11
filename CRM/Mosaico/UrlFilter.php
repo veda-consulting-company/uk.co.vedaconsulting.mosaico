@@ -32,12 +32,22 @@ class CRM_Mosaico_UrlFilter extends \Civi\FlexMailer\Listener\BaseListener {
    *   Filtered HTML, with relative IMG url's changed to absolute URLs.
    */
   public function filterHtml($htmls) {
-    $callback = function ($matches) {
+    // Ex: "https://example.org:8080/subdir/"
+    $stdBase = \CRM_Utils_File::addTrailingSlash($this->getBaseUrl(), '/');
+    // Ex: "https://example.org:8080"
+    $domainBase = $this->createDomainBase($stdBase);
+
+    $callback = function ($matches) use ($stdBase, $domainBase) {
       if (preg_match('/^https?:/', $matches[2])) {
         return $matches[0];
       }
 
-      return $matches[1] . $this->getBaseUrl() . $matches[2] . $matches[3];
+      if ($matches[2]{0} === '/') {
+        return $matches[1] . $domainBase . $matches[2] . $matches[3];
+      }
+      else {
+        return $matches[1] . $stdBase . $matches[2] . $matches[3];
+      }
     };
 
     $htmls = preg_replace_callback(';(\<img [^>]*src *= *")([^">]+)(");i', $callback, $htmls);
@@ -53,7 +63,7 @@ class CRM_Mosaico_UrlFilter extends \Civi\FlexMailer\Listener\BaseListener {
    */
   public function getBaseUrl() {
     if ($this->baseUrl === NULL) {
-      $this->baseUrl = \CRM_Utils_File::addTrailingSlash(CIVICRM_UF_BASEURL, '/');
+      return CIVICRM_UF_BASEURL;
     }
     return $this->baseUrl;
   }
@@ -65,6 +75,23 @@ class CRM_Mosaico_UrlFilter extends \Civi\FlexMailer\Listener\BaseListener {
   public function setBaseUrl($baseUrl) {
     $this->baseUrl = $baseUrl;
     return $this;
+  }
+
+  /**
+   * @param string $url
+   *   Ex: 'https://user:pass@host:port/path?query'.
+   * @return string
+   *   Ex: 'https://host:port'.
+   */
+  protected function createDomainBase($url) {
+    $result = parse_url($url, PHP_URL_SCHEME);
+    $result .= '://';
+    $result .= parse_url($url, PHP_URL_HOST);
+    $port = parse_url($url, PHP_URL_PORT);
+    if ($port) {
+      $result .= ":" . $port;
+    }
+    return $result;
   }
 
 }

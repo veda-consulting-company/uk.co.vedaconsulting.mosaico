@@ -261,6 +261,14 @@ function mosaico_civicrm_check(&$messages) {
       \Psr\Log\LogLevel::CRITICAL
     );
   }
+  if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('flexmailer')) {
+    $messages[] = new CRM_Utils_Check_Message(
+      'mosaico_flexmailer',
+      ts('Mosaico uses FlexMailer for delivery. Please install the extension "org.civicrm.flexmailer".'),
+      ts('FlexMailer required'),
+      \Psr\Log\LogLevel::CRITICAL
+    );
+  }
 }
 
 /**

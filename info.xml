@@ -24,6 +24,7 @@
   <requires>
     <!-- FIXME: This is too tightly coupled, e.g. precludes org.civicrm.bootstrapcivihr -->
     <ext>org.civicrm.bootstrapcivicrm</ext>
+    <ext>org.civicrm.flexmailer</ext>
   </requires>
   <comments>To help contribute please contact us on support@vedaconsulting.co.uk or initiate a conversation / issue on github.</comments>
   <civix>

@@ -38,7 +38,7 @@ class CRM_Mosaico_UrlFilter extends \Civi\FlexMailer\Listener\BaseListener {
     $domainBase = $this->createDomainBase($stdBase);
 
     $callback = function ($matches) use ($stdBase, $domainBase) {
-      if (preg_match('/^https?:/', $matches[2])) {
+      if (preg_match('/^https?:/', $matches[2]) || empty($matches[2])) {
         return $matches[0];
       }
 

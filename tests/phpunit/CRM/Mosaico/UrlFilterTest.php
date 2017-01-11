@@ -71,6 +71,11 @@ class CRM_Mosaico_UrlFilterTest extends CRM_Mosaico_TestCase implements EndToEnd
       '<p>Hello <img src="/foo.png"> world.</p>',
       '<p>Hello <img src="http://abc.example.com/foo.png"> world.</p>',
     );
+    $cases[] = array(
+      'http://abc.example.com/def/',
+      '<p>Hello <img src=""> world.</p>',
+      '<p>Hello <img src=""> world.</p>',
+    );
     return $cases;
   }
 

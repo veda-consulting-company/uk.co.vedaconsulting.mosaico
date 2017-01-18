@@ -117,11 +117,11 @@ function do_zipfile() {
     ## Put the files into the *.zip, using a $EXTKEY as a prefix.
     {
        ## Get any files in the project root.
-       find . -mindepth 1 -maxdepth 1 -type f
+       find . -mindepth 1 -maxdepth 1 -type f -o -type d
        ## Get any files in the main subfolders.
-       find CRM/ ang/ api/ bin/ css/ js/ sql/ templates/ xml/ -type f
+       find CRM/ ang/ api/ bin/ css/ js/ sql/ templates/ xml/ -type f -o -type d
        ## Get the distributable files for Mosaico.
-       find packages/mosaico/{NOTICE,README,LICENSE,dist,templates}* -type f
+       find packages/mosaico/{NOTICE,README,LICENSE,dist,templates}* -type f -o -type d
     } \
       | grep -v '~$' \
       | php bin/add-zip-regex.php "$zipfile" ":^:" "$EXTKEY/"

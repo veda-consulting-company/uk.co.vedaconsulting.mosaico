@@ -17,6 +17,7 @@ if (empty($argv[1]) || empty($argv[2])) {
 
 $zip = new ZipArchive();
 $zip->open($argv[1], ZipArchive::CREATE);
+$zip->addEmptyDir($argv[3]);
 
 $files = explode("\n", file_get_contents('php://stdin'));
 foreach ($files as $file) {
@@ -25,7 +26,12 @@ foreach ($files as $file) {
   }
   $file = preg_replace(':^\./:', '', $file);
   $internalName = preg_replace($argv[2], $argv[3], $file);
-  $zip->addFile($file, $internalName);
+  if (file_exists($file) && is_dir($file)) {
+    $zip->addEmptyDir($internalName);
+  }
+  else {
+    $zip->addFile($file, $internalName);
+  }
 }
 
 $zip->close();

@@ -19,14 +19,14 @@ function _mosaico_civix_civicrm_config(&$config = NULL) {
   $extRoot = dirname(__FILE__) . DIRECTORY_SEPARATOR;
   $extDir = $extRoot . 'templates';
 
-  if ( is_array( $template->template_dir ) ) {
-      array_unshift( $template->template_dir, $extDir );
+  if (is_array($template->template_dir)) {
+    array_unshift($template->template_dir, $extDir);
   }
   else {
-      $template->template_dir = array( $extDir, $template->template_dir );
+    $template->template_dir = array($extDir, $template->template_dir);
   }
 
-  $include_path = $extRoot . PATH_SEPARATOR . get_include_path( );
+  $include_path = $extRoot . PATH_SEPARATOR . get_include_path();
   set_include_path($include_path);
 }
 
@@ -131,7 +131,7 @@ function _mosaico_civix_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
  * @return CRM_Mosaico_Upgrader
  */
 function _mosaico_civix_upgrader() {
-  if (!file_exists(__DIR__.'/CRM/Mosaico/Upgrader.php')) {
+  if (!file_exists(__DIR__ . '/CRM/Mosaico/Upgrader.php')) {
     return NULL;
   }
   else {
@@ -167,7 +167,8 @@ function _mosaico_civix_find_files($dir, $pattern) {
       while (FALSE !== ($entry = readdir($dh))) {
         $path = $subdir . DIRECTORY_SEPARATOR . $entry;
         if ($entry{0} == '.') {
-        } elseif (is_dir($path)) {
+        }
+        elseif (is_dir($path)) {
           $todos[] = $path;
         }
       }
@@ -192,6 +193,9 @@ function _mosaico_civix_civicrm_managed(&$entities) {
         $e['module'] = 'uk.co.vedaconsulting.mosaico';
       }
       $entities[] = $e;
+      if (empty($e['params']['version'])) {
+        $e['params']['version'] = '3';
+      }
     }
   }
 }
@@ -287,12 +291,14 @@ function _mosaico_civix_insert_navigation_menu(&$menu, $path, $item) {
   }
   else {
     // Find an recurse into the next level down
-    $found = false;
+    $found = FALSE;
     $path = explode('/', $path);
     $first = array_shift($path);
     foreach ($menu as $key => &$entry) {
       if ($entry['attributes']['name'] == $first) {
-        if (!$entry['child']) $entry['child'] = array();
+        if (!isset($entry['child'])) {
+          $entry['child'] = array();
+        }
         $found = _mosaico_civix_insert_navigation_menu($entry['child'], implode('/', $path), $item, $key);
       }
     }
@@ -319,7 +325,7 @@ function _mosaico_civix_fixNavigationMenu(&$nodes) {
     if ($key === 'navID') {
       $maxNavID = max($maxNavID, $item);
     }
-    });
+  });
   _mosaico_civix_fixNavigationMenuItems($nodes, $maxNavID, NULL);
 }
 
@@ -356,7 +362,7 @@ function _mosaico_civix_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
   $configured = TRUE;
 
   $settingsDir = __DIR__ . DIRECTORY_SEPARATOR . 'settings';
-  if(is_dir($settingsDir) && !in_array($settingsDir, $metaDataFolders)) {
+  if (is_dir($settingsDir) && !in_array($settingsDir, $metaDataFolders)) {
     $metaDataFolders[] = $settingsDir;
   }
 }

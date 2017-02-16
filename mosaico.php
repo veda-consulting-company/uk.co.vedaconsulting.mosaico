@@ -253,10 +253,10 @@ function mosaico_civicrm_check(&$messages) {
       \Psr\Log\LogLevel::CRITICAL
     );
   }
-  if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('bootstrapcivicrm')) {
+  if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('shoreditch') && !CRM_Extension_System::singleton()->getMapper()->isActiveModule('bootstrapcivicrm')) {
     $messages[] = new CRM_Utils_Check_Message(
       'mosaico_bootstrap',
-      ts('Mosaico uses Bootstrap CSS. Please install the extension "org.civicrm.bootstrapcivicrm".'),
+      ts('Mosaico uses Bootstrap CSS. Please install the extension "org.civicrm.shoreditch".'),
       ts('Bootstrap required'),
       \Psr\Log\LogLevel::CRITICAL
     );

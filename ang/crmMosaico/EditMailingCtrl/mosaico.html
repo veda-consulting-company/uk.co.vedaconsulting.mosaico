@@ -19,11 +19,12 @@
                 {{ts('Reset')}}
               </button>
             </div>
-            <span>{{ts('Design')}}</span>
+            <span class="required">{{ts('Design')}}</span>
             <div style="clear: both"></div>
           </div>
           <div class="panel-body">
             <div class="row">
+              <span ng-model="body_html_defined" crm-ui-validate="!!mailing.body_html"></span>
               <div
                   class="col-xs-6 col-md-3 crm-mosaico-selected"
                   crm-mosaico-template-item="{title: ts('My Design'), subtitle: mosaicoCtrl.getTemplate(mailing).type, img: mosaicoCtrl.getTemplate(mailing).thumbnail}"

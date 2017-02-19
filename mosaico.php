@@ -157,7 +157,7 @@ function mosaico_civicrm_navigationMenu(&$params) {
     'url' => CRM_Utils_System::url('civicrm/a/', NULL, TRUE, '/mosaico-template'),
   ));
 
-  _mosaico_civix_navigationMenu($menu);
+  _mosaico_civix_navigationMenu($params);
 }
 
 function mosaico_civicrm_pageRun(&$page) {

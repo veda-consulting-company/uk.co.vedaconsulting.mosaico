@@ -33,11 +33,26 @@ class CRM_Mosaico_MosaicoComposer extends \Civi\FlexMailer\Listener\DefaultCompo
     return $mailParams;
   }
 
-  public function createMessageTemplates($mailing) {
+  /**
+   * Generate the message templates for use with token-processor.
+   *
+   * @param \Civi\FlexMailer\Event\ComposeBatchEvent $e
+   * @return array
+   *   A list of templates. Some combination of:
+   *     - subject: string
+   *     - html: string
+   *     - text: string
+   */
+  public function createMessageTemplates(
+    \Civi\FlexMailer\Event\ComposeBatchEvent $e
+  ) {
     // Currently building on the BAO's behavior for reconciling
     // HTML/text and header/body/footer.
-    $templates = parent::createMessageTemplates($mailing);
+    $templates = $e->getMailing()->getTemplates();
     \_mosaico_civicrm_alterMailContent($templates);
+    if ($this->isClickTracking($e)) {
+      $templates = $this->applyClickTracking($e, $templates);
+    }
     return $templates;
   }
 

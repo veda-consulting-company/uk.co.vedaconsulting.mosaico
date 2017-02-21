@@ -22,6 +22,16 @@ class CRM_Mosaico_MosaicoComposerTest extends CRM_Mosaico_TestCase implements En
       '<p>Hello <img noise="1" src="foo.png"> world.</p>',
       ';noise="1" src="http://[^"]+/foo.png";',
     );
+    $cases[] = array(
+      'body_text',
+      'Go to [show_link]',
+      ';Go to http://[^"]+civicrm/mailing/view;',
+    );
+    $cases[] = array(
+      'body_text',
+      'Go to [unsubscribe_link]',
+      ';Go to http://[^"]+civicrm/mailing/unsubscribe;',
+    );
 
     return $cases;
   }

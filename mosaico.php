@@ -129,23 +129,23 @@ function mosaico_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
 }
 
 function mosaico_civicrm_navigationMenu(&$params) {
-  $parentId = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Mailings', 'id', 'name');
+  //$parentId = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Mailings', 'id', 'name');
   //$msgTpls  = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Message Templates', 'id', 'name');
 
-  $maxId       = max(array_keys($params));
-  $msgTplMaxId = empty($msgTpls) ? $maxId + 10 : $msgTpls;
-  $params[$parentId]['child'][$msgTplMaxId] = array(
-    'attributes' => array(
-      'label'     => ts('Message Template Builder'),
-      'name'      => 'Message_Template_Builder',
-      'url'       => CRM_Utils_System::url('civicrm/mosaico/index', 'reset=1', TRUE),
-      'active'    => 1,
-      'parentID'  => $parentId,
-      'operator'  => NULL,
-      'navID'     => $msgTplMaxId,
-      'permission' => 'access CiviCRM Mosaico',
-    ),
-  );
+  //  $maxId       = max(array_keys($params));
+  //  $msgTplMaxId = empty($msgTpls) ? $maxId + 10 : $msgTpls;
+  //  $params[$parentId]['child'][$msgTplMaxId] = array(
+  //    'attributes' => array(
+  //      'label'     => ts('Message Template Builder'),
+  //      'name'      => 'Message_Template_Builder',
+  //      'url'       => CRM_Utils_System::url('civicrm/mosaico/index', 'reset=1', TRUE),
+  //      'active'    => 1,
+  //      'parentID'  => $parentId,
+  //      'operator'  => NULL,
+  //      'navID'     => $msgTplMaxId,
+  //      'permission' => 'access CiviCRM Mosaico',
+  //    ),
+  //  );
 
   _mosaico_civix_insert_navigation_menu($params, 'Mailings', array(
     'label' => ts('Mosaico Templates', array('domain' => 'org.civicrm.styleguide')),

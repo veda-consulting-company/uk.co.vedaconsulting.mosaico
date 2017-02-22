@@ -291,6 +291,17 @@ function mosaico_civicrm_permission(&$permissions) {
  * @see CRM_Mosaico_MosaicoComposer
  */
 function _mosaico_civicrm_alterMailContent(&$content) {
+
+  // Mosaico templates have a few of their own tokens which are named differently from
+  // CiviMail tokens. By treating these as aliases, we can get more compatibility between
+  // Civi's delivery system and upstream Mosaico templates.
+  $tokenAliases = array(
+    // '[profile_link]' => 'FIXME',
+    '[show_link]' => '{mailing.viewUrl}',
+    '[unsubscribe_link]' => '{action.unsubscribeUrl}',
+  );
+  $content = str_replace(array_keys($tokenAliases), array_values($tokenAliases), $content);
+
   /**
    * create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
    * convert string below into just the absolute url with addition of static directory where correctly sized image is stored

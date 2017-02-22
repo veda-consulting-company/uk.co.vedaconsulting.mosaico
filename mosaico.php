@@ -160,6 +160,26 @@ function mosaico_civicrm_navigationMenu(&$params) {
   _mosaico_civix_navigationMenu($params);
 }
 
+/**
+ * Implements hook_civicrm_alterAPIPermissions().
+ *
+ * @link https://docs.civicrm.org/dev/en/master/hooks/hook_civicrm_alterAPIPermissions/
+ */
+function mosaico_civicrm_alterAPIPermissions($entity, $action, &$params, &$permissions) {
+  $permissions['mosaico_base_template']['get'] = array(
+    array('access CiviCRM Mosaico'),
+  );
+
+  $permissions['mosaico_template']['get'] = array(
+    array('access CiviCRM Mosaico'),
+  );
+  $permissions['mosaico_template']['create'] = array(
+    'access CiviCRM Mosaico', // and...
+    'edit message templates',
+  );
+  $permissions['mosaico_template']['update'] = $permissions['mosaico_template']['create'];
+}
+
 function mosaico_civicrm_pageRun(&$page) {
   $pageName = $page->getVar('_name');
   if ($pageName == 'Civi\Angular\Page\Main') {

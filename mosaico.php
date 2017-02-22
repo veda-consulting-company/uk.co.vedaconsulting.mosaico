@@ -116,6 +116,9 @@ function mosaico_civicrm_caseTypes(&$caseTypes) {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
  */
 function mosaico_civicrm_angularModules(&$angularModules) {
+  if (!CRM_Core_Permission::check('access CiviCRM Mosaico')) {
+    return;
+  }
   _mosaico_civix_civicrm_angularModules($angularModules);
 }
 
@@ -335,6 +338,9 @@ function _mosaico_civicrm_alterMailContent(&$content) {
  * @throws \CRM_Core_Exception
  */
 function mosaico_civicrm_mailingTemplateTypes(&$types) {
+  if (!CRM_Core_Permission::check('access CiviCRM Mosaico')) {
+    return;
+  }
   $messages = array();
   mosaico_civicrm_check($messages);
   $editorUrl = empty($messages)

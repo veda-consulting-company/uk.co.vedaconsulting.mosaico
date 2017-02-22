@@ -116,6 +116,9 @@ function mosaico_civicrm_caseTypes(&$caseTypes) {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
  */
 function mosaico_civicrm_angularModules(&$angularModules) {
+  if (!CRM_Core_Permission::check('access CiviCRM Mosaico')) {
+    return;
+  }
   _mosaico_civix_civicrm_angularModules($angularModules);
 }
 
@@ -150,14 +153,34 @@ function mosaico_civicrm_navigationMenu(&$params) {
   _mosaico_civix_insert_navigation_menu($params, 'Mailings', array(
     'label' => ts('Mosaico Templates', array('domain' => 'org.civicrm.styleguide')),
     'name' => 'mosaico_templates',
-    'permission' => 'access CiviCRM Mosaico',
+    'permission' => 'access CiviCRM Mosaico,edit message templates',
     'child' => array(),
-    'operator' => 'OR',
+    'operator' => 'AND',
     'separator' => 0,
     'url' => CRM_Utils_System::url('civicrm/a/', NULL, TRUE, '/mosaico-template'),
   ));
 
   _mosaico_civix_navigationMenu($params);
+}
+
+/**
+ * Implements hook_civicrm_alterAPIPermissions().
+ *
+ * @link https://docs.civicrm.org/dev/en/master/hooks/hook_civicrm_alterAPIPermissions/
+ */
+function mosaico_civicrm_alterAPIPermissions($entity, $action, &$params, &$permissions) {
+  $permissions['mosaico_base_template']['get'] = array(
+    array('access CiviCRM Mosaico'),
+  );
+
+  $permissions['mosaico_template']['get'] = array(
+    array('access CiviCRM Mosaico'),
+  );
+  $permissions['mosaico_template']['create'] = array(
+    'access CiviCRM Mosaico', // and...
+    'edit message templates',
+  );
+  $permissions['mosaico_template']['update'] = $permissions['mosaico_template']['create'];
 }
 
 function mosaico_civicrm_pageRun(&$page) {
@@ -326,6 +349,9 @@ function _mosaico_civicrm_alterMailContent(&$content) {
  * @throws \CRM_Core_Exception
  */
 function mosaico_civicrm_mailingTemplateTypes(&$types) {
+  if (!CRM_Core_Permission::check('access CiviCRM Mosaico')) {
+    return;
+  }
   $messages = array();
   mosaico_civicrm_check($messages);
   $editorUrl = empty($messages)

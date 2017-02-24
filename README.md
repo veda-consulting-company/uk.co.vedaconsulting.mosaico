@@ -4,23 +4,46 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
 - Beta Blog Post - https://civicrm.org/blog/deepaksrivastava/email-template-builder-civimosaico-is-now-beta
 - Initial Video - https://vimeo.com/156633077
 
-### How to Install
-1. Have imageMagick installed in your environment. Mainly as php module.
-2. Download extension from https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/releases/latest.
-3. Unzip / untar the package and place it in your configured extensions directory.
-4. Make sure to keep the directory name as "uk.co.vedaconsulting.mosaico" (for e.g not like - uk.co.vedaconsulting.mosaico-1.0-betaX) to avoid any icon / image loading issues.
-5. When you reload the Manage Extensions page the new “Mosaico” extension should be listed with an Install link.
-6. Click the "Install" link.
-7. Make sure "Extension Resource URL" is configured with Administer » System Settings » Resouce URLs.
-8. Ensure that you have set Permissions for CiviMail Mosaico: access CiviCRM Mosaico
+### Requirements
+
+ * CiviCRM v4.7.16+ (or v4.6.26+ with patches from [#9555](https://github.com/civicrm/civicrm-core/pull/9555))
+ * A CiviCRM extensions folder (In new sites since CiviCRM v4.7.0, this defaults to `files/civicrm/ext`. For older systems, see [the wiki](https://wiki.civicrm.org/confluence/display/CRMDOC/Extensions).)
+ * PHP-ImageMagick
+
+### Installation (`cv dl`)
+
+If you have the command line tool [`cv`](https://github.com/civicrm/cv), then download Mosaico and related extensions:
+
+```
+cv dl --dev flexmailer shoreditch
+cv dl uk.co.vedaconsulting.mosaico@http://dist.civicrm.org/extension/uk.co.vedaconsulting.mosaico/latest/uk.co.vedaconsulting.mosaico-latest.zip
+```
+
+### Installation (Git)
+
+Alternatively:
+
+```
+## Navigate to your extension directory, e.g.
+cd sites/default/files/civicrm/ext
+
+## Download the extensions
+git clone https://github.com/civicrm/org.civicrm.flexmailer
+git clone https://github.com/civicrm/org.civicrm.shoreditch
+git clone https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico
+cd uk.co.vedaconsulting.mosaico
+./bin/setup.sh -D
+```
 
 ### Usage
-1. Go to the CiviCRM Mailings menu.  Select the new option "Message Template Builder".
-2. Build a template in Mosaico.  If you haven't used Mosaico before, a tutorial is available when you select a template when trying it at http://mosaico.io/index.html#about.
-3. When you're done creating your template, click the "Save" link at the top right of the screen.
-4. Clicking Done button after save, will land you on "Mosaico Messages" Tab on civi message templates screen.
-5. To use the template, create a new CiviMail mailing.  Your Mosaico template will be available from the "Templates" drop-down menu.
-6. To duplicate mosaico templates, use "copy" link from "Mosaico Messages" tab.
+
+In your CMS permissions, grant backend users the new permission to `access CiviCRM Mosaico`.
+
+If you haven't used Mosaico before, consult the the demo and tutorial materials from http://mosaico.io/index.html.
+
+To send a new mailing, simply navigate to "Mailings => New Mailing". The CiviMail-Mosaico UI should appear.
+
+Optionally, you may design reusable templates by navigating to "Mailings => Mosaico Templates".
 
 ### Having issues with this extension?
 

@@ -6,7 +6,7 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
 
 ### Requirements
 
- * CiviCRM v4.7.16+ (or v4.6.26+ with patches from [#9555](https://github.com/civicrm/civicrm-core/pull/9555))
+ * CiviCRM v4.7.16+ (or v4.6.26+ with unofficial backports from [#9555](https://github.com/civicrm/civicrm-core/pull/9555))
  * A CiviCRM extensions folder (In new sites since CiviCRM v4.7.0, this defaults to `files/civicrm/ext`. For older systems, see [the wiki](https://wiki.civicrm.org/confluence/display/CRMDOC/Extensions).)
  * PHP-ImageMagick
 
@@ -18,6 +18,11 @@ If you have the command line tool [`cv`](https://github.com/civicrm/cv), then do
 cv dl --dev flexmailer shoreditch
 cv dl uk.co.vedaconsulting.mosaico@http://dist.civicrm.org/extension/uk.co.vedaconsulting.mosaico/latest/uk.co.vedaconsulting.mosaico-latest.zip
 ```
+
+> Tip: If you're using v4.6.x with backports, then `cv dl` will require an
+> extra argument: "`--filter-ver=4.7.16`".  This enables it to download the
+> latest extensions intended for v4.7.x (even if they aren't officially
+> compatible with v4.6.x).
 
 ### Installation (Git)
 

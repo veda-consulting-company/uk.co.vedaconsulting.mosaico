@@ -18,7 +18,6 @@
   <version>1.0-beta1</version>
   <develStage>beta</develStage>
   <compatibility>
-    <ver>4.6</ver>
     <ver>4.7</ver>
   </compatibility>
   <requires>

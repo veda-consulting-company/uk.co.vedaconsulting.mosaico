@@ -92,8 +92,8 @@ function do_download() {
     local currentBranch=$(basename /$(git symbolic-ref HEAD 2>/dev/null))
     if [ "$currentBranch" != "$DEFAULT_MOSAICO_BRANCH" ]; then
       echo "Error: packages/mosaico is not on expected branch ($DEFAULT_MOSAICO_BRANCH). You may either:"
-      echo " (1) Manage the branch manualy using 'npm' and 'grunt', or"
-      echo " (2) Checkout the branch '$DEFAULT_MOSAICO_BRANCH'"
+      echo " (1) Checkout the branch '$DEFAULT_MOSAICO_BRANCH'. Then run 'setup.sh -D' again."
+      echo " (2) Manage the branch manualy. Be sure to call 'npm install' and 'grunt' as needed."
       exit 1
     fi
     npm install

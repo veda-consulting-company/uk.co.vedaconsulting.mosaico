@@ -34,3 +34,7 @@
 #bootstrap-theme.crm-mosaico-page .crm-mailing-recipients-row select {
     width: 70%;
 }
+
+#bootstrap-theme.crm-mosaico-wizard {
+    padding: 0.7em;
+}

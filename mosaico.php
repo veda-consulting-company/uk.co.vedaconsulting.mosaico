@@ -354,8 +354,12 @@ function mosaico_civicrm_mailingTemplateTypes(&$types) {
   }
   $messages = array();
   mosaico_civicrm_check($messages);
+
+  // v4.6 compat
+  require_once 'CRM/Mosaico/Utils.php';
+
   $editorUrl = empty($messages)
-    ? '~/crmMosaico/EditMailingCtrl/mosaico.html'
+    ? CRM_Mosaico_Utils::getLayoutPath()
     : '~/crmMosaico/requirements.html';
 
   $types[] = array(

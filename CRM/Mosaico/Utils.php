@@ -9,6 +9,45 @@
 class CRM_Mosaico_Utils {
 
   /**
+   * Get a list of layout options.
+   *
+   * @return array
+   *   Array (string $machineName => string $label).
+   */
+  public static function getLayoutOptions() {
+    return array(
+      'auto' => 'Automatically select a layout',
+      'bootstrap-single' => 'Single Page (Bootstrap CSS)',
+      'bootstrap-wizard' => 'Wizard (Bootstrap CSS)',
+    );
+  }
+
+  /**
+   * Get the path to the Mosaico layout file.
+   *
+   * @return string
+   *   Ex: `~/crmMosaico/EditMailingCtrl/mosaico.html`
+   * @see getLayoutOptions()
+   */
+  public static function getLayoutPath() {
+    $layout = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_layout');
+    $prefix = '~/crmMosaico/EditMailingCtrl';
+
+    switch ($layout) {
+      case '':
+      case 'auto':
+      case 'bootstrap-single':
+        return "$prefix/mosaico.html";
+
+      case 'bootstrap-wizard':
+        return "$prefix/mosaico-wizard.html";
+
+      default:
+        throw new \RuntimeException("Failed to determine path for Mosaico layout ($layout)");
+    }
+  }
+
+  /**
    * Determine the URL of the (upstream) Mosaico libraries.
    *
    * @param string $preferFormat

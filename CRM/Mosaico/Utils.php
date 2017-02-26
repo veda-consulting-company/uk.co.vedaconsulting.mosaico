@@ -3,6 +3,9 @@
 //this may not be required as it doesn't appear to be used anywhere?
 //require_once 'packages/premailer/premailer.php';
 
+/**
+ * Class CRM_Mosaico_Utils
+ */
 class CRM_Mosaico_Utils {
 
   /**
@@ -126,7 +129,7 @@ class CRM_Mosaico_Utils {
           $file = array(
             "name" => $file_name,
             "url" => $config['BASE_URL'] . $config['UPLOADS_DIR'] . $file_name,
-            "size" => $size
+            "size" => $size,
           );
 
           if (file_exists($config['BASE_DIR'] . $config['THUMBNAILS_DIR'] . $file_name)) {
@@ -136,7 +139,8 @@ class CRM_Mosaico_Utils {
           $files[] = $file;
         }
       }
-    } else if (!empty($_FILES)) {
+    }
+    elseif (!empty($_FILES)) {
       foreach ($_FILES["files"]["error"] as $key => $error) {
         if ($error == UPLOAD_ERR_OK) {
           $tmp_name = $_FILES["files"]["tmp_name"][$key];
@@ -164,15 +168,17 @@ class CRM_Mosaico_Utils {
               "name" => $file_name,
               "url" => $config['BASE_URL'] . $config['UPLOADS_DIR'] . $file_name,
               "size" => $size,
-              "thumbnailUrl" => $config['BASE_URL'] . $config['THUMBNAILS_URL'] . $file_name
+              "thumbnailUrl" => $config['BASE_URL'] . $config['THUMBNAILS_URL'] . $file_name,
             );
 
             $files[] = $file;
-          } else {
+          }
+          else {
             $http_return_code = 500;
             return;
           }
-        } else {
+        }
+        else {
           $http_return_code = 400;
           return;
         }
@@ -217,7 +223,7 @@ class CRM_Mosaico_Utils {
             array("x" => $x, "y" => $y),
             array("x" => $x + $size, "y" => $y),
             array("x" => $x + $size * 2, "y" => $y + $size),
-            array("x" => $x + $size * 2, "y" => $y + $size * 2)
+            array("x" => $x + $size * 2, "y" => $y + $size * 2),
           );
 
           $draw->polygon($points);
@@ -225,7 +231,7 @@ class CRM_Mosaico_Utils {
           $points = array(
             array("x" => $x, "y" => $y + $size),
             array("x" => $x + $size, "y" => $y + $size * 2),
-            array("x" => $x, "y" => $y + $size * 2)
+            array("x" => $x, "y" => $y + $size * 2),
           );
 
           $draw->polygon($points);
@@ -485,10 +491,10 @@ class CRM_Mosaico_Utils {
         // In order to use last parameter(best fit), this will make right scale, as true in 'resizeImage' menthod, we can't have 0 for height
         // hence retreiving height from image
         // more details about best fit http://php.net/manual/en/imagick.resizeimage.php
-        $image->resizeImage( $width, $image->getImageHeight(), Imagick::FILTER_LANCZOS, 1.0, TRUE );
+        $image->resizeImage($width, $image->getImageHeight(), Imagick::FILTER_LANCZOS, 1.0, TRUE);
       }
-      else // $method == "cover"
-      {
+      else {
+        // assert: $method == "cover"
         $image_geometry = $image->getImageGeometry();
 
         $width_ratio = $image_geometry["width"] / $width;

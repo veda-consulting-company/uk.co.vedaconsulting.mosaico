@@ -50,6 +50,14 @@ To send a new mailing, simply navigate to "Mailings => New Mailing". The CiviMai
 
 Optionally, you may design reusable templates by navigating to "Mailings => Mosaico Templates".
 
+When composing a new mailing, the default layout uses a single page.  To
+change the layout, you can update the setting `mosaico_layout` to
+`bootstrap-wizard` or `bootstrap-single`, e.g.
+
+```
+cv api setting.create mosaico_layout=bootstrap-wizard
+```
+
 ### Having issues with this extension?
 
 Please make sure you have followed installation instructions. 

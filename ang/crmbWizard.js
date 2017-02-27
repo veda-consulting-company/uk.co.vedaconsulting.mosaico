@@ -4,12 +4,7 @@
     'crmUi', 'crmUtil'
   ]);
 
-
-  // example: <div crmb-wizard-bootstrap="myWizardCtrl"><div crmb-wizard-bootstrap-step crm-title="ts('Step 1')">...</div><div crmb-wizard-bootstrap-step crm-title="ts('Step 2')">...</div></div>
-  // example with custom nav classes: <div crmb-wizard-bootstrap crmb-wizard-bootstrap-nav-class="ng-animate-out ...">...</div>
-  // Note: "myWizardCtrl" has various actions/properties like next() and $first().
-  // WISHLIST: Allow each step to determine if it is "complete" / "valid" / "selectable"
-  // WISHLIST: Allow each step to enable/disable (show/hide) itself
+  // Top-level container for a wizard. For examples, see `crmbWizard.md`.
   angular.module('crmbWizard').directive('crmbWizard', function() {
       return {
         restrict: 'EA',
@@ -107,7 +102,7 @@
       };
     });
 
-  // Use this to add extra markup to wizard
+  // Place a button in the wizard's button bar. For examples, see `crmbWizard.md`.
   angular.module('crmbWizard').directive('crmbWizardButtonPosition', function() {
     return {
       require: '^crmbWizard',
@@ -127,11 +122,7 @@
     };
   });
 
-
-  // example: <div crmb-wizard-bootstrap-step crm-title="ts('My Title')" ng-form="mySubForm">...content...</div>
-  // If there are any conditional steps, then be sure to set a weight explicitly on *all* steps to maintain ordering.
-  // example: <div crmb-wizard-bootstrap-step="100" crm-title="..." ng-if="...">...content...</div>
-  // example with custom classes: <div crmb-wizard-bootstrap-step="100" crmb-wizard-bootstrap-step-class="ng-animate-out ...">...content...</div>
+  // Add a step to the wizard. For examples, see `crmbWizard.md`.
   angular.module('crmbWizard').directive('crmbWizardStep', function() {
     var nextWeight = 1;
     return {
@@ -161,6 +152,5 @@
       }
     };
   })
-
 
 })(angular, CRM.$, CRM._);

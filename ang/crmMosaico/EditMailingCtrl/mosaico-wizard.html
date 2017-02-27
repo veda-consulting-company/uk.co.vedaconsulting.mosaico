@@ -79,7 +79,7 @@
         class="btn btn-success"
         crmb-wizard-button-position="right"
         ng-show="crmbWizardCtrl.$last()"
-        ng-disabled="block.check() || optionsForm.$invalid"
+        ng-disabled="block.check() || !crmbWizardCtrl.$validStep()"
         ng-click="submit()">
       <span class="btn-icon"><i class="fa fa-send"></i></span>
       {{ts('Submit Mailing')}}

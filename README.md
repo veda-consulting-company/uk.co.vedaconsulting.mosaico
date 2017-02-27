@@ -9,8 +9,10 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
  * CiviCRM v4.7.16+ (or v4.6.26+ with unofficial backports from [#9555](https://github.com/civicrm/civicrm-core/pull/9555))
  * A CiviCRM extensions folder (In new sites since CiviCRM v4.7.0, this defaults to `files/civicrm/ext`. For older systems, see [the wiki](https://wiki.civicrm.org/confluence/display/CRMDOC/Extensions).)
  * PHP-ImageMagick
+ * (For CLI-based installation) [`cv`](https://github.com/civicrm/cv)
+ * (For git-based installation) [`cv`](https://github.com/civicrm/cv), [`git`](https://git-scm.com/), and [`grunt-cli`](http://gruntjs.com/getting-started)
 
-### Installation (`cv dl`)
+### Installation (CLI)
 
 If you have the command line tool [`cv`](https://github.com/civicrm/cv), then download Mosaico and related extensions:
 
@@ -69,11 +71,6 @@ Open issues on [github](https://github.com/veda-consulting/uk.co.vedaconsulting.
 - any related logs or backtrace from civicrm
 - tell us what version of CiviCRM and extension, you using.
 - tell us the browser you are using (name and version) and test at least a second browser to tell us if this happen in both or only one (tell us the details about the second browser too).
-
-### Development: Requirements
-
- * [`cv`](https://github.com/civicrm/cv)
- * [`grunt-cli`](http://gruntjs.com/getting-started)
 
 ### Development: Installation
 

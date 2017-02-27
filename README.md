@@ -72,13 +72,11 @@ Open issues on [github](https://github.com/veda-consulting/uk.co.vedaconsulting.
 - tell us what version of CiviCRM and extension, you using.
 - tell us the browser you are using (name and version) and test at least a second browser to tell us if this happen in both or only one (tell us the details about the second browser too).
 
-### Development: Installation
+### Development: Setup.sh
+
+The script `bin/setup.sh` handles various build activities:
 
 ```
-## Clone the main git repository
-git clone https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico
-cd uk.co.vedaconsulting.mosaico
-
 ## Download dependencies
 ./bin/setup.sh -D
 

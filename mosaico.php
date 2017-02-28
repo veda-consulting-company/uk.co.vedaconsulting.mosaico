@@ -292,6 +292,42 @@ function mosaico_civicrm_check(&$messages) {
       \Psr\Log\LogLevel::CRITICAL
     );
   }
+
+  _mosaico_civicrm_check_dirs($messages);
+}
+
+function _mosaico_civicrm_check_dirs(&$messages) {
+  $mConfig = CRM_Mosaico_Utils::getConfig();
+
+  // Check if UPLOADS directory exists and create it if it doesn't
+  if (!is_dir($mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])) {
+    if (!mkdir($mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'], 0775, TRUE)) {
+      $messages[] = new CRM_Utils_Check_Message('mosaico_uploads_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])), ts('UPLOADS_DIR not writable or configured'));
+    }
+  }
+  elseif (!is_writable($mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])) {
+    $messages[] = new CRM_Utils_Check_Message('mosaico_uploads_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])), ts('UPLOADS_DIR not writable or configured'));
+  }
+
+  // Check if uploads/STATIC directory exists and create it if it doesn't
+  if (!is_dir($mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])) {
+    if (!mkdir($mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'], 0775, TRUE)) {
+      $messages[] = new CRM_Utils_Check_Message('mosaico_static_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])), ts('STATIC_DIR not writable or configured'));
+    }
+  }
+  elseif (!is_writable($mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])) {
+    $messages[] = new CRM_Utils_Check_Message('mosaico_static_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])), ts('STATIC_DIR not writable or configured'));
+  }
+
+  // Check if uploads/THUMBNAILS directory exists and create it if it doesn't
+  if (!is_dir($mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])) {
+    if (!mkdir($mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'], 0775, TRUE)) {
+      $messages[] = new CRM_Utils_Check_Message('mosaico_thumbnails_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])), ts('THUMBNAILS_DIR not writable or configured'));
+    }
+  }
+  elseif (!is_writable($mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])) {
+    $messages[] = new CRM_Utils_Check_Message('mosaico_thumbnails_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])), ts('THUMBNAILS_DIR not writable or configured'));
+  }
 }
 
 /**

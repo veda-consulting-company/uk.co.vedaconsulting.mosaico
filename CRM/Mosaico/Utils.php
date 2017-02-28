@@ -151,6 +151,14 @@ class CRM_Mosaico_Utils {
 
     global $http_return_code;
 
+    $messages = array();
+    _mosaico_civicrm_check_dirs($messages);
+    if (!empty($messages)) {
+      CRM_Core_Error::debug_log_message('Mosaico uploader failed. Check system status for directory errors.');
+      $http_return_code = 500;
+      return;
+    }
+
     $files = array();
 
     if ($_SERVER["REQUEST_METHOD"] == "GET") {

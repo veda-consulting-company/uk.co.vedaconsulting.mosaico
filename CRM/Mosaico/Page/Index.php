@@ -30,33 +30,7 @@ class CRM_Mosaico_Page_Index extends CRM_Core_Page {
         $messages[] = new CRM_Utils_Check_Message('mosaico_base_url', ts('BASE_URL seems incorrect - %1. Images when uploaded, may not appear correctly as thumbnails. Make sure "Image Upload URL" is configured correctly with Administer » System Settings » Resouce URLs.', array(1 => $mConfig['BASE_URL'])), ts('Incorrect image upload url'));
       }
     }
-
-    // Check if UPLOADS directory exists and create it if it doesn't
-    if (!is_dir($mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])) {
-      if (!mkdir($mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'], 0775, TRUE)) {
-        $messages[] = new CRM_Utils_Check_Message('mosaico_uploads_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])), ts('UPLOADS_DIR not writable or configured'));
-      }
-    } elseif (!is_writable($mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])) {
-      $messages[] = new CRM_Utils_Check_Message('mosaico_uploads_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])), ts('UPLOADS_DIR not writable or configured'));
-    }
-
-    // Check if uploads/STATIC directory exists and create it if it doesn't
-    if (!is_dir($mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])) {
-      if (!mkdir($mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'], 0775, TRUE)) {
-        $messages[] = new CRM_Utils_Check_Message('mosaico_static_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])), ts('STATIC_DIR not writable or configured'));
-      }
-    } elseif (!is_writable($mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])) {
-      $messages[] = new CRM_Utils_Check_Message('mosaico_static_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])), ts('STATIC_DIR not writable or configured'));
-    }
-
-    // Check if uploads/THUMBNAILS directory exists and create it if it doesn't
-    if (!is_dir($mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])) {
-      if (!mkdir($mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'], 0775, TRUE)) {
-        $messages[] = new CRM_Utils_Check_Message('mosaico_thumbnails_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])), ts('THUMBNAILS_DIR not writable or configured'));
-      }
-    } elseif (!is_writable($mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])) {
-      $messages[] = new CRM_Utils_Check_Message('mosaico_thumbnails_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])), ts('THUMBNAILS_DIR not writable or configured'));
-    }
+    _mosaico_civicrm_check_dirs($messages);
 
     // check if Mosaico extension is in the correctly named extension directory
     $extDirName = basename(dirname(dirname(dirname(dirname(__FILE__)))));

@@ -431,7 +431,7 @@
                           font-family: Arial, Helvetica, sans-serif; color: #ffffff;
                           -ko-font-size: @[linkStyle.size]px; -ko-color: @linkStyle.color; -ko-font-family: @linkStyle.face">
                           <a data-ko-display="preheaderLinkOption neq 'none'" data-ko-editable="unsubscribeText" href="{action.unsubscribeUrl}" 
-                             style="text-decoration: underline; color: #ffffff; -ko-attr-href: @preheaderLinkOption; 
+                             style="text-decoration: underline; color: #ffffff;
                              -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">Unsubscribe</a> 
                           <span data-ko-display="preheaderLinkOption eq 'none'" style="font-size: 13px;color: #919191; font-weight: normal; text-align:center;
                             font-family: Arial, Helvetica, sans-serif; -ko-font-size: @[longTextStyle.size]px; -ko-color: @longTextStyle.color;
@@ -449,7 +449,7 @@
                       -ko-font-size: @[linkStyle.size]px; -ko-color: @linkStyle.color; -ko-font-family: @linkStyle.face">
                       <span style="color: #ffffff; text-decoration: underline;
                         -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">
-                          <a data-ko-editable="webversionText" href="[show_link]" 
+                        <a data-ko-editable="webversionText" href="{mailing.viewUrl}"
                           style="text-decoration: underline; color: #ffffff;
                            -ko-color: @linkStyle.color; -ko-text-decoration: @linkStyle.decoration">View in your browser</a>
                          </span>
@@ -1385,7 +1385,8 @@
                           style="font-size: 13px; font-family: Arial, Helvetica, sans-serif; color: #919191; text-align:left;
                           -ko-font-size: @[longTextStyle.size]px; -ko-font-family: @longTextStyle.face; -ko-color: @longTextStyle.color"
                           data-ko-editable="longText" class="long-text links-color mobile-textcenter">
-                          <p>Address and <a href="">Contacts</a></p>
+                          <p>{domain.address}</p>
+                          <p><a href="{action.unsubscribeUrl}">Unsubscribe</a></p>
                         </td>
                       </tr>
                     </table>

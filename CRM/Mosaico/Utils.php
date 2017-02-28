@@ -162,12 +162,9 @@ class CRM_Mosaico_Utils {
     $files = array();
 
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
-      $dir = scandir($config['BASE_DIR']);
+      $dir = scandir($config['BASE_DIR'] . $config['UPLOADS_DIR']);
 
       foreach ($dir as $file_name) {
-        //issue - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/28
-        //Change file name to unique by adding hash so every time uploading same image it will create new image name
-        $file_name = CRM_Utils_File::makeFileName($file_name);
         $file_path = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name;
 
         if (is_file($file_path)) {

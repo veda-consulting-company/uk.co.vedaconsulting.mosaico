@@ -440,8 +440,9 @@ class CRM_Mosaico_Utils {
         // DS: resize images to higher resolution, for images with lower width than needed for mobile devices
         // DS: FIXME: only works for 'resize' method, not 'cover' methods.
         // Partially resolves - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/50
-        $resize_width  = $resize_width * 2;
-        $resize_height = $resize_height * 2;
+        $fraction = ceil($mobileMinWidth / $width);
+        $resize_width  = $resize_width * $fraction;
+        $resize_height = $resize_height * $fraction;
       }
       // We get 0 for height variable from mosaico
       // In order to use last parameter(best fit), this will make right scale, as true in 'resizeImage' menthod, we can't have 0 for height

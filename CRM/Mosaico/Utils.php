@@ -427,17 +427,27 @@ class CRM_Mosaico_Utils {
    */
   static function resizeImage( $file_name, $method, $width, $height )
   {
+    $mobileMinWidth = 246;
     $config = self::getConfig();
 
     $image = new Imagick( $config['BASE_DIR'] . $file_name );
 
     if ( $method == "resize" )
     {
+      $resize_width  = $width;
+      $resize_height = $image->getImageHeight();
+      if ($width < $mobileMinWidth) {
+        // DS: resize images to higher resolution, for images with lower width than needed for mobile devices
+        // DS: FIXME: only works for 'resize' method, not 'cover' methods.
+        // Partially resolves - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/50
+        $resize_width  = $resize_width * 2;
+        $resize_height = $resize_height * 2;
+      }
       // We get 0 for height variable from mosaico
       // In order to use last parameter(best fit), this will make right scale, as true in 'resizeImage' menthod, we can't have 0 for height
       // hence retreiving height from image
       // more details about best fit http://php.net/manual/en/imagick.resizeimage.php
-      $image->resizeImage( $width, $image->getImageHeight(), Imagick::FILTER_LANCZOS, 1.0, TRUE );
+      $image->resizeImage( $resize_width, $resize_height, Imagick::FILTER_LANCZOS, 1.0, TRUE );
     }
     else // $method == "cover"
     {

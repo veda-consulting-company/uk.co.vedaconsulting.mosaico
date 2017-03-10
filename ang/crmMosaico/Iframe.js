@@ -22,6 +22,7 @@
     return function CrmMosaicoIframe(options){
       var cfg = {
         url: CRM.url('civicrm/mosaico/iframe', 'snippet=1'),
+        zIndex: 1000,
         topMargin: 25 // Height of the CiviCRM navbar. Ugh.
       };
       angular.extend(cfg, options);
@@ -40,7 +41,7 @@
       this.render = function render() {
         var height = $(window).height() - cfg.topMargin;
         $iframe = $('<iframe frameborder="0" width="100%">');
-        $iframe.css({'z-index': 100, position: 'fixed', left:0, top: cfg.topMargin, width: '100%', height: height + 'px'});
+        $iframe.css({'z-index': cfg.zIndex, position: 'fixed', left:0, top: cfg.topMargin, width: '100%', height: height + 'px'});
         // 'z-index': 100000000
         iframe = $iframe[0];
         iframe.setAttribute('src', cfg.url);

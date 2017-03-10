@@ -118,6 +118,10 @@
       );
     };
 
+    $scope.canDelete = function() {
+      return CRM.crmMosaico.canDelete;
+    };
+
   });
 
 })(angular, CRM.$, CRM._);

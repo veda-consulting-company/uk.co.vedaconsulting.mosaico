@@ -23,7 +23,7 @@
       var cfg = {
         url: CRM.url('civicrm/mosaico/iframe', 'snippet=1'),
         zIndex: 1000,
-        topMargin: 25 // Height of the CiviCRM navbar. Ugh.
+        topMargin: $('#civicrm-menu').length > 0 ? $('#civicrm-menu').height() : 27
       };
       angular.extend(cfg, options);
 

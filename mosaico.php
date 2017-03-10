@@ -116,7 +116,9 @@ function mosaico_civicrm_caseTypes(&$caseTypes) {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
  */
 function mosaico_civicrm_angularModules(&$angularModules) {
-  if (!CRM_Core_Permission::check('access CiviCRM Mosaico')) {
+  $canRead = Civi::service('civi_api_kernel')->runAuthorize(
+    'MosaicoTemplate', 'get', array('version' => 3, 'check_permissions' => 1));
+  if (!$canRead) {
     return;
   }
   _mosaico_civix_civicrm_angularModules($angularModules);
@@ -146,14 +148,14 @@ function mosaico_civicrm_navigationMenu(&$params) {
   //      'parentID'  => $parentId,
   //      'operator'  => NULL,
   //      'navID'     => $msgTplMaxId,
-  //      'permission' => 'access CiviCRM Mosaico',
+  //      'permission' => 'edit message templates',
   //    ),
   //  );
 
   _mosaico_civix_insert_navigation_menu($params, 'Mailings', array(
     'label' => ts('Mosaico Templates', array('domain' => 'org.civicrm.styleguide')),
     'name' => 'mosaico_templates',
-    'permission' => 'access CiviCRM Mosaico,edit message templates',
+    'permission' => 'edit message templates',
     'child' => array(),
     'operator' => 'AND',
     'separator' => 0,
@@ -169,18 +171,13 @@ function mosaico_civicrm_navigationMenu(&$params) {
  * @link https://docs.civicrm.org/dev/en/master/hooks/hook_civicrm_alterAPIPermissions/
  */
 function mosaico_civicrm_alterAPIPermissions($entity, $action, &$params, &$permissions) {
-  $permissions['mosaico_base_template']['get'] = array(
-    array('access CiviCRM Mosaico'),
-  );
+  if (empty($permissions['message_template']['get']) || empty($permissions['message_template']['create'])) {
+    throw new CRM_Core_Exception("Cannot define Mosaico permissio model. Core permissions for message_template are unavailable.");
+  }
 
-  $permissions['mosaico_template']['get'] = array(
-    array('access CiviCRM Mosaico'),
-  );
-  $permissions['mosaico_template']['create'] = array(
-    'access CiviCRM Mosaico', // and...
-    'edit message templates',
-  );
-  $permissions['mosaico_template']['update'] = $permissions['mosaico_template']['create'];
+  $permissions['mosaico_base_template'] = $permissions['message_template'];
+  $permissions['mosaico_template'] = $permissions['message_template'];
+  $permissions['mosaico_template']['clone'] = $permissions['message_template']['create'];
 }
 
 function mosaico_civicrm_pageRun(&$page) {
@@ -268,6 +265,9 @@ function mosaico_civicrm_check(&$messages) {
       \Psr\Log\LogLevel::CRITICAL
     );
   }
+  if (!extension_loaded('fileinfo')) {
+    $messages[] = new CRM_Utils_Check_Message('mosaico_fileinfo', ts('May experience mosaico template or thumbnail loading issues (404 errors).'), ts('PHP extension Fileinfo not loaded or enabled'));
+  }
   if (CRM_Mailing_Info::workflowEnabled()) {
     $messages[] = new CRM_Utils_Check_Message(
       'mosaico_workflow',
@@ -290,6 +290,24 @@ function mosaico_civicrm_check(&$messages) {
       ts('Mosaico uses FlexMailer for delivery. Please install the extension "org.civicrm.flexmailer".'),
       ts('FlexMailer required'),
       \Psr\Log\LogLevel::CRITICAL
+    );
+  }
+  if (!empty($mConfig['BASE_URL'])) {
+    // detect incorrect image upload url. (Note: Since v4.4.4, CRM_Utils_Check_Security has installed index.html placeholder.)
+    $handle = curl_init($mConfig['BASE_URL'] . '/index.html');
+    curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
+    $response = curl_exec($handle);
+    $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+    if ($httpCode == 404) {
+      $messages[] = new CRM_Utils_Check_Message('mosaico_base_url', ts('BASE_URL seems incorrect - %1. Images when uploaded, may not appear correctly as thumbnails. Make sure "Image Upload URL" is configured correctly with Administer » System Settings » Resouce URLs.', array(1 => $mConfig['BASE_URL'])), ts('Incorrect image upload url'));
+    }
+  }
+  $extDirName = basename(__DIR__);
+  if ($extDirName != 'uk.co.vedaconsulting.mosaico') {
+    $messages[] = new CRM_Utils_Check_Message(
+      'mosaico_extdirname',
+      ts("We expect extension directory name to be '%1' instead of '%2'. Images and icons may not load correctly.", array(1 => 'uk.co.vedaconsulting.mosaico', 2 => $extDirName)),
+      ts('Installed extension directory name not suitable')
     );
   }
 
@@ -328,16 +346,6 @@ function _mosaico_civicrm_check_dirs(&$messages) {
   elseif (!is_writable($mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])) {
     $messages[] = new CRM_Utils_Check_Message('mosaico_thumbnails_dir', ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])), ts('THUMBNAILS_DIR not writable or configured'));
   }
-}
-
-/**
- * Implements hook_civicrm_permission().
- */
-function mosaico_civicrm_permission(&$permissions) {
-  $prefix = ts('CiviMail Mosaico') . ': '; // name of extension or module
-  $permissions += array(
-    'access CiviCRM Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
-  );
 }
 
 /**
@@ -385,9 +393,6 @@ function _mosaico_civicrm_alterMailContent(&$content) {
  * @throws \CRM_Core_Exception
  */
 function mosaico_civicrm_mailingTemplateTypes(&$types) {
-  if (!CRM_Core_Permission::check('access CiviCRM Mosaico')) {
-    return;
-  }
   $messages = array();
   mosaico_civicrm_check($messages);
 

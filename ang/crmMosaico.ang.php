@@ -20,5 +20,6 @@ return array (
   ),
   'settings' => 
   array (
+    'canDelete' => Civi::service('civi_api_kernel')->runAuthorize('MosaicoTemplate', 'delete', array('version' => 3, 'check_permissions' => 1)),
   ),
 );

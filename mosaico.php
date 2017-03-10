@@ -268,6 +268,9 @@ function mosaico_civicrm_check(&$messages) {
       \Psr\Log\LogLevel::CRITICAL
     );
   }
+  if (!extension_loaded('fileinfo')) {
+    $messages[] = new CRM_Utils_Check_Message('mosaico_fileinfo', ts('May experience mosaico template or thumbnail loading issues (404 errors).'), ts('PHP extension Fileinfo not loaded or enabled'));
+  }
   if (CRM_Mailing_Info::workflowEnabled()) {
     $messages[] = new CRM_Utils_Check_Message(
       'mosaico_workflow',
@@ -290,6 +293,24 @@ function mosaico_civicrm_check(&$messages) {
       ts('Mosaico uses FlexMailer for delivery. Please install the extension "org.civicrm.flexmailer".'),
       ts('FlexMailer required'),
       \Psr\Log\LogLevel::CRITICAL
+    );
+  }
+  if (!empty($mConfig['BASE_URL'])) {
+    // detect incorrect image upload url. (Note: Since v4.4.4, CRM_Utils_Check_Security has installed index.html placeholder.)
+    $handle = curl_init($mConfig['BASE_URL'] . '/index.html');
+    curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
+    $response = curl_exec($handle);
+    $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+    if ($httpCode == 404) {
+      $messages[] = new CRM_Utils_Check_Message('mosaico_base_url', ts('BASE_URL seems incorrect - %1. Images when uploaded, may not appear correctly as thumbnails. Make sure "Image Upload URL" is configured correctly with Administer » System Settings » Resouce URLs.', array(1 => $mConfig['BASE_URL'])), ts('Incorrect image upload url'));
+    }
+  }
+  $extDirName = basename(__DIR__);
+  if ($extDirName != 'uk.co.vedaconsulting.mosaico') {
+    $messages[] = new CRM_Utils_Check_Message(
+      'mosaico_extdirname',
+      ts("We expect extension directory name to be '%1' instead of '%2'. Images and icons may not load correctly.", array(1 => 'uk.co.vedaconsulting.mosaico', 2 => $extDirName)),
+      ts('Installed extension directory name not suitable')
     );
   }
 

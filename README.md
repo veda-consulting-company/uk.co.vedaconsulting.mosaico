@@ -44,8 +44,6 @@ cd uk.co.vedaconsulting.mosaico
 
 ### Usage
 
-In your CMS permissions, grant backend users the new permission to `access CiviCRM Mosaico`.
-
 If you haven't used Mosaico before, consult the the demo and tutorial materials from http://mosaico.io/index.html.
 
 To send a new mailing, simply navigate to "Mailings => New Mailing". The CiviMail-Mosaico UI should appear.

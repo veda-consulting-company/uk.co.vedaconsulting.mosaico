@@ -116,7 +116,9 @@ function mosaico_civicrm_caseTypes(&$caseTypes) {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
  */
 function mosaico_civicrm_angularModules(&$angularModules) {
-  if (!CRM_Core_Permission::check('access CiviCRM Mosaico')) {
+  $canRead = Civi::service('civi_api_kernel')->runAuthorize(
+    'MosaicoTemplate', 'get', array('version' => 3, 'check_permissions' => 1));
+  if (!$canRead) {
     return;
   }
   _mosaico_civix_civicrm_angularModules($angularModules);
@@ -146,14 +148,14 @@ function mosaico_civicrm_navigationMenu(&$params) {
   //      'parentID'  => $parentId,
   //      'operator'  => NULL,
   //      'navID'     => $msgTplMaxId,
-  //      'permission' => 'access CiviCRM Mosaico',
+  //      'permission' => 'edit message templates',
   //    ),
   //  );
 
   _mosaico_civix_insert_navigation_menu($params, 'Mailings', array(
     'label' => ts('Mosaico Templates', array('domain' => 'org.civicrm.styleguide')),
     'name' => 'mosaico_templates',
-    'permission' => 'access CiviCRM Mosaico,edit message templates',
+    'permission' => 'edit message templates',
     'child' => array(),
     'operator' => 'AND',
     'separator' => 0,
@@ -169,18 +171,13 @@ function mosaico_civicrm_navigationMenu(&$params) {
  * @link https://docs.civicrm.org/dev/en/master/hooks/hook_civicrm_alterAPIPermissions/
  */
 function mosaico_civicrm_alterAPIPermissions($entity, $action, &$params, &$permissions) {
-  $permissions['mosaico_base_template']['get'] = array(
-    array('access CiviCRM Mosaico'),
-  );
+  if (empty($permissions['message_template']['get']) || empty($permissions['message_template']['create'])) {
+    throw new CRM_Core_Exception("Cannot define Mosaico permissio model. Core permissions for message_template are unavailable.");
+  }
 
-  $permissions['mosaico_template']['get'] = array(
-    array('access CiviCRM Mosaico'),
-  );
-  $permissions['mosaico_template']['create'] = array(
-    'access CiviCRM Mosaico', // and...
-    'edit message templates',
-  );
-  $permissions['mosaico_template']['update'] = $permissions['mosaico_template']['create'];
+  $permissions['mosaico_base_template'] = $permissions['message_template'];
+  $permissions['mosaico_template'] = $permissions['message_template'];
+  $permissions['mosaico_template']['clone'] = $permissions['message_template']['create'];
 }
 
 function mosaico_civicrm_pageRun(&$page) {
@@ -352,16 +349,6 @@ function _mosaico_civicrm_check_dirs(&$messages) {
 }
 
 /**
- * Implements hook_civicrm_permission().
- */
-function mosaico_civicrm_permission(&$permissions) {
-  $prefix = ts('CiviMail Mosaico') . ': '; // name of extension or module
-  $permissions += array(
-    'access CiviCRM Mosaico' => $prefix . ts('access CiviCRM Mosaico'),
-  );
-}
-
-/**
  * Convert dyanmic-y image URLs to static-y URLs.
  *
  * This is analogous to alterMailContent, but we only apply to Mosaico mailings.
@@ -406,9 +393,6 @@ function _mosaico_civicrm_alterMailContent(&$content) {
  * @throws \CRM_Core_Exception
  */
 function mosaico_civicrm_mailingTemplateTypes(&$types) {
-  if (!CRM_Core_Permission::check('access CiviCRM Mosaico')) {
-    return;
-  }
   $messages = array();
   mosaico_civicrm_check($messages);
 

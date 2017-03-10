@@ -18,6 +18,10 @@
     border: 1px dotted;
 }
 
+#bootstrap-theme.crm-mosaico-page #inputSubject {
+    width: 80%;
+}
+
 #bootstrap-theme.crm-mosaico-page input[name=campaign],
 #bootstrap-theme.crm-mosaico-page select[name=optout_id],
 #bootstrap-theme.crm-mosaico-page select[name=resubscribe_id],

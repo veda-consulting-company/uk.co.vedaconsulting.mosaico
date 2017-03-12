@@ -15,7 +15,7 @@ return array(
     ),
     'default' => 'auto',
     'add' => '4.7',
-    'title' => 'Editor layout',
+    'title' => 'Mosaico editor layout',
     'is_domain' => 1,
     'is_contact' => 0,
     'description' => NULL,

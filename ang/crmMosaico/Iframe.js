@@ -22,7 +22,8 @@
     return function CrmMosaicoIframe(options){
       var cfg = {
         url: CRM.url('civicrm/mosaico/iframe', 'snippet=1'),
-        topMargin: 25 // Height of the CiviCRM navbar. Ugh.
+        zIndex: 1000,
+        topMargin: $('#civicrm-menu').length > 0 ? $('#civicrm-menu').height() : 27
       };
       angular.extend(cfg, options);
 
@@ -33,13 +34,19 @@
         throw "Error: Save and Close actions are mutually exclusive";
       }
 
+      function onResize() {
+        if ($iframe) $iframe.height($(window).height() - cfg.topMargin);
+      }
+
       this.render = function render() {
+        var height = $(window).height() - cfg.topMargin;
         $iframe = $('<iframe frameborder="0" width="100%">');
-        $iframe.css({'z-index': 100, position: 'fixed', left:0, top: cfg.topMargin, width: '100%', height: '100%'});
+        $iframe.css({'z-index': cfg.zIndex, position: 'fixed', left:0, top: cfg.topMargin, width: '100%', height: height + 'px'});
         // 'z-index': 100000000
         iframe = $iframe[0];
         iframe.setAttribute('src', cfg.url);
         $('body').append($iframe);
+        $(window).on('resize', onResize);
         return this;
       };
 
@@ -91,6 +98,7 @@
 
       this.destroy = function destroy() {
         this.hide();
+        $(window).off('resize', onResize);
         if ($iframe) $iframe.remove();
         iframe = $iframe = null;
         return this;

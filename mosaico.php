@@ -134,24 +134,6 @@ function mosaico_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
 }
 
 function mosaico_civicrm_navigationMenu(&$params) {
-  //$parentId = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Mailings', 'id', 'name');
-  //$msgTpls  = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_Navigation', 'Message Templates', 'id', 'name');
-
-  //  $maxId       = max(array_keys($params));
-  //  $msgTplMaxId = empty($msgTpls) ? $maxId + 10 : $msgTpls;
-  //  $params[$parentId]['child'][$msgTplMaxId] = array(
-  //    'attributes' => array(
-  //      'label'     => ts('Message Template Builder'),
-  //      'name'      => 'Message_Template_Builder',
-  //      'url'       => CRM_Utils_System::url('civicrm/mosaico/index', 'reset=1', TRUE),
-  //      'active'    => 1,
-  //      'parentID'  => $parentId,
-  //      'operator'  => NULL,
-  //      'navID'     => $msgTplMaxId,
-  //      'permission' => 'edit message templates',
-  //    ),
-  //  );
-
   _mosaico_civix_insert_navigation_menu($params, 'Mailings', array(
     'label' => ts('Mosaico Templates', array('domain' => 'org.civicrm.styleguide')),
     'name' => 'mosaico_templates',
@@ -178,78 +160,6 @@ function mosaico_civicrm_alterAPIPermissions($entity, $action, &$params, &$permi
   $permissions['mosaico_base_template'] = $permissions['message_template'];
   $permissions['mosaico_template'] = $permissions['message_template'];
   $permissions['mosaico_template']['clone'] = $permissions['message_template']['create'];
-}
-
-function mosaico_civicrm_pageRun(&$page) {
-  $pageName = $page->getVar('_name');
-  if ($pageName == 'Civi\Angular\Page\Main') {
-    CRM_Core_Resources::singleton()->addScriptFile('uk.co.vedaconsulting.mosaico', 'js/crmMailingCustom.js', 800);
-  }
-  if ($pageName == 'CRM_Admin_Page_MessageTemplates') {
-    $activeTab  = CRM_Utils_Request::retrieve('activeTab', 'String', $form, FALSE, NULL, 'REQUEST');
-    $resultArray = $exsitingTemplates = array();
-    $smarty     = CRM_Core_Smarty::singleton();
-    $tableName  = CRM_Mosaico_DAO_MessageTemplate::getTableName();
-    $dao = CRM_Core_DAO::executeQuery("SELECT mosaico.*, cmt.msg_title, cmt.msg_subject, cmt.is_active
-      FROM {$tableName} mosaico
-      JOIN civicrm_msg_template cmt ON (cmt.id = mosaico.msg_tpl_id)
-    ");
-    while ($dao->fetch()) {
-      $resultArray[$dao->id] = $dao->toArray();
-
-      $editURL = CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2', FALSE, $dao->hash_key);
-      $delURL = CRM_Utils_System::url('civicrm/admin/messageTemplates', 'action=delete&id=' . $dao->msg_tpl_id);
-      $enableDisableText = $dao->is_active ? 'Disable' : 'Enable';
-      $action = sprintf('<span>
-      <a href="%s" class="action-item crm-hover-button" title="Edit this message template" >Edit</a>
-      <a href="#" class="action-item crm-hover-button crm-enable-disable" title="Disable this message template" >%s</a>
-      <a href="%s" class="action-item crm-hover-button small-popup" title="Delete this message template" >Delete</a>
-      <a href="#" class="action-item crm-hover-button copy-template" value = "%s" title="Copy this message template">Copy</a>
-      </span>', $editURL, $enableDisableText, $delURL, $dao->msg_tpl_id);
-
-      $resultArray[$dao->id]['action'] = $action;
-
-      //all tempalte values which are exist in Mosaico tempalte and related hash key
-      $exsitingTemplates[$dao->msg_tpl_id] = $dao->hash_key;
-    }
-    //To inject new action link with default actions.
-    //row already assinged in smarty, so get template variable , and append action and assigned new row values to tpl.
-    $rows = $smarty->get_template_vars('rows');
-    foreach ($rows['userTemplates'] as $key => $value) {
-      $editURL = '#';
-      $editableClassName = "edit_msg_tpl_to_mosaico";
-      $editableLinkName = "Import in Mosaico";
-
-      //url for existing mosaico templates. otherwise we create dummy with new hashkey and link to open up in mosaico editor.
-      //and using classname to allow edit only if not exist in mosaico template.
-      if (array_key_exists($key, $exsitingTemplates)) {
-        $editURL    = CRM_Utils_System::url('civicrm/mosaico/editor', 'snippet=2', FALSE, $exsitingTemplates[$key]);
-        $editableClassName = NULL;
-        $editableLinkName = "Edit In Mosaico";
-      }
-
-      $action = sprintf('<span>
-        <a href="%s" class="action-item crm-hover-button %s"  value="xx" title="Open in Mosaico" >%s</a>
-      </span>', $editURL, $editableClassName, $editableLinkName);
-
-      if (defined('CIVICRM_MOSAICO_IMPORT') && CIVICRM_MOSAICO_IMPORT == 1) {
-        //MV: allow open msg template in mosaico editor.
-        $rows['userTemplates'][$key]['action'] .= $action;
-      }
-    }
-
-    $smarty->assign('rows', $rows);
-    $smarty->assign('mosaicoTemplates', $resultArray);
-    $smarty->assign('selectedChild', $activeTab);
-    // From civi 4.7, no more tinymce, so if only civi version is less than 4.7 show tinymce.
-    //https://civicrm.org/blog/colemanw/big-changes-to-wysiwyg-editing-in-47
-    $showTinymceTpl = FALSE;
-    $currentVer = CRM_Core_BAO_Domain::version(TRUE);
-    if (version_compare($currentVer, '4.7') < 0) {
-      $showTinymceTpl = TRUE;
-    }
-    $smarty->assign('showTinymceTpl', $showTinymceTpl);
-  }
 }
 
 /**

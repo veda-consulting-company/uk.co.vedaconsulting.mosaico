@@ -62,8 +62,6 @@ cv api setting.create mosaico_layout=bootstrap-wizard
 
 Please make sure you have followed installation instructions. 
 
-To the "Message Template Builder" screen add a runcheck=1 argument in the url to see any errors that might be causing it - url e.g: http://example.org/civicrm/mosaico/index?reset=1&runcheck=1.
-
 Open issues on [github](https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues) with:
 - screenshot of failure with any possible errors in firebug or js console
 - any related logs or backtrace from civicrm

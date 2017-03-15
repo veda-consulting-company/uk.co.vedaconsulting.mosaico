@@ -58,8 +58,9 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
   }
 
   /**
-   * One the 2.x-alpha releases was missing the file `Mosaico.setting.php`. If you tried to change the
-   * layout setting while this file was missing, you could have a boinked record in "civicrm_setting".
+   * One of the 2.x-alpha releases was missing the file `Mosaico.setting.php`.
+   * If you installed on Civi v4.6 and tried to change the layout setting while
+   * this file was missing, you could have a boinked record in "civicrm_setting".
    */
   public function upgrade_4701() {
     $this->ctx->log->info('Applying update 4701');

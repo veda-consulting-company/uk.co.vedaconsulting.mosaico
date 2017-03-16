@@ -25,6 +25,7 @@
       <select
           id="inputFrom"
           class="form-control"
+          crm-ui-select="{dropdownAutoWidth : true, allowClear: false}"
           name="fromAddress"
           ng-model="fromPlaceholder.label"
           required>
@@ -37,17 +38,17 @@
 
   <div class="form-group" ng-show="crmMailingConst.enableReplyTo">
     <label for="inputReplyTo" class="control-label">{{ts('Reply-To')}}</label>
-    <div ng-controller="EmailAddrCtrl" crm-mailing-from-address="fromPlaceholder" crm-mailing="mailing">
+    <div ng-controller="EmailAddrCtrl">
       <select
           id="inputReplyTo"
           class="form-control"
+          crm-ui-select="{dropdownAutoWidth : true, allowClear: true, placeholder: ts('Email address')}"
           name="replyTo"
           ng-change="checkReplyToChange(mailing)"
-          ng-model="mailing.replyto_email">
+          ng-model="mailing.replyto_email"
+      >
         <option value=""></option>
-        <option ng-repeat="frm in crmFromAddresses.getAll() | filter:{is_active:1} | orderBy:'weight'"
-                value="{{frm.label}}">{{frm.label}}
-        </option>
+        <option ng-repeat="frm in crmFromAddresses.getAll() | filter:{is_active:1} | orderBy:'weight'" value="{{frm.label}}">{{frm.label}}</option>
       </select>
     </div>
   </div>

@@ -3,7 +3,7 @@
 // in CiviCRM. See also:
 // http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_angularModules
 
-return array (
+$result = array (
   'js' => 
   array (
     0 => 'ang/crmMosaico.js',
@@ -23,3 +23,9 @@ return array (
     'canDelete' => Civi::service('civi_api_kernel')->runAuthorize('MosaicoTemplate', 'delete', array('version' => 3, 'check_permissions' => 1)),
   ),
 );
+
+if (version_compare(CRM_Utils_System::version(), '4.7', '<')) {
+  $result['css'][]= 'ang/crmMosaico-4.6.css';
+}
+
+return $result;

@@ -143,7 +143,7 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
           'type' => CRM_Utils_Type::T_STRING,
           'title' => ts('Title') ,
           'description' => 'Title',
-          'maxlength' => 64,
+          'maxlength' => 255,
           'size' => CRM_Utils_Type::BIG,
         ) ,
         'base' => array(

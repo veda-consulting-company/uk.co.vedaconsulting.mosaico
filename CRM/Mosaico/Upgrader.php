@@ -71,6 +71,15 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
   }
 
   /**
+   * Extend civicrm_mosaico_template.title.
+   */
+  public function upgrade_4702() {
+    $this->ctx->log->info('Applying update 4702');
+    CRM_Core_DAO::executeQuery('ALTER TABLE civicrm_mosaico_template MODIFY title varchar(255)');
+    return TRUE;
+  }
+
+  /**
    * Example: Run an external SQL script.
    *
    * @return TRUE on success

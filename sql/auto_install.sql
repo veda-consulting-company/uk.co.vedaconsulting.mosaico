@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `civicrm_mosaico_msg_template` (
 
 CREATE TABLE `civicrm_mosaico_template` (
   `id` int unsigned NOT NULL AUTO_INCREMENT  COMMENT 'Unique Template ID',
-  `title` varchar(64)    COMMENT 'Title',
+  `title` varchar(255)    COMMENT 'Title',
   `base` varchar(64)    COMMENT 'Name of the Mosaico base template (e.g. versafix-1)',
   `html` longtext    COMMENT 'Fully renderd HTML',
   `metadata` longtext    COMMENT 'Mosaico metadata (JSON)',

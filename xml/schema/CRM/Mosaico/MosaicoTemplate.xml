@@ -21,7 +21,7 @@
   <field>
     <name>title</name>
     <type>varchar</type>
-    <length>64</length>
+    <length>255</length>
     <comment>Title</comment>
     <title>Title</title>
   </field>

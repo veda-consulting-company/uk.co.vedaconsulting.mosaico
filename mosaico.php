@@ -135,7 +135,7 @@ function mosaico_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
 
 function mosaico_civicrm_navigationMenu(&$params) {
   _mosaico_civix_insert_navigation_menu($params, 'Mailings', array(
-    'label' => ts('Mosaico Templates', array('domain' => 'org.civicrm.styleguide')),
+    'label' => ts('Mosaico Templates', array('domain' => 'uk.co.vedaconsulting.mosaico')),
     'name' => 'mosaico_templates',
     'permission' => 'edit message templates',
     'child' => array(),

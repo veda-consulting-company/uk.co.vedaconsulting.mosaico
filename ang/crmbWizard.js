@@ -46,12 +46,14 @@
             return ' ';
           };
           this.isSelectable = function(step) {
-            if (step.selected) return false;
-            var result = false;
-            angular.forEach(steps, function(otherStep, otherKey) {
-              if (step === otherStep && otherKey <= maxVisited) result = true;
-            });
-            return result;
+            var stepIndex;
+            for (stepIndex = 0; steps[stepIndex] !== step; stepIndex++) {}
+
+            if (stepIndex <= selectedIndex) return true;
+            for (var i = 0; i < stepIndex; i++) {
+              if (!steps[i].isStepValid()) return false;
+            }
+            return true;
           };
 
           /*** @param Object step the $scope of the step */
@@ -151,6 +153,6 @@
         });
       }
     };
-  })
+  });
 
 })(angular, CRM.$, CRM._);

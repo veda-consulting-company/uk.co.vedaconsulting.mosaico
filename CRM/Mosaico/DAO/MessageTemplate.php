@@ -188,7 +188,7 @@ class CRM_Mosaico_DAO_MessageTemplate extends CRM_Core_DAO
           'type' => CRM_Utils_Type::T_STRING,
           'title' => ts('name') ,
           'description' => 'name',
-          'maxlength' => 32,
+          'maxlength' => 255,
           'size' => CRM_Utils_Type::MEDIUM,
         ) ,
         'html' => array(

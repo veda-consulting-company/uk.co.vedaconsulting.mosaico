@@ -1,12 +1,11 @@
 <div class="crmb-wizard">
 
-  <div class="panel">
+  <div class="panel crmb-wizard-title">
     <div class="panel-body">
       <ul class="nav nav-pills">
         <li ng-repeat="step in steps" ng-class="{'active':step.selected, 'disabled': !crmbWizardCtrl.isSelectable(step)}" class="{{crmbWizardNavClass}}">
           <a href="" ng-click="crmbWizardCtrl.isSelectable(step) && crmbWizardCtrl.select(step)">
-            {{crmbWizardCtrl.iconFor($index)}}
-            {{1 + $index}}.
+            <span class="crmb-wizard-number"> {{1 + $index}} </span>
             {{step.$parent.$eval(step.crmTitle)}}</a>
           <!-- Don't know a good way to localize text like "1. Title" -->
         </li>
@@ -14,13 +13,13 @@
     </div>
   </div>
 
-  <div class="panel">
+  <div class="panel crmb-wizard-body">
     <div class="panel-body">
       <div class="crmb-wizard-body" ng-transclude/>
     </div>
   </div>
 
-  <div class="panel">
+  <div class="panel crmb-wizard-footer">
     <div class="panel-body">
       <div class="row">
         <div class="col-md-6" style="text-align: left">

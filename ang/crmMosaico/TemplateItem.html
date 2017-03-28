@@ -1,12 +1,22 @@
 <span class="thumbnail crm-mosaico-template-item">
-  <img alt="{{myOptions.title}}" src="{{myOptions.img}}" style="height: 180px; width: 100%; display: block;" ng-click="fireAction('onItemClick')">
-    <a style="float: right;" class="btn btn-xs btn-danger-outline glyphicon glyphicon-remove-sign" title="Delete" ng-if="hasAction('ItemDelete')" crm-confirm="{type: 'delete', obj: {title: 'template'}}" on-yes="fireAction('onItemDelete')"></a>
-    <a style="float: right;" class="btn btn-xs btn-danger-outline glyphicon glyphicon-remove-sign" title="Reset" ng-if="hasAction('ItemReset')" crm-confirm="{title: ts('Reset'), message: ts('Are you sure you want to reset this?')}" on-yes="fireAction('onItemReset')"></a>
-    <a style="float: right;" class="btn btn-xs btn-info-outline glyphicon glyphicon-duplicate" title="Copy" ng-if="hasAction('ItemCopy')" ng-click="fireAction('onItemCopy')"></a>
-    <a style="float: right;" class="btn btn-xs btn-info-outline glyphicon glyphicon-wrench" title="Settings" ng-if="hasAction('ItemSettings')" ng-click="fireAction('onItemSettings')"></a>
-    <a style="float: right;" class="btn btn-xs btn-info-outline glyphicon glyphicon-search" title="Preview" ng-if="hasAction('ItemPreview')" ng-click="fireAction('onItemPreview')"></a>
+  <div class="crm-mosaico-template-image-wrapper">
+    <img alt="{{myOptions.title}}" src="{{myOptions.img}}" style="height: 180px; width: 100%; display: block;" ng-click="fireAction('onItemClick')">
+
+    <div class="crm-mosaico-template-actions-wrapper">
+      <div class="crm-mosaico-template-actions">
+        <a style="float: right;" class="btn btn-primary btn-md" title="Preview" ng-if="hasAction('ItemPreview')" ng-click="fireAction('onItemPreview')">{{ts('Preview')}}</a>
+        <a style="float: right;" class="btn btn-primary btn-md" title="Settings" ng-if="hasAction('ItemSettings')" ng-click="fireAction('onItemSettings')">{{ts('Settings')}}</a>
+        <a style="float: right;" class="btn btn-primary btn-md" title="Copy" ng-if="hasAction('ItemCopy')" ng-click="fireAction('onItemCopy')">{{ts('Copy')}}</a>
+        <a style="float: right;" class="btn btn-primary btn-md btn-danger" title="Delete" ng-if="hasAction('ItemDelete')" crm-confirm="{type: 'delete', obj: {title: 'template'}}" on-yes="fireAction('onItemDelete')">{{ts('Delete')}}</a>
+        <a style="float: right;" class="btn btn-primary btn-md btn-danger" title="Reset" ng-if="hasAction('ItemReset')" crm-confirm="{title: ts('Reset'), message: ts('Are you sure you want to reset this?')}" on-yes="fireAction('onItemReset')">{{ts('Reset')}}</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="crm-mosaico-template-title-wrapper">
     <a ng-click="fireAction('onItemClick')">
       {{myOptions.title}}
       <small ng-if="myOptions.subtitle"><br/>{{myOptions.subtitle}}</small>
     </a>
+  </div>
 </span>

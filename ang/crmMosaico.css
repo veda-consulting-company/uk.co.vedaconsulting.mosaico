@@ -1,21 +1,14 @@
 /* Add any CSS rules for Angular module "crmMosaico" */
-
-.crm-mosaico-template-item {
-    opacity: 1.0;
+.crmMailing-recip-est {
+  background: #fff;
+  min-width: 135px;
+  text-align: left;
 }
-
-.crm-mosaico-template-item:hover img {
-    opacity: 0.66;
-}
-
 
 /* Subtly differentiate selected design from template designs */
 #bootstrap-theme .thumbnail.crm-mosaico-template-item {
-    border: 1px dashed;
-}
-#bootstrap-theme .thumbnail.crm-mosaico-template-item:hover,
-#bootstrap-theme .crm-mosaico-selected .thumbnail.crm-mosaico-template-item {
-    border: 1px dotted;
+  border: none;
+  padding: 0;
 }
 
 #bootstrap-theme.crm-mosaico-page #inputSubject {

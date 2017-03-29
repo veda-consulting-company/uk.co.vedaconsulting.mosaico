@@ -13,6 +13,7 @@ $result = array (
   'css' => 
   array (
     0 => 'ang/crmMosaico.css',
+    1 => 'ang/crmGeneral.css',
   ),
   'partials' => 
   array (

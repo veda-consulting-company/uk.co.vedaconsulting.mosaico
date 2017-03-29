@@ -4,7 +4,7 @@
   min-width: 135px;
   text-align: left;
 }
-
+/* Mosaico : Templateitem Styling */
 #bootstrap-theme .crm-mosaico-template-item {
   background: #f1f5f6;
   border: 2px solid #fff;
@@ -84,6 +84,14 @@
   font-weight: 400;
 }
 
+/* Mosaico : New mailing - schedule styling */
+#bootstrap-theme .crmMosaico-schedule-inner {
+  margin: 15px 0;
+}
+
+#bootstrap-theme .crmMosaico-schedule-title {
+  margin: 0;
+}
 
 /* Subtly differentiate selected design from template designs */
 

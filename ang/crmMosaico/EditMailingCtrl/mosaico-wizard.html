@@ -29,7 +29,7 @@
       <div style="float: right">
         <button class="btn btn-primary" ng-click="openAdvancedOptions(mailing)">
           <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-          {{ts('Advanced')}}
+          {{ts('Advanced Mailing Options')}}
         </button>
       </div>
       <div crm-mosaico-block-schedule crm-mailing="mailing"/>
@@ -76,7 +76,7 @@
     </button>
 
     <button
-        class="btn btn-success"
+        class="btn btn-primary"
         crmb-wizard-button-position="right"
         ng-show="crmbWizardCtrl.$last()"
         ng-disabled="block.check() || !crmbWizardCtrl.$validStep()"

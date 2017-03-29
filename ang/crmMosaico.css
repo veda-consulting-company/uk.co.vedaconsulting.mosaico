@@ -1,18 +1,98 @@
 /* Add any CSS rules for Angular module "crmMosaico" */
-.crmMailing-recip-est {
+#bootstrap-theme .crmMailing-recip-est {
   background: #fff;
   min-width: 135px;
   text-align: left;
 }
 
+#bootstrap-theme .crm-mosaico-template-item {
+  background: #f1f5f6;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  margin: auto;
+  opacity: 1;
+  width: 165px;
+}
+
+#bootstrap-theme .crm-mosaico-template-item:hover {
+  border: 2px solid #42AFCB;
+  box-shadow: inset 0 1px 10px 0 rgba(0, 0, 0, 0.25);
+}
+
+#bootstrap-theme .crm-mosaico-template-item:hover .crm-mosaico-template-actions {
+  opacity: 1;
+}
+
+#bootstrap-theme .crm-mosaico-template-item:hover img {
+  opacity: .66;
+}
+
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-image-wrapper {
+  background: #333;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-image-wrapper img {
+  height: auto !important;
+}
+
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-actions-wrapper {
+  bottom: 0;
+  display: table;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 100%;
+}
+
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-actions {
+  display: table-cell;
+  opacity: 0;
+  -webkit-transition: opacity 400ms;
+  -moz-transition: opacity 400ms;
+  -ms-transition: opacity 400ms;
+  transition: opacity 400ms;
+  vertical-align: middle;
+}
+
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-image-wrapper .crm-mosaico-template-actions .btn {
+  float: none!important;
+  margin-bottom: 7px;
+  width: 100px;
+}
+
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-title-wrapper a {
+  border: 1px solid #e8eef0;
+  color: #4d5663;
+  cursor: pointer;
+  display: block;
+  font-weight: 700;
+  height: 60px;
+  overflow: hidden;
+  padding: 10px 5px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-title-wrapper a small {
+  font-weight: 400;
+}
+
+
 /* Subtly differentiate selected design from template designs */
+
 #bootstrap-theme .thumbnail.crm-mosaico-template-item {
-  border: none;
   padding: 0;
 }
 
 #bootstrap-theme.crm-mosaico-page #inputSubject {
-    width: 80%;
+  width: 80%;
 }
 
 #bootstrap-theme.crm-mosaico-page input[name=campaign],
@@ -21,17 +101,17 @@
 #bootstrap-theme.crm-mosaico-page select[name=unsubscribe_id],
 #bootstrap-theme.crm-mosaico-page select[name=visibility],
 #bootstrap-theme.crm-mosaico-page select[name=preview_test_group] {
-    width: 98%;
+  width: 98%;
 }
 
 #bootstrap-theme.crm-mosaico-page .crm-mosaico-test-group button {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 #bootstrap-theme.crm-mosaico-page .crm-mailing-recipients-row select {
-    width: 70%;
+  width: 70%;
 }
 
 #bootstrap-theme.crm-mosaico-wizard {
-    padding: 0.7em;
+  padding: .7em;
 }

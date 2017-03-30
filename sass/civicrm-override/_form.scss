@@ -1,0 +1,41 @@
+// Overriding date and time styling filld
+.crm-form-date-wrapper {
+  .form-control {
+    display: inline-block;
+  }
+
+  .crm-form-date {
+    border-radius: 2px 0 0 2px;
+    border-right: 0;
+    min-width: 100px !important;
+    width: 100px;
+  }
+
+  .crm-form-time {
+    width: 75px;
+  }
+
+  .fa-calendar {
+    background-color: $crm-input-background-dark;
+    border: 1px solid $crm-input-border;
+    border-radius: 0 2px 2px 0;
+    height: 30px;
+    line-height: 26px;
+    margin-bottom: 0;
+    margin-right: 25px;
+    text-align: center;
+    width: 30px;
+  }
+
+  .crm-clear-link {
+    background: none;
+    border: none;
+    position: relative;
+    top: 2px;
+  }
+}
+
+// Overriding crmMailing styles
+span.crmMailing-include {
+  color: $color-link-dark;
+}

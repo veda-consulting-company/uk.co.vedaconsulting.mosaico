@@ -9,7 +9,7 @@ var postcssDiscardDuplicates = require('postcss-discard-duplicates');
 
 var bootstrapNamespace = '#bootstrap-theme';
 
-gulp.task('sass:main', function () {
+gulp.task('sass', function() {
   gulp.src('sass/main.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
@@ -25,10 +25,8 @@ gulp.task('sass:main', function () {
     })]))
     .pipe(cssnano())
     .pipe(sourcemaps.write('./'))
-  .pipe(gulp.dest('./css/'))
-});
+    .pipe(gulp.dest('./css/'))
 
-gulp.task('sass:legacy', function () {
   gulp.src('sass/legacy.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
@@ -44,13 +42,11 @@ gulp.task('sass:legacy', function () {
     })]))
     .pipe(cssnano())
     .pipe(sourcemaps.write('./'))
-  .pipe(gulp.dest('./css/'))
+    .pipe(gulp.dest('./css/'))
 });
 
-gulp.task('sass', ['sass:main','sass:legacy']);
-
-gulp.task('watch', function () {
-	gulp.watch('sass/**/*.scss', ['sass']);
+gulp.task('watch', function() {
+  gulp.watch('sass/**/*.scss', ['sass']);
 });
 
 gulp.task('default', ['sass', 'watch']);

@@ -3,16 +3,16 @@
     width: 80%;
   }
 
-  input[name=campaign] {
+  input[name="campaign"] {
     width: 98%;
   }
 
   select {
-    &[name=optout_id],
-    &[name=preview_test_group],
-    &[name=resubscribe_id],
-    &[name=unsubscribe_id],
-    &[name=visibility] {
+    &[name="optout_id"],
+    &[name="preview_test_group"],
+    &[name="resubscribe_id"],
+    &[name="unsubscribe_id"],
+    &[name="visibility"] {
       width: 98%;
     }
   }

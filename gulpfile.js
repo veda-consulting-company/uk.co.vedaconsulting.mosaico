@@ -6,14 +6,17 @@ var autoprefixer = require('gulp-autoprefixer');
 var postcss = require('gulp-postcss');
 var postcssPrefix = require('postcss-prefix-selector');
 var postcssDiscardDuplicates = require('postcss-discard-duplicates');
+var civicrmScssRoot = require('civicrm-scssroot')();
 
 var bootstrapNamespace = '#bootstrap-theme';
 
-gulp.task('sass', function() {
+gulp.task('sass', ['sass-sync'], function() {
   gulp.src('sass/main.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'compressed',
+      includePaths: civicrmScssRoot.getPath(),
+      precision: 10
     }).on('error', sass.logError))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
@@ -31,6 +34,8 @@ gulp.task('sass', function() {
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'compressed',
+      includePaths: civicrmScssRoot.getPath(),
+      precision: 10
     }).on('error', sass.logError))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
@@ -43,6 +48,10 @@ gulp.task('sass', function() {
     .pipe(cssnano())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./css/'))
+});
+
+gulp.task('sass-sync', function(){
+  civicrmScssRoot.updateSync();
 });
 
 gulp.task('watch', function() {

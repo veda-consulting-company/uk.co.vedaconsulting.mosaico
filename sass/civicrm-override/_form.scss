@@ -37,5 +37,11 @@
 
 // Overriding crmMailing styles
 span.crmMailing-include {
-  color: $color-link-dark;
+  color: $gray-darker;
+}
+
+.crmMailing-recip-est {
+  background: $crm-white;
+  min-width: 135px;
+  text-align: left;
 }

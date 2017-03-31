@@ -1,12 +1,6 @@
-.crmMailing-recip-est {
-  background: $color-white;
-  min-width: 135px;
-  text-align: left;
-}
-
 .crm-mosaico-template-item {
   background: $crm-mosaico-template-item;
-  border: 2px solid $color-white;
+  border: 2px solid $crm-white;
   border-radius: 4px;
   margin: auto;
   opacity: 1;
@@ -67,7 +61,7 @@
 
   .crm-mosaico-template-title-wrapper a {
     border: 1px solid $crm-mosaico-template-border;
-    color: $color-link-dark;
+    color: $gray-darker;
     cursor: pointer;
     display: block;
     font-weight: 700;

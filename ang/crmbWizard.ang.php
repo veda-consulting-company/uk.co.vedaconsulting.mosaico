@@ -4,21 +4,21 @@
 // http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_angularModules
 
 return array (
-  'js' => 
+  'js' =>
   array (
     0 => 'ang/crmbWizard.js',
     1 => 'ang/crmbWizard/*.js',
     2 => 'ang/crmbWizard/*/*.js',
   ),
-  'css' => 
+  'css' =>
   array (
-    0 => 'ang/crmbWizard.css',
+    0 => 'css/main.css',
   ),
-  'partials' => 
+  'partials' =>
   array (
     0 => 'ang/crmbWizard',
   ),
-  'settings' => 
+  'settings' =>
   array (
   ),
 );

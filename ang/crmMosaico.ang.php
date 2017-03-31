@@ -4,28 +4,28 @@
 // http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_angularModules
 
 $result = array (
-  'js' => 
+  'js' =>
   array (
     0 => 'ang/crmMosaico.js',
     1 => 'ang/crmMosaico/*.js',
     2 => 'ang/crmMosaico/*/*.js',
   ),
-  'css' => 
+  'css' =>
   array (
-    0 => 'ang/crmMosaico.css',
+    0 => 'css/main.css',
   ),
-  'partials' => 
+  'partials' =>
   array (
     0 => 'ang/crmMosaico',
   ),
-  'settings' => 
+  'settings' =>
   array (
     'canDelete' => Civi::service('civi_api_kernel')->runAuthorize('MosaicoTemplate', 'delete', array('version' => 3, 'check_permissions' => 1)),
   ),
 );
 
 if (version_compare(CRM_Utils_System::version(), '4.7', '<')) {
-  $result['css'][]= 'ang/crmMosaico-4.6.css';
+  $result['css'][]= 'css/legacy.css';
 }
 
 return $result;

@@ -4,6 +4,7 @@
 
     <div class="crm-mosaico-template-actions-wrapper">
       <div class="crm-mosaico-template-actions">
+        <a style="float: right;" class="btn btn-primary btn-md" title="{{ts(actionLabel)}}" ng-click="fireAction('onItemClick')">{{ts(actionLabel)}}</a>
         <a style="float: right;" class="btn btn-primary btn-md" title="Preview" ng-if="hasAction('ItemPreview')" ng-click="fireAction('onItemPreview')">{{ts('Preview')}}</a>
         <a style="float: right;" class="btn btn-primary btn-md" title="Settings" ng-if="hasAction('ItemSettings')" ng-click="fireAction('onItemSettings')">{{ts('Settings')}}</a>
         <a style="float: right;" class="btn btn-primary btn-md" title="Copy" ng-if="hasAction('ItemCopy')" ng-click="fireAction('onItemCopy')">{{ts('Copy')}}</a>
@@ -14,9 +15,7 @@
   </div>
 
   <div class="crm-mosaico-template-title-wrapper">
-    <a ng-click="fireAction('onItemClick')">
-      {{myOptions.title}}
-      <small ng-if="myOptions.subtitle"><br/>{{myOptions.subtitle}}</small>
-    </a>
+    {{myOptions.title}}
+    <small ng-if="myOptions.subtitle"><br/>{{myOptions.subtitle}}</small>
   </div>
 </span>

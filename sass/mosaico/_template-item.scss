@@ -58,6 +58,10 @@
     float: none !important;
     margin-bottom: 7px;
     width: 100px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   .crm-mosaico-template-title-wrapper {

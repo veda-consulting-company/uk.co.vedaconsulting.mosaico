@@ -5,6 +5,7 @@
   margin: auto;
   opacity: 1;
   width: 165px;
+  margin-bottom: 30px;
 
   &.thumbnail {
     padding: 0;
@@ -57,12 +58,15 @@
     float: none !important;
     margin-bottom: 7px;
     width: 100px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
-  .crm-mosaico-template-title-wrapper a {
+  .crm-mosaico-template-title-wrapper {
     border: 1px solid $crm-mosaico-template-border;
     color: $gray-darker;
-    cursor: pointer;
     display: block;
     font-weight: 700;
     height: 60px;

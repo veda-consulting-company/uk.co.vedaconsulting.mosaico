@@ -4,29 +4,32 @@
   // To conditionally enable/disable actions, use `check-item-click`, `check-item-preview`, etal.
   // Example usage: <div crm-mosaico-template-item="{state: 'selected', title: 1, subtitle: 2, thumbnail: 3}" on-item-click="alert('Click')" on-item-preview="alert('Preview')"></div>
   // Avaiable state options are (select, selected, configure, new)
-  angular.module('crmMosaico').directive('crmMosaicoTemplateItem', function() {
+  // select : When displaying a list of templates available and you have to pick one of them, in such case label should be "Select"
+  // selected : After selecting your Mosaico template and you are ready to send the email, in such case label should be "Edit"
+  // configure : In "Mosaico Templates" page - "Configured templates" section, in such case label should be "Edit"
+  // new : In "Mosaico Templates" page - "Create new template.." section, in such case label should bew "New"
+  angular.module('crmMosaico').directive('crmMosaicoTemplateItem', function () {
     return {
       restrict: 'AE',
       templateUrl: '~/crmMosaico/TemplateItem.html',
       scope: {
         crmMosaicoTemplateItem: '='
       },
-      link: function($scope, $el, $attr) {
-        var ts = $scope.ts = CRM.ts('mosaico');
+      link: function ($scope, $el, $attr) {
+        $scope.ts = CRM.ts('mosaico');
+        var mainActionLabels = {
+          select: "Select",
+          selected: "Edit",
+          configure: "Edit",
+          new: "New"
+        };
 
-        $scope.$watch('crmMosaicoTemplateItem', function(newValue) {
+        $scope.$watch('crmMosaicoTemplateItem', function (newValue) {
           $scope.myOptions = newValue;
 
           // Template default action label based on current state
-          if (newValue['state']) {
-            var clickActionLabels = {
-              select: "Select",
-              selected: "Edit",
-              configure: "Edit",
-              new: "New"
-            };
-            var clickActionLabel = clickActionLabels[newValue['state']];
-            $scope.actionLabel = clickActionLabel;
+          if (newValue.state) {
+            $scope.mainActionLabel = mainActionLabels[newValue.state];
           }
         });
         $scope.hasAction = function hasAction(action) {

@@ -16,7 +16,6 @@
         crmMosaicoTemplateItem: '='
       },
       link: function ($scope, $el, $attr) {
-        $scope.ts = CRM.ts('mosaico');
         var mainActionLabels = {
           select: "Select",
           selected: "Edit",
@@ -24,9 +23,11 @@
           new: "New"
         };
 
+        $scope.ts = CRM.ts('mosaico');
+        $scope.mainActionLabel = "";
+
         $scope.$watch('crmMosaicoTemplateItem', function (newValue) {
           $scope.myOptions = newValue;
-
           // Template default action label based on current state
           if (newValue.state) {
             $scope.mainActionLabel = mainActionLabels[newValue.state];

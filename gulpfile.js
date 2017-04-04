@@ -41,10 +41,6 @@ gulp.task('sass', ['sass-sync'], function() {
       browsers: ['last 2 versions'],
       cascade: false
     }))
-    .pipe(postcss([postcssPrefix({
-      prefix: bootstrapNamespace + ' ',
-      exclude: [/^html/, /^body/]
-    })]))
     .pipe(cssnano())
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./css/'))

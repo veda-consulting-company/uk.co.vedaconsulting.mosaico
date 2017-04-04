@@ -34,8 +34,8 @@
     top: 2px;
   }
 }
-
 // Overriding crmMailing styles
+
 span.crmMailing-include {
   color: $gray-darker;
 }
@@ -47,17 +47,16 @@ span.crmMailing-include {
 }
 
 .crm-group {
-
   .label {
     display: block;
-    width: 100%;
     padding: 8px 0;
     text-align: left;
+    width: 100%;
   }
 
   .content {
-    margin: 0;
     clear: both;
+    margin: 0;
 
     .select2-container {
       max-width: 350px;

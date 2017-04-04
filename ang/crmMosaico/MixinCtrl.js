@@ -80,7 +80,7 @@
 
               var model = {mailing: $scope.mailing, attachments: $scope.attachments};
               var options = CRM.utils.adjustDialogDefaults(angular.extend(
-                {autoOpen: false, title: ts('Test Mailing')},
+                {autoOpen: false, title: ts('Preview/ Test')},
                 options
               ));
               var pr = dialogService.open('crmMosaicoPreviewDialog', '~/crmMosaico/PreviewDialogCtrl.html', model, options);

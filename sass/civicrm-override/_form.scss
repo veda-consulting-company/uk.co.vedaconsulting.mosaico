@@ -22,7 +22,7 @@
     height: 30px;
     line-height: 26px;
     margin-bottom: 0;
-    margin-right: 25px;
+    margin-right: 10px;
     text-align: center;
     width: 30px;
   }
@@ -44,4 +44,23 @@ span.crmMailing-include {
   background: $crm-white;
   min-width: 135px;
   text-align: left;
+}
+
+.crm-group {
+
+  .label {
+    display: block;
+    width: 100%;
+    padding: 8px 0;
+    text-align: left;
+  }
+
+  .content {
+    margin: 0;
+    clear: both;
+
+    .select2-container {
+      max-width: 350px;
+    }
+  }
 }

@@ -1,3 +1,9 @@
 .crm-mosaico-wizard {
   padding: 0.7em;
 }
+
+.crmb-wizard-button-right {
+  button:not(:last-child) {
+    margin-right: 10px;
+  }
+}

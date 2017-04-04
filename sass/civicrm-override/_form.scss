@@ -22,7 +22,7 @@
     height: 30px;
     line-height: 26px;
     margin-bottom: 0;
-    margin-right: 25px;
+    margin-right: 10px;
     text-align: center;
     width: 30px;
   }
@@ -34,8 +34,8 @@
     top: 2px;
   }
 }
-
 // Overriding crmMailing styles
+
 span.crmMailing-include {
   color: $gray-darker;
 }
@@ -44,4 +44,22 @@ span.crmMailing-include {
   background: $crm-white;
   min-width: 135px;
   text-align: left;
+}
+
+.crm-group {
+  .label {
+    display: block;
+    padding: 8px 0;
+    text-align: left;
+    width: 100%;
+  }
+
+  .content {
+    clear: both;
+    margin: 0;
+
+    .select2-container {
+      max-width: 350px;
+    }
+  }
 }

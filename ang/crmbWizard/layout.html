@@ -1,6 +1,6 @@
 <div class="crmb-wizard crm_wizard">
 
-  <div class="panel crm_wizard__title">
+  <div class="panel panel-default crm_wizard__title">
     <div class="panel-body">
       <ul class="nav nav-pills">
         <li ng-repeat="step in steps" ng-class="{'active':step.selected, 'disabled': !crmbWizardCtrl.isSelectable(step)}" class="{{crmbWizardNavClass}}">
@@ -13,13 +13,13 @@
     </div>
   </div>
 
-  <div class="panel crm_wizard__body">
+  <div class="panel panel-default crm_wizard__body">
     <div class="panel-body">
       <div class="crmb-wizard-body" ng-transclude/>
     </div>
   </div>
 
-  <div class="panel crm_wizard__footer">
+  <div class="panel panel-default crm_wizard__footer">
     <div class="panel-body">
       <div class="row">
         <div class="col-md-6" style="text-align: left">

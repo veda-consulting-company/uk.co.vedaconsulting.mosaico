@@ -1,3 +1,15 @@
+.crm-mosaico-selected.center-block {
+  float: none;
+
+  .crm-mosaico-template-item {
+    width: 240px;
+
+    .crm-mosaico-template-image-wrapper {
+      height: 275px;
+    }
+  }
+}
+
 .crm-mosaico-template-item {
   background: $crm-mosaico-template-item;
   border: 2px solid $crm-white;
@@ -57,7 +69,7 @@
   .crm-mosaico-template-image-wrapper .crm-mosaico-template-actions .btn {
     float: none !important;
     margin-bottom: 7px;
-    width: 100px;
+    width: 63%;
 
     &:last-child {
       margin-bottom: 0;

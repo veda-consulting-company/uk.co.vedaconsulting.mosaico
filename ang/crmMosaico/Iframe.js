@@ -8,7 +8,7 @@
 
     /**
      * @param Object newOptions
-     *  - topMargin: int (optional)
+     *  - dimensions: function()
      *  - url: string (optional)
      *  - actions: Object
      *    - save: function(ko, viewModel)
@@ -21,7 +21,20 @@
      */
     return function CrmMosaicoIframe(options){
       var cfg = {
-        url: CRM.url('civicrm/mosaico/iframe', 'snippet=1')
+        url: CRM.url('civicrm/mosaico/iframe', 'snippet=1'),
+        dimensions: function resize() {
+          var c = CRM.crmMosaico || {};
+          var top = 0, left = 0, width = $(window).width(), height = $(window).height();
+          if (c.topNav && $(c.topNav).length > 0) {
+            top = $(c.topNav).height();
+            height -= top;
+          }
+          if (c.leftNav && $(c.leftNav).length > 0) {
+            left = $(c.leftNav).width();
+            width -= left;
+          }
+          return {position: 'fixed', left: left + 'px', top: top + 'px', width: width + 'px', height: height + 'px'};
+        }
       };
       angular.extend(cfg, options);
 
@@ -46,22 +59,7 @@
       }
 
       function onResize() {
-        if ($iframe) {
-          var topMargin = 0, leftMargin = 0;
-          if ($('#civicrm-menu').length > 0) {
-            topMargin = $('#civicrm-menu').height();
-          }
-          if ($('.wp-admin #adminmenu').length > 0) {
-            leftMargin = $('.wp-admin #adminmenu').width();
-          }
-          $iframe.css({
-            position: 'fixed',
-            left: leftMargin + 'px',
-            top: topMargin + 'px',
-            width: ($(window).width() - leftMargin) + 'px',
-            height: ($(window).height() - topMargin) + 'px'
-          });
-        }
+        if ($iframe) $iframe.css(cfg.dimensions());
       }
 
       this.render = function render() {

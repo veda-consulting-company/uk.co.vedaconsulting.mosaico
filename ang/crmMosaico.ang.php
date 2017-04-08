@@ -21,6 +21,10 @@ $result = array (
   'settings' => 
   array (
     'canDelete' => Civi::service('civi_api_kernel')->runAuthorize('MosaicoTemplate', 'delete', array('version' => 3, 'check_permissions' => 1)),
+    // If there are any navbars that we should try to avoid, include them
+    // in these jQuery selectors.
+    'topNav' => '#civicrm-menu',
+    'leftNav' => '.wp-admin #adminmenu',
   ),
 );
 

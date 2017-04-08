@@ -21,9 +21,7 @@
      */
     return function CrmMosaicoIframe(options){
       var cfg = {
-        url: CRM.url('civicrm/mosaico/iframe', 'snippet=1'),
-        zIndex: 1000,
-        topMargin: $('#civicrm-menu').length > 0 ? $('#civicrm-menu').height() : 27
+        url: CRM.url('civicrm/mosaico/iframe', 'snippet=1')
       };
       angular.extend(cfg, options);
 
@@ -34,19 +32,47 @@
         throw "Error: Save and Close actions are mutually exclusive";
       }
 
+      var oldOverflow = null;
+      function scrollStart() {
+        if (oldOverflow === null) {
+          oldOverflow = $('body').css('overflow');
+        }
+        $('body').css('overflow', 'hidden');
+      }
+      function scrollStop() {
+        if (oldOverflow === null) return;
+        $('body').css('overflow', oldOverflow);
+        oldOverflow = null;
+      }
+
       function onResize() {
-        if ($iframe) $iframe.height($(window).height() - cfg.topMargin);
+        if ($iframe) {
+          var topMargin = 0, leftMargin = 0;
+          if ($('#civicrm-menu').length > 0) {
+            topMargin = $('#civicrm-menu').height();
+          }
+          if ($('.wp-admin #adminmenu').length > 0) {
+            leftMargin = $('.wp-admin #adminmenu').width();
+          }
+          $iframe.css({
+            position: 'fixed',
+            left: leftMargin + 'px',
+            top: topMargin + 'px',
+            width: ($(window).width() - leftMargin) + 'px',
+            height: ($(window).height() - topMargin) + 'px'
+          });
+        }
       }
 
       this.render = function render() {
-        var height = $(window).height() - cfg.topMargin;
-        $iframe = $('<iframe frameborder="0" width="100%">');
-        $iframe.css({'z-index': cfg.zIndex, position: 'fixed', left:0, top: cfg.topMargin, width: '100%', height: height + 'px'});
-        // 'z-index': 100000000
+        $iframe = $('<iframe frameborder="0" class="ui-front">');
+        $('body').append($iframe);
+        onResize();
+        $(window).on('resize', onResize);
+
         iframe = $iframe[0];
         iframe.setAttribute('src', cfg.url);
-        $('body').append($iframe);
-        $(window).on('resize', onResize);
+
         return this;
       };
 
@@ -81,18 +107,25 @@
         };
 
         this.render();
+        this.show();
         return dfr.promise;
       };
 
       this.hide = function hide() {
         isVisible = false;
-        if ($iframe) $iframe.hide();
+        if ($iframe) {
+          scrollStop();
+          $iframe.hide();
+        }
         return this;
       };
 
       this.show = function show() {
         isVisible = true;
-        if ($iframe) $iframe.show();
+        if ($iframe) {
+          scrollStart();
+          $iframe.show();
+        }
         return this;
       };
 

@@ -46,17 +46,21 @@
       }
 
       var oldOverflow = null;
-      function scrollStart() {
+      function scrollHide() {
         if (oldOverflow === null) {
           oldOverflow = $('body').css('overflow');
+          $(document).on('dialogclose', scrollRefresh); // jQuery dialog bug
         }
         $('body').css('overflow', 'hidden');
       }
-      function scrollStop() {
-        if (oldOverflow === null) return;
-        $('body').css('overflow', oldOverflow);
+      function scrollRestore() {
+        if (oldOverflow !== null) {
+          $(document).off('dialogclose', scrollRefresh); // jQuery dialog bug
+          $('body').css('overflow', oldOverflow);
+        }
         oldOverflow = null;
       }
+      function scrollRefresh() { $('body').css('overflow', 'hidden'); }
 
       function onResize() {
         if ($iframe) $iframe.css(cfg.dimensions());
@@ -112,7 +116,7 @@
       this.hide = function hide() {
         isVisible = false;
         if ($iframe) {
-          scrollStop();
+          scrollRestore();
           $iframe.hide();
         }
         return this;
@@ -121,7 +125,8 @@
       this.show = function show() {
         isVisible = true;
         if ($iframe) {
-          scrollStart();
+          scrollHide();
+          onResize();
           $iframe.show();
         }
         return this;

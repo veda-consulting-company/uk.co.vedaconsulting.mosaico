@@ -5,7 +5,8 @@
       <ul class="nav nav-pills">
         <li ng-repeat="step in steps" ng-class="{'active':step.selected, 'disabled': !crmbWizardCtrl.isSelectable(step)}" class="{{crmbWizardNavClass}}">
           <a href="" ng-click="crmbWizardCtrl.isSelectable(step) && crmbWizardCtrl.select(step)">
-            <span class="crm_wizard__title__number"> {{1 + $index}} </span>
+            <span class="crm_wizard__title__number" ng-if="!crmbWizardCtrl.isStepDone(step)"> {{1 + $index}} </span>
+            <span class="crm_wizard__title__number success" ng-if="crmbWizardCtrl.isStepDone(step)"> <i class="fa fa-check" aria-hidden="true"></i> </span>
             {{step.$parent.$eval(step.crmTitle)}}</a>
           <!-- Don't know a good way to localize text like "1. Title" -->
         </li>

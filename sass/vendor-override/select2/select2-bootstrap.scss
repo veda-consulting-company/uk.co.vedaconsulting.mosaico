@@ -1,3 +1,4 @@
+div[ng-form="editRecipOptionsForm"] .select2-container,
 .form-control.select2-container,
 .form-group .select2-container {
   background: $crm-white;
@@ -53,6 +54,7 @@
 
   .select2-chosen {
     border-right: 1px solid $crm-darker-grayblue;
+    color: $gray-darker;
   }
 
   .select2-input {
@@ -61,6 +63,7 @@
   }
 }
 
+div[ng-form="editRecipOptionsForm"] .select2-choices,
 .form-control.select2-container .select2-choices,
 ul.select2-choices {
   background: none;
@@ -126,6 +129,7 @@ ul.select2-choices {
 
     .select2-result-label {
       color: $gray-dark;
+      font-family: $font-family-base;
       padding: 5px 10px;
     }
 

@@ -34,8 +34,8 @@
     top: 2px;
   }
 }
-// Overriding crmMailing styles
 
+// Overriding crmMailing styles
 span.crmMailing-include {
   color: $gray-darker;
 }
@@ -62,4 +62,29 @@ span.crmMailing-include {
       max-width: 350px;
     }
   }
+}
+// Overriding recipient civicrm form
+div[ng-form="editRecipOptionsForm"] .crm-group {
+  .label,
+  label,
+  label span {
+    color: $gray-darker;
+    font-weight: $crm-font-weight-h3;
+    font-size: $font-size-base;
+    width: 100%;
+    text-align: left;
+  }
+
+  .content {
+    margin: 0;
+  }
+
+  .crm-section {
+    margin-bottom: .5em;
+  }
+}
+
+.crm-hover-button {
+  background: none;
+  border: none;
 }

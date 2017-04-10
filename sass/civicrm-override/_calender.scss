@@ -47,12 +47,12 @@
   }
 
   .ui-datepicker-prev::before {
-    @include fa-icon(13px, '\f0d9');
+    @include fa-icon($font-size-base, '\f0d9');
     padding-left: 5px;
   }
 
   .ui-datepicker-next::before {
-    @include fa-icon(13px, '\f0da');
+    @include fa-icon($font-size-base, '\f0da');
     padding-left: 15px;
   }
 
@@ -99,7 +99,7 @@
 
   .ui-datepicker-prev {
     &:before {
-      content: '\f053';
+      @include fa-icon($font-size-base, '\f053');
     }
 
     &-hover {
@@ -109,7 +109,7 @@
 
   .ui-datepicker-next {
     &:before {
-      content: '\f054';
+      @include fa-icon($font-size-base, '\f054');
     }
 
     &-hover {
@@ -165,7 +165,6 @@
       line-height: 1;
       padding: 7px;
       text-align: center;
-      width: auto;
       width: auto;
 
       &.ui-state-active {

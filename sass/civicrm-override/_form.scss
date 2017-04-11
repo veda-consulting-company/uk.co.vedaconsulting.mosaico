@@ -88,3 +88,7 @@ div[ng-form="editRecipOptionsForm"] .crm-group {
   background: none;
   border: none;
 }
+// Help icon styling
+.control-label a.helpicon {
+  background-color: $brand-primary;
+}

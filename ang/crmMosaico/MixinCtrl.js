@@ -101,7 +101,8 @@
       var options = CRM.utils.adjustDialogDefaults(angular.extend(
         {
           autoOpen: false,
-          title: ts('Advanced')
+          title: ts('Advanced Settings'),
+          width: 600
         },
         options
       ));

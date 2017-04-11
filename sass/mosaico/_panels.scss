@@ -5,3 +5,16 @@
   margin-left: -20px;
   margin-right: -20px;
 }
+
+.mosaico-panels-group {
+  box-shadow: $box-shadow;
+
+  .panel {
+    box-shadow: none;
+    margin-bottom: 0;
+
+    &:not(:last-child) .panel-body {
+      border-bottom: 1px solid $crm-dark-grayblue;
+    }
+  }
+}

@@ -5,7 +5,7 @@
     <div crm-ui-debug="crmMosaicoTemplates.getConfigured()"></div>
 
     <div class="panel panel-default" ng-show="crmMosaicoTemplates.getConfigured().length > 0">
-      <div class="panel-heading">{{ts('Configured templates')}}</div>
+      <div class="panel-heading"><h3 class="panel-title">{{ts('Configured templates')}}</h3></div>
       <div class="panel-body">
         <div class="row mosaico-templates-wrapper">
           <div ng-repeat="template in crmMosaicoTemplates.getConfigured() | orderBy:'title'">
@@ -17,7 +17,7 @@
     </div>
 
     <div class="panel panel-default">
-      <div class="panel-heading">{{ts('Create new template from...')}}</div>
+      <div class="panel-heading"><h3 class="panel-title">{{ts('Create new template from...')}}</h3></div>
       <div class="panel-body">
         <div class="row mosaico-templates-wrapper">
           <div ng-repeat="template in crmMosaicoTemplates.getBases() | orderBy:'type'">

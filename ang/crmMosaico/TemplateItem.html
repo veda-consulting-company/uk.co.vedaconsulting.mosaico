@@ -15,7 +15,9 @@
   </div>
 
   <div class="crm-mosaico-template-title-wrapper">
-    {{myOptions.title}}
-    <small ng-if="myOptions.subtitle"><br/>{{myOptions.subtitle}}</small>
+    <p>
+      {{myOptions.title}}
+      <small ng-if="myOptions.subtitle && isEmptyTemplate">{{myOptions.subtitle}}</small>
+    </p>
   </div>
 </span>

@@ -7,6 +7,10 @@
     .crm-mosaico-template-image-wrapper {
       height: 275px;
     }
+
+    .crm-mosaico-template-title-wrapper p {
+      width: 225px;
+    }
   }
 }
 
@@ -79,16 +83,28 @@
   .crm-mosaico-template-title-wrapper {
     border: 1px solid $crm-mosaico-template-border;
     color: $gray-darker;
-    display: block;
-    font-weight: 700;
+    font-weight: 600;
     height: 60px;
+    line-height: 16px;
     overflow: hidden;
     padding: 10px 5px;
+    position: relative;
+    vertical-align: middle;
     text-align: center;
     text-decoration: none;
 
     small {
+      display: block;
       font-weight: 400;
+      margin-top: 3px;
+    }
+
+    p {
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 160px;
     }
   }
 }

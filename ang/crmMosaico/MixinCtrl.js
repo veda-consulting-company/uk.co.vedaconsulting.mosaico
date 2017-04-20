@@ -59,9 +59,7 @@
           mailing.template_options.mosaicoContent = viewModel.exportJSON();
         }
 
-        var iframeZIndex = 10000;
         crmMosaicoIframe = new CrmMosaicoIframe({
-          zIndex: iframeZIndex,
           model: {
             template: $scope.mosaicoCtrl.getTemplate(mailing).path,
             metadata: mailing.template_options.mosaicoMetadata,
@@ -84,8 +82,6 @@
                 options
               ));
               var pr = dialogService.open('crmMosaicoPreviewDialog', '~/crmMosaico/PreviewDialogCtrl.html', model, options);
-              // Ugh, can't find a better way to match up z-indexes of crmMosaicoIframe and dialogService.
-              $timeout(function(){$('.ui-dialog.crm-container').last().zIndex(iframeZIndex + 100);}, 100);
               return pr;
             }
           }

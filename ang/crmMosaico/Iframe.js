@@ -8,7 +8,7 @@
 
     /**
      * @param Object newOptions
-     *  - topMargin: int (optional)
+     *  - dimensions: function()
      *  - url: string (optional)
      *  - actions: Object
      *    - save: function(ko, viewModel)
@@ -22,8 +22,19 @@
     return function CrmMosaicoIframe(options){
       var cfg = {
         url: CRM.url('civicrm/mosaico/iframe', 'snippet=1'),
-        zIndex: 1000,
-        topMargin: $('#civicrm-menu').length > 0 ? $('#civicrm-menu').height() : 27
+        dimensions: function resize() {
+          var c = CRM.crmMosaico || {};
+          var top = 0, left = 0, width = $(window).width(), height = $(window).height();
+          if (c.topNav && $(c.topNav).length > 0) {
+            top = $(c.topNav).height();
+            height -= top;
+          }
+          if (c.leftNav && $(c.leftNav).length > 0) {
+            left = $(c.leftNav).width();
+            width -= left;
+          }
+          return {position: 'fixed', left: left + 'px', top: top + 'px', width: width + 'px', height: height + 'px'};
+        }
       };
       angular.extend(cfg, options);
 
@@ -34,19 +45,36 @@
         throw "Error: Save and Close actions are mutually exclusive";
       }
 
+      var oldOverflow = null;
+      function scrollHide() {
+        if (oldOverflow === null) {
+          oldOverflow = $('body').css('overflow');
+          $(document).on('dialogclose', scrollRefresh); // jQuery dialog bug
+        }
+        $('body').css('overflow', 'hidden');
+      }
+      function scrollRestore() {
+        if (oldOverflow !== null) {
+          $(document).off('dialogclose', scrollRefresh); // jQuery dialog bug
+          $('body').css('overflow', oldOverflow);
+        }
+        oldOverflow = null;
+      }
+      function scrollRefresh() { $('body').css('overflow', 'hidden'); }
+
       function onResize() {
-        if ($iframe) $iframe.height($(window).height() - cfg.topMargin);
+        if ($iframe) $iframe.css(cfg.dimensions());
       }
 
       this.render = function render() {
-        var height = $(window).height() - cfg.topMargin;
-        $iframe = $('<iframe frameborder="0" width="100%">');
-        $iframe.css({'z-index': cfg.zIndex, position: 'fixed', left:0, top: cfg.topMargin, width: '100%', height: height + 'px'});
-        // 'z-index': 100000000
+        $iframe = $('<iframe frameborder="0" class="ui-front">');
+        $('body').append($iframe);
+        onResize();
+        $(window).on('resize', onResize);
+
         iframe = $iframe[0];
         iframe.setAttribute('src', cfg.url);
-        $('body').append($iframe);
-        $(window).on('resize', onResize);
+
         return this;
       };
 
@@ -81,18 +109,26 @@
         };
 
         this.render();
+        this.show();
         return dfr.promise;
       };
 
       this.hide = function hide() {
         isVisible = false;
-        if ($iframe) $iframe.hide();
+        if ($iframe) {
+          scrollRestore();
+          $iframe.hide();
+        }
         return this;
       };
 
       this.show = function show() {
         isVisible = true;
-        if ($iframe) $iframe.show();
+        if ($iframe) {
+          scrollHide();
+          onResize();
+          $iframe.show();
+        }
         return this;
       };
 

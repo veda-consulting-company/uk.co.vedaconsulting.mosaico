@@ -51,7 +51,7 @@
   <field>
     <name>name</name>
     <type>varchar</type>
-    <length>32</length>
+    <length>255</length>
     <comment>name</comment>
     <title>name</title>
   </field>

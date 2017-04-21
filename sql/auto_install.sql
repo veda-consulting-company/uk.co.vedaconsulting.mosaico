@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `civicrm_mosaico_msg_template` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `msg_tpl_id` int(10) unsigned NOT NULL,
   `hash_key` varchar(32) NOT NULL,
-  `name` varchar(32) NOT NULL,
+  `name` varchar(255) NOT NULL,
   `html` longtext NOT NULL,
   `metadata` longtext NOT NULL,
   `template` longtext NOT NULL,

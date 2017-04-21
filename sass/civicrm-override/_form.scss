@@ -75,6 +75,11 @@ div[ng-form="editRecipOptionsForm"] .crm-group {
     text-align: left;
   }
 
+  label span.crm-marker {
+    color: $brand-danger;
+    margin-left: 5px;
+  }
+
   .content {
     margin: 0;
   }

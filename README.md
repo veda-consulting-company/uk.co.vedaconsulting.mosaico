@@ -83,6 +83,19 @@ The script `bin/setup.sh` handles various build activities:
 ./bin/setup.sh -z
 ```
 
+### Development: Styling Changes
+
+We use Gulp and Sass for styling and handle different running tasks. Firstly, you should install node packages using npm package manager:
+```
+npm install
+```
+
+Styling changes should go into `sass` directory and compiled to CSS using the following command:
+```
+gulp sass
+```
+
+
 ### Development: Patching Mosaico
 
 This extensions ships with a patched version of Mosaico. The patches are maintained as a fork

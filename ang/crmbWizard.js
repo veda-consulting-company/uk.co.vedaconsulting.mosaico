@@ -55,6 +55,16 @@
             }
             return true;
           };
+          /*** @param Object step the $scope of the step */
+          this.isStepDone = function(step) {
+            var stepIndex;
+            for (stepIndex = 0; steps[stepIndex] !== step; stepIndex++) {}
+
+            if (stepIndex < selectedIndex) {
+              return true;
+            }
+            return false;
+          };
 
           /*** @param Object step the $scope of the step */
           this.select = function(step) {

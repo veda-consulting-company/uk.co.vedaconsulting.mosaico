@@ -1,0 +1,27 @@
+.crm-mosaico-page {
+  #inputSubject {
+    width: 80%;
+  }
+
+  input[name="campaign"] {
+    width: 98%;
+  }
+
+  select {
+    &[name="optout_id"],
+    &[name="preview_test_group"],
+    &[name="resubscribe_id"],
+    &[name="unsubscribe_id"],
+    &[name="visibility"] {
+      width: 98%;
+    }
+  }
+
+  .crm-mosaico-test-group button {
+    margin-top: 1em;
+  }
+
+  .crm-mailing-recipients-row select {
+    width: 70%;
+  }
+}

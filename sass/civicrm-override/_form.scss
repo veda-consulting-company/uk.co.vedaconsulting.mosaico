@@ -93,6 +93,10 @@ div[ng-form="editRecipOptionsForm"] .crm-group {
   }
 }
 
+.crm-mosaico-page #responses .select2-container {
+  min-width: 350px;
+}
+
 .crm-hover-button {
   background: none;
   border: none;

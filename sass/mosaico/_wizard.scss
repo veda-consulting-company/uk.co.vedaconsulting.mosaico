@@ -1,17 +1,13 @@
 .crm-mosaico-wizard {
   padding: 0.7em;
 
-  .crm_wizard__title {
-    .nav-pills li.disabled a {
+  .crm_wizard {
+    &__title .nav-pills li.disabled a {
       color: $gray-darker;
     }
-  }
 
-  .crm_wizard__footer {
-    .crmb-wizard-button-right {
-      button:not(:last-child) {
-        margin-right: 10px;
-      }
+    &__footer .crmb-wizard-button-right button:not(:last-child) {
+      margin-right: 10px;
     }
   }
 }

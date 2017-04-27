@@ -81,7 +81,7 @@ function do_gencode() {
 }
 
 ##############################
-function default_settings() {
+function set_default_settings() {
   cv api setting.create mosaico_layout=bootstrap-wizard
 }
 
@@ -103,7 +103,7 @@ function do_download() {
     fi
     npm install
     grunt build
-    default_settings
+    set_default_settings
   popd >> /dev/null
 }
 

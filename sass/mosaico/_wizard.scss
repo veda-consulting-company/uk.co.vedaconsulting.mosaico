@@ -6,6 +6,10 @@
       margin: 0;
     }
 
+    &__title .nav-pills li a {
+      outline: 0;
+    }
+
     &__title .nav-pills li.disabled a {
       color: $gray-darker;
     }

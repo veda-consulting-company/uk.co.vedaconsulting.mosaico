@@ -2,6 +2,10 @@
   padding: 0.7em;
 
   .crm_wizard {
+    &__title .nav-pills {
+      margin: 0;
+    }
+
     &__title .nav-pills li.disabled a {
       color: $gray-darker;
     }

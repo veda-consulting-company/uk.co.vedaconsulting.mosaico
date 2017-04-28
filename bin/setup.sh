@@ -81,6 +81,11 @@ function do_gencode() {
 }
 
 ##############################
+function set_default_settings() {
+  cv api setting.create mosaico_layout=bootstrap-wizard
+}
+
+##############################
 function do_download() {
   if [ ! -d "$EXTROOT/packages" ]; then
     mkdir "$EXTROOT/packages"
@@ -98,6 +103,7 @@ function do_download() {
     fi
     npm install
     grunt build
+    set_default_settings
   popd >> /dev/null
 }
 

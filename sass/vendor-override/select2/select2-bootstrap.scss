@@ -70,10 +70,12 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
     .select2-chosen {
       height: 28px;
       margin-right: 26px;
+      padding-right: 22px;
     }
 
     .select2-search-choice-close {
-      right: -22px;
+      right: 32px;
+      top: 8px;
     }
   }
 }

@@ -1,10 +1,22 @@
 .crm-mosaico-wizard {
   padding: 0.7em;
-}
 
-.crmb-wizard-button-right {
-  button:not(:last-child) {
-    margin-right: 10px;
+  .crm_wizard {
+    &__title .nav-pills {
+      margin: 0;
+    }
+
+    &__title .nav-pills li a {
+      outline: 0;
+    }
+
+    &__title .nav-pills li.disabled a {
+      color: $gray-darker;
+    }
+
+    &__footer .crmb-wizard-button-right button:not(:last-child) {
+      margin-right: 10px;
+    }
   }
 }
 

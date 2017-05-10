@@ -18,7 +18,7 @@ If you have the command line tool [`cv`](https://github.com/civicrm/cv), then do
 
 ```
 cv dl --dev flexmailer shoreditch
-cv dl uk.co.vedaconsulting.mosaico@http://dist.civicrm.org/extension/uk.co.vedaconsulting.mosaico/latest/uk.co.vedaconsulting.mosaico-latest.zip
+cv dl uk.co.vedaconsulting.mosaico@https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/latest/uk.co.vedaconsulting.mosaico-latest.zip
 ```
 
 > Tip: If you're using v4.6.x with backports, then `cv dl` will require an

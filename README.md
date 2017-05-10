@@ -57,6 +57,10 @@ change the layout, you can update the setting `mosaico_layout` to
 ```
 cv api setting.create mosaico_layout=bootstrap-wizard
 ```
+The traditional and Mosaico versions of the New Mailing page can be accessed with these URL's:
+- `civicrm/a/#/mailing/new/traditional` (new mailing with template_type=traditional)
+- `civicrm/a/#/mailing/new/mosaico` (new mailing with template_type=mosaico)
+- `civicrm/a/#/mailing/new` (new mailing with the default template type; depends on the mix of extensions)
 
 ### Having issues with this extension?
 

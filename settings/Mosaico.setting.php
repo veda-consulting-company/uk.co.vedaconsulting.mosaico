@@ -13,7 +13,7 @@ return array(
     'pseudoconstant' => array(
       'callback' => 'CRM_Mosaico_Utils::getLayoutOptions',
     ),
-    'default' => 'auto',
+    'default' => 'bootstrap-wizard',
     'add' => '4.7',
     'title' => 'Mosaico editor layout',
     'is_domain' => 1,

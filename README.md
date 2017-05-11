@@ -1,20 +1,33 @@
-## uk.co.vedaconsulting.mosaico
+# uk.co.vedaconsulting.mosaico
 This extension integrates Mosaico a responsive email template editor, with CiviCRM.
-- Initial Blog Post - https://civicrm.org/blogs/parvez/a-new-beginning-for-civimail
-- Beta Blog Post - https://civicrm.org/blog/deepaksrivastava/email-template-builder-civimosaico-is-now-beta
-- Initial Video - https://vimeo.com/156633077
 
-### Requirements
+ * [Initial Blog Post](https://civicrm.org/blogs/parvez/a-new-beginning-for-civimail)
+ * [Beta Blog Post](https://civicrm.org/blog/deepaksrivastava/email-template-builder-civimosaico-is-now-beta)
+ * [Initial Video](https://vimeo.com/156633077)
+ * [v2.0 Plans](https://civicrm.org/blog/jamienovick/email-template-builder-mosaico-phase-2-plans)
+ * [v2.0 and Styling Blog Post](https://civicrm.org/blog/jamienovick/extreme-makeovers-civicrm-style-introducing-the-shoreditch-theme-civicrms-new-user)
 
- * CiviCRM v4.7.16+ (or v4.6.26+ with unofficial backports from [#9555](https://github.com/civicrm/civicrm-core/pull/9555))
- * A CiviCRM extensions folder (In new sites since CiviCRM v4.7.0, this defaults to `files/civicrm/ext`. For older systems, see [the wiki](https://wiki.civicrm.org/confluence/display/CRMDOC/Extensions).)
+## Requirements
+
+ * CiviCRM v4.7.16+ / (unofficial) CiviCRM v4.6.26+ with [backports patch #9555](https://github.com/civicrm/civicrm-core/pull/9555) applied
+
  * PHP-ImageMagick
- * (For CLI-based installation) [`cv`](https://github.com/civicrm/cv)
- * (For git-based installation) [`cv`](https://github.com/civicrm/cv), [`git`](https://git-scm.com/), and [`grunt-cli`](http://gruntjs.com/getting-started)
 
-### Installation (CLI)
 
-If you have the command line tool [`cv`](https://github.com/civicrm/cv), then download Mosaico and related extensions:
+## Installation
+A CiviCRM extensions folder (In new sites since CiviCRM v4.7.0, this defaults to `files/civicrm/ext`. For older systems, see [the wiki](https://wiki.civicrm.org/confluence/display/CRMDOC/Extensions).)
+
+#### Option 1: CiviCRM.org Extension Directory
+This option does not require any extra server side dependency. To intall using this option, simply download the latest versions of all three extensions below and install them in order:
+
+1. [`Shoreditch Theme`](https://civicrm.org/extensions/shoreditch)
+2. [`FlexMailer`](https://civicrm.org/extensions/flexmailer)
+3. [`Mosaico CiviCRM Integration`](https://civicrm.org/extensions/email-template-builder)
+
+
+#### Option 2: CLI
+
+This option requires command line tool [`cv`](https://github.com/civicrm/cv)
 
 ```
 cv dl --dev flexmailer shoreditch
@@ -26,7 +39,16 @@ cv dl uk.co.vedaconsulting.mosaico@https://download.civicrm.org/extension/uk.co.
 > latest extensions intended for v4.7.x (even if they aren't officially
 > compatible with v4.6.x).
 
-### Installation (Git)
+#### Option 3: Git (preferred for development)
+This option requires commad line tool [`git`](https://git-scm.com/)
+
+other requirement by setup.sh:
+
+ * [`NodeJS`](https://nodejs.org/en)
+ * [`NPM`](https://www.npmjs.com)
+ * [`grunt-cli`](http://gruntjs.com/getting-started)
+ * [`cv`](https://github.com/civicrm/cv)
+
 
 Alternatively:
 
@@ -42,7 +64,7 @@ cd uk.co.vedaconsulting.mosaico
 ./bin/setup.sh -D
 ```
 
-### Usage
+## Usage
 
 If you haven't used Mosaico before, consult the the demo and tutorial materials from http://mosaico.io/index.html.
 
@@ -50,7 +72,7 @@ To send a new mailing, simply navigate to "Mailings => New Mailing". The CiviMai
 
 Optionally, you may design reusable templates by navigating to "Mailings => Mosaico Templates".
 
-When composing a new mailing, the default layout uses a single page.  To
+When composing a new mailing, the default layout is a simple three-step wizard.  To
 change the layout, you can update the setting `mosaico_layout` to
 `bootstrap-wizard` or `bootstrap-single`, e.g.
 
@@ -58,9 +80,9 @@ change the layout, you can update the setting `mosaico_layout` to
 cv api setting.create mosaico_layout=bootstrap-wizard
 ```
 
-### Having issues with this extension?
+## Having issues with this extension?
 
-Please make sure you have followed installation instructions. 
+Please make sure you have followed installation instructions.
 
 Open issues on [github](https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues) with:
 - screenshot of failure with any possible errors in firebug or js console
@@ -68,7 +90,9 @@ Open issues on [github](https://github.com/veda-consulting/uk.co.vedaconsulting.
 - tell us what version of CiviCRM and extension, you using.
 - tell us the browser you are using (name and version) and test at least a second browser to tell us if this happen in both or only one (tell us the details about the second browser too).
 
-### Development: Setup.sh
+## Development
+
+#### Setup.sh
 
 The script `bin/setup.sh` handles various build activities:
 
@@ -83,7 +107,7 @@ The script `bin/setup.sh` handles various build activities:
 ./bin/setup.sh -z
 ```
 
-### Development: Styling Changes
+#### Styling Changes
 
 We use Gulp and Sass for styling and handle different running tasks. Firstly, you should install node packages using npm package manager:
 ```
@@ -96,16 +120,16 @@ gulp sass
 ```
 
 
-### Development: Patching Mosaico
+#### Patching Mosaico
 
 This extensions ships with a patched version of Mosaico. The patches are maintained as a fork
 in https://github.com/civicrm/mosaico using [Twigflow (Rebase)](https://gist.github.com/totten/39e932e5d10bc9e73e82790b2475eff2).
 
-### Development: Testing
+#### Testing
 
 See [TESTING.md](TESTING.md)
 
-### Development: Publication
+#### Publication
 
 Whenever a change is merged or pushed to `uk.co.vedaconsulting.mosaico`, a bot automatically builds a new `zip` archive
 and publishes to [http://dist.civicrm.org/extension/uk.co.vedaconsulting.mosaico/](http://dist.civicrm.org/extension/uk.co.vedaconsulting.mosaico/).

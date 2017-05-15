@@ -4,6 +4,7 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
  * [Initial Blog Post](https://civicrm.org/blogs/parvez/a-new-beginning-for-civimail)
  * [Beta Blog Post](https://civicrm.org/blog/deepaksrivastava/email-template-builder-civimosaico-is-now-beta)
  * [Initial Video](https://vimeo.com/156633077)
+ * [v1.0 Stable Release](https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/releases/tag/1.0)
  * [v2.0 Plans](https://civicrm.org/blog/jamienovick/email-template-builder-mosaico-phase-2-plans)
  * [v2.0 and Styling Blog Post](https://civicrm.org/blog/jamienovick/extreme-makeovers-civicrm-style-introducing-the-shoreditch-theme-civicrms-new-user)
 

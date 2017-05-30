@@ -93,8 +93,19 @@ div[ng-form="editRecipOptionsForm"] .crm-group {
   }
 }
 
-.crm-mosaico-page #responses .select2-container {
-  min-width: 350px;
+.crm-mosaico-page {
+  .select2-search-field {
+    input[type=text]:focus,
+    textarea:focus,
+    select:focus {
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  #responses .select2-container {
+    min-width: 350px;
+  }
 }
 
 .crm-hover-button {

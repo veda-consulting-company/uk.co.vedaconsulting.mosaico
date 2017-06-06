@@ -46,6 +46,20 @@ plugin, create a mailing with a block of content. Then try each of the following
  3. Edit a paragraph. Press Ctrl-Shift-T and see a dialog. Enter a filter and pick a token using the keyboard. Observe the new token in the paragraph.
  4. Edit a heading or button. Ensure that the the token icon/dropdown/hotkey work as expected. Observe the new token in the heading or button.
 
+## Manual Tests: Images
+
+Mosaico handles a few different kinds of images. To test these, create a
+mailing then:
+
+ 1. Add blocks with images
+   1. Add a block which supports an image. Upload an image.
+   2. Add a block which supports an image. Re-use the previously uplaoded image.
+   3. Add a footer block which uses the built-in Twitter/Facebook icons
+ 2. Test the mailing. Check:
+   1. The first block should show the uploaded image. The URL should be absolute.
+   2. The second block should show the same uploaded image. The URL should be absolute.
+   3. The footer block should show the Twitter/Facebook icons. The URL should be absolute.
+
 ## Manual Tests: Save/Load Template
 
  1. Create a new template

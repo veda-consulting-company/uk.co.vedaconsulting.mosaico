@@ -80,6 +80,30 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
   }
 
   /**
+   * Add menu for traditional mailing.
+   */
+  public function upgrade_4703() {
+    $this->ctx->log->info('Applying update 4703');
+    $domainId = CRM_Core_Config::domainID();
+
+    civicrm_api3('Navigation', 'create', array(
+      'sequential' => 1,
+      'domain_id' => $domainId,
+      'url' => "civicrm/a/#/mailing/new/traditional",
+      'permission' => "access CiviMail,create mailings",
+      'label' => "New Mailing (Traditional)",
+      'permission_operator' => "OR",
+      'has_separator' => 0,
+      'is_active' => 1,
+      'parent_id' => "Mailings",
+    ));
+
+    CRM_Core_Invoke::rebuildMenuAndCaches(TRUE);
+
+    return TRUE;
+  }
+
+  /**
    * Example: Run an external SQL script.
    *
    * @return TRUE on success

@@ -111,8 +111,9 @@ function do_zipfile() {
     exit 1
   fi
 
-  local zipfile="$EXTROOT/build/build.zip"
+  local zipfile="$EXTROOT/build/$EXTKEY.zip"
   [ -f "$zipfile" ] && rm -f "$zipfile"
+  [ ! -d "$EXTROOT/build" ] && mkdir "$EXTROOT/build"
   pushd "$EXTROOT" >> /dev/null
     ## Build a list of files to include.
     ## Put the files into the *.zip, using a $EXTKEY as a prefix.

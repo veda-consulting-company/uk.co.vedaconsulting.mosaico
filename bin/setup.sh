@@ -2,6 +2,7 @@
 set -e
 
 DEFAULT_MOSAICO_BRANCH="v0.15-civicrm-2"
+DEFAULT_MOSAICO_REPO="https://github.com/civicrm/mosaico"
 EXTROOT=$(cd `dirname $0`/..; pwd)
 EXTKEY="uk.co.vedaconsulting.mosaico"
 XMLBUILD="$EXTROOT/build/xml/schema"
@@ -86,7 +87,7 @@ function do_download() {
     mkdir "$EXTROOT/packages"
   fi
   if [ ! -d "$EXTROOT/packages/mosaico" ]; then
-    git clone -b "$DEFAULT_MOSAICO_BRANCH" https://github.com/civicrm/mosaico "$EXTROOT/packages/mosaico"
+    git clone -b "$DEFAULT_MOSAICO_BRANCH" "$DEFAULT_MOSAICO_REPO" "$EXTROOT/packages/mosaico"
   fi
   pushd "$EXTROOT/packages/mosaico" >> /dev/null
     local currentBranch=$(basename /$(git symbolic-ref HEAD 2>/dev/null))

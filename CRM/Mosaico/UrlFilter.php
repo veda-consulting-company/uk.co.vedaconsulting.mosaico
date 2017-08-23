@@ -39,13 +39,22 @@ class CRM_Mosaico_UrlFilter extends \Civi\FlexMailer\Listener\BaseListener {
 
     $callback = function ($matches) use ($stdBase, $domainBase) {
       if (preg_match('/^https?:/', $matches[2]) || empty($matches[2])) {
+        // If path is absolute, or empty, return it without processing
         return $matches[0];
       }
 
+      if (preg_match('/^templates\//', $matches['2'])) {
+        // If path is relative, but prefixed with templates directory, make it absolute
+        $templateBase = CRM_Mosaico_Utils::getTemplatesUrl('absolute');
+        return $matches[1] . $templateBase . substr($matches[2], 9) . $matches[3];
+      }
+
       if ($matches[2]{0} === '/') {
+        // If path is is relative to domain root, return with domain prepended.
         return $matches[1] . $domainBase . $matches[2] . $matches[3];
       }
       else {
+        // Return
         return $matches[1] . $stdBase . $matches[2] . $matches[3];
       }
     };

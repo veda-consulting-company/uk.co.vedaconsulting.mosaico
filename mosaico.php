@@ -361,9 +361,11 @@ function mosaico_civicrm_alterMailParams(&$params, $context) {
     // Convert mosaico tokens to civicrm
     _mosaico_civicrm_mosaicoToCiviTokens($params['html']);
     // Replace tokens with real values
-    $html = _mosaico_civicrm_replaceTokens($params['html'], TRUE);
-    if ($html) {
-      $params['html'] = $html;
+    if (isset($params['html'])) {
+      $html = _mosaico_civicrm_replaceTokens($params['html'], TRUE);
+      if ($html) {
+        $params['html'] = $html;
+      }
     }
 
     // Now filter URLs to make sure they are all valid

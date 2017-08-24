@@ -308,6 +308,24 @@ function _mosaico_civicrm_alterMailContent(&$content) {
 }
 
 /**
+ * We need to filter URLs from Mosaico when displaying a mailing in the browser (it's already done for sent mails)
+ * The default template social icons get saved as templates/versafix-1/img/facebook.png etc.
+ * We need absolute URLs for display.
+ *
+ * @param $params
+ * @param $context
+ */
+function mosaico_civicrm_alterMailParams(&$params, $context) {
+  // When sending mail, context = flexmailer
+  if ($context == 'civimail') {
+    $filter = new CRM_Mosaico_UrlFilter();
+    $html = $filter->filterHtml(array($params['html']));
+    $params['html'] = reset($html);
+  }
+}
+
+
+/**
  * Implements hook_civicrm_mailingTemplateTypes().
  *
  * @throws \CRM_Core_Exception

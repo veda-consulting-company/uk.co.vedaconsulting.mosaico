@@ -27,21 +27,34 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
    */
   public static function findBaseTemplates() {
     if (!isset(Civi::$statics[__CLASS__]['bases'])) {
+      $templatesDir = CRM_Core_Resources::singleton()->getPath('uk.co.vedaconsulting.mosaico');
+      if (!$templatesDir) {
+        return FALSE;
+      }
+      $templatesDir .= '/packages/mosaico/templates';
+      if (!is_dir($templatesDir)) {
+        return FALSE;
+      }
+
+      $templatesUrl = CRM_Mosaico_Utils::getTemplatesUrl('absolute');
+
       $records = array();
-      $records[] = array(
-        'name' => 'versafix-1',
-        'title' => 'Versafix',
-        'thumbnail' => CRM_Mosaico_Utils::getTemplatesUrl('absolute', 'versafix-1/edres/_full.png'),
-        'path' => 'templates/versafix-1/template-versafix-1.html',
-      );
-      // $records[] = array(
-      //   'name' => 'tedc15',
-      //   'title' => 'TEDC 15',
-      //   'thumbnail' => CRM_Mosaico_Utils::getTemplatesUrl('absolute', 'tedc15/edres/_full.png'),
-      //   'path' => 'templates/tedc15/template-tedc15.html',
-      // );
+
+      foreach (glob("{$templatesDir}/*", GLOB_ONLYDIR) as $dir) {
+        $template = basename($dir);
+        $templateHTML = "{$templatesUrl}/{$template}/template-{$template}.html";
+        $templateThumbnail = "{$templatesUrl}/{$template}/edres/_full.png";
+
+        $records[] = array(
+          'name' => $template,
+          'title' => $template,
+          'thumbnail' => $templateThumbnail,
+          'path' => $templateHTML,
+        );
+      }
       Civi::$statics[__CLASS__]['bases'] = $records;
     }
+
     return Civi::$statics[__CLASS__]['bases'];
   }
 

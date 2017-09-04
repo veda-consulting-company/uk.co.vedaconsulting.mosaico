@@ -76,6 +76,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
       //    It extends "tinymceConfig" and adds more plugins/buttons.
       // See also: https://www.tinymce.com/docs/configure/integration-and-setup/
       'tinymceConfig' => array(
+        'convert_urls' => false,
         'external_plugins' => array(
           'civicrmtoken' => $res->getUrl('uk.co.vedaconsulting.mosaico', 'js/tinymce-plugins/civicrmtoken/plugin.js', 1),
         ),

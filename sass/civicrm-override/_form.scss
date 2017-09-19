@@ -23,6 +23,7 @@
     line-height: 26px;
     margin-bottom: 0;
     margin-right: 10px;
+    padding: 3px 0 0;
     text-align: center;
     width: 30px;
   }
@@ -41,7 +42,7 @@ span.crmMailing-include {
 }
 
 a.helpicon {
-  background-color: $brand-primary;
+  background-color: transparent;
 }
 
 .crmMailing-recip-est {
@@ -114,5 +115,5 @@ div[ng-form="editRecipOptionsForm"] .crm-group {
 }
 // Help icon styling
 .control-label a.helpicon {
-  background-color: $brand-primary;
+  background-color: transparent;
 }

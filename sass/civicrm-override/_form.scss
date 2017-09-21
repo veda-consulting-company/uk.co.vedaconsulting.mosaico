@@ -23,7 +23,7 @@
     line-height: 26px;
     margin-bottom: 0;
     margin-right: 10px;
-    padding: 3px 0 0;
+    padding: 2px 0 0;
     text-align: center;
     width: 30px;
   }
@@ -41,8 +41,8 @@ span.crmMailing-include {
   color: $gray-darker;
 }
 
-a.helpicon {
-  background-color: transparent;
+a.helpicon:not(.crm-mosaico-page a.helpicon) {
+  background-color: $brand-primary;
 }
 
 .crmMailing-recip-est {
@@ -114,6 +114,6 @@ div[ng-form="editRecipOptionsForm"] .crm-group {
   border: none;
 }
 // Help icon styling
-.control-label a.helpicon {
-  background-color: transparent;
+.control-label a.helpicon:not(.crm-mosaico-page .control-label a.helpicon) {
+  background-color: $brand-primary;
 }

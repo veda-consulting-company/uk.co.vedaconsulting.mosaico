@@ -18,7 +18,7 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
     border-left: 0 none;
     border-radius: 0 2px 2px 0;
     right: 4px;
-    top: 1px;
+    top: 2px;
   }
 
   &.select2-dropdown-open {
@@ -38,8 +38,6 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
     .select2-arrow {
       background: none;
       border: none;
-      padding-left: 0;
-      padding-right: 0;
     }
   }
 

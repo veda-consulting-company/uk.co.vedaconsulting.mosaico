@@ -24,6 +24,7 @@ $result = array (
     // If there are any navbars that we should try to avoid, include them
     // in these jQuery selectors.
     'topNav' => '#civicrm-menu',
+    'drupalNav' => '#toolbar',
     'leftNav' => '.wp-admin #adminmenu',
   ),
 );

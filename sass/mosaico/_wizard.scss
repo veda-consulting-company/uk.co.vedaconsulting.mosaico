@@ -18,8 +18,27 @@
       margin-right: 10px;
     }
   }
+
+  .crm_wizard__body {
+
+    .form-group {
+      max-width: 640px;
+    }
+
+    .form-control::placeholder {
+      color: $placeholder;
+    }
+
+    .token-holder .select2-container{
+      min-width: 260px;
+    }
+  }
 }
 
 .mosaico-templates-wrapper {
   margin-top: 30px;
+}
+
+div[ng-controller="PreviewMailingDialogCtrl"] iframe {
+  height: 300px !important;
 }

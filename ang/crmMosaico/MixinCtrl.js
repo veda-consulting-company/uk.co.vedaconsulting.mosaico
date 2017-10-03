@@ -98,7 +98,8 @@
         {
           autoOpen: false,
           title: ts('Advanced Settings'),
-          width: 600
+          width: 600,
+          height: 'auto'
         },
         options
       ));

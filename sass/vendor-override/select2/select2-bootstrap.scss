@@ -4,12 +4,22 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
   background: $crm-white;
   border: 1px solid $crm-darker-grayblue;
   box-shadow: $crm-form-control-shadow;
-  min-height: 30px;
   padding: 0;
+
+  &.select2-container-active {
+    box-shadow: none;
+  }
+
+  .select2-default {
+    color: $gray-darker !important;
+    font-family: $font-family-base;
+    font-size: $font-size-base;
+  }
 
   .select2-choice {
     border: 0;
     border-radius: 2px;
+    height: auto;
     text-decoration: none !important;
   }
 
@@ -18,7 +28,7 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
     border-left: 0 none;
     border-radius: 0 2px 2px 0;
     right: 4px;
-    top: 2px;
+    top: 0;
   }
 
   &.select2-dropdown-open {
@@ -33,7 +43,6 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
   .select2-choice {
     background: none;
     border: none;
-    line-height: 30px;
 
     .select2-arrow {
       background: none;
@@ -44,17 +53,12 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
   &.crm-ajax-select .select2-choice {
     .select2-arrow {
       border: none;
-      width: 30px;
-    }
-
-    .select2-arrow b {
-      background-position: -28px -22px;
     }
   }
 
   .select2-chosen {
-    border-right: 1px solid $crm-darker-grayblue;
     color: $gray-darker;
+    font-size: $font-size-base;
   }
 
   .select2-input {
@@ -80,6 +84,10 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
   }
 }
 
+.select2-drop-auto-width:not(.select2-drop-above ) {
+  border-top: 0 !important;
+}
+
 div[ng-form="editRecipOptionsForm"] .select2-choices,
 .form-control.select2-container .select2-choices,
 ul.select2-choices {
@@ -92,24 +100,29 @@ ul.select2-choices {
   .select2-search-choice {
     background: $crm-white;
     border-color: $brand-primary;
-    padding: 5px 20px 5px 5px;
+    padding: 2px 20px 2px 5px;
   }
 
   .select2-search-choice .select2-search-choice-close {
-    @include prefix(transform, translateY(-50%), webkit ms moz);
-    background: $brand-primary;
-    border-radius: 25px;
+    background-image: none !important;
+    background-color: $brand-primary;
+    border-radius: 50%;
     box-sizing: border-box;
     color: $crm-white;
-    font-size: 1em;
+    font-size: $font-size-base;
     left: auto;
     line-height: 10px;
     right: 2px;
     text-align: center;
-    top: 50%;
+    top: 3px;
 
     &:after {
       @include fa-icon($content: '\f00d', $color: $crm-white);
+    }
+
+    &:hover {
+      opacity: .8;
+      text-decoration: none;
     }
   }
 }

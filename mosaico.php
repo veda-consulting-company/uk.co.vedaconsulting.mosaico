@@ -299,7 +299,7 @@ function _mosaico_civicrm_alterMailContent(&$content) {
   $mosaico_image_upload_dir = rawurlencode($mosaico_config['BASE_URL'] . $mosaico_config['UPLOADS_URL']);
 
   $content = preg_replace_callback(
-    "/src=\"h.+img\?src=(" . $mosaico_image_upload_dir . ")(.+)&.*\"/U",
+    "/src=\".+img\?src=(" . $mosaico_image_upload_dir . ")(.+)&.*\"/U",
     function($matches){
       return "src=\"" . rawurldecode($matches[1]) . "static/" . rawurldecode($matches[2]) . "\"";
     },

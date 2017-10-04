@@ -24,7 +24,7 @@ gulp.task('sass', ['sass-sync'], function() {
     }))
     .pipe(postcss([postcssPrefix({
       prefix: bootstrapNamespace + ' ',
-      exclude: [/^html/, /^body/]
+      exclude: [/^html/, /^body/, /^.select2-drop-auto-width/, /^div\[ng\-controller="PreviewMailingDialogCtrl"\]/]
     })]))
     .pipe(cssnano())
     .pipe(sourcemaps.write('./'))

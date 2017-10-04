@@ -61,8 +61,8 @@
   <div class="form-group">
     <label for="inputSubject" class="control-label required-mark">{{ts('Subject')}}</label>
     <div>
-      <div style="float: right;">
-        <input crm-mailing-token on-select="$broadcast('insert:subject', token.name)" tabindex="-1"/>
+      <div style="float: right;" class="token-holder">
+        <input class="form-control" crm-mailing-token on-select="$broadcast('insert:subject', token.name)" tabindex="-1"/>
       </div>
       <input
         id="inputSubject"

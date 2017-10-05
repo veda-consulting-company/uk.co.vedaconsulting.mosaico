@@ -32,6 +32,10 @@
     .token-holder .select2-container{
       min-width: 260px;
     }
+
+    .ng-invalid.ng-invalid-incomplete-date-time {
+      border: none;
+    }
   }
 }
 

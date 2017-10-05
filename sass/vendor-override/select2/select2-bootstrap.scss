@@ -19,7 +19,7 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
   .select2-choice {
     border: 0;
     border-radius: 2px;
-    height: auto;
+    height: 28px;
     text-decoration: none !important;
   }
 
@@ -47,12 +47,14 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
     .select2-arrow {
       background: none;
       border: none;
+      top: 1px;
     }
   }
 
   &.crm-ajax-select .select2-choice {
     .select2-arrow {
       border: none;
+      top: 2px;
     }
   }
 

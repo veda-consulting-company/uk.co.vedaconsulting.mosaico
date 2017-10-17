@@ -28,6 +28,9 @@
           if (c.topNav && $(c.topNav).length > 0) {
             if (c.drupalNav && $(c.drupalNav).length > 0 && $(c.drupalNav).height() > $(c.topNav).height()) {
               top = $(c.drupalNav).height();
+            }
+            else if (c.joomlaNav && $(c.joomlaNav).length > 0 && $(c.joomlaNav).height() > $(c.topNav).height()) {
+              top = $(c.joomlaNav).height();
             } else {
               top = $(c.topNav).height();
             }

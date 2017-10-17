@@ -25,6 +25,7 @@ $result = array (
     // in these jQuery selectors.
     'topNav' => '#civicrm-menu',
     'drupalNav' => '#toolbar',
+    'joomlaNav' => '.com_civicrm > .navbar',
     'leftNav' => '.wp-admin #adminmenu',
   ),
 );

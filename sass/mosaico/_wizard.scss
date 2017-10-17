@@ -32,6 +32,10 @@
     .token-holder .select2-container{
       min-width: 260px;
     }
+
+    .ng-invalid.ng-invalid-incomplete-date-time {
+      border: none;
+    }
   }
 }
 
@@ -39,6 +43,8 @@
   margin-top: 30px;
 }
 
-div[ng-controller="PreviewMailingDialogCtrl"] iframe {
-  height: 300px !important;
+div[ng-controller="PreviewMailingDialogCtrl"] iframe.resized {
+  height: calc(100% - 57px);
+  position: absolute;
+  z-index: -1;
 }

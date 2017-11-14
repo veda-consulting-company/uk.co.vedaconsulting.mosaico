@@ -1,4 +1,9 @@
 # uk.co.vedaconsulting.mosaico
+
+##Extension title 
+Integration of Mosaico with CiviCRM
+
+##Description
 This extension integrates Mosaico a responsive email template editor, with CiviCRM.
 
  * [Initial Blog Post](https://civicrm.org/blogs/parvez/a-new-beginning-for-civimail)
@@ -65,7 +70,7 @@ cd uk.co.vedaconsulting.mosaico
 ./bin/setup.sh -D
 ```
 
-## Usage
+## Getting started (Usage)
 
 If you haven't used Mosaico before, consult the the demo and tutorial materials from http://mosaico.io/index.html.
 

@@ -402,7 +402,7 @@ class CRM_Mosaico_Utils {
     /* perform the requested action */
 
     switch (CRM_Utils_Type::escape($_POST['action'], 'String')) {
-      case "download": {
+      case "download":
         // download
         header("Content-Type: application/force-download");
         header("Content-Disposition: attachment; filename=\"" . $_POST["filename"] . "\"");
@@ -410,9 +410,8 @@ class CRM_Mosaico_Utils {
 
         echo $html;
         break;
-      }
 
-      case "save": {
+      case "save":
         $result = array();
         $msgTplId = NULL;
         $hashKey = CRM_Utils_Type::escape($_POST['key'], 'String');
@@ -465,9 +464,8 @@ class CRM_Mosaico_Utils {
         }
         CRM_Utils_JSON::output($result);
         break;
-      }
 
-      case "email": {
+      case "email":
         $result = array();
         if (!CRM_Utils_Rule::email($_POST['rcpt'])) {
           CRM_Core_Session::setStatus('Recipient Email address not found');
@@ -497,7 +495,7 @@ class CRM_Mosaico_Utils {
         }
 
         break;
-      }
+
     }
     CRM_Utils_System::civiExit();
   }

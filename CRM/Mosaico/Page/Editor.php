@@ -3,7 +3,7 @@
 class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
   const DEFAULT_MODULE_WEIGHT = 200;
 
-  function run() {
+  public function run() {
     $smarty = CRM_Core_Smarty::singleton();
     $smarty->assign('baseUrl', CRM_Mosaico_Utils::getMosaicoDistUrl('relative'));
     $smarty->assign('scriptUrls', $this->getScriptUrls());
@@ -76,7 +76,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
       //    It extends "tinymceConfig" and adds more plugins/buttons.
       // See also: https://www.tinymce.com/docs/configure/integration-and-setup/
       'tinymceConfig' => array(
-        'convert_urls' => false,
+        'convert_urls' => FALSE,
         'external_plugins' => array(
           'civicrmtoken' => $res->getUrl('uk.co.vedaconsulting.mosaico', 'js/tinymce-plugins/civicrmtoken/plugin.js', 1),
         ),

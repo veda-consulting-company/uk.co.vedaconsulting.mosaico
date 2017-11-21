@@ -222,14 +222,6 @@ function mosaico_civicrm_check(&$messages) {
       $messages[] = new CRM_Utils_Check_Message('mosaico_base_url', ts('BASE_URL seems incorrect - %1. Images when uploaded, may not appear correctly as thumbnails. Make sure "Image Upload URL" is configured correctly with Administer » System Settings » Resouce URLs.', array(1 => $mConfig['BASE_URL'])), ts('Incorrect image upload url'));
     }
   }
-  $extDirName = basename(__DIR__);
-  if ($extDirName != 'uk.co.vedaconsulting.mosaico') {
-    $messages[] = new CRM_Utils_Check_Message(
-      'mosaico_extdirname',
-      ts("We expect extension directory name to be '%1' instead of '%2'. Images and icons may not load correctly.", array(1 => 'uk.co.vedaconsulting.mosaico', 2 => $extDirName)),
-      ts('Installed extension directory name not suitable')
-    );
-  }
 
   _mosaico_civicrm_check_dirs($messages);
 }

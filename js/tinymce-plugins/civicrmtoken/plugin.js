@@ -119,8 +119,8 @@ tinymce.PluginManager.add('civicrmtoken', function(editor, pluginUrl) {
     win = editor.windowManager.open({
       title: 'Insert Token',
       autoScroll: true, // Can we move this to the grid?
-      width: 310,
-      height: 300,
+      width: Math.max(400, Math.round(window.innerWidth/2)),
+      height: Math.max(400, Math.round(window.innerHeight*2/3)),
       body: [
         {
           type: 'textbox',

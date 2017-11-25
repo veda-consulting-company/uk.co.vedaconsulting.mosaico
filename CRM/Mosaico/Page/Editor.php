@@ -67,6 +67,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
       'titleToken' => 'MOSAICO Responsive Email Designer',
       'fileuploadConfig' => array(
         'url' => $this->getUrl('civicrm/mosaico/upload', NULL, FALSE),
+        'maxFileSize' => $this->getMaxFileSize(),
         // messages??
       ),
 
@@ -113,6 +114,16 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     // This function shouldn't really exist, but it's tiring to set `$htmlize`
     // to false every.single.time we need a URL.
     return CRM_Utils_System::url($path, $query, FALSE, NULL, FALSE, $frontend);
+  }
+
+  /**
+   * @return int
+   */
+  protected function getMaxFileSize() {
+    $fakeUnlimited = 25 * 1024 * 1024;
+    $iniVal = ini_get('upload_max_filesize') ? CRM_Utils_Number::formatUnitSize(ini_get('upload_max_filesize'), TRUE) : $fakeUnlimited;
+    $settingVal = Civi::settings()->get('maxFileSize') ? (1024 * 1024 * Civi::settings()->get('maxFileSize')) : $fakeUnlimited;
+    return (int) min($iniVal, $settingVal);
   }
 
 }

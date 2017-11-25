@@ -20,8 +20,22 @@ class CRM_Mosaico_MosaicoRequiredTokens extends RequiredTokens {
   }
 
   public function getRequiredTokens() {
-    return Civi::service('civi_flexmailer_required_tokens')
+    $requiredTokens = Civi::service('civi_flexmailer_required_tokens')
       ->getRequiredTokens();
+
+    // Mosaico's templates handle the mailing-address/contact-info
+    // differently than the CiviMail templates -- one of the standard
+    // blocks provides a section where it prompts you to fill in this info.
+    //
+    // Arguably, this makes the `{domain.address}` requirement redundant.
+    // Arguably, the `{domain.address}` approach is better.
+    //
+    // For the moment, it's convenient to go along with the Mosaico-way.
+    // But it's quite patch-welcome to change (eg inject `{domain.address}`
+    // to the default layout, and then enforce the requirement).
+    unset($requiredTokens['domain.address']);
+
+    return $requiredTokens;
   }
 
   public function findMissingTokens($str) {

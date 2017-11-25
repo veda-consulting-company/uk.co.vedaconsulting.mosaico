@@ -22,6 +22,7 @@ class CRM_Mosaico_Services {
     }
     $container->setDefinition('mosaico_flexmail_composer', new Definition('CRM_Mosaico_MosaicoComposer'));
     $container->setDefinition('mosaico_flexmail_url_filter', new Definition('CRM_Mosaico_UrlFilter'));
+    $container->setDefinition('mosaico_required_tokens', new Definition('CRM_Mosaico_MosaicoRequiredTokens'));
 
     foreach (self::getListenerSpecs() as $listenerSpec) {
       $container->findDefinition('dispatcher')->addMethodCall('addListenerService', $listenerSpec);
@@ -31,6 +32,7 @@ class CRM_Mosaico_Services {
   protected static function getListenerSpecs() {
     $listenerSpecs = array();
 
+    $listenerSpecs[] = array(\Civi\FlexMailer\Validator::EVENT_CHECK_SENDABLE, array('mosaico_required_tokens', 'onCheckSendable'), FM::WEIGHT_MAIN);
     $listenerSpecs[] = array(FM::EVENT_COMPOSE, array('mosaico_flexmail_composer', 'onCompose'), FM::WEIGHT_MAIN);
     $listenerSpecs[] = array(FM::EVENT_COMPOSE, array('mosaico_flexmail_url_filter', 'onCompose'), FM::WEIGHT_ALTER - 100);
 

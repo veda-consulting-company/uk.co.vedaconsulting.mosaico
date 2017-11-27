@@ -37,7 +37,7 @@ Vars: mailing:obj, testContact:obj, testGroup:obj, crmMailing:FormController
     ui-jq="crmSelect2"
     ui-options="{dropdownAutoWidth : true, allowClear: true, placeholder: ts('Select Group')}"
     ng-model="testGroup.gid"
-    ng-options="group.id as group.title for group in crmMailingConst.groupNames|orderBy:'title'"
+    ng-options="group.id as group.title for group in groupNames|orderBy:'title'"
     class="form-control margin-bottom-10 full-width-force">
     <option value=""></option>
   </select>

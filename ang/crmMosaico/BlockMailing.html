@@ -83,11 +83,13 @@
                 <select
                     class="form-control"
                     id="inputUnsubscribeGroup"
+                    crm-ui-select="{dropdownAutoWidth : true}"
                     name="baseGroup"
                     ng-model="mailing.recipients.groups.base[0]"
                     ng-required="true"
                 >
-                  <option ng-repeat="grp in crmMailingConst.groupNames | filter:{is_hidden:0} | orderBy:'title'"
+                  <option value=""></option>
+                  <option ng-repeat="grp in groupNames | filter:{is_hidden:0} | orderBy:'title'"
                           value="{{grp.id}}">{{grp.title}}</option>
                 </select>
               </div>

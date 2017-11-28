@@ -3,6 +3,8 @@
 //this may not be required as it doesn't appear to be used anywhere?
 //require_once 'packages/premailer/premailer.php';
 
+use CRM_Mosaico_ExtensionUtil as E;
+
 /**
  * Class CRM_Mosaico_Utils
  */
@@ -16,9 +18,9 @@ class CRM_Mosaico_Utils {
    */
   public static function getLayoutOptions() {
     return array(
-      'auto' => 'Automatically select a layout',
-      'bootstrap-single' => 'Single Page (Bootstrap CSS)',
-      'bootstrap-wizard' => 'Wizard (Bootstrap CSS)',
+      'auto' => E::ts('Automatically select a layout'),
+      'bootstrap-single' => E::ts('Single Page (Bootstrap CSS)'),
+      'bootstrap-wizard' => E::ts('Wizard (Bootstrap CSS)'),
     );
   }
 

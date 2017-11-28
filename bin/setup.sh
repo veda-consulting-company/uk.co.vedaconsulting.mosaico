@@ -118,8 +118,8 @@ function do_zipfile() {
     ## Build a list of files to include.
     ## Put the files into the *.zip, using a $EXTKEY as a prefix.
     {
-       ## Get any files in the project root.
-       find . -mindepth 1 -maxdepth 1 -type f -o -type d
+       ## Get any files in the project root, except for dotfiles.
+       find . -mindepth 1 -maxdepth 1 -type f -o -type d | grep -v '^\./\.'
        ## Get any files in the main subfolders.
        find CRM/ ang/ api/ bin/ css/ js/ sql/ sass/ settings/ templates/ tests/ xml/ -type f -o -type d
        ## Get the distributable files for Mosaico.

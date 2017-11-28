@@ -54,8 +54,8 @@ mailing with content:
  * (A1) Add a block which supports an image. Upload an image.
  * (A2) Add a block which supports an image. Re-use the previously uploaded image.
  * (A3) Add a footer block which uses the built-in Twitter/Facebook icons.
- * (A4) In one of the blocks, add a hyperlink to an external page (eg `https://google.com`).
- * (A5) In one of the blocks, add a hyperlink to an internal page (eg `http://dmaster.l/user`).
+ * (A4) In one of the blocks, add a hyperlink to an external page (eg `https://www.google.com/search?q=asdf&oq=asdf`).
+ * (A5) In one of the blocks, add a hyperlink to an internal page (eg `http://dmaster.l/civicrm/event/info?reset=1&id=1`).
  * (A6) In one of the blocks, add a hyperlink using a token (eg `{action.forward}`)
 
 Now, we're going test that content appears correctly in several scenarios.  Each scenario references the "Message Evaluation Procedure" (defined further down):
@@ -70,8 +70,8 @@ The "Message Evaluation Procedure" is:
  * (C1) Check the the uploaded image. The image should appear and use an absolute URL.
  * (C2) Check the the re-used uploaded image. The image should appear and use an absolute URL.
  * (C3) Check the the Twitter/Facebook icons. The image should appear and use an absolute URL.
- * (C4) Check the hyperlink to the external page (eg `https://google.com`). The link should be absolute. (For a finalized mailing B3/B4, the link should work.)
- * (C5) Check the hyperlink to the internal page (eg `http://dmaster.l/user`). The link should be absolute. (For a finalized mailing B3/B4, the link should work.)
+ * (C4) Check the hyperlink to the external page (eg `https://www.google.com/search?q=asdf&oq=asdf`). The link should be absolute. (For a finalized mailing B3/B4, the link should work.)
+ * (C5) Check the hyperlink to the internal page (eg `http://dmaster.l/civicrm/event/info?reset=1&id=1`). The link should be absolute. (For a finalized mailing B3/B4, the link should work.)
  * (C6) Check the hyperlink created via token. The link should be absolute. (For finalized mailing B3/B4, the link should work.)
 
 ## Manual Tests: Save/Load Template

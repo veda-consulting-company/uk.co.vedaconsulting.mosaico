@@ -231,6 +231,24 @@ function mosaico_civicrm_check(&$messages) {
       \Psr\Log\LogLevel::CRITICAL
     );
   }
+  else {
+    $RECOMMENDED_FLEXMAILER = '0.2-alpha5';
+    $fmInfo = CRM_Extension_System::singleton()->getMapper()->keyToInfo('org.civicrm.flexmailer');
+    if (version_compare($fmInfo->version, $RECOMMENDED_FLEXMAILER, '<')) {
+      $messages[] = new CRM_Utils_Check_Message(
+        'mosaico_flexmailer_ver',
+        ts('The extension %1 expects %2 version <code>%3</code> or newer. Found version <code>%4</code>.', array(
+          1 => 'Mosaico',
+          2 => 'FlexMailer',
+          3 => $RECOMMENDED_FLEXMAILER,
+          4 => $fmInfo->version,
+        )),
+        ts('Outdated dependency'),
+        \Psr\Log\LogLevel::WARNING
+      );
+    }
+  }
+
   if (!empty($mConfig['BASE_URL'])) {
     // detect incorrect image upload url. (Note: Since v4.4.4, CRM_Utils_Check_Security has installed index.html placeholder.)
     $handle = curl_init($mConfig['BASE_URL'] . '/index.html');

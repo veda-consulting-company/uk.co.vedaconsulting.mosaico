@@ -51,28 +51,37 @@ plugin, create a mailing with a block of content. Then try each of the following
 Mosaico handles a few different kinds of images and links. To test these, create a
 mailing with content:
 
- * (A1) Add a block which supports an image. Upload an image.
- * (A2) Add a block which supports an image. Re-use the previously uploaded image.
- * (A3) Add a footer block which uses the built-in Twitter/Facebook icons.
- * (A4) In one of the blocks, add a hyperlink to an external page (eg `https://www.google.com/search?q=asdf&oq=asdf`).
- * (A5) In one of the blocks, add a hyperlink to an internal page (eg `http://dmaster.l/civicrm/event/info?reset=1&id=1`).
- * (A6) In one of the blocks, add a hyperlink using a token (eg `{action.forward}`)
+* (CON-1) Create a new mailing. Fill in placeholders for "Name", "Subject", etc.
+* (CON-2) Choose "Empty Template (versafix-1)".
+* (CON-3) Add a block which supports one image with text.
+    * Upload an image.
+    * Set the button's link to an external page (eg `https://www.google.com/search?q=asdf&oq=asdf`)
+    * Highlight some text. Make it a a hyperlink to a token (eg `{action.forward}`)
+* (CON-4) Add a block which supports one image with text.
+    * Go to the "Gallery". Re-use the previously uploaded image.
+    * Set the button's link to an internal page (eg `http://dmaster.l/civicrm/event/info?reset=1&id=1`)
+* (CON-5) Add a footer block which uses the built-in Twitter/Facebook icons.
+    * Set the link for at least one social media button. Disable any others.
 
 Now, we're going test that content appears correctly in several scenarios.  Each scenario references the "Message Evaluation Procedure" (defined further down):
 
- * (B1) Using the "Test", open the "Preview" in HTML. Perform the "Message Evaluation Procedure" (in the browser).
- * (B2) Using the "Test", send a message to an email address. Perform the "Message Evaluation Procedure" (in the email).
- * (B3) Finalize and submit the mailing. Trigger cron (eg `cv api -U admin job.process_mailing`). Perform the "Message Evaluation Procedure" (in the email).
- * (B4) In the email, click the link to "View in Browser". Perform the "Message Evaluation Procedure" (in the browser).
+* (SC-1) Using the "Test", open the "Preview" in HTML. Perform the "Message Evaluation Procedure" (in the browser).
+* (SC-2) Using the "Test", send a message to an email address. Perform the "Message Evaluation Procedure" (in the email).
+* (SC-3) Finalize and submit the mailing. Trigger cron (eg `cv api -U admin job.process_mailing`). Perform the "Message Evaluation Procedure" (in the email).
+* (SC-4) In the email, click the link to "View in Browser". Perform the "Message Evaluation Procedure" (in the browser).
 
 The "Message Evaluation Procedure" is:
 
- * (C1) Check the the uploaded image. The image should appear and use an absolute URL.
- * (C2) Check the the re-used uploaded image. The image should appear and use an absolute URL.
- * (C3) Check the the Twitter/Facebook icons. The image should appear and use an absolute URL.
- * (C4) Check the hyperlink to the external page (eg `https://www.google.com/search?q=asdf&oq=asdf`). The link should be absolute. (For a finalized mailing B3/B4, the link should work.)
- * (C5) Check the hyperlink to the internal page (eg `http://dmaster.l/civicrm/event/info?reset=1&id=1`). The link should be absolute. (For a finalized mailing B3/B4, the link should work.)
- * (C6) Check the hyperlink created via token. The link should be absolute. (For finalized mailing B3/B4, the link should work.)
+* (MEP-1) Check the the first block:
+     * (a) The image should appear. Inspect it to see that the URL is absolute.
+     * (b) The button should appear. Inspect it to see that the URL is absolute. Click it and see that it opens.
+     * (c) The highlighted text should be a link. Inspect it to see that the URL is absolute. Click it and see that it opens.
+* (MEP-2) Check the second block:
+     * (a) The image should appear. Inspect it to see that the URL is absolute.
+     * (b) The button should appear. Inspect it to see that the URL is absolute. Click it and see that it opens.
+* (MEP-3) Check the footer block.
+     * (a) The social media icons should appear. Inspect one to see that the image URL is absolute.
+     * (b) The social media icons should be links. Inspect one to see that the link is absolute. Click it and see that it opens.
 
 ## Manual Tests: Save/Load Template
 

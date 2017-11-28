@@ -38,12 +38,12 @@ phpunit4 --group e2e
 
 ## Manual Tests: Tokens
 
-This extension defines a TinyMCE plugin called "civicrmtoken".  To test this
+This extension defines a TinyMCE plugin called `civicrmtoken`.  To test this
 plugin, create a mailing with a block of content. Then try each of the following:
 
 1. Edit a paragraph. In the toolbar, click the token dropdown and see a hotlist of 3-5 tokens. Pick one. Observe the new token in the paragraph.
 2. Edit a paragraph. In the toolbar, click the token icon and see a dialog. Pick one. Observe the new token in the paragraph.
-3. Edit a paragraph. Press Ctrl-Shift-T and see a dialog. Enter a filter and pick a token using the keyboard. Observe the new token in the paragraph.
+3. Edit a paragraph. Press `Ctrl-Shift-T` and see a dialog. Enter a filter and pick a token using the keyboard. Observe the new token in the paragraph.
 4. Edit a heading or button. Ensure that the the token icon/dropdown/hotkey work as expected. Observe the new token in the heading or button.
 
 ## Manual Tests: Images and Links
@@ -56,7 +56,7 @@ mailing with content:
  * (A3) Add a footer block which uses the built-in Twitter/Facebook icons.
  * (A4) In one of the blocks, add a hyperlink to an external page (eg `https://google.com`).
  * (A5) In one of the blocks, add a hyperlink to an internal page (eg `http://dmaster.l/user`).
- * (A6) In one of the blocks, add a hyperlink to using a token (eg `{action.forward}`)
+ * (A6) In one of the blocks, add a hyperlink using a token (eg `{action.forward}`)
 
 Now, we're going test that content appears correctly in several scenarios.  Each scenario references the "Message Evaluation Procedure" (defined further down):
 

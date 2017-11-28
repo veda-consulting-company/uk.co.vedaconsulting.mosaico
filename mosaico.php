@@ -1,6 +1,7 @@
 <?php
 
 require_once 'mosaico.civix.php';
+use CRM_Mosaico_ExtensionUtil as E;
 
 /**
  * Implements hook_civicrm_config().
@@ -197,6 +198,14 @@ function mosaico_civicrm_check(&$messages) {
   }
   if (!extension_loaded('fileinfo')) {
     $messages[] = new CRM_Utils_Check_Message('mosaico_fileinfo', ts('May experience mosaico template or thumbnail loading issues (404 errors).'), ts('PHP extension Fileinfo not loaded or enabled'));
+  }
+  if (!file_exists(E::path('packages/mosaico/dist/mosaico.min.js')) || !file_exists(E::path('packages/mosaico/dist/vendor/jquery.min.js'))) {
+    $messages[] = new CRM_Utils_Check_Message(
+      'mosaico_packages',
+      ts('Mosaico requires dependencies in its "packages" folder. Please consult the README.md for current installation instructions.'),
+      ts('Mosaico: Packages are missing'),
+      \Psr\Log\LogLevel::CRITICAL
+    );
   }
   if (CRM_Mailing_Info::workflowEnabled()) {
     $messages[] = new CRM_Utils_Check_Message(

@@ -154,6 +154,16 @@ function mosaico_civicrm_navigationMenu(&$params) {
     'url' => CRM_Utils_System::url('civicrm/a/', NULL, TRUE, '/mailing/new/traditional'),
   ));
 
+  _mosaico_civix_insert_navigation_menu($params, 'Administer/CiviMail', array(
+    'label' => ts('Mosaico Settings', array('domain' => 'uk.co.vedaconsulting.mosaico')),
+    'name' => 'mosaico_settings',
+    'permission' => 'administer CiviCRM',
+    'child' => array(),
+    'operator' => 'AND',
+    'separator' => 0,
+    'url' => CRM_Utils_System::url('civicrm/admin/mosaico', 'reset=1', TRUE),
+  ));
+
   _mosaico_civix_navigationMenu($params);
 }
 

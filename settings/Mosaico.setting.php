@@ -4,7 +4,7 @@ return array(
     'group_name' => 'Mosaico Preferences',
     'group' => 'mosaico',
     'name' => 'mosaico_layout',
-
+    'quick_form_type' => 'Select',
     'type' => 'String',
     'html_type' => 'Select',
     'html_attributes' => array(

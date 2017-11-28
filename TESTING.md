@@ -49,25 +49,30 @@ plugin, create a mailing with a block of content. Then try each of the following
 ## Manual Tests: Images and Links
 
 Mosaico handles a few different kinds of images and links. To test these, create a
-mailing then:
+mailing with content:
 
- 1. Add blocks
-   1. Add a block which supports an image. Upload an image.
-   2. Add a block which supports an image. Re-use the previously uploaded image.
-   3. Add a footer block which uses the built-in Twitter/Facebook icons.
-   4. In one of the blocks, add a hyperlink to an external page (eg `https://google.com`).
-   5. In one of the blocks, add a hyperlink to an internal page (eg `http://dmaster.l/user`).
-   6. In one of the blocks, add a hyperlink to using a token (eg `{action.forward}`)
- 2. (Definition: The "Message Evaluation Procedure" is as follows. We will reference this in subsequent steps.)
-   1. Check the the uploaded image. The image should appear and use an absolute URL.
-   2. check the the re-used uploaded image. The image should appear and use an absolute URL.
-   3. Check the the Twitter/Facebook icons. The image should appear and use an absolute URL.
-   4. Check the hyperlink to the external page (eg `https://google.com`). The link should be absolute. (For finalized mailing, the link should work.)
-   5. Check the hyperlink to the internal page (eg `http://dmaster.l/user`). The link should be absolute. (For finalized mailing, the link should work.)
-   6. Check the hyperlink created via token. The link should be absolute. (For finalized mailing, the link should work.)
- 3. Using the "Test", open the "Preview" in HTML. Perform the "Message Evaluation Procedure".
- 4. Using the "Test", send a message to an email address. Perform the "Message Evaluation Procedure".
- 5. Finalize and submit the mailing. Trigger cron (eg `cv api -U admin job.process_mailing`). Perform the "Message Evaluation Procedure".
+ * (A1) Add a block which supports an image. Upload an image.
+ * (A2) Add a block which supports an image. Re-use the previously uploaded image.
+ * (A3) Add a footer block which uses the built-in Twitter/Facebook icons.
+ * (A4) In one of the blocks, add a hyperlink to an external page (eg `https://google.com`).
+ * (A5) In one of the blocks, add a hyperlink to an internal page (eg `http://dmaster.l/user`).
+ * (A6) In one of the blocks, add a hyperlink to using a token (eg `{action.forward}`)
+
+Now, we're going test that content appears correctly in several scenarios.  Each scenario references the "Message Evaluation Procedure" (defined further down):
+
+ * (B1) Using the "Test", open the "Preview" in HTML. Perform the "Message Evaluation Procedure" (in the browser).
+ * (B2) Using the "Test", send a message to an email address. Perform the "Message Evaluation Procedure" (in the email).
+ * (B3) Finalize and submit the mailing. Trigger cron (eg `cv api -U admin job.process_mailing`). Perform the "Message Evaluation Procedure" (in the email).
+ * (B4) In the email, click the link to "View in Browser". Perform the "Message Evaluation Procedure" (in the browser).
+
+The "Message Evaluation Procedure" is:
+
+ * (C1) Check the the uploaded image. The image should appear and use an absolute URL.
+ * (C2) Check the the re-used uploaded image. The image should appear and use an absolute URL.
+ * (C3) Check the the Twitter/Facebook icons. The image should appear and use an absolute URL.
+ * (C4) Check the hyperlink to the external page (eg `https://google.com`). The link should be absolute. (For a finalized mailing B3/B4, the link should work.)
+ * (C5) Check the hyperlink to the internal page (eg `http://dmaster.l/user`). The link should be absolute. (For a finalized mailing B3/B4, the link should work.)
+ * (C6) Check the hyperlink created via token. The link should be absolute. (For finalized mailing B3/B4, the link should work.)
 
 ## Manual Tests: Save/Load Template
 

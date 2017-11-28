@@ -113,7 +113,10 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
   protected function getUrl($path, $query, $frontend) {
     // This function shouldn't really exist, but it's tiring to set `$htmlize`
     // to false every.single.time we need a URL.
-    return CRM_Utils_System::url($path, $query, FALSE, NULL, FALSE, $frontend);
+    // These URLs should be absolute -- this influences the final URLs
+    // for any uploaded images, and those will need to be absolute to work
+    // correctly in all forms of composition/delivery.
+    return CRM_Utils_System::url($path, $query, TRUE, NULL, FALSE, $frontend);
   }
 
   /**

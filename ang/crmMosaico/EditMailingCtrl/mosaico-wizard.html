@@ -12,7 +12,7 @@
           <div class="col-xs-4 col-md-4 crm-mosaico-selected center-block" crm-mosaico-template-item="{state:'selected', title: ts('My Design'), subtitle: mosaicoCtrl.getTemplate(mailing).type, img: mosaicoCtrl.getTemplate(mailing).thumbnail}" on-item-click="mosaicoCtrl.edit(mailing)" on-item-reset="mosaicoCtrl.reset(mailing)"
               ng-show="!!mailing.template_options.mosaicoTemplate"></div>
           <div ng-repeat="template in mosaicoCtrl.templates" ng-show="!mailing.template_options.mosaicoTemplate">
-            <div class="col-xs-4 col-md-3" crm-mosaico-template-item="{state:'select', title: template.title, subtitle: template.type, img: template.thumbnail}" on-item-click="mosaicoCtrl.select(mailing, template)"></div>
+            <div class="col-xs-4 col-md-3" crm-mosaico-template-item="{state:'select', title: template.title, subtitle: (template.isBase ? template.type : ''), img: template.thumbnail}" on-item-click="mosaicoCtrl.select(mailing, template)"></div>
           </div>
         </div>
       </div>

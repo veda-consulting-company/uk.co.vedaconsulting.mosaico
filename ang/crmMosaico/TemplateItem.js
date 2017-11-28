@@ -23,19 +23,14 @@
           new: "New"
         };
 
-        $scope.ts = CRM.ts('mosaico');
+        var ts = $scope.ts = CRM.ts('mosaico');
         $scope.mainActionLabel = "";
-        $scope.isEmptyTemplate = false;
 
         $scope.$watch('crmMosaicoTemplateItem', function (newValue) {
           $scope.myOptions = newValue;
           // Template default action label based on current state
           if (newValue.state) {
             $scope.mainActionLabel = mainActionLabels[newValue.state];
-          }
-          // If Template title is 'Empty Template' then update the scope variable
-          if(newValue.title == 'Empty Template') {
-            $scope.isEmptyTemplate = true;
           }
         });
         $scope.hasAction = function hasAction(action) {

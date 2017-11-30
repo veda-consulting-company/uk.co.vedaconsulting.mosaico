@@ -175,7 +175,7 @@ function mosaico_civicrm_navigationMenu(&$params) {
  */
 function mosaico_civicrm_alterAPIPermissions($entity, $action, &$params, &$permissions) {
   if (empty($permissions['message_template']['get']) || empty($permissions['message_template']['create'])) {
-    throw new CRM_Core_Exception("Cannot define Mosaico permissio model. Core permissions for message_template are unavailable.");
+    throw new CRM_Core_Exception("Cannot define Mosaico permission model. Core permissions for message_template are unavailable.");
   }
 
   $permissions['mosaico_base_template'] = $permissions['message_template'];

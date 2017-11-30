@@ -22,9 +22,9 @@
   {ts}This migration assistant will help you move templates from v1.x in v2.x.{/ts}
 </p>
 
-<p class="help">
-  {ts 1="https://github.com/civicrm/org.civicrm.mosaicomsgtpl"}<strong>Tip</strong>: If you would still like to use <em>Message Templates</em> in v2.x, please visit <a href="%1" target="_blank">%1</a>.{/ts}
-</p>
+{*<p class="help">*}
+  {*{ts 1="https://github.com/civicrm/org.civicrm.mosaicomsgtpl"}<strong>Tip</strong>: If you would still like to use <em>Message Templates</em> in v2.x, please visit <a href="%1" target="_blank">%1</a>.{/ts}*}
+{*</p>*}
 {/if}
 
 <br/>

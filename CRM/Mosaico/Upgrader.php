@@ -104,6 +104,27 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
   }
 
   /**
+   * Add menu for traditional mailing.
+   */
+  public function upgrade_4704() {
+    $this->ctx->log->info('Applying update 4704');
+
+    CRM_Core_DAO::executeQuery('
+      ALTER TABLE civicrm_mosaico_template
+      ADD COLUMN `msg_tpl_id` int unsigned NULL COMMENT \'FK to civicrm_msg_template.\'
+    ');
+
+    CRM_Core_DAO::executeQuery('
+      ALTER TABLE civicrm_mosaico_template
+      ADD CONSTRAINT FK_civicrm_mosaico_template_msg_tpl_id
+      FOREIGN KEY (`msg_tpl_id`) REFERENCES `civicrm_msg_template`(`id`)
+      ON DELETE SET NULL
+    ');
+
+    return TRUE;
+  }
+
+  /**
    * Example: Run an external SQL script.
    *
    * @return TRUE on success

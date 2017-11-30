@@ -116,6 +116,12 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
    */
   public $content;
   /**
+   * FK to civicrm_msg_template.
+   *
+   * @var int unsigned
+   */
+  public $msg_tpl_id;
+  /**
    * class constructor
    *
    * @return civicrm_mosaico_template
@@ -123,6 +129,19 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
   function __construct() {
     $this->__table = 'civicrm_mosaico_template';
     parent::__construct();
+  }
+  /**
+   * Returns foreign keys and entity references
+   *
+   * @return array
+   *   [CRM_Core_Reference_Interface]
+   */
+  static function getReferenceColumns() {
+    if (!self::$_links) {
+      self::$_links = static ::createReferenceColumns(__CLASS__);
+      self::$_links[] = new CRM_Core_Reference_Basic(self::getTableName() , 'msg_tpl_id', 'civicrm_msg_template', 'id');
+    }
+    return self::$_links;
   }
   /**
    * Returns all the column names of this table
@@ -144,7 +163,7 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
           'title' => ts('Title') ,
           'description' => 'Title',
           'maxlength' => 255,
-          'size' => CRM_Utils_Type::BIG,
+          'size' => CRM_Utils_Type::HUGE,
         ) ,
         'base' => array(
           'name' => 'base',
@@ -172,6 +191,22 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
           'title' => ts('Content') ,
           'description' => 'Mosaico content (JSON)',
         ) ,
+        'msg_tpl_id' => array(
+          'name' => 'msg_tpl_id',
+          'type' => CRM_Utils_Type::T_INT,
+          'title' => ts('message template ID') ,
+          'description' => 'FK to civicrm_msg_template.',
+          'required' => false,
+          'FKClassName' => 'CRM_Core_DAO_MessageTemplate',
+          'html' => array(
+            'type' => 'Select',
+          ) ,
+          'pseudoconstant' => array(
+            'table' => 'civicrm_msg_template',
+            'keyColumn' => 'id',
+            'labelColumn' => 'msg_title',
+          )
+        ) ,
       );
     }
     return self::$_fields;
@@ -191,6 +226,7 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
         'html' => 'html',
         'metadata' => 'metadata',
         'content' => 'content',
+        'msg_tpl_id' => 'msg_tpl_id',
       );
     }
     return self::$_fieldKeys;

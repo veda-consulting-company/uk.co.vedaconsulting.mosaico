@@ -33,10 +33,4 @@
     <access_callback>1</access_callback>
     <is_public>true</is_public>
   </item>
-  <item>
-    <path>civicrm/mosaico/dl</path>
-    <page_callback>CRM_Mosaico_Utils::processDl</page_callback>
-    <title>Integration with Mosaico</title>
-    <access_arguments>access CiviMail;create mailings;edit message templates</access_arguments>
-  </item>
 </menu>

@@ -1,10 +1,6 @@
 # uk.co.vedaconsulting.mosaico
 
-##Extension title 
-Integration of Mosaico with CiviCRM
-
-##Description
-This extension integrates Mosaico a responsive email template editor, with CiviCRM.
+This extension integrates a responsive email template editor, [Mosaico](http://mosaico.io/), with CiviCRM.
 
  * [Initial Blog Post](https://civicrm.org/blogs/parvez/a-new-beginning-for-civimail)
  * [Beta Blog Post](https://civicrm.org/blog/deepaksrivastava/email-template-builder-civimosaico-is-now-beta)
@@ -15,10 +11,11 @@ This extension integrates Mosaico a responsive email template editor, with CiviC
 
 ## Requirements
 
- * CiviCRM v4.7.16+ / (unofficial) CiviCRM v4.6.26+ with [backports patch #9555](https://github.com/civicrm/civicrm-core/pull/9555) applied
-
- * PHP-ImageMagick
-
+* CiviCRM
+    * Recommended: `v4.7.{latest}`
+    * Unofficial: `v4.6.26+` with [backports patch #9555](https://github.com/civicrm/civicrm-core/pull/9555)
+* PHP-ImageMagick
+* [FlexMailer](https://docs.civicrm.org/flexmailer/en/latest/) `v0.2-alpha5+`
 
 ## Installation
 A CiviCRM extensions folder (In new sites since CiviCRM v4.7.0, this defaults to `files/civicrm/ext`. For older systems, see [the wiki](https://wiki.civicrm.org/confluence/display/CRMDOC/Extensions).)

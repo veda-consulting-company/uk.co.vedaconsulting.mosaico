@@ -13,6 +13,7 @@ verify that the Mosaico data can be read and written when installed on a
 CiviCRM site.
 
 ```
+phpunit4 --group headless
 phpunit4 --group e2e
 ```
 

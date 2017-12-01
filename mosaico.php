@@ -260,6 +260,19 @@ function mosaico_civicrm_check(&$messages) {
     }
   }
 
+  $oldTplCount = CRM_Core_DAO::singleValueQuery('SELECT count(*) FROM civicrm_mosaico_msg_template');
+  if ($oldTplCount > 0) {
+    $messages[] = new CRM_Utils_Check_Message(
+      'mosaico_migrate_1x',
+      ts('Found %1 template(s) from CiviCRM-Mosaico v1.x. Use the <a href="%2">Migration Assistant</a> to load them in v2.x.', array(
+        1 => $oldTplCount,
+        2 => CRM_Utils_System::url('civicrm/admin/mosaico/migrate', 'reset=1'),
+      )),
+      ts('Mosaico: Migrate templates (1.x => 2.x)'),
+      \Psr\Log\LogLevel::WARNING
+    );
+  }
+
   _mosaico_civicrm_check_dirs($messages);
 }
 
@@ -344,6 +357,12 @@ function _mosaico_civicrm_alterMailContent(&$content) {
 function mosaico_civicrm_mailingTemplateTypes(&$types) {
   $messages = array();
   mosaico_civicrm_check($messages);
+  $IGNORE_LIST = array('mosaico_migrate_1x');
+  foreach (array_keys($messages) as $key) {
+    if (in_array($messages[$key]->getName(), $IGNORE_LIST)) {
+      unset($messages[$key]);
+    }
+  }
 
   // v4.6 compat
   require_once 'CRM/Mosaico/Utils.php';

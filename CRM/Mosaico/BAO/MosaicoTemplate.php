@@ -38,20 +38,33 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
 
       $templatesUrl = CRM_Mosaico_Utils::getTemplatesUrl('absolute');
 
+      $templatesLocation[] = array('dir' => $templatesDir, 'url' => $templatesUrl);
+
+      $customTemplatesDir = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_custom_templates_dir');
+      $customTemplatesUrl = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_custom_templates_url');
+      if (!is_null($customTemplatesDir) && !is_null($customTemplatesUrl)) {
+          if (is_dir($customTemplatesDir)) {
+            $templatesLocation[] = array('dir' => $customTemplatesDir, 'url' => $customTemplatesUrl);
+          }
+      }
+
       $records = array();
 
-      foreach (glob("{$templatesDir}/*", GLOB_ONLYDIR) as $dir) {
-        $template = basename($dir);
-        $templateHTML = "{$templatesUrl}/{$template}/template-{$template}.html";
-        $templateThumbnail = "{$templatesUrl}/{$template}/edres/_full.png";
+      foreach ($templatesLocation as $templateLocation) {
+        foreach (glob("{$templateLocation['dir']}/*", GLOB_ONLYDIR) as $dir) {
+          $template = basename($dir);
+          $templateHTML = "{$templateLocation['url']}/{$template}/template-{$template}.html";
+          $templateThumbnail = "{$templateLocation['url']}/{$template}/edres/_full.png";
 
-        $records[] = array(
-          'name' => $template,
-          'title' => $template,
-          'thumbnail' => $templateThumbnail,
-          'path' => $templateHTML,
-        );
+          $records[] = array(
+            'name' => $template,
+            'title' => $template,
+            'thumbnail' => $templateThumbnail,
+            'path' => $templateHTML,
+          );
+        }
       }
+
       Civi::$statics[__CLASS__]['bases'] = $records;
     }
 

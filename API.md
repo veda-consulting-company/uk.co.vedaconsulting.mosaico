@@ -32,9 +32,7 @@ a way to *deploy* the folder, such as:
   folder.) For example, if you deployed a template `foobar` on a typical Drupal 7 site, the full path to the template HTML
   might be `/var/www/sites/default/files/civicrm/mosaico_tpl/foobar/template-foobar.html`.  (The folder name can be
   customized in "Administer => CiviMail => Mosaico Settings".)
-* __hook_civicrm_mosaicoBaseTemplates__: CiviCRM's [hook system](https://docs.civicrm.org/dev/en/latest/hooks/) provides a
-  way to programmatically register templates. For example, here an extension named `mymodule` registers a base-template
-  named `foobar`:
+* __Extension__: Create a CiviCRM extension and put the template in it. Use the [hook system](https://docs.civicrm.org/dev/en/latest/hooks/) to register the template via `hook_civicrm_mosaicoBaseTemplates`. For example, this snippet shows how an extension named `mymodule` can register a base-template named `foobar`:
   ```php
   <?php
   use CRM_Mymodule_ExtensionUtil as E;

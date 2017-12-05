@@ -40,15 +40,12 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
 
       $templatesLocation[] = array('dir' => $templatesDir, 'url' => $templatesUrl);
 
-      $customTemplatesDir = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_custom_templates_dir');
-      $customTemplatesUrl = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_custom_templates_url');
+      $customTemplatesDir = \Civi::paths()->getPath(CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_custom_templates_dir'));
+      $customTemplatesUrl = \Civi::paths()->getUrl(CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_custom_templates_url'));
       if (!is_null($customTemplatesDir) && !is_null($customTemplatesUrl)) {
-          if (is_dir($customTemplatesDir)) {
-            $templatesLocation[] = array(
-              'dir' => \Civi::paths()->getPath($customTemplatesDir),
-              'url' => \Civi::paths()->getUrl($customTemplatesUrl)
-            );
-          }
+        if (is_dir($customTemplatesDir)) {
+          $templatesLocation[] = array('dir' => $customTemplatesDir, 'url' => $customTemplatesUrl);
+        }
       }
 
       $records = array();
@@ -59,13 +56,21 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
           $templateHTML = "{$templateLocation['url']}/{$template}/template-{$template}.html";
           $templateThumbnail = "{$templateLocation['url']}/{$template}/edres/_full.png";
 
-          $records[] = array(
+          $records[$template] = array(
             'name' => $template,
             'title' => $template,
             'thumbnail' => $templateThumbnail,
             'path' => $templateHTML,
           );
         }
+      }
+
+      if (class_exists('\Civi\Core\Event\GenericHookEvent')) {
+        \Civi::dispatcher()->dispatch('hook_civicrm_mosaicoBaseTemplates',
+          \Civi\Core\Event\GenericHookEvent::create(array(
+            'templates' => &$records,
+          ))
+        );
       }
 
       Civi::$statics[__CLASS__]['bases'] = $records;

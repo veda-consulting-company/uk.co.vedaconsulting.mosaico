@@ -11,6 +11,22 @@
         <span class="description">{ts}How should the CiviMail composition screen look?{/ts}</span>
       </td>
     </tr>
+    <tr class="crm-mosaico-form-block-mosaico_custom_templates_dir">
+      <td class="label">
+        {$form.mosaico_custom_templates_dir.label}
+      </td>
+      <td>
+        {$form.mosaico_custom_templates_dir.html|crmAddClass:'huge40'}
+      </td>
+    </tr>
+    <tr class="crm-mosaico-form-block-mosaico_custom_templates_url">
+      <td class="label">
+        {$form.mosaico_custom_templates_url.label}
+      </td>
+      <td>
+        {$form.mosaico_custom_templates_url.html|crmAddClass:'huge40'}
+      </td>
+    </tr>
   </table>
   <div class="crm-submit-buttons">{include file="CRM/common/formButtons.tpl" location="bottom"}</div>
 </div>

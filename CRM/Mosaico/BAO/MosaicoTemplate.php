@@ -56,13 +56,21 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
           $templateHTML = "{$templateLocation['url']}/{$template}/template-{$template}.html";
           $templateThumbnail = "{$templateLocation['url']}/{$template}/edres/_full.png";
 
-          $records[] = array(
+          $records[$template] = array(
             'name' => $template,
             'title' => $template,
             'thumbnail' => $templateThumbnail,
             'path' => $templateHTML,
           );
         }
+      }
+
+      if (class_exists('\Civi\Core\Event\GenericHookEvent')) {
+        \Civi::dispatcher()->dispatch('hook_civicrm_mosaicoBaseTemplates',
+          \Civi\Core\Event\GenericHookEvent::create(array(
+            'templates' => &$records,
+          ))
+        );
       }
 
       Civi::$statics[__CLASS__]['bases'] = $records;

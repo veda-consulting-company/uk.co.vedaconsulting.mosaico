@@ -14,8 +14,8 @@
     <url desc="Support">http://vedaconsulting.co.uk</url>
     <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
   </urls>
-  <releaseDate>2017-05-11-</releaseDate>
-  <version>2.0-beta3</version>
+  <releaseDate>2017-12-07-</releaseDate>
+  <version>2.0-beta4</version>
   <develStage>beta</develStage>
   <compatibility>
     <ver>4.7</ver>

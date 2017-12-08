@@ -143,7 +143,7 @@ and publishes to [http://dist.civicrm.org/extension/uk.co.vedaconsulting.mosaico
 
 The build/publish process has a few properties:
  * It combines [`uk.co.vedaconsulting.mosaico`](https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico),
-   [`civicrm/mosaic`](https://github.com/civicrm/mosaico), and any other runtime dependencies into one `zip` file.
+   [`civicrm/mosaico`](https://github.com/civicrm/mosaico), and any other runtime dependencies into one `zip` file.
  * The version number is determined by reading `info.xml` (`<version>`) and appending the current Unix timestamp.
    * Example: If the `version` is declared as `1.0.beta1`, then it will be published as `1.0.beta1.1478151288`.
  * Three files are published:

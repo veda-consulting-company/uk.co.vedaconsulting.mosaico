@@ -327,6 +327,7 @@ function _mosaico_civicrm_alterMailContent(&$content) {
   $tokenAliases = array(
     // '[profile_link]' => 'FIXME',
     '[show_link]' => '{mailing.viewUrl}',
+    '[subject]' => '{mailing.subject}',
     '[unsubscribe_link]' => '{action.unsubscribeUrl}',
   );
   $content = str_replace(array_keys($tokenAliases), array_values($tokenAliases), $content);

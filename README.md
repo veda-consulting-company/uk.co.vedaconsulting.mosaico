@@ -30,7 +30,15 @@ This option does not require any extra server side dependency. To intall using t
 
 #### Option 2: CLI
 
-This option requires command line tool [`cv`](https://github.com/civicrm/cv)
+> This option requires command line tool [`cv`](https://github.com/civicrm/cv).
+
+To download the current alpha/beta versions of Mosaico and its dependencies, run this command:
+
+```
+cv dl --dev flexmailer shoreditch mosaico
+```
+
+Alternatively, you can download the latest nightly:
 
 ```
 cv dl --dev flexmailer shoreditch
@@ -43,17 +51,16 @@ cv dl uk.co.vedaconsulting.mosaico@https://download.civicrm.org/extension/uk.co.
 > compatible with v4.6.x).
 
 #### Option 3: Git (preferred for development)
-This option requires commad line tool [`git`](https://git-scm.com/)
 
-other requirement by setup.sh:
+This option requires several command-line tools:
 
- * [`NodeJS`](https://nodejs.org/en)
- * [`NPM`](https://www.npmjs.com)
+ * [`git`](https://git-scm.com/)
+ * [`nodejs`](https://nodejs.org/en)
+ * [`npm`](https://www.npmjs.com)
  * [`grunt-cli`](http://gruntjs.com/getting-started)
  * [`cv`](https://github.com/civicrm/cv)
 
-
-Alternatively:
+Once these are installed, you should:
 
 ```
 ## Navigate to your extension directory, e.g.

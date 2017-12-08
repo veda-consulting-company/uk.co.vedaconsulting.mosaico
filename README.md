@@ -82,17 +82,10 @@ To send a new mailing, simply navigate to "Mailings => New Mailing". The CiviMai
 
 Optionally, you may design reusable templates by navigating to "Mailings => Mosaico Templates".
 
-When composing a new mailing, the default layout is a simple three-step wizard.  To
-change the layout, you can update the setting `mosaico_layout` to
-`bootstrap-wizard` or `bootstrap-single`, e.g.
+When composing a new mailing with Mosaico, the screen may be configured as a three-step wizard or as a single-step form. To
+choose a layout, navigate to "Administer => CiviMail => Mosaico Settings".
 
-```
-cv api setting.create mosaico_layout=bootstrap-wizard
-```
-The traditional and Mosaico versions of the New Mailing page can be accessed with these URL's:
-- `civicrm/a/#/mailing/new/traditional` (new mailing with template_type=traditional)
-- `civicrm/a/#/mailing/new/mosaico` (new mailing with template_type=mosaico)
-- `civicrm/a/#/mailing/new` (new mailing with the default template type; depends on the mix of extensions)
+If you would like to compose mailings with the *old* CiviMail screen, navigate to "Mailings => New Mailing (Traditional)".
 
 ## Having issues with this extension?
 

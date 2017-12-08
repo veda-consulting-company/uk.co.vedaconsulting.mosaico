@@ -311,6 +311,55 @@ function _mosaico_civicrm_check_dirs(&$messages) {
 }
 
 /**
+ * Mosaico templates have a few of their own tokens which are named differently from
+ * CiviMail tokens. By treating these as aliases, we can get more compatibility between
+ * Civi's delivery system and upstream Mosaico templates.
+ *
+ * @param $content
+ */
+function _mosaico_civicrm_mosaicoToCiviTokens(&$content) {
+  $tokenAliases = array(
+    // '[profile_link]' => 'FIXME',
+    '[show_link]' => '{mailing.viewUrl}',
+    '[subject]' => '{mailing.subject}',
+    '[unsubscribe_link]' => '{action.unsubscribeUrl}',
+  );
+  $content = str_replace(array_keys($tokenAliases), array_values($tokenAliases), $content);
+}
+
+/**
+ * Replace civimail tokens
+ * FIXME: This has already been run once when displaying an email in browser.
+ *   But there were still mosaico tokens present which didn't get parsed.
+ * This is pretty much a direct copy from CRM_Mailing_Page_View::run
+ */
+function _mosaico_civicrm_replaceTokens($content, $html = TRUE) {
+  $mailingID = CRM_Utils_Request::retrieve('id', 'String', CRM_Core_DAO::$_nullObject, TRUE);
+  $contactID = CRM_Core_Session::getLoggedInContactID();
+
+  $mailing = new CRM_Mailing_BAO_Mailing();
+  $mailing->id = $mailingID;
+
+  if (!$mailing) {
+    return FALSE;
+  }
+
+  if (!$mailing->find(TRUE)) {
+    CRM_Utils_System::permissionDenied();
+    return NULL;
+  }
+
+  $domain = CRM_Core_BAO_Domain::getDomain();
+
+  $tokens = CRM_Utils_Token::getTokens($content);
+  $content = CRM_Utils_Token::replaceSubscribeInviteTokens($content);
+  $content = CRM_Utils_Token::replaceDomainTokens($content, $domain, $html, $tokens);
+  $content = CRM_Utils_Token::replaceMailingTokens($content, $mailing, NULL, $tokens);
+
+  return $content;
+}
+
+/**
  * Convert dyanmic-y image URLs to static-y URLs.
  *
  * This is analogous to alterMailContent, but we only apply to Mosaico mailings.
@@ -320,18 +369,8 @@ function _mosaico_civicrm_check_dirs(&$messages) {
  * @see CRM_Mosaico_MosaicoComposer
  */
 function _mosaico_civicrm_alterMailContent(&$content) {
-
-  // Mosaico templates have a few of their own tokens which are named differently from
-  // CiviMail tokens. By treating these as aliases, we can get more compatibility between
-  // Civi's delivery system and upstream Mosaico templates.
-  $tokenAliases = array(
-    // '[profile_link]' => 'FIXME',
-    '[show_link]' => '{mailing.viewUrl}',
-    '[subject]' => '{mailing.subject}',
-    '[unsubscribe_link]' => '{action.unsubscribeUrl}',
-  );
-  $content = str_replace(array_keys($tokenAliases), array_values($tokenAliases), $content);
-
+  // Replace mosaico tokens with CiviCRM equivalents.
+  _mosaico_civicrm_mosaicoToCiviTokens($content);
   /**
    * create absolute urls for Mosaico/imagemagick images when sending an email in CiviMail
    * convert string below into just the absolute url with addition of static directory where correctly sized image is stored
@@ -349,6 +388,36 @@ function _mosaico_civicrm_alterMailContent(&$content) {
     $content
   );
 }
+
+/**
+ * We need to filter URLs from Mosaico when displaying a mailing in the browser (it's already done for sent mails)
+ * The default template social icons get saved as templates/versafix-1/img/facebook.png etc.
+ * We need absolute URLs for display.
+ *
+ * @param $params
+ * @param $context
+ */
+function mosaico_civicrm_alterMailParams(&$params, $context) {
+  // When sending mail, context = flexmailer
+  if ($context == 'civimail') {
+    // In this context we are displaying in browser, does it do anything else too?
+    // Convert mosaico tokens to civicrm
+    _mosaico_civicrm_mosaicoToCiviTokens($params['html']);
+    // Replace tokens with real values
+    if (isset($params['html'])) {
+      $html = _mosaico_civicrm_replaceTokens($params['html'], TRUE);
+      if ($html) {
+        $params['html'] = $html;
+      }
+    }
+
+    // Now filter URLs to make sure they are all valid
+    $filter = new CRM_Mosaico_UrlFilter();
+    $html = $filter->filterHtml(array($params['html']));
+    $params['html'] = reset($html);
+  }
+}
+
 
 /**
  * Implements hook_civicrm_mailingTemplateTypes().

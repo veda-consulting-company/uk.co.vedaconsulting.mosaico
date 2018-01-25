@@ -220,11 +220,11 @@ function mosaico_civicrm_check(&$messages) {
   }
   if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('shoreditch') && !CRM_Extension_System::singleton()->getMapper()->isActiveModule('bootstrapcivicrm')) {
     $messages[] = new CRM_Utils_Check_Message(
-      'mosaico_bootstrap',
-      ts('Mosaico uses Bootstrap CSS. Please install the extension "org.civicrm.shoreditch".'),
-      ts('Bootstrap required'),
-      \Psr\Log\LogLevel::CRITICAL,
-      'fa-chain-broken'
+      'mosaico_shoreditch',
+      ts('Mosaico is optimized to work best with BootstrapCSS and Shoreditch. Please install the extension "org.civicrm.shoreditch".'),
+      ts('Shoreditch recommended'),
+      \Psr\Log\LogLevel::NOTICE,
+      'fa-rocket'
     );
   }
   if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('flexmailer')) {

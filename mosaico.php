@@ -363,9 +363,8 @@ function _mosaico_civicrm_alterMailContent(&$content) {
 function mosaico_civicrm_mailingTemplateTypes(&$types) {
   $messages = array();
   mosaico_civicrm_check($messages);
-  $IGNORE_LIST = array('mosaico_migrate_1x');
   foreach (array_keys($messages) as $key) {
-    if (in_array($messages[$key]->getName(), $IGNORE_LIST)) {
+    if ($messages[$key]->getLevel() <= 4) {
       unset($messages[$key]);
     }
   }

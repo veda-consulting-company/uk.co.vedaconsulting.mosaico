@@ -19,6 +19,7 @@ class CRM_Mosaico_Utils {
   public static function getLayoutOptions() {
     return array(
       'auto' => E::ts('Automatically select a layout'),
+      'crmstar-single' => E::ts('Single Page (crm-*)'),
       'bootstrap-single' => E::ts('Single Page (Bootstrap CSS)'),
       'bootstrap-wizard' => E::ts('Wizard (Bootstrap CSS)'),
     );
@@ -35,17 +36,22 @@ class CRM_Mosaico_Utils {
     $layout = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_layout');
     $prefix = '~/crmMosaico/EditMailingCtrl';
 
-    switch ($layout) {
-      case '':
-      case 'auto':
-      case 'bootstrap-single':
-        return "$prefix/mosaico.html";
+    $paths = array(
+      'crmstar-single' => "$prefix/crmstar-single.html",
+      'bootstrap-single' => "$prefix/mosaico.html",
+      'bootstrap-wizard' => "$prefix/mosaico-wizard.html",
+    );
 
-      case 'bootstrap-wizard':
-        return "$prefix/mosaico-wizard.html";
+    if (empty($layout) || $layout === 'auto') {
+      return CRM_Extension_System::singleton()->getMapper()->isActiveModule('shoreditch')
+        ? $paths['bootstrap-wizard'] : $paths['crmstar-single'];
+    }
+    elseif (isset($paths[$layout])) {
+      return $paths[$layout];
+    }
+    else {
+      throw new \RuntimeException("Failed to determine path for Mosaico layout ($layout)");
 
-      default:
-        throw new \RuntimeException("Failed to determine path for Mosaico layout ($layout)");
     }
   }
 

@@ -10,13 +10,11 @@ $result = array (
     1 => 'ang/crmMosaico/*.js',
     2 => 'ang/crmMosaico/*/*.js',
   ),
-  'css' =>
-  array (
-    0 => 'css/main.css',
-  ),
+  'css' => array(),
   'partials' =>
   array (
-    0 => 'ang/crmMosaico',
+    'ang/crmMosaico',
+    CRM_Mosaico_Utils::isBootstrap() ? 'ang/crmMosaico.bootstrap' : 'ang/crmMosaico.crmstar',
   ),
   'settings' =>
   array (
@@ -27,9 +25,11 @@ $result = array (
     'drupalNav' => '#toolbar',
     'joomlaNav' => '.com_civicrm > .navbar',
     'leftNav' => '.wp-admin #adminmenu',
+    'useBootstrap' => CRM_Mosaico_Utils::isBootstrap(),
   ),
 );
 
+$result['css'][]= ($result['settings']['useBootstrap']) ? 'css/main.css' : 'css/crmstar.css';
 if (version_compare(CRM_Utils_System::version(), '4.7', '<')) {
   $result['css'][]= 'css/legacy.css';
 }

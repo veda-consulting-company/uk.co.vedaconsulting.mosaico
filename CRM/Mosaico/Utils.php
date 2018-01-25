@@ -10,6 +10,10 @@ use CRM_Mosaico_ExtensionUtil as E;
  */
 class CRM_Mosaico_Utils {
 
+  public static function isBootstrap() {
+    return strpos(CRM_Mosaico_Utils::getLayoutPath(), '/crmstar-') === FALSE;
+  }
+
   /**
    * Get a list of layout options.
    *

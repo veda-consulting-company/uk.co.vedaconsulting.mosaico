@@ -193,7 +193,8 @@ function mosaico_civicrm_check(&$messages) {
       'mosaico_imagick',
       ts('the ImageMagick library is not installed.  The Email Template Builder extension will not work without it.'),
       ts('ImageMagick not installed'),
-      \Psr\Log\LogLevel::CRITICAL
+      \Psr\Log\LogLevel::CRITICAL,
+      'fa-chain-broken'
     );
   }
   if (!extension_loaded('fileinfo')) {
@@ -204,7 +205,8 @@ function mosaico_civicrm_check(&$messages) {
       'mosaico_packages',
       ts('Mosaico requires dependencies in its "packages" folder. Please consult the README.md for current installation instructions.'),
       ts('Mosaico: Packages are missing'),
-      \Psr\Log\LogLevel::CRITICAL
+      \Psr\Log\LogLevel::CRITICAL,
+      'fa-chain-broken'
     );
   }
   if (CRM_Mailing_Info::workflowEnabled()) {
@@ -212,7 +214,8 @@ function mosaico_civicrm_check(&$messages) {
       'mosaico_workflow',
       ts('CiviMail is configured to support advanced workflows. This is currently incompatible with the Mosaico mailer. Navigate to "Administer => CiviMail => CiviMail Component Settings" to disable it.'),
       ts('Advanced CiviMail workflows unsupported'),
-      \Psr\Log\LogLevel::CRITICAL
+      \Psr\Log\LogLevel::CRITICAL,
+      'fa-chain-broken'
     );
   }
   if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('shoreditch') && !CRM_Extension_System::singleton()->getMapper()->isActiveModule('bootstrapcivicrm')) {
@@ -220,7 +223,8 @@ function mosaico_civicrm_check(&$messages) {
       'mosaico_bootstrap',
       ts('Mosaico uses Bootstrap CSS. Please install the extension "org.civicrm.shoreditch".'),
       ts('Bootstrap required'),
-      \Psr\Log\LogLevel::CRITICAL
+      \Psr\Log\LogLevel::CRITICAL,
+      'fa-chain-broken'
     );
   }
   if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('flexmailer')) {
@@ -228,7 +232,8 @@ function mosaico_civicrm_check(&$messages) {
       'mosaico_flexmailer',
       ts('Mosaico uses FlexMailer for delivery. Please install the extension "org.civicrm.flexmailer".'),
       ts('FlexMailer required'),
-      \Psr\Log\LogLevel::CRITICAL
+      \Psr\Log\LogLevel::CRITICAL,
+      'fa-chain-broken'
     );
   }
   else {

@@ -42,8 +42,8 @@ class CRM_Mosaico_Utils {
 
     $paths = array(
       'crmstar-single' => "$prefix/crmstar-single.html",
-      'bootstrap-single' => "$prefix/mosaico.html",
-      'bootstrap-wizard' => "$prefix/mosaico-wizard.html",
+      'bootstrap-single' => "$prefix/bootstrap-single.html",
+      'bootstrap-wizard' => "$prefix/bootstrap-wizard.html",
     );
 
     if (empty($layout) || $layout === 'auto') {

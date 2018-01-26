@@ -11,7 +11,7 @@ var civicrmScssRoot = require('civicrm-scssroot')();
 var bootstrapNamespace = '#bootstrap-theme';
 
 gulp.task('sass', ['sass-sync'], function() {
-  gulp.src('sass/main.scss')
+  gulp.src('sass/mosaico-bootstrap.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'compressed',
@@ -30,7 +30,7 @@ gulp.task('sass', ['sass-sync'], function() {
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('./css/'));
 
-  gulp.src('sass/crmstar.scss')
+  gulp.src('sass/mosaico-crmstar.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'compressed',

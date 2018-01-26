@@ -29,7 +29,7 @@ $result = array (
   ),
 );
 
-$result['css'][]= ($result['settings']['useBootstrap']) ? 'css/main.css' : 'css/crmstar.css';
+$result['css'][]= ($result['settings']['useBootstrap']) ? 'css/mosaico-bootstrap.css' : 'css/mosaico-crmstar.css';
 if (version_compare(CRM_Utils_System::version(), '4.7', '<')) {
   $result['css'][]= 'css/legacy.css';
 }

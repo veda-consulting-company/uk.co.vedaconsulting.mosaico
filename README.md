@@ -139,7 +139,7 @@ See [TESTING.md](TESTING.md)
 #### Publication
 
 Whenever a change is merged or pushed to `uk.co.vedaconsulting.mosaico`, a bot automatically builds a new `zip` archive
-and publishes to [http://dist.civicrm.org/extension/uk.co.vedaconsulting.mosaico/](http://dist.civicrm.org/extension/uk.co.vedaconsulting.mosaico/).
+and publishes [uk.co.vedaconsulting.mosaico-latest.zip](https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/latest/uk.co.vedaconsulting.mosaico-latest.zip).
 
 The build/publish process has a few properties:
  * It combines [`uk.co.vedaconsulting.mosaico`](https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico),

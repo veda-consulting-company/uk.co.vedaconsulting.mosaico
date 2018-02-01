@@ -78,7 +78,7 @@
 
               var model = {mailing: $scope.mailing, attachments: $scope.attachments};
               var options = CRM.utils.adjustDialogDefaults(angular.extend(
-                {autoOpen: false, title: ts('Preview/ Test'), width: 550},
+                {autoOpen: false, title: ts('Preview / Test'), width: 550},
                 options
               ));
               activeDialogs.crmMosaicoPreviewDialog = 1;

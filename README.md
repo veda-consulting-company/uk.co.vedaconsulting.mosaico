@@ -18,21 +18,24 @@ This extension integrates a responsive email template editor, [Mosaico](http://m
 * [FlexMailer](https://docs.civicrm.org/flexmailer/en/latest/) `v0.2-alpha5+`
 
 ## Installation
+
 A CiviCRM extensions folder (In new sites since CiviCRM v4.7.0, this defaults to `files/civicrm/ext`. For older systems, see [the wiki](https://wiki.civicrm.org/confluence/display/CRMDOC/Extensions).)
 
-#### Option 1: CiviCRM.org Extension Directory
-This option does not require any extra server side dependency. To intall using this option, simply download the latest versions of all three extensions below and install them in order:
+#### Option 1: Download via Web
+
+The official download URLs for Mosaico and related extensions are published on the CiviCRM.org Extension Directory. Download the latest releases of these extensions:
 
 1. [`Shoreditch Theme`](https://civicrm.org/extensions/shoreditch)
 2. [`FlexMailer`](https://civicrm.org/extensions/flexmailer)
 3. [`Mosaico CiviCRM Integration`](https://civicrm.org/extensions/email-template-builder)
 
+> __TIP__: `civicrm.org` downloads are intended for normal installations, and `github.com` downloads are intended for development. Downloads on `civicrm.org` and `github.com` are *often* the same -- but not always.
 
-#### Option 2: CLI
+#### Option 2: Download via CLI
 
 > This option requires command line tool [`cv`](https://github.com/civicrm/cv).
 
-To download the current alpha/beta versions of Mosaico and its dependencies, run this command:
+To download the current alpha/beta versions of Mosaico and its dependencies, run this one command:
 
 ```
 cv dl --dev flexmailer shoreditch mosaico
@@ -45,12 +48,12 @@ cv dl --dev flexmailer shoreditch
 cv dl uk.co.vedaconsulting.mosaico@https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/latest/uk.co.vedaconsulting.mosaico-latest.zip
 ```
 
-> Tip: If you're using v4.6.x with backports, then `cv dl` will require an
+> __TIP__: If you're using v4.6.x with backports, then `cv dl` will require an
 > extra argument: "`--filter-ver=4.7.16`".  This enables it to download the
 > latest extensions intended for v4.7.x (even if they aren't officially
 > compatible with v4.6.x).
 
-#### Option 3: Git (preferred for development)
+#### Option 3: Download via Git (preferred for development)
 
 This option requires several command-line tools:
 
@@ -70,6 +73,8 @@ cd sites/default/files/civicrm/ext
 git clone https://github.com/civicrm/org.civicrm.flexmailer
 git clone https://github.com/civicrm/org.civicrm.shoreditch
 git clone https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico
+
+## Download additional dependencies
 cd uk.co.vedaconsulting.mosaico
 ./bin/setup.sh -D
 ```

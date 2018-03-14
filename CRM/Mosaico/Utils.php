@@ -1,7 +1,5 @@
 <?php
 
-require_once 'packages/mosaico/backend-php/premailer.php';
-
 class CRM_Mosaico_Utils {
 
   static function getUrlMimeType($url) {
@@ -255,11 +253,6 @@ class CRM_Mosaico_Utils {
     $config = self::getConfig();
     global $http_return_code;
 
-    /* run this puppy through premailer */
-    // DS: not sure why we need premailer as it always sends out mobile (inline) layout. 
-    // Lets disable it till we figure out why we need it.
-    //$premailer = Premailer::html( $_POST[ "html" ], true, "hpricot", $config['BASE_URL'] );
-    //$html = $premailer[ "html" ];
     $html = $_POST[ "html" ];
 
     /* create static versions of resized images */

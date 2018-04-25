@@ -84,10 +84,22 @@ class CRM_Mosaico_UrlFilterTest extends CRM_Mosaico_TestCase implements EndToEnd
    * @param string $expectHtml
    * @dataProvider filterExamples
    */
-  public function testFilter($baseUrl, $inputHtml, $expectHtml) {
+  public function testFilterArray($baseUrl, $inputHtml, $expectHtml) {
     $filter = new CRM_Mosaico_UrlFilter();
     $filter->setBaseUrl($baseUrl);
     list($actual) = $filter->filterHtml(array($inputHtml));
+    $this->assertEquals($expectHtml, $actual);
+  }
+
+  /**
+   * @param string $inputHtml
+   * @param string $expectHtml
+   * @dataProvider filterExamples
+   */
+  public function testFilterString($baseUrl, $inputHtml, $expectHtml) {
+    $filter = new CRM_Mosaico_UrlFilter();
+    $filter->setBaseUrl($baseUrl);
+    $actual = $filter->filterHtml($inputHtml);
     $this->assertEquals($expectHtml, $actual);
   }
 

@@ -32,7 +32,8 @@
           {$form.mosaico_plugins.label}
       </td>
       <td>
-          {$form.mosaico_plugins.html|crmAddClass:'huge40'}
+          {$form.mosaico_plugins.html|crmAddClass:'huge40'}<br/>
+          <span class="description">{$mosaico_plugins_description}</span>
       </td>
     </tr>
     <tr class="crm-mosaico-form-block-mosaico_toolbar">
@@ -40,7 +41,8 @@
           {$form.mosaico_toolbar.label}
       </td>
       <td>
-          {$form.mosaico_toolbar.html|crmAddClass:'huge40'}
+          {$form.mosaico_toolbar.html|crmAddClass:'huge40'}<br/>
+          <span class="description">{$mosaico_toolbar_description}</span>
       </td>
     </tr>
   </table>

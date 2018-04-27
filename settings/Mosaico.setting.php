@@ -63,7 +63,7 @@ return array(
     'title' => 'Mosaico Plugin List',
     'is_domain' => 1,
     'is_contact' => 0,
-    'description' => 'plugin name separated by space',
+    'description' => 'Plugin names are separated by space.',
     'help_text' => NULL,
   ),
   'mosaico_toolbar' => array(
@@ -78,7 +78,7 @@ return array(
     'title' => 'Mosaico Toolbar Settings',
     'is_domain' => 1,
     'is_contact' => 0,
-    'description' => NULL,
+    'description' => 'Tool sets are name separated by space, use | symbol for grouping of tool set.',
     'help_text' => NULL,
   ),
 );

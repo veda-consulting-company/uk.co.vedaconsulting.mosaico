@@ -60,6 +60,8 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
       'entity' => array('contact', 'mailing'),
       'sequential' => 1,
     ));
+    $mosaico_plugins = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_plugins');
+    $mosaico_toolbar = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_toolbar');
 
     return array(
       'imgProcessorBackend' => $this->getUrl('civicrm/mosaico/img', NULL, TRUE),
@@ -94,8 +96,8 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
         ),
       ),
       'tinymceConfigFull' => array(
-        'plugins' => array('link hr paste lists textcolor code civicrmtoken'),
-        'toolbar1' => 'bold italic forecolor backcolor hr styleselect removeformat | civicrmtoken | link unlink | pastetext code',
+        'plugins' => array($mosaico_plugins),
+        'toolbar1' => $mosaico_toolbar,
       ),
     );
   }

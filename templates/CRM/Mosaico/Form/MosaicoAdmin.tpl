@@ -27,6 +27,22 @@
         {$form.mosaico_custom_templates_url.html|crmAddClass:'huge40'}
       </td>
     </tr>
+    <tr class="crm-mosaico-form-block-mosaico_plugin">
+      <td class="label">
+          {$form.mosaico_plugins.label}
+      </td>
+      <td>
+          {$form.mosaico_plugins.html|crmAddClass:'huge40'}
+      </td>
+    </tr>
+    <tr class="crm-mosaico-form-block-mosaico_toolbar">
+      <td class="label">
+          {$form.mosaico_toolbar.label}
+      </td>
+      <td>
+          {$form.mosaico_toolbar.html|crmAddClass:'huge40'}
+      </td>
+    </tr>
   </table>
   <div class="crm-submit-buttons">{include file="CRM/common/formButtons.tpl" location="bottom"}</div>
 </div>

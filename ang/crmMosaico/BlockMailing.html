@@ -78,22 +78,18 @@
   </div>
 
   <span ng-controller="EditUnsubGroupCtrl">
-              <div class="form-group" ng-if="isUnsubGroupRequired(mailing)">
-                <label for="inputUnsubscribeGroup" class="control-label required-mark">{{ts('Unsubscribe Group')}}</label>
-                <select
-                    class="form-control"
-                    id="inputUnsubscribeGroup"
-                    crm-ui-select="{dropdownAutoWidth : true}"
-                    name="baseGroup"
-                    ng-model="mailing.recipients.groups.base[0]"
-                    ng-required="true"
-                >
-                  <option value=""></option>
-                  <option ng-repeat="grp in groupNames | filter:{is_hidden:0} | orderBy:'title'"
-                          value="{{grp.id}}">{{grp.title}}</option>
-                </select>
-              </div>
-            </span>
+    <div class="form-group" ng-if="isUnsubGroupRequired(mailing)">
+      <label for="inputUnsubscribeGroup" class="control-label required-mark">{{ts('Unsubscribe Group')}}</label>
+      <input
+        crm-entityref="{entity: 'Group', api: {params: {is_hidden: 0, is_active: 1}}, select: {allowClear:true, minimumInputLength: 0}}"
+        class="form-control"
+        id="inputUnsubscribeGroup"
+        name="baseGroup"
+        ng-model="mailing.recipients.groups.base[0]"
+        ng-required="true"
+      />
+    </div>
+  </span>
 
   <div class="form-group" ng-if="crmMailingConst.isMultiLingual">
     <label for="inputLanguage" class="control-label required-mark">{{ts('Language')}}</label>

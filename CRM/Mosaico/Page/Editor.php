@@ -61,8 +61,8 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
       'sequential' => 1,
     ));
     // in-case of not getting default value from setting, then use following default value.
-    $mosaico_plugins = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_plugins', NULL, 'link hr paste lists textcolor code civicrmtoken');
-    $mosaico_toolbar = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_toolbar', NULL, 'bold italic forecolor backcolor hr styleselect removeformat | civicrmtoken | link unlink | pastetext code');
+    $mosaico_plugins = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_plugins', NULL, CIVICRM_MOSAICO_PLUGINS);
+    $mosaico_toolbar = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_toolbar', NULL, CIVICRM_MOSAICO_TOOLBAR);
 
     return array(
       'imgProcessorBackend' => $this->getUrl('civicrm/mosaico/img', NULL, TRUE),

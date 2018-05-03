@@ -3,6 +3,10 @@
 require_once 'mosaico.civix.php';
 use CRM_Mosaico_ExtensionUtil as E;
 
+define('CIVICRM_MOSAICO_PLUGINS', 'link hr paste lists textcolor code civicrmtoken');
+define('CIVICRM_MOSAICO_TOOLBAR', 'bold italic forecolor backcolor hr styleselect removeformat | civicrmtoken | link unlink | pastetext code');
+
+
 /**
  * Implements hook_civicrm_config().
  *

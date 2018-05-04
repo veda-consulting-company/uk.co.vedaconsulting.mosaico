@@ -24,4 +24,22 @@ class CRM_Mosaico_Form_MosaicoAdmin extends CRM_Admin_Form_Setting {
     parent::buildQuickForm();
   }
 
+  /**
+   * Function to process the form
+   *
+   * @access public
+   * @return None
+   */
+  public function postProcess() {
+    $params = $this->controller->exportValues($this->_name);
+    // if plugin and toolbar field are empty then reset to default value
+    if (empty($params['mosaico_plugins'])) {
+      $params['mosaico_plugins'] = CIVICRM_MOSAICO_PLUGINS;
+    }
+    if (empty($params['mosaico_toolbar'])) {
+      $params['mosaico_toolbar'] = CIVICRM_MOSAICO_TOOLBAR;
+    }
+    parent::commonProcess($params);
+  }
+
 }

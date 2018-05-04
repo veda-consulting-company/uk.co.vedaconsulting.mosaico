@@ -1,0 +1,7 @@
+{htxt id="mosaico_plugins"}
+<p>{ts}Plugins name are separated by space. You can visit https://www.tinymce.com/docs/demo/basic-example site, view the JS code for plugins and add it to the text field. If Editor is not loading after your changes the keep the field blank and save settings, this will reset to defalt value.{/ts}</p>
+{/htxt}
+
+{htxt id="mosaico_toolbar"}
+<p>{ts}Plugins name are separated by space. You can visit https://www.tinymce.com/docs/demo/basic-example site, view the JS code for toolbar and add it to the text field. If Editor is not loading after your changes the keep the field blank and save settings, this will reset to defalt value.{/ts}</p>
+{/htxt}

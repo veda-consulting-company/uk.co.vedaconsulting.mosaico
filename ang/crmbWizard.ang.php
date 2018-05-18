@@ -10,10 +10,8 @@ return array (
     1 => 'ang/crmbWizard/*.js',
     2 => 'ang/crmbWizard/*/*.js',
   ),
-  'css' =>
-  array (
-    0 => 'css/main.css',
-  ),
+  // Hmm, shouldn't high-level components have separate CSS files?
+  'css' => CRM_Mosaico_Utils::isBootstrap() ? array('css/mosaico-bootstrap.css') : array(),
   'partials' =>
   array (
     0 => 'ang/crmbWizard',

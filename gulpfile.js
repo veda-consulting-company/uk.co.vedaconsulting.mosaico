@@ -11,7 +11,7 @@ var civicrmScssRoot = require('civicrm-scssroot')();
 var bootstrapNamespace = '#bootstrap-theme';
 
 gulp.task('sass', ['sass-sync'], function() {
-  gulp.src('sass/main.scss')
+  gulp.src('sass/mosaico-bootstrap.scss')
     .pipe(sourcemaps.init())
     .pipe(sass({
       outputStyle: 'compressed',
@@ -28,7 +28,22 @@ gulp.task('sass', ['sass-sync'], function() {
     })]))
     .pipe(cssnano())
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./css/'))
+    .pipe(gulp.dest('./css/'));
+
+  gulp.src('sass/mosaico-crmstar.scss')
+    .pipe(sourcemaps.init())
+    .pipe(sass({
+      outputStyle: 'compressed',
+      includePaths: civicrmScssRoot.getPath(),
+      precision: 10
+    }).on('error', sass.logError))
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+    }))
+    .pipe(cssnano())
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./css/'));
 
   gulp.src('sass/legacy.scss')
     .pipe(sourcemaps.init())
@@ -43,7 +58,7 @@ gulp.task('sass', ['sass-sync'], function() {
     }))
     .pipe(cssnano())
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./css/'))
+    .pipe(gulp.dest('./css/'));
 });
 
 gulp.task('sass-sync', function(){

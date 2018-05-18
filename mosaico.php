@@ -416,3 +416,19 @@ function mosaico_civicrm_container(\Symfony\Component\DependencyInjection\Contai
   require_once 'CRM/Mosaico/Services.php';
   CRM_Mosaico_Services::registerServices($container);
 }
+
+/**
+ * Implements hook_civicrm_alterMailContent().
+ */
+function mosaico_civicrm_alterMailContent(&$content) {
+  //Smarty enabled in setting file errors with the style css present
+  //in the mosaico templates. This code encloses <style> with {literal},
+  //which ensures the parsing of mail content is done correctly.
+  if (defined('CIVICRM_MAIL_SMARTY') && CIVICRM_MAIL_SMARTY == 1 && !empty($content['html']) && strpos($content['html'], '{literal}') === FALSE) {
+    $literals = array(
+      '<style type="text/css">' => '<style type="text/css">{literal}',
+      '</style>' => '{/literal}</style>',
+    );
+    $content['html'] = str_ireplace(array_keys($literals), array_values($literals), $content['html']);
+  }
+}

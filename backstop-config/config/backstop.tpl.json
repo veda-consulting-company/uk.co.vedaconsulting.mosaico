@@ -1,0 +1,26 @@
+{
+  "id": "backstop_civicase",
+  "viewports": [{
+    "name": "desktop",
+    "width": 1920,
+    "height": 3000
+  }],
+  "onBeforeScript": "onBefore.js",
+  "onReadyScript": "onReady.js",
+  "paths": {
+    "bitmaps_reference": "backstop_data/screenshots/reference",
+    "bitmaps_test": "backstop_data/screenshots/test",
+    "engine_scripts": "backstop_data/engine_scripts/puppet",
+    "html_report": "backstop_data/html_report",
+    "ci_report": "backstop_data/ci_report"
+  },
+  "report": ["CLI", "browser"],
+  "engine": "puppeteer",
+  "engineOptions": {
+    "waitTimeout": 120000
+  },
+  "asyncCaptureLimit": 1,
+  "asyncCompareLimit": 50,
+  "debug": false,
+  "debugWindow": false
+}

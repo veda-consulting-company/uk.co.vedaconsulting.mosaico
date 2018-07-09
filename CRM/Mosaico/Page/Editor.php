@@ -96,6 +96,137 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
       'tinymceConfigFull' => array(
         'plugins' => array('link hr paste lists textcolor code civicrmtoken'),
         'toolbar1' => 'bold italic forecolor backcolor hr styleselect removeformat | civicrmtoken | link unlink | pastetext code',
+        'style_formats' => array(
+          0 => array(
+            'title' => 'Headings',
+            'items' => array(
+              0 => array(
+                'title' => 'Heading 1',
+                'format' => 'h1',
+              ),
+              1 => array(
+                'title' => 'Heading 2',
+                'format' => 'h2',
+              ),
+              2 => array(
+                'title' => 'Heading 3',
+                'format' => 'h3',
+              ),
+              3 => array(
+                'title' => 'Heading 4',
+                'format' => 'h4',
+              ),
+              4 => array(
+                'title' => 'Heading 5',
+                'format' => 'h5',
+              ),
+              5 => array(
+                'title' => 'Heading 6',
+                'format' => 'h6',
+              ),
+            ),
+          ),
+          1 => array(
+            'title' => 'Inline',
+            'items' => array(
+              0 => array(
+                'title' => 'Bold',
+                'icon' => 'bold',
+                'format' => 'bold',
+              ),
+              1 => array(
+                'title' => 'Italic',
+                'icon' => 'italic',
+                'format' => 'italic',
+              ),
+              2 => array(
+                'title' => 'Underline',
+                'icon' => 'underline',
+                'format' => 'underline',
+              ),
+              3 => array(
+                'title' => 'Strikethrough',
+                'icon' => 'strikethrough',
+                'format' => 'strikethrough',
+              ),
+              4 => array(
+                'title' => 'Superscript',
+                'icon' => 'superscript',
+                'format' => 'superscript',
+              ),
+              5 => array (
+                'title' => 'Subscript',
+                'icon' => 'subscript',
+                'format' => 'subscript',
+              ),
+              6 => array (
+                'title' => 'Code',
+                'icon' => 'code',
+                'format' => 'code',
+              ),
+            ),
+          ),
+          2 => array (
+            'title' => 'Blocks',
+            'items' => array (
+              0 => array (
+                'title' => 'Paragraph',
+                'format' => 'p',
+              ),
+              1 => array (
+                'title' => 'Blockquote',
+                'format' => 'blockquote',
+              ),
+              2 => array (
+                'title' => 'Div',
+                'format' => 'div',
+              ),
+              3 => array (
+                'title' => 'Pre',
+                'format' => 'pre',
+              ),
+              4 => array (
+                'title' => 'Bullet list',
+                'icon' => 'bullist',
+                'cmd' => 'InsertUnorderedList',
+              ),
+              5 => array (
+                'title' => 'Numbered list',
+                'icon' => 'numlist',
+                'cmd' => 'InsertOrderedList',
+              ),
+            ),
+          ),
+          3 => array (
+            'title' => 'Alignment',
+            'items' => array (
+              0 => array (
+                'title' => 'Left',
+                'icon' => 'alignleft',
+                'format' => 'alignleft',
+              ),
+              1 => array (
+                'title' => 'Center',
+                'icon' => 'aligncenter',
+                'format' => 'aligncenter',
+              ),
+              2 => array (
+                'title' => 'Right',
+                'icon' => 'alignright',
+                'format' => 'alignright',
+              ),
+              3 => array (
+                'title' => 'Justify',
+                'icon' => 'alignjustify',
+                'format' => 'alignjustify',
+              ),
+            ),
+          ),
+          4 => array (
+            'title' => 'Remove Formatting',
+            'cmd' => 'removeformat',
+          ),
+        ),
       ),
     );
   }

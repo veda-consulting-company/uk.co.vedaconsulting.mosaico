@@ -118,3 +118,30 @@ The "Message Evaluation Procedure" is:
     1. Under "Configured templates", find your template and click the wrench icon.
     2. Enter a new template name.
     3. _Observe_: The name updates.
+
+## Visual Regression tesing
+
+1. Install node package depedencies using . (Skip this step if already installed)
+```shell
+npm install 
+```
+2. Create a `test/backstop/config/site-config.json` file with the following content.
+    ```json
+    {
+      "url": "your_local_url",
+      "root": "absolute_path_to_site"
+    }
+    ```
+3. Create the reference screenshots
+    ```shell
+    gulp backstopjs:reference
+    ```
+4. Create the test screenshots and compare
+    ```shell
+    gulp backstopjs:test
+    ```
+
+#### Parallel capturing
+BackstopJS supports taking multiple screenshot at once. Change the value of `asyncCaptureLimit` in _backstop.tpl.json_ to decide how many screenshots you want to take in parallel
+
+***Note**:Please be aware that BackstopJS performance is heavily dependent on the specs of the machine it runs on, so make sure to choose a value that the tool can handle on your machine (otherwise you will encounter random timeout errors)*

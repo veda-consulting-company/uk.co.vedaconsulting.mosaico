@@ -131,26 +131,7 @@ Styling changes should go into `sass` directory and compiled to CSS using the fo
 gulp sass
 ```
 
-#### Backstop Test suite
-
-Backstop is integrated into the gulp architecture to give support for visual regression tesing. 
-To generate reference screenshots
-
-```shell
-gulp backstopjs:reference
-```
-
-To generate test screenshots and comparing them
-```shell
-gulp backstopjs:test
-```
-
-For understanding and setting up the test suite see [TESTING.md](TESTING.md)
-
-#### Patching Mosaico
-
-This extensions ships with a patched version of Mosaico. The patches are maintained as a fork
-in https://github.com/civicrm/mosaico using [Twigflow (Rebase)](https://gist.github.com/totten/39e932e5d10bc9e73e82790b2475eff2).
+Once you are done making your changes, please use BackstopJS (see [TESTING.MD](TESTING.md#visual-regression-tesing) to check for any possible visual regression issues
 
 #### Testing
 

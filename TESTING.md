@@ -119,7 +119,12 @@ The "Message Evaluation Procedure" is:
     2. Enter a new template name.
     3. _Observe_: The name updates.
 
-## Visual Regression tesing
+## BackstopJS Visual Regression testing
+This test suite is based on [BackstopJS](https://garris.github.io/BackstopJS) plugin. Backstop JS uses pupetter and headless chrome to create reference screenshots and use them to compare new screenshots and raise any incosistency in the visuals of the page (if introduced while developing something)
+
+Documentation available [here](https://github.com/garris/BackstopJS#backstopjs)
+
+#### Steps to setup
 
 1. Install node package depedencies using . (Skip this step if already installed)
 ```shell

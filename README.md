@@ -131,7 +131,7 @@ Styling changes should go into `sass` directory and compiled to CSS using the fo
 gulp sass
 ```
 
-Once you are done making your changes, please use BackstopJS (see [TESTING.MD](TESTING.md#visual-regression-tesing) to check for any possible visual regression issues
+Once you are done making your changes, please use BackstopJS (see [TESTING.MD](TESTING.md#backstopjs-visual-regression-tesing) to check for any possible visual regression issues
 
 #### Testing
 

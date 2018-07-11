@@ -125,7 +125,7 @@ The "Message Evaluation Procedure" is:
 ```shell
 npm install 
 ```
-2. Create a `test/backstop/config/site-config.json` file with the following content.
+2. Create a `test/backstop/site-config.json` file with the following content.
     ```json
     {
       "url": "your_local_url",

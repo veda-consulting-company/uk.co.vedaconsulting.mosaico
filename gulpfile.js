@@ -100,14 +100,12 @@ const gulp = require('gulp');
   const puppeteer = require('puppeteer');
   const PluginError = require('plugin-error');
 
-  const BACKSTOP_DIR = 'tests/backstop/';
-  const BACKSTOP_DATA_DIR = BACKSTOP_DIR + 'data';
-  const CONFIG_DIR = BACKSTOP_DIR + 'config';
+  const BACKSTOP_DIR = 'tests/backstop_data/';
   const CONFIG_TPL = { 'url': 'http://%{site-host}', 'root': '%{path-to-site-root}' };
   const FILES = {
-    siteConfig: path.join(CONFIG_DIR, 'site-config.json'),
-    temp: path.join(CONFIG_DIR, 'backstop.temp.json'),
-    tpl: path.join(CONFIG_DIR, 'backstop.tpl.json')
+    siteConfig: path.join(BACKSTOP_DIR, 'site-config.json'),
+    temp: path.join(BACKSTOP_DIR, 'backstop.temp.json'),
+    tpl: path.join(BACKSTOP_DIR, 'backstop.tpl.json')
   };
 
   /**
@@ -152,7 +150,7 @@ const gulp = require('gulp');
 
     content.scenarios = _(content.scenarios).map((scenario, index, scenarios) => {
       return _.assign(scenario, {
-        cookiePath: path.join(BACKSTOP_DATA_DIR, 'cookies', 'admin.json'),
+        cookiePath: path.join(BACKSTOP_DIR, 'cookies', 'admin.json'),
         count: '(' + (index + 1) + ' of ' + scenarios.length + ')',
         url: scenario.url.replace('{url}', config.url)
       });
@@ -179,7 +177,7 @@ const gulp = require('gulp');
     if (touchSiteConfigFile()) {
       throwError(
         'No site-config.json file detected!\n' +
-        `\tOne has been created for you under ${path.basename(BACKSTOP_DATA_DIR)}\n` +
+        `\tOne has been created for you under ${path.basename(BACKSTOP_DIR)}\n` +
         '\tPlease insert the real value for each placeholder and try again'
       );
     }
@@ -189,7 +187,7 @@ const gulp = require('gulp');
 
       gulp.src(FILES.tpl)
         .pipe(file(path.basename(FILES.temp), createTempConfig()))
-        .pipe(gulp.dest(CONFIG_DIR))
+        .pipe(gulp.dest(BACKSTOP_DIR))
         .on('end', async () => {
           try {
             (typeof argv.skipCookies === 'undefined') && await writeCookies();
@@ -263,7 +261,7 @@ const gulp = require('gulp');
    * @return {Promise}
    */
   async function writeCookies () {
-    const cookiesDir = path.join(BACKSTOP_DATA_DIR, 'cookies');
+    const cookiesDir = path.join(BACKSTOP_DIR, 'cookies');
     const cookieFilePath = path.join(cookiesDir, 'admin.json');
     const config = siteConfig();
 

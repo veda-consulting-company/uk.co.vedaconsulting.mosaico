@@ -8,11 +8,11 @@
   "onBeforeScript": "onBefore.js",
   "onReadyScript": "onReady.js",
   "paths": {
-    "bitmaps_reference": "data/screenshots/reference",
-    "bitmaps_test": "data/screenshots/test",
-    "engine_scripts": "data/engine_scripts/puppet",
-    "html_report": "data/html_report",
-    "ci_report": "data/ci_report"
+    "bitmaps_reference": "screenshots/reference",
+    "bitmaps_test": "screenshots/test",
+    "engine_scripts": "engine_scripts/puppet",
+    "html_report": "html_report",
+    "ci_report": "ci_report"
   },
   "scenarios": [{
     "label": "Dashboard - test",

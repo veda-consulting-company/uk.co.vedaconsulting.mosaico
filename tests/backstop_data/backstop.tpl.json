@@ -14,10 +14,31 @@
     "html_report": "html_report",
     "ci_report": "ci_report"
   },
-  "scenarios": [{
-    "label": "Dashboard - test",
-    "url": "{url}/civicrm/a/#/mosaico-template"
-  }],
+  "scenarios": [
+    {
+      "label": "Mosaico - Main Page",
+      "url": "{url}/civicrm/a/#/mosaico-template",
+      "onReadyScript": "mosaico/main-page.js"
+    },
+    {
+      "label": "Mosaico - Main Page - hover state",
+      "url": "{url}/civicrm/a/#/mosaico-template",
+      "onReadyScript": "mosaico/main-page-hover-state.js"
+    },
+    {
+      "label": "Mosaico - Main Page - editor screens",
+      "url": "{url}/civicrm/a/#/mosaico-template",
+      "onReadyScript": "mosaico/editor.js"
+    },
+    {
+      "label": "Mosaico - Migrate",
+      "url": "{url}/civicrm/admin/mosaico/migrate"
+    },
+    {
+      "label": "Mosaico - Settings",
+      "url": "{url}/civicrm/admin/mosaico"
+    }       
+  ],
   "report": ["CLI", "browser"],
   "engine": "puppeteer",
   "engineOptions": {

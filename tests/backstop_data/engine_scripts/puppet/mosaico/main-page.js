@@ -6,7 +6,10 @@ module.exports = async (engine, scenario, viewport) => {
   await engine.evaluate(async () => {
     const selectors = Array.from(document.querySelectorAll('img'));
     await Promise.all(selectors.map(img => {
-      if (img.complete) return;
+      if (img.complete) {
+        return;
+      }
+
       return new Promise((resolve, reject) => {
         img.addEventListener('load', resolve);
         img.addEventListener('error', reject);

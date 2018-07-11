@@ -1,6 +1,0 @@
-{
-  "scenarios": [{
-    "label": "Dashboard",
-    "url": "{url}/civicrm"
-  }]
-}

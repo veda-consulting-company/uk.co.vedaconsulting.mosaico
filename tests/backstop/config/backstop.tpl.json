@@ -1,5 +1,5 @@
 {
-  "id": "backstop_civicase",
+  "id": "backstop_mosaico",
   "viewports": [{
     "name": "desktop",
     "width": 1920,
@@ -8,12 +8,16 @@
   "onBeforeScript": "onBefore.js",
   "onReadyScript": "onReady.js",
   "paths": {
-    "bitmaps_reference": "backstop_data/screenshots/reference",
-    "bitmaps_test": "backstop_data/screenshots/test",
-    "engine_scripts": "backstop_data/engine_scripts/puppet",
-    "html_report": "backstop_data/html_report",
-    "ci_report": "backstop_data/ci_report"
+    "bitmaps_reference": "data/screenshots/reference",
+    "bitmaps_test": "data/screenshots/test",
+    "engine_scripts": "data/engine_scripts/puppet",
+    "html_report": "data/html_report",
+    "ci_report": "data/ci_report"
   },
+  "scenarios": [{
+    "label": "Dashboard - test",
+    "url": "{url}/civicrm/a/#/mosaico-template"
+  }],
   "report": ["CLI", "browser"],
   "engine": "puppeteer",
   "engineOptions": {

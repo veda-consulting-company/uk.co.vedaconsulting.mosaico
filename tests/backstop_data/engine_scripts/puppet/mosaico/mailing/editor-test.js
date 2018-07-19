@@ -3,8 +3,10 @@
 module.exports = async (engine, scenario, viewport) => {
   await require('./step-2.js') (engine, scenario, viewport);
   await engine.waitFor('a[title="Edit"].ng-binding');
-  //  wait for MosaicoCtrl to get mailing template.
-  await engine.waitFor(200);
+  //  wait for MosaicoCtrl to get mailing template. 
+  // Since Mosaico shows the application and asynchronously loads the tempaltes (crmMosaico/MixinCtrl:113). 
+  // Backstop needs to wait for a random long time (assuming that variable is resolved meanwhile)
+  await engine.waitFor(500);
   await engine.click('a[title="Edit"].ng-binding');
   await engine.waitFor('.status-start', { hidden: true });
   await engine.waitFor(() => document.querySelectorAll('body> iframe.ui-front').length > 0);

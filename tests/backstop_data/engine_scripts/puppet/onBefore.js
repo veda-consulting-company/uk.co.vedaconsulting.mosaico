@@ -1,3 +1,6 @@
 module.exports = async (page, scenario, vp) => {
-  await require('./loadCookies')(page, scenario);
+  console.log('--------------------------------------------');
+  console.log('Running Scenario "' + scenario.label + '" ' + scenario.count);
+    await require('./loadCookies')(page, scenario);
+    await require('./clickAndHoverHelper')(page, scenario);
 };

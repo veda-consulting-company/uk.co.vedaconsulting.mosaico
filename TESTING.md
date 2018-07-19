@@ -124,6 +124,10 @@ This test suite is based on [BackstopJS](https://garris.github.io/BackstopJS) pl
 
 Documentation available [here](https://github.com/garris/BackstopJS#backstopjs)
 
+### Requirements
+ * A sample Mosaico custom configured template.
+ * A sample Unscheduled mailing draft with all the three steps forms prefilled.
+
 #### Steps to setup
 
 1. Install node package depedencies using . (Skip this step if already installed)

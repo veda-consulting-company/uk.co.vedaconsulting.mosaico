@@ -124,6 +124,19 @@ This test suite is based on [BackstopJS](https://garris.github.io/BackstopJS) pl
 
 Documentation available [here](https://github.com/garris/BackstopJS#backstopjs)
 
+### Requirements
+ * A sample Mosaico custom configured template.
+    #### Steps to create
+     * Go to *Mailing > Mosaico Template* ('civicrm/a/#/mosaico-template')
+     * Click on any new Base template and create a new custom template.
+
+ * A sample Unscheduled mailing draft with the first two steps forms prefilled.
+     #### Steps to create
+     * Go to *Mailing > New Mailing*
+     * Fill up the first form and second form with some random data and click 'Save Draft'.
+     * This new draft should be available under *Mailing > Draft and Unscheduled Mailings* (`/civicrm/mailing/browse/unscheduled?reset=1&scheduled=false`)
+     * Click on any new Base template and create a new custom template.
+
 #### Steps to setup
 
 1. Install node package depedencies using . (Skip this step if already installed)

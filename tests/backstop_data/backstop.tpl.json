@@ -16,21 +16,32 @@
   },
   "scenarios": [
     {
+      "label": "Mosaico - Main Page",
+      "url": "{url}/civicrm/a/#/mosaico-template",
+      "onReadyScript": "mosaico/main-page.js"
+    },
+    {
+      "label": "Mosaico - Main Page - hover state",
+      "url": "{url}/civicrm/a/#/mosaico-template",
+      "onReadyScript": "mosaico/main-page-hover-state.js"
+    },
+    {
+      "label": "Mosaico - Main Page - editor screens",
+      "url": "{url}/civicrm/a/#/mosaico-template",
+      "onReadyScript": "mosaico/editor.js"
+    },
+    {
+      "label": "Mosaico - Migrate",
+      "url": "{url}/civicrm/admin/mosaico/migrate"
+    },
+    {
+      "label": "Mosaico - Settings",
+      "url": "{url}/civicrm/admin/mosaico"
+    },
+    {
       "label": "Mosaico - Mailing list - Step 1",
       "url": "{url}/civicrm/mailing/browse/unscheduled?reset=1&scheduled=false",
       "onReadyScript": "mosaico/mailing/step-1.js"
-    },
-    {
-      "label": "Mosaico - Mailing list - Delete draft",
-      "url": "{url}/civicrm/mailing/browse/unscheduled?reset=1&scheduled=false",
-      "onReadyScript": "mosaico/mailing/delete.js",
-      "selectors": [".ui-dialog"]
-    },    
-    {
-      "label": "Mosaico - Mailing list - View Reciepents Modal",
-      "url": "{url}/civicrm/mailing/browse/unscheduled?reset=1&scheduled=false",
-      "onReadyScript": "mosaico/mailing/reciepents-modal.js",
-      "selectors": [".ui-dialog"]
     },
     {
       "label": "Mosaico - Mailing list - Step 2",
@@ -42,6 +53,18 @@
       "url": "{url}/civicrm/mailing/browse/unscheduled?reset=1&scheduled=false",
       "onReadyScript": "mosaico/mailing/step-3.js"
     },
+    {
+      "label": "Mosaico - Mailing list - Delete draft Modal",
+      "url": "{url}/civicrm/mailing/browse/unscheduled?reset=1&scheduled=false",
+      "onReadyScript": "mosaico/mailing/delete.js",
+      "selectors": [".ui-dialog"]
+    },    
+    {
+      "label": "Mosaico - Mailing list - View Reciepents Modal",
+      "url": "{url}/civicrm/mailing/browse/unscheduled?reset=1&scheduled=false",
+      "onReadyScript": "mosaico/mailing/reciepents-modal.js",
+      "selectors": [".ui-dialog"]
+    },    
     {
       "label": "Mosaico - Mailing list - Editor test screen",
       "url": "{url}/civicrm/mailing/browse/unscheduled?reset=1&scheduled=false",

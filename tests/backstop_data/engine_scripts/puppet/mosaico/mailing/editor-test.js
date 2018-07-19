@@ -2,10 +2,10 @@
 
 module.exports = async (engine, scenario, viewport) => {
   await require('./step-2.js') (engine, scenario, viewport);
-  await engine.waitFor('a[title="Edit"]');
-  // wait for Angular to bind function
+  await engine.waitFor('a[title="Edit"].ng-binding');
+  //  wait for MosaicoCtrl to get mailing template.
   await engine.waitFor(200);
-  await engine.click('a[title="Edit"]');
+  await engine.click('a[title="Edit"].ng-binding');
   await engine.waitFor('.status-start', { hidden: true });
   await engine.waitFor(() => document.querySelectorAll('body> iframe.ui-front').length > 0);
 

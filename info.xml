@@ -18,7 +18,7 @@
   <version>2.0-beta4</version>
   <develStage>beta</develStage>
   <compatibility>
-    <ver>4.7</ver>
+    <ver>5.0</ver>
   </compatibility>
   <requires>
     <ext>org.civicrm.flexmailer</ext>

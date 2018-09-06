@@ -21,14 +21,14 @@ class CRM_Mosaico_UrlFilter extends \Civi\FlexMailer\Listener\BaseListener {
       return;
     }
 
-    SimpleFilter::byColumn($e, 'html', array($this, 'filterHtml'));
+    SimpleFilter::byValue($e, 'html', array($this, 'filterHtml'));
   }
 
   /**
    * Find any image URLs and ensure they're absolute (not relative).
    *
-   * @param array<string> $htmls
-   * @return array<string>
+   * @param string|array<string> $htmls
+   * @return string|array<string>
    *   Filtered HTML, with relative IMG url's changed to absolute URLs.
    */
   public function filterHtml($htmls) {

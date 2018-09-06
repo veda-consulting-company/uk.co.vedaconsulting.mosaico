@@ -18,11 +18,9 @@
   <version>2.0-beta4</version>
   <develStage>beta</develStage>
   <compatibility>
-    <ver>4.7</ver>
+    <ver>5.0</ver>
   </compatibility>
   <requires>
-    <!-- FIXME: This is too tightly coupled, e.g. precludes org.civicrm.bootstrapcivihr -->
-    <ext>org.civicrm.shoreditch</ext>
     <ext>org.civicrm.flexmailer</ext>
   </requires>
   <comments>To help contribute please contact us on support@vedaconsulting.co.uk or initiate a conversation / issue on github.</comments>

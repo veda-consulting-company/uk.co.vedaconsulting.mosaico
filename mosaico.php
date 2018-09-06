@@ -197,7 +197,8 @@ function mosaico_civicrm_check(&$messages) {
       'mosaico_imagick',
       ts('the ImageMagick library is not installed.  The Email Template Builder extension will not work without it.'),
       ts('ImageMagick not installed'),
-      \Psr\Log\LogLevel::CRITICAL
+      \Psr\Log\LogLevel::CRITICAL,
+      'fa-chain-broken'
     );
   }
   if (!extension_loaded('fileinfo')) {
@@ -208,7 +209,8 @@ function mosaico_civicrm_check(&$messages) {
       'mosaico_packages',
       ts('Mosaico requires dependencies in its "packages" folder. Please consult the README.md for current installation instructions.'),
       ts('Mosaico: Packages are missing'),
-      \Psr\Log\LogLevel::CRITICAL
+      \Psr\Log\LogLevel::CRITICAL,
+      'fa-chain-broken'
     );
   }
   if (CRM_Mailing_Info::workflowEnabled()) {
@@ -216,15 +218,17 @@ function mosaico_civicrm_check(&$messages) {
       'mosaico_workflow',
       ts('CiviMail is configured to support advanced workflows. This is currently incompatible with the Mosaico mailer. Navigate to "Administer => CiviMail => CiviMail Component Settings" to disable it.'),
       ts('Advanced CiviMail workflows unsupported'),
-      \Psr\Log\LogLevel::CRITICAL
+      \Psr\Log\LogLevel::CRITICAL,
+      'fa-chain-broken'
     );
   }
   if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('shoreditch') && !CRM_Extension_System::singleton()->getMapper()->isActiveModule('bootstrapcivicrm')) {
     $messages[] = new CRM_Utils_Check_Message(
-      'mosaico_bootstrap',
-      ts('Mosaico uses Bootstrap CSS. Please install the extension "org.civicrm.shoreditch".'),
-      ts('Bootstrap required'),
-      \Psr\Log\LogLevel::CRITICAL
+      'mosaico_shoreditch',
+      ts('Mosaico is optimized to work best with BootstrapCSS and Shoreditch. Please install the extension "org.civicrm.shoreditch".'),
+      ts('Shoreditch recommended'),
+      \Psr\Log\LogLevel::NOTICE,
+      'fa-rocket'
     );
   }
   if (!CRM_Extension_System::singleton()->getMapper()->isActiveModule('flexmailer')) {
@@ -232,7 +236,8 @@ function mosaico_civicrm_check(&$messages) {
       'mosaico_flexmailer',
       ts('Mosaico uses FlexMailer for delivery. Please install the extension "org.civicrm.flexmailer".'),
       ts('FlexMailer required'),
-      \Psr\Log\LogLevel::CRITICAL
+      \Psr\Log\LogLevel::CRITICAL,
+      'fa-chain-broken'
     );
   }
   else {
@@ -362,9 +367,8 @@ function _mosaico_civicrm_alterMailContent(&$content) {
 function mosaico_civicrm_mailingTemplateTypes(&$types) {
   $messages = array();
   mosaico_civicrm_check($messages);
-  $IGNORE_LIST = array('mosaico_migrate_1x');
   foreach (array_keys($messages) as $key) {
-    if (in_array($messages[$key]->getName(), $IGNORE_LIST)) {
+    if ($messages[$key]->getLevel() <= 4) {
       unset($messages[$key]);
     }
   }

@@ -12,7 +12,8 @@ This extension integrates a responsive email template editor, [Mosaico](http://m
 ## Requirements
 
 * CiviCRM
-    * Recommended: `v4.7.{latest}`
+    * Recommended: `v5.0`+
+    * Unofficial: `v4.7.{latest}`
     * Unofficial: `v4.6.26+` with [backports patch #9555](https://github.com/civicrm/civicrm-core/pull/9555)
 * PHP-ImageMagick
 * [FlexMailer](https://docs.civicrm.org/flexmailer/en/latest/) `v0.2-alpha5+`

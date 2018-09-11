@@ -131,7 +131,12 @@ Styling changes should go into `sass` directory and compiled to CSS using the fo
 ```
 gulp sass
 ```
+#### Migration
 
+When moving CiviCRM to a new domain, you must update the template paths in the CiviCRM database with a MySQL query such as:
+```
+UPDATE civicrm_mosaico_template SET metadata = replace(metadata, 'old-domain.org', 'new-domain.org');
+```
 
 #### Patching Mosaico
 

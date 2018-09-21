@@ -12,7 +12,8 @@ This extension integrates a responsive email template editor, [Mosaico](http://m
 ## Requirements
 
 * CiviCRM
-    * Recommended: `v4.7.{latest}`
+    * Recommended: `v5.0`+
+    * Unofficial: `v4.7.{latest}`
     * Unofficial: `v4.6.26+` with [backports patch #9555](https://github.com/civicrm/civicrm-core/pull/9555)
 * PHP-ImageMagick
 * [FlexMailer](https://docs.civicrm.org/flexmailer/en/latest/) `v0.2-alpha5+`
@@ -132,6 +133,19 @@ gulp sass
 ```
 
 Once you are done making your changes, please use BackstopJS (see [TESTING.MD](TESTING.md#backstopjs-visual-regression-tesing) to check for any possible visual regression issues
+
+#### Migration
+
+When moving CiviCRM to a new domain, you must update the template paths in the CiviCRM database with a MySQL query such as:
+```
+UPDATE civicrm_mosaico_template SET metadata = replace(metadata, 'old-domain.org', 'new-domain.org');
+```
+
+#### Patching Mosaico
+
+This extensions ships with a patched version of Mosaico. The patches are maintained as a fork
+in https://github.com/civicrm/mosaico using [Twigflow (Rebase)](https://gist.github.com/totten/39e932e5d10bc9e73e82790b2475eff2).
+>>>>>>> a9274b21272407c1b4974762a886646871050cb4
 
 #### Testing
 

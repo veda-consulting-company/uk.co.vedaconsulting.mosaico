@@ -171,16 +171,25 @@ function mosaico_civicrm_navigationMenu(&$params) {
 /**
  * Implements hook_civicrm_alterAPIPermissions().
  *
+ * Grant permissions for mosaico_base_template and mosaico_template based on
+ * those granted for message_template.
+ *
+ * If no permissions are defined on message_template then we do not grant any
+ * permissions.
+ *
  * @link https://docs.civicrm.org/dev/en/master/hooks/hook_civicrm_alterAPIPermissions/
  */
 function mosaico_civicrm_alterAPIPermissions($entity, $action, &$params, &$permissions) {
-  if (empty($permissions['message_template']['get']) || empty($permissions['message_template']['create'])) {
-    throw new CRM_Core_Exception("Cannot define Mosaico permission model. Core permissions for message_template are unavailable.");
-  }
 
-  $permissions['mosaico_base_template'] = $permissions['message_template'];
-  $permissions['mosaico_template'] = $permissions['message_template'];
-  $permissions['mosaico_template']['clone'] = $permissions['message_template']['create'];
+  if (isset($permissions['message_template'])) {
+    // Permissions are defined for message_template, so use those to grant our
+    // new permissions.
+    $permissions['mosaico_base_template'] = $permissions['message_template'];
+    $permissions['mosaico_template'] = $permissions['message_template'];
+    if (isset($permissions['message_template']['create'])) {
+      $permissions['mosaico_template']['clone'] = $permissions['message_template']['create'];
+    }
+  }
 }
 
 /**

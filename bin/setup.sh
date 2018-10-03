@@ -98,6 +98,7 @@ function do_download() {
       exit 1
     fi
     npm install
+    find node_modules -name '*.info' -delete
     grunt build
   popd >> /dev/null
 }

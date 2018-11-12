@@ -2,7 +2,7 @@
 
 <table>
   <base>CRM/Mosaico</base>
-  <class>MessageTemplate</class>
+  <class>MosaicoMessageTemplate</class>
   <name>civicrm_mosaico_msg_template</name>
   <comment>Mosaico Templates Table</comment>
   <log>true</log>

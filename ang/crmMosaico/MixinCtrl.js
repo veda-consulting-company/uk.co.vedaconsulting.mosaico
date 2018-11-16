@@ -57,6 +57,12 @@
           // Mosaico exports JSON. Keep their original encoding... or else the loader throws an error.
           mailing.template_options.mosaicoMetadata = viewModel.exportMetadata();
           mailing.template_options.mosaicoContent = viewModel.exportJSON();
+          /*
+          Fix to display mailing subject instead of "TITLE"
+          Note that we're not validating subject since is a required field
+          and there is only one "TITLE" in the template
+           */
+          mailing.body_html = mailing.body_html.replace("TITLE", mailing.subject);
         }
 
         crmMosaicoIframe = new CrmMosaicoIframe({

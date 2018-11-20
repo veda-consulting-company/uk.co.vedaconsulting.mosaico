@@ -4,6 +4,7 @@
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Civi\FlexMailer\FlexMailer as FM;
+use CRM_Mosaico_ExtensionUtil as E;
 
 /**
  * Class CRM_Mosaico_Services
@@ -68,14 +69,33 @@ class CRM_Mosaico_Services {
         return new CRM_Mosaico_Graphics_Imagick();
 
       case 'iv-gd':
+        self::applyAdhocClassloaderSafely();
         return new CRM_Mosaico_Graphics_Intervention(['driver' => 'gd']);
 
       case 'iv-imagick':
+        self::applyAdhocClassloaderSafely();
         return new CRM_Mosaico_Graphics_Intervention(['driver' => 'imagick']);
 
       default:
         // throw new \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException('mosaico_graphics');
         throw new CRM_Mosaico_Graphics_Exception("Failed to locate Mosaico graphics driver. Either \"mosaico_graphics\" is invalid or the autodetection failed.");
+    }
+  }
+
+  /**
+   * In a proper world, we would have one class-loader which captures
+   * all PHP packages for all extensions. We're not there.
+   *
+   * This conditionally loads "{mosaico}/vendor/autoload.php" (if available).
+   *
+   * We do not strictly require the file to exist -- e.g. if we find ourselves
+   * in a new world where there is one master class-loader, this still ought to
+   * work properly.
+   */
+  protected static function applyAdhocClassloaderSafely() {
+    $path = E::path('vendor/autoload.php');
+    if (file_exists($path)) {
+      require_once $path;
     }
   }
 

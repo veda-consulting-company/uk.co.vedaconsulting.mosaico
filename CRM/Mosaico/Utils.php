@@ -163,6 +163,8 @@ class CRM_Mosaico_Utils {
         /* width and height of generated thumbnails */
         'THUMBNAIL_WIDTH' => 90,
         'THUMBNAIL_HEIGHT' => 90,
+
+        'MOBILE_MIN_WIDTH' => 246,
       );
     }
 
@@ -267,120 +269,145 @@ class CRM_Mosaico_Utils {
    * handler for img requests
    */
   public static function processImg() {
+    $config = self::getConfig();
+    $methods = ['placeholder', 'resize', 'cover'];
     if ($_SERVER["REQUEST_METHOD"] == "GET") {
-      $method = $_GET["method"];
+      $method = CRM_Utils_Array::value('method', $_GET, 'cover');
+      if (!in_array($method, $methods)) {
+        $method = 'cover'; // Old behavior. Seems silly. Being cautious.
+      }
 
       $params = explode(",", $_GET["params"]);
-
       $width = (int) $params[0];
       $height = (int) $params[1];
 
-      if ($method == "placeholder") {
-        Civi::service('mosaico_graphics')->sendPlaceholder($width, $height);
-      }
-      else {
-        $file_name = $_GET["src"];
+      switch ($method) {
+        case 'placeholder':
+          Civi::service('mosaico_graphics')->sendPlaceholder($width, $height);
+          break;
 
-        $path_parts = pathinfo($file_name);
+        case 'resize':
+        case 'cover':
+          $func = ($method === 'resize') ? 'resizeImage' : 'coverImage';
 
-        switch ($path_parts["extension"]) {
-          case "png":
-            $mime_type = "image/png";
-            break;
+          $path_parts = pathinfo($_GET["src"]);
+          $src_file = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $path_parts["basename"];
+          // $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $path_parts["basename"]; // Old behavior - feels buggy
+          $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $method . '-' . $width . "x" . $height . '-' . $path_parts["basename"];
+          if (!file_exists($cache_file)) {
+            self::$func($src_file, $cache_file, $width, $height);
+          }
+          self::sendImage($cache_file);
+          break;
 
-          case "gif":
-            $mime_type = "image/gif";
-            break;
-
-          default:
-            $mime_type = "image/jpeg";
-            break;
-        }
-
-        $file_name = $path_parts["basename"];
-
-        $image = self::resizeImage($file_name, $method, $width, $height);
-
-        $expiry_time = 2592000;  //30days (60sec * 60min * 24hours * 30days)
-        header("Pragma: cache");
-        header("Cache-Control: max-age=" . $expiry_time . ", public");
-        header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expiry_time) . ' GMT');
-        header("Content-type:" . $mime_type);
-
-        echo $image;
       }
     }
     CRM_Utils_System::civiExit();
   }
 
   /**
-   * function to resize images using resize or cover methods
+   * Resize an image.
    */
-  public static function resizeImage($file_name, $method, $width, $height) {
-    $mobileMinWidth = 246;
+  public static function resizeImage($src_file, $dest_file, $width, $height) {
     $config = self::getConfig();
+    $mobileMinWidth = $config['MOBILE_MIN_WIDTH'];
 
-    if (file_exists($config['BASE_DIR'] . $config['STATIC_DIR'] . $file_name)) {
-      //use existing file
-      $image = new Imagick($config['BASE_DIR'] . $config['STATIC_DIR'] . $file_name);
+    $image = new Imagick($src_file);
 
+    $resize_width = $width;
+    $resize_height = $image->getImageHeight();
+    if ($width < $mobileMinWidth) {
+      // DS: resize images to higher resolution, for images with lower width than needed for mobile devices
+      // DS: FIXME: only works for 'resize' method, not 'cover' methods.
+      // Partially resolves - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/50
+      $fraction = ceil($mobileMinWidth / $width);
+      $resize_width = $resize_width * $fraction;
+      $resize_height = $resize_height * $fraction;
+    }
+    // We get 0 for height variable from mosaico
+    // In order to use last parameter(best fit), this will make right scale, as true in 'resizeImage' menthod, we can't have 0 for height
+    // hence retreiving height from image
+    // more details about best fit http://php.net/manual/en/imagick.resizeimage.php
+    $image->resizeImage($resize_width, $resize_height, Imagick::FILTER_LANCZOS, 1.0, TRUE);
+
+    //save image for next time so don't need to resize each time
+    if ($f = fopen($dest_file, "w")) {
+      $image->writeImageFile($f);
     }
     else {
+      throw new \Exception("Failed to write $dest_file");
+    }
+  }
 
-      $image = new Imagick($config['BASE_DIR'] . $config['UPLOADS_DIR'] . $file_name);
+  /**
+   * function to resize images using resize or cover methods
+   */
+  public static function coverImage($src_file, $dest_file, $width, $height) {
+    $image = new Imagick($src_file);
 
-      if ($method == "resize") {
-        $resize_width = $width;
-        $resize_height = $image->getImageHeight();
-        if ($width < $mobileMinWidth) {
-          // DS: resize images to higher resolution, for images with lower width than needed for mobile devices
-          // DS: FIXME: only works for 'resize' method, not 'cover' methods.
-          // Partially resolves - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/50
-          $fraction = ceil($mobileMinWidth / $width);
-          $resize_width = $resize_width * $fraction;
-          $resize_height = $resize_height * $fraction;
-        }
-        // We get 0 for height variable from mosaico
-        // In order to use last parameter(best fit), this will make right scale, as true in 'resizeImage' menthod, we can't have 0 for height
-        // hence retreiving height from image
-        // more details about best fit http://php.net/manual/en/imagick.resizeimage.php
-        $image->resizeImage($resize_width, $resize_height, Imagick::FILTER_LANCZOS, 1.0, TRUE);
-      }
-      else {
-        // assert: $method == "cover"
-        $image_geometry = $image->getImageGeometry();
+    // assert: $method == "cover"
+    $image_geometry = $image->getImageGeometry();
 
-        $width_ratio = $image_geometry["width"] / $width;
-        $height_ratio = $image_geometry["height"] / $height;
+    $width_ratio = $image_geometry["width"] / $width;
+    $height_ratio = $image_geometry["height"] / $height;
 
-        $resize_width = $width;
-        $resize_height = $height;
+    $resize_width = $width;
+    $resize_height = $height;
 
-        if ($width_ratio > $height_ratio) {
-          $resize_width = 0;
-        }
-        else {
-          $resize_height = 0;
-        }
-
-        $image->resizeImage($resize_width, $resize_height,
-          Imagick::FILTER_LANCZOS, 1.0);
-
-        $image_geometry = $image->getImageGeometry();
-
-        $x = ($image_geometry["width"] - $width) / 2;
-        $y = ($image_geometry["height"] - $height) / 2;
-
-        $image->cropImage($width, $height, $x, $y);
-      }
-      //save image for next time so don't need to resize each time
-      if ($f = fopen($config['BASE_DIR'] . $config['STATIC_DIR'] . $file_name, "w")) {
-        $image->writeImageFile($f);
-      }
-
+    if ($width_ratio > $height_ratio) {
+      $resize_width = 0;
+    }
+    else {
+      $resize_height = 0;
     }
 
-    return $image;
+    $image->resizeImage($resize_width, $resize_height,
+      Imagick::FILTER_LANCZOS, 1.0);
+
+    $image_geometry = $image->getImageGeometry();
+
+    $x = ($image_geometry["width"] - $width) / 2;
+    $y = ($image_geometry["height"] - $height) / 2;
+
+    $image->cropImage($width, $height, $x, $y);
+
+    //save image for next time so don't need to resize each time
+    if ($f = fopen($dest_file, "w")) {
+      $image->writeImageFile($f);
+    }
+    else {
+      throw new \Exception("Failed to write $dest_file");
+    }
+  }
+
+  /**
+   * @param string $file
+   *   Full path to the image file.
+   */
+  public static function sendImage($file) {
+    $mimeMap = [
+      'gif' => 'image/gif',
+      'jpg' => 'image/jpeg',
+      'jpeg' => 'image/jpeg',
+      'png' => 'image/png',
+    ];
+    $mime_type = CRM_Utils_Array::value(
+      pathinfo($file, PATHINFO_EXTENSION), $mimeMap, 'image/jpeg');
+
+    $expiry_time = 2592000;  //30days (60sec * 60min * 24hours * 30days)
+    header("Pragma: cache");
+    header("Cache-Control: max-age=" . $expiry_time . ", public");
+    header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expiry_time) . ' GMT');
+    header("Content-type:" . $mime_type);
+
+    $fh = fopen($file, 'r');
+    if ($fh === FALSE) {
+      throw new \Exception("Failed to read image file: $file");
+    }
+    while (!feof($fh)) {
+      echo fread($fh, 2048);
+    }
+    fclose($fh);
   }
 
 }

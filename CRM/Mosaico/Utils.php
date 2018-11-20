@@ -30,6 +30,21 @@ class CRM_Mosaico_Utils {
   }
 
   /**
+   * Get a list of graphics handling options.
+   *
+   * @return array
+   *   Array (string $machineName => string $label).
+   */
+  public static function getGraphicsOptions() {
+    return [
+      'auto' => E::ts('Automatically select a driver'),
+      'iv-gd' => E::ts('Intervention Image API (gd)'),
+      'iv-imagick' => E::ts('Intervention Image API (imagick)'),
+      'imagick' => E::ts('(Deprecated) Direct ImageMagick API'),
+    ];
+  }
+
+  /**
    * Get the path to the Mosaico layout file.
    *
    * @return string

@@ -6,6 +6,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 /**
  * Class CRM_Mosaico_Graphics_Intervention
  *
+ * @see https://github.com/voidlabs/mosaico/blob/master/backend/README.txt
  * @see http://image.intervention.io/getting_started/introduction
  */
 class CRM_Mosaico_Graphics_Intervention implements CRM_Mosaico_Graphics_Interface {
@@ -90,6 +91,62 @@ class CRM_Mosaico_Graphics_Intervention implements CRM_Mosaico_Graphics_Interfac
       $r[] = $point['y'];
     }
     return $r;
+  }
+
+  public function createResizedImage($srcFile, $destFile, $width, $height) {
+    $config = CRM_Mosaico_Utils::getConfig();
+    $img = Image::make($srcFile);
+
+    if ($width && $height) {
+      $img->resize($width, $height);
+    }
+    elseif ($width && !$height) {
+      $mobileMinWidth = $config['MOBILE_MIN_WIDTH'];
+      $img->widen(max($width, $mobileMinWidth));
+    }
+    elseif (!$width && $height) {
+      $mobileMinHeight = ceil($img->height() * $config['MOBILE_MIN_WIDTH'] / $img->width());
+      $img->heighten(max($height, $mobileMinHeight));
+    }
+
+    $img->save($destFile);
+  }
+
+  public function createCoveredImage($srcFile, $destFile, $width, $height) {
+    $img = Image::make($srcFile);
+
+    $ratios = [];
+    if ($width) {
+      $ratios[] = $width / $img->width();
+    }
+    if ($height) {
+      $ratios[] = $height / $img->height();
+    }
+    if (!$width && !$height) {
+      throw new \Exception("Must specify a width and/or height");
+    }
+
+    $scaledRatio = max($ratios);
+    $scaledBox = [
+      'w' => round($img->width() * $scaledRatio),
+      'h' => round($img->height() * $scaledRatio),
+    ];
+    $tgtBox = [
+      'w' => $width ?: round($img->width() * $height / $img->height()),
+      'h' => $height ?: round($img->height() * $width / $img->width()),
+    ];
+
+    $img->resize($scaledBox['w'], $scaledBox['h']);
+
+    // Make tgtBox from the center of the scaledBox.
+    $img->crop(
+      $tgtBox['w'],
+      $tgtBox['h'],
+      round(($scaledBox['w'] - $tgtBox['w']) / 2),
+      round(($scaledBox['h'] - $tgtBox['h']) / 2)
+    );
+
+    $img->save($destFile);
   }
 
 }

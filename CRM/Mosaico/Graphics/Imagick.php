@@ -7,6 +7,8 @@
  *
  * This is deprecated because we've had several random reports wherein
  * imagick operations fail and we haven't been able to determine why.
+ *
+ * @see https://github.com/voidlabs/mosaico/blob/master/backend/README.txt
  */
 class CRM_Mosaico_Graphics_Imagick implements CRM_Mosaico_Graphics_Interface {
 
@@ -70,6 +72,74 @@ class CRM_Mosaico_Graphics_Imagick implements CRM_Mosaico_Graphics_Interface {
     header("Content-type: image/png");
 
     echo $image;
+  }
+
+  public function createResizedImage($srcFile, $destFile, $width, $height) {
+    $config = CRM_Mosaico_Utils::getConfig();
+    $mobileMinWidth = $config['MOBILE_MIN_WIDTH'];
+
+    $image = new Imagick($srcFile);
+
+    $resize_width = $width;
+    $resize_height = $image->getImageHeight();
+    if ($width < $mobileMinWidth) {
+      // DS: resize images to higher resolution, for images with lower width than needed for mobile devices
+      // DS: FIXME: only works for 'resize' method, not 'cover' methods.
+      // Partially resolves - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/50
+      $fraction = ceil($mobileMinWidth / $width);
+      $resize_width = $resize_width * $fraction;
+      $resize_height = $resize_height * $fraction;
+    }
+    // We get 0 for height variable from mosaico
+    // In order to use last parameter(best fit), this will make right scale, as true in 'resizeImage' menthod, we can't have 0 for height
+    // hence retreiving height from image
+    // more details about best fit http://php.net/manual/en/imagick.resizeimage.php
+    $image->resizeImage($resize_width, $resize_height, Imagick::FILTER_LANCZOS, 1.0, TRUE);
+
+    //save image for next time so don't need to resize each time
+    if ($f = fopen($destFile, "w")) {
+      $image->writeImageFile($f);
+    }
+    else {
+      throw new \Exception("Failed to write $destFile");
+    }
+  }
+
+  public function createCoveredImage($srcFile, $destFile, $width, $height) {
+    $image = new Imagick($srcFile);
+
+    $image_geometry = $image->getImageGeometry();
+
+    $width_ratio = $image_geometry["width"] / $width;
+    $height_ratio = $image_geometry["height"] / $height;
+
+    $resize_width = $width;
+    $resize_height = $height;
+
+    if ($width_ratio > $height_ratio) {
+      $resize_width = 0;
+    }
+    else {
+      $resize_height = 0;
+    }
+
+    $image->resizeImage($resize_width, $resize_height,
+      Imagick::FILTER_LANCZOS, 1.0);
+
+    $image_geometry = $image->getImageGeometry();
+
+    $x = ($image_geometry["width"] - $width) / 2;
+    $y = ($image_geometry["height"] - $height) / 2;
+
+    $image->cropImage($width, $height, $x, $y);
+
+    //save image for next time so don't need to resize each time
+    if ($f = fopen($destFile, "w")) {
+      $image->writeImageFile($f);
+    }
+    else {
+      throw new \Exception("Failed to write $destFile");
+    }
   }
 
 }

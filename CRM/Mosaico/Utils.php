@@ -288,14 +288,17 @@ class CRM_Mosaico_Utils {
 
         case 'resize':
         case 'cover':
-          $func = ($method === 'resize') ? 'resizeImage' : 'coverImage';
+          $func = ($method === 'resize') ? 'createResizedImage' : 'createCoveredImage';
 
           $path_parts = pathinfo($_GET["src"]);
           $src_file = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $path_parts["basename"];
           // $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $path_parts["basename"]; // Old behavior - feels buggy
           $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $method . '-' . $width . "x" . $height . '-' . $path_parts["basename"];
+          if (!file_exists($src_file)) {
+            throw new \Exception("Failed to locate source file: " . $path_parts["basename"]);
+          }
           if (!file_exists($cache_file)) {
-            self::$func($src_file, $cache_file, $width, $height);
+            Civi::service('mosaico_graphics')->$func($src_file, $cache_file, $width, $height);
           }
           self::sendImage($cache_file);
           break;
@@ -303,81 +306,6 @@ class CRM_Mosaico_Utils {
       }
     }
     CRM_Utils_System::civiExit();
-  }
-
-  /**
-   * Resize an image.
-   */
-  public static function resizeImage($src_file, $dest_file, $width, $height) {
-    $config = self::getConfig();
-    $mobileMinWidth = $config['MOBILE_MIN_WIDTH'];
-
-    $image = new Imagick($src_file);
-
-    $resize_width = $width;
-    $resize_height = $image->getImageHeight();
-    if ($width < $mobileMinWidth) {
-      // DS: resize images to higher resolution, for images with lower width than needed for mobile devices
-      // DS: FIXME: only works for 'resize' method, not 'cover' methods.
-      // Partially resolves - https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico/issues/50
-      $fraction = ceil($mobileMinWidth / $width);
-      $resize_width = $resize_width * $fraction;
-      $resize_height = $resize_height * $fraction;
-    }
-    // We get 0 for height variable from mosaico
-    // In order to use last parameter(best fit), this will make right scale, as true in 'resizeImage' menthod, we can't have 0 for height
-    // hence retreiving height from image
-    // more details about best fit http://php.net/manual/en/imagick.resizeimage.php
-    $image->resizeImage($resize_width, $resize_height, Imagick::FILTER_LANCZOS, 1.0, TRUE);
-
-    //save image for next time so don't need to resize each time
-    if ($f = fopen($dest_file, "w")) {
-      $image->writeImageFile($f);
-    }
-    else {
-      throw new \Exception("Failed to write $dest_file");
-    }
-  }
-
-  /**
-   * function to resize images using resize or cover methods
-   */
-  public static function coverImage($src_file, $dest_file, $width, $height) {
-    $image = new Imagick($src_file);
-
-    // assert: $method == "cover"
-    $image_geometry = $image->getImageGeometry();
-
-    $width_ratio = $image_geometry["width"] / $width;
-    $height_ratio = $image_geometry["height"] / $height;
-
-    $resize_width = $width;
-    $resize_height = $height;
-
-    if ($width_ratio > $height_ratio) {
-      $resize_width = 0;
-    }
-    else {
-      $resize_height = 0;
-    }
-
-    $image->resizeImage($resize_width, $resize_height,
-      Imagick::FILTER_LANCZOS, 1.0);
-
-    $image_geometry = $image->getImageGeometry();
-
-    $x = ($image_geometry["width"] - $width) / 2;
-    $y = ($image_geometry["height"] - $height) / 2;
-
-    $image->cropImage($width, $height, $x, $y);
-
-    //save image for next time so don't need to resize each time
-    if ($f = fopen($dest_file, "w")) {
-      $image->writeImageFile($f);
-    }
-    else {
-      throw new \Exception("Failed to write $dest_file");
-    }
   }
 
   /**

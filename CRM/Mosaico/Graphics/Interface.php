@@ -21,4 +21,46 @@ interface CRM_Mosaico_Graphics_Interface {
    */
   public function sendPlaceholder($width, $height);
 
+  /**
+   * Generate a scaled version of the image.
+   *
+   * "resize" can receive one dimension to resize while keeping the A/R, or 2 to resize the image to be inside the dimensions.
+   *
+   * @see https://github.com/voidlabs/mosaico/blob/master/backend/README.txt
+   *
+   * @param string $src
+   *   Local file path.
+   * @param string $dest
+   *   Local file path.
+   * @param int|NULL $width
+   *   Width in pixels.
+   *   NOTE: NULL or 0 are interpreted "auto-scaled".
+   * @param int|NULL $height
+   *   Height in pixels.
+   *   NOTE: NULL or 0 are interpreted "auto-scaled".
+   * @return mixed
+   */
+  public function createResizedImage($src, $dest, $width, $height);
+
+  /**
+   * Generate a "cover" version of the image.
+   *
+   * "cover" will resize the image keeping the aspect ratio and covering the whole dimension (cutting it if different A/R)
+   *
+   * @see https://github.com/voidlabs/mosaico/blob/master/backend/README.txt
+   *
+   * @param string $src
+   *   Local file path.
+   * @param string $dest
+   *   Local file path.
+   * @param int|NULL $width
+   *   Width in pixels.
+   *   NOTE: NULL or 0 are interpreted "auto-scaled".
+   * @param int|NULL $height
+   *   Height in pixels.
+   *   NOTE: NULL or 0 are interpreted "auto-scaled".
+   * @return mixed
+   */
+  public function createCoveredImage($src, $dest, $width, $height);
+
 }

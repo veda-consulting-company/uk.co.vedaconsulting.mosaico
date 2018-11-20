@@ -2,7 +2,7 @@
 <menu>
   <item>
     <path>civicrm/admin/mosaico</path>
-    <page_callback>CRM_Mosaico_Form_MosaicoAdmin</page_callback>
+    <page_callback>CRM_Admin_Form_Generic</page_callback>
     <title>Mosaico Settings</title>
     <adminGroup>CiviMail</adminGroup>
     <icon>admin/small/Profile.png</icon>

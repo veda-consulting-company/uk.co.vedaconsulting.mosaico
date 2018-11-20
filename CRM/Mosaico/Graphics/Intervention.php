@@ -17,9 +17,20 @@ class CRM_Mosaico_Graphics_Intervention implements CRM_Mosaico_Graphics_Interfac
    *
    * @param array $options
    * @see Image::configure()
+   * @throws CRM_Mosaico_Graphics_Exception
    */
   public function __construct($options) {
+    if (!self::isClassLoaded()) {
+      throw new CRM_Mosaico_Graphics_Exception("Failed to locate classes for \"intervention/image\" API. Ensure that you have downloaded all dependencies.");
+    }
     Image::configure($options);
+  }
+
+  /**
+   * @return bool
+   */
+  public static function isClassLoaded() {
+    return class_exists('Intervention\Image\ImageManagerStatic');
   }
 
   public function sendPlaceholder($width, $height) {

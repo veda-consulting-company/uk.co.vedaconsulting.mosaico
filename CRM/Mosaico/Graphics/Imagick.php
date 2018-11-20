@@ -10,6 +10,15 @@
  */
 class CRM_Mosaico_Graphics_Imagick implements CRM_Mosaico_Graphics_Interface {
 
+  /**
+   * CRM_Mosaico_Graphics_Imagick constructor.
+   */
+  public function __construct() {
+    if (!extension_loaded('imagick') || !class_exists("Imagick")) {
+      throw new CRM_Mosaico_Graphics_Exception("Failed to locate PHP-ImageMagick extension.");
+    }
+  }
+
   public function sendPlaceholder($width, $height) {
     $image = new Imagick();
 

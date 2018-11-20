@@ -54,11 +54,15 @@ class CRM_Mosaico_Services {
     // Apply translations for imprecise settings.
     switch ($graphics) {
       case 'auto':
-        if (extension_loaded('gd')) {
+        self::applyAdhocClassloaderSafely();
+        if (CRM_Mosaico_Graphics_Intervention::isClassLoaded() && extension_loaded('gd')) {
           $graphics = 'iv-gd';
         }
-        elseif (extension_loaded('imagick') && class_exists("Imagick")) {
+        elseif (CRM_Mosaico_Graphics_Intervention::isClassLoaded() && extension_loaded('imagick') && class_exists("Imagick")) {
           $graphics = 'iv-imagick';
+        }
+        elseif (!CRM_Mosaico_Graphics_Intervention::isClassLoaded() && extension_loaded('imagick') && class_exists("Imagick")) {
+          $graphics = 'imagick';
         }
         break;
     }
@@ -77,7 +81,6 @@ class CRM_Mosaico_Services {
         return new CRM_Mosaico_Graphics_Intervention(['driver' => 'imagick']);
 
       default:
-        // throw new \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException('mosaico_graphics');
         throw new CRM_Mosaico_Graphics_Exception("Failed to locate Mosaico graphics driver. Either \"mosaico_graphics\" is invalid or the autodetection failed.");
     }
   }

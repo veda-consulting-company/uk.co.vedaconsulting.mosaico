@@ -197,11 +197,17 @@ function mosaico_civicrm_alterAPIPermissions($entity, $action, &$params, &$permi
  */
 function mosaico_civicrm_check(&$messages) {
   //Make sure the ImageMagick library is loaded.
-  if (!(extension_loaded('imagick') || class_exists("Imagick"))) {
+  try {
+    Civi::service('mosaico_graphics');
+  }
+  catch (CRM_Mosaico_Graphics_Exception $e) {
     $messages[] = new CRM_Utils_Check_Message(
-      'mosaico_imagick',
-      ts('the ImageMagick library is not installed.  The Email Template Builder extension will not work without it.'),
-      ts('ImageMagick not installed'),
+      'mosaico_graphics',
+      ts('Mosaico requires a graphics driver such as PHP-ImageMagick or PHP-GD. For more information, see <a href="%1">Mosaico Settings</a>.', [
+        1 => \CRM_Utils_System::url('civicrm/admin/mosaico', 'reset=1'),
+      ])
+      . "<p><em>" . ts("Error: %1", [1 => $e->getMessage()]) . "</em></p>",
+      ts('Graphics driver not available'),
       \Psr\Log\LogLevel::CRITICAL,
       'fa-chain-broken'
     );

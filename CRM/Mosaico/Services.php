@@ -23,6 +23,8 @@ class CRM_Mosaico_Services {
     $container->setDefinition('mosaico_flexmail_composer', new Definition('CRM_Mosaico_MosaicoComposer'));
     $container->setDefinition('mosaico_flexmail_url_filter', new Definition('CRM_Mosaico_UrlFilter'));
     $container->setDefinition('mosaico_required_tokens', new Definition('CRM_Mosaico_MosaicoRequiredTokens'));
+    $container->setDefinition('mosaico_graphics', new Definition('CRM_Mosaico_Graphics_Interface'))
+      ->setFactory([__CLASS__, 'createGraphics']);
 
     foreach (self::getListenerSpecs() as $listenerSpec) {
       $container->findDefinition('dispatcher')->addMethodCall('addListenerService', $listenerSpec);
@@ -40,6 +42,41 @@ class CRM_Mosaico_Services {
     $listenerSpecs[] = array(FM::EVENT_COMPOSE, array('mosaico_flexmail_url_filter', 'onCompose'), FM::WEIGHT_ALTER - 100);
 
     return $listenerSpecs;
+  }
+
+  /**
+   * @return \CRM_Mosaico_Graphics_Interface
+   */
+  public static function createGraphics() {
+    $graphics = Civi::settings()->get('mosaico_graphics');
+
+    // Apply translations for imprecise settings.
+    switch ($graphics) {
+      case 'auto':
+        if (extension_loaded('gd')) {
+          $graphics = 'iv-gd';
+        }
+        elseif (extension_loaded('imagick') && class_exists("Imagick")) {
+          $graphics = 'iv-imagick';
+        }
+        break;
+    }
+
+    // Instantiate the actual driver.
+    switch ($graphics) {
+      case 'imagick':
+        return new CRM_Mosaico_Graphics_Imagick();
+
+      case 'iv-gd':
+        return new CRM_Mosaico_Graphics_Intervention(['driver' => 'gd']);
+
+      case 'iv-imagick':
+        return new CRM_Mosaico_Graphics_Intervention(['driver' => 'imagick']);
+
+      default:
+        // throw new \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException('mosaico_graphics');
+        throw new CRM_Mosaico_Graphics_Exception("Failed to locate Mosaico graphics driver. Either \"mosaico_graphics\" is invalid or the autodetection failed.");
+    }
   }
 
 }

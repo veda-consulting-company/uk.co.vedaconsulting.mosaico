@@ -292,8 +292,12 @@ class CRM_Mosaico_Utils {
 
           $path_parts = pathinfo($_GET["src"]);
           $src_file = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $path_parts["basename"];
-          // $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $path_parts["basename"]; // Old behavior - feels buggy
-          $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $method . '-' . $width . "x" . $height . '-' . $path_parts["basename"];
+          $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $path_parts["basename"];
+          // $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $method . '-' . $width . "x" . $height . '-' . $path_parts["basename"];
+          // The current naming convention for cache-files is buggy because it means that all variants
+          // of the basename *must* have the same size, which breaks scenarios for re-using images
+          // from the gallery. However, to fix it, one must also fix CRM_Mosaico_ImageFilter.
+
           if (!file_exists($src_file)) {
             throw new \Exception("Failed to locate source file: " . $path_parts["basename"]);
           }

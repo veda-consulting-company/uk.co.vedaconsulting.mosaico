@@ -23,6 +23,7 @@ class CRM_Mosaico_Services {
     }
     $container->setDefinition('mosaico_flexmail_composer', new Definition('CRM_Mosaico_MosaicoComposer'));
     $container->setDefinition('mosaico_flexmail_url_filter', new Definition('CRM_Mosaico_UrlFilter'));
+    $container->setDefinition('mosaico_image_filter', new Definition('CRM_Mosaico_ImageFilter'));
     $container->setDefinition('mosaico_required_tokens', new Definition('CRM_Mosaico_MosaicoRequiredTokens'));
     $container->setDefinition('mosaico_graphics', new Definition('CRM_Mosaico_Graphics_Interface'))
       ->setFactory([__CLASS__, 'createGraphics']);
@@ -41,6 +42,7 @@ class CRM_Mosaico_Services {
     }
     $listenerSpecs[] = array(FM::EVENT_COMPOSE, array('mosaico_flexmail_composer', 'onCompose'), FM::WEIGHT_MAIN);
     $listenerSpecs[] = array(FM::EVENT_COMPOSE, array('mosaico_flexmail_url_filter', 'onCompose'), FM::WEIGHT_ALTER - 100);
+    $listenerSpecs[] = ['hook_civicrm_alterMailContent', ['mosaico_image_filter', 'alterMailContent']];
 
     return $listenerSpecs;
   }

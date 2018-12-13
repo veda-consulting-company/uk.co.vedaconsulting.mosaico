@@ -13,7 +13,6 @@ return array(
     'pseudoconstant' => array(
       'callback' => 'CRM_Mosaico_Utils::getLayoutOptions',
     ),
-    'settings_pages' => ['mosaico' => ['weight' => 10]],
     'default' => 'auto',
     'add' => '4.7',
     'title' => 'Mosaico editor layout',
@@ -36,7 +35,6 @@ return array(
     'is_contact' => 0,
     'description' => NULL,
     'help_text' => NULL,
-    'settings_pages' => ['mosaico' => ['weight' => 20]],
   ),
   'mosaico_custom_templates_url' => array(
     'group_name' => 'Mosaico Preferences',
@@ -52,6 +50,5 @@ return array(
     'is_contact' => 0,
     'description' => NULL,
     'help_text' => NULL,
-    'settings_pages' => ['mosaico' => ['weight' => 30]],
   ),
 );

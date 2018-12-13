@@ -2,6 +2,7 @@
 build/
 packages/mosaico/
 node_modules/
+vendor/
 tests/backstop_data/cookies
 tests/backstop_data/screenshots
 tests/backstop_data/*_report

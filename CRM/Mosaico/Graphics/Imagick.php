@@ -79,6 +79,8 @@ class CRM_Mosaico_Graphics_Imagick implements CRM_Mosaico_Graphics_Interface {
     $mobileMinWidth = $config['MOBILE_MIN_WIDTH'];
 
     $image = new Imagick($srcFile);
+    // Handle multi-frame images (i.e. animated GIFs)
+    $image = $image->coalesceImages();
 
     $resize_width = $width;
     $resize_height = $image->getImageHeight();
@@ -94,11 +96,14 @@ class CRM_Mosaico_Graphics_Imagick implements CRM_Mosaico_Graphics_Interface {
     // In order to use last parameter(best fit), this will make right scale, as true in 'resizeImage' menthod, we can't have 0 for height
     // hence retreiving height from image
     // more details about best fit http://php.net/manual/en/imagick.resizeimage.php
-    $image->resizeImage($resize_width, $resize_height, Imagick::FILTER_LANCZOS, 1.0, TRUE);
+    do {
+      $image->resizeImage($resize_width, $resize_height, Imagick::FILTER_LANCZOS, 1.0, TRUE);
+    } while ($image->nextImage());
 
     //save image for next time so don't need to resize each time
     if ($f = fopen($destFile, "w")) {
-      $image->writeImageFile($f);
+      $image = $image->deconstructImages();
+      $image->writeImagesFile($f);
     }
     else {
       throw new \Exception("Failed to write $destFile");
@@ -107,6 +112,8 @@ class CRM_Mosaico_Graphics_Imagick implements CRM_Mosaico_Graphics_Interface {
 
   public function createCoveredImage($srcFile, $destFile, $width, $height) {
     $image = new Imagick($srcFile);
+    // Handle multi-frame images (i.e. animated GIFs)
+    $image = $image->coalesceImages();
 
     $image_geometry = $image->getImageGeometry();
 
@@ -123,8 +130,10 @@ class CRM_Mosaico_Graphics_Imagick implements CRM_Mosaico_Graphics_Interface {
       $resize_height = 0;
     }
 
-    $image->resizeImage($resize_width, $resize_height,
-      Imagick::FILTER_LANCZOS, 1.0);
+    do {
+      $image->resizeImage($resize_width, $resize_height,
+        Imagick::FILTER_LANCZOS, 1.0);
+    } while ($image->nextImage());
 
     $image_geometry = $image->getImageGeometry();
 
@@ -135,7 +144,8 @@ class CRM_Mosaico_Graphics_Imagick implements CRM_Mosaico_Graphics_Interface {
 
     //save image for next time so don't need to resize each time
     if ($f = fopen($destFile, "w")) {
-      $image->writeImageFile($f);
+      $image = $image->deconstructImages();
+      $image->writeImagesFile($f);
     }
     else {
       throw new \Exception("Failed to write $destFile");

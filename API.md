@@ -50,3 +50,20 @@ a way to *deploy* the folder, such as:
 
 After designing a mailing, email messages are composed and delivered through FlexMailer.  To programmaticaly tap into the
 composition and delivery process, see the [FlexMailer developer docs](https://docs.civicrm.org/flexmailer/en/latest/).
+
+# Hooks
+
+See the CiviCRM documentation for more general information about [hooks](https://docs.civicrm.org/dev/en/latest/hooks/).
+
+## hook_civicrm_mosaicoConfig
+
+This hook can be implemented to modify the default mosaico WYSIWYG configuration. This is useful if you want to restrict the buttons available on the editing toolbar. The current configuration is passed in as a variable, which can then be modified.
+
+Example - remove some buttons from the toolbar, customise a configuration setting:
+```
+function example_civicrm_mosaicoConfig(&$config) {
+  $config['tinymceConfig']['forced_root_block'] = FALSE;
+  $config['tinymceConfigFull']['plugins'] = ['link paste lists code civicrmtoken'];
+  $config['tinymceConfigFull']['toolbar1'] = 'bold italic removeformat | link unlink | civicrmtoken | pastetext code';
+}
+```

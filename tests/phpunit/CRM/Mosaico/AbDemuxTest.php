@@ -64,7 +64,8 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
         'variants' => [
           0 => $inputVariantA,
           1 => $inputVariantB,
-        ]
+        ],
+        'variantsPct' => 15,
       ],
       'subject' => 'Placeholder',
       'body_text' => "Placeholder",
@@ -100,6 +101,7 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
         1 => [$mailingId, 'Integer'],
       ], "Check that item \"$name\" has $expectJobCount job(s)");
     }
+    $this->assertEquals(15, $ab['group_percentage']);
 
     $aLoad = $this->callAPISuccess('Mailing', 'getsingle', ['id' => $ab['mailing_id_a']]);
     $bLoad = $this->callAPISuccess('Mailing', 'getsingle', ['id' => $ab['mailing_id_b']]);

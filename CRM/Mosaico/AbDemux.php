@@ -28,6 +28,8 @@
  */
 class CRM_Mosaico_AbDemux {
 
+  const DEFAULT_AB_PERCENTAGE = 10;
+
   protected $mandatory = [
     'open_tracking' => 1,
     'url_tracking' => 1,
@@ -175,7 +177,7 @@ class CRM_Mosaico_AbDemux {
       'mailing_id_b' => $b['id'],
       'mailing_id_c' => $c['id'],
       'testing_criteria' => 'full_email',
-      'group_percentage' => 10,
+      'group_percentage' => CRM_Utils_Array::value('variantsPct', $a['template_options'], self::DEFAULT_AB_PERCENTAGE),
       // FIXME percentage
       // winner_criteria: null,
       // specific_url: '',

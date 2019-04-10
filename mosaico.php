@@ -117,6 +117,7 @@ function mosaico_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
     ->alterHtml('~/crmMailing/BlockMailing.html', function (phpQueryObject $doc) {
       $field = $doc->find('[name=subject]')->parent('[crm-ui-field]');
       $field->html('<crm-mosaico-subject-list crm-mailing="mailing"/>');
+      $field->after('<div crm-ui-field="{name: \'subform.dist\', title: ts(\'Distribution\')}" ng-if="mailing.template_options.variants"><crm-mosaico-distribution crm-mailing="mailing" /></div>');
     });
   $angular->add($changeSet);
 }

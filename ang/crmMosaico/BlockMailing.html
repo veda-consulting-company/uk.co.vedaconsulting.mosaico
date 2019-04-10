@@ -65,6 +65,11 @@
     </div>
   </div>
 
+  <div class="form-group" ng-if="mailing.template_options.variants">
+    <label class="control-label">{{ts('Distribution')}}</label>
+    <crm-mosaico-distribution crm-mailing="mailing" />
+  </div>
+
   <span ng-controller="EditUnsubGroupCtrl">
     <div class="form-group" ng-if="isUnsubGroupRequired(mailing)">
       <label for="inputUnsubscribeGroup" class="control-label required-mark">{{ts('Unsubscribe Group')}}</label>

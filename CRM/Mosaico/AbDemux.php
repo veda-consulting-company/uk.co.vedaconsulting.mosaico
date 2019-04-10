@@ -34,14 +34,91 @@ class CRM_Mosaico_AbDemux {
   ];
 
   /**
+   * List of properties that may be overriden in variants.
+   * To apply consistently, properties should be equally valid for Mailing DAO and Mailing API.
+   *
+   * @var array
+   */
+  protected $variantFields = [
+    'subject',
+    'body_html',
+    'body_text',
+    'from_name',
+    'from_email',
+    'replyto_email',
+    'header_id',
+    'footer_id',
+    'reply_id',
+    'unsubscribe_id',
+    'resubscribe_id',
+    'optout_id',
+  ];
+
+  /**
    * @param \Civi\API\Event\PrepareEvent $event
    */
   public function wrapMailingApi($event) {
     // TODO: Maybe move this to a more central file so that "AbDemux.php" isn't parsed unless it's needed.
     $a = $event->getApiRequest();
-    if ($a['entity'] === 'Mailing' && $a['action'] === 'submit' && is_numeric($a['params']['id'])) {
-      $event->wrap([$this, 'onSubmitMailing']);
+    switch ($a['entity'] . '.' . $a['action']) {
+      case 'Mailing.submit':
+        if (is_numeric($a['params']['id'])) {
+          $event->wrap([$this, 'onSubmitMailing']);
+        }
+        break;
+
+      case 'Mailing.send_test':
+        if (is_numeric($a['params']['mailing_id'])) {
+          $event->wrap([$this, 'onSendTestMailing']);
+        }
+        break;
     }
+  }
+
+  /**
+   * Handle the Mailing.send_test API.
+   *
+   * If there are `template_options.variants`, then we send all the variants
+   * to the intended recipient.
+   *
+   * @param array $apiRequest
+   *   The submitted API request.
+   * @param callable $continue
+   *   The original/upstream implementation of Mailing.send_test API.
+   * @return array
+   * @throws \API_Exception
+   */
+  public function onSendTestMailing($apiRequest, $continue) {
+    if (empty($apiRequest['params']['mailing_id'])) {
+      // Let upstream handle the error.
+      return $continue($apiRequest);
+    }
+    $id = $apiRequest['params']['mailing_id'];
+
+    $api3 = $this->makeApi3($apiRequest);
+    $mailing = $api3('Mailing', 'getsingle', ['id' => $id]);
+    if (empty($mailing['template_options']['variants'])) {
+      // Not one of ours!
+      return $continue($apiRequest);
+    }
+
+    $allResults = [];
+    foreach ($mailing['template_options']['variants'] as $variant) {
+      $applyVariant = function(\Civi\FlexMailer\Event\ComposeBatchEvent $e) use ($id, $variant) {
+        if ($e->getMailing()->id == $id) {
+          $this->applyVariant($e->getMailing(), $variant);
+        }
+      };
+      Civi::dispatcher()->addListener('civi.flexmailer.compose', $applyVariant, \Civi\FlexMailer\FlexMailer::WEIGHT_START);
+      try {
+        $result = $continue($apiRequest);
+        $allResults = $allResults + $result['values'];
+      }
+      finally {
+        Civi::dispatcher()->removeListener('civi.flexmailer.compose', $applyVariant);
+      }
+    }
+    return civicrm_api3_create_success($allResults);
   }
 
   /**
@@ -77,13 +154,13 @@ class CRM_Mosaico_AbDemux {
       unset($mailing['template_options']['variants']);
       $mailing['name'] .= ' (A)';
       $mailing['mailing_type'] = 'experiment';
-      return array_merge($mailing, $this->mandatory, $variants[0]);
+      return $this->applyVariant($mailing, $this->mandatory + $variants[0]);
     });
     self::update($api3, 'Mailing', $b['id'], function ($mailing) use ($variants) {
       unset($mailing['template_options']['variants']);
       $mailing['name'] .= ' (B)';
       $mailing['mailing_type'] = 'experiment';
-      return array_merge($mailing, $this->mandatory, $variants[1]);
+      return $this->applyVariant($mailing, $this->mandatory + $variants[1]);
     });
     self::update($api3, 'Mailing', $c['id'], function ($mailing) use ($variants) {
       $mailing['mailing_type'] = 'winner';
@@ -158,6 +235,30 @@ class CRM_Mosaico_AbDemux {
       return civicrm_api3($entity, $action, $params + $check);
     };
     return $api3;
+  }
+
+  /**
+   * @param array|object $mailing
+   * @param array $variant
+   * @return array|object
+   * @throws \API_Exception
+   */
+  protected function applyVariant(&$mailing, $variant) {
+    $overrides = array_intersect(array_keys($variant), $this->variantFields);
+    if (is_array($mailing)) {
+      foreach ($overrides as $override) {
+        $mailing[$override] = $variant[$override];
+      }
+    }
+    elseif (is_object($mailing)) {
+      foreach ($overrides as $override) {
+        $mailing->{$override} = $variant[$override];
+      }
+    }
+    else {
+      throw new API_Exception("Cannot apply variant - unrecognized mailing object");
+    }
+    return $mailing;
   }
 
 }

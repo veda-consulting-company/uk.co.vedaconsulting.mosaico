@@ -24,6 +24,7 @@ class CRM_Mosaico_Services {
     $container->setDefinition('mosaico_required_tokens', new Definition('CRM_Mosaico_MosaicoRequiredTokens'))->setPublic(TRUE);
     $container->setDefinition('mosaico_graphics', new Definition('CRM_Mosaico_Graphics_Interface'))
       ->setFactory([__CLASS__, 'createGraphics'])->setPublic(TRUE);
+    $container->setDefinition('mosaico_ab_demux', new Definition('CRM_Mosaico_AbDemux'));
 
     foreach (self::getListenerSpecs() as $listenerSpec) {
       $container->findDefinition('dispatcher')->addMethodCall('addListenerService', $listenerSpec);
@@ -37,6 +38,7 @@ class CRM_Mosaico_Services {
     $listenerSpecs[] = [FM::EVENT_COMPOSE, ['mosaico_flexmail_composer', 'onCompose'], FM::WEIGHT_MAIN];
     $listenerSpecs[] = [FM::EVENT_COMPOSE, ['mosaico_flexmail_url_filter', 'onCompose'], FM::WEIGHT_ALTER - 100];
     $listenerSpecs[] = ['hook_civicrm_alterMailContent', ['mosaico_image_filter', 'alterMailContent']];
+    $listenerSpecs[] = ['civi.api.prepare', ['mosaico_ab_demux', 'wrapMailingApi'], Civi\API\Events::W_LATE];
 
     return $listenerSpecs;
   }

@@ -112,6 +112,15 @@ function mosaico_civicrm_angularModules(&$angularModules) {
   _mosaico_civix_civicrm_angularModules($angularModules);
 }
 
+function mosaico_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
+  $changeSet = \Civi\Angular\ChangeSet::create('mosaico_subject_list')
+    ->alterHtml('~/crmMailing/BlockMailing.html', function (phpQueryObject $doc) {
+      $field = $doc->find('[name=subject]')->parent('[crm-ui-field]');
+      $field->html('<crm-mosaico-subject-list crm-mailing="mailing"/>');
+    });
+  $angular->add($changeSet);
+}
+
 /**
  * Implements hook_civicrm_alterSettingsFolders().
  *

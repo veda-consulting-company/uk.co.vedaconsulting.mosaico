@@ -61,19 +61,7 @@
   <div class="form-group">
     <label for="inputSubject" class="control-label required-mark">{{ts('Subject')}}</label>
     <div>
-      <div style="float: right;" class="token-holder">
-        <input class="form-control" crm-mailing-token on-select="$broadcast('insert:subject', token.name)" tabindex="-1"/>
-      </div>
-      <input
-        id="inputSubject"
-        crm-ui-insert-rx="insert:subject"
-        name="subject"
-        type="text"
-        class="form-control"
-        placeholder="{{ts('Subject')}}"
-        ng-model="mailing.subject"
-        required
-      />
+      <crm-mosaico-subject-list crm-mailing="mailing" />
     </div>
   </div>
 

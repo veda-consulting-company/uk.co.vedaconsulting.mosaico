@@ -1,0 +1,14 @@
+<div style="float: right;">
+  <input crm-mailing-token on-select="$broadcast('insert:subject', token.name)" tabindex="-1"/>
+</div>
+
+<input
+  crm-ui-id="subform.subject"
+  crm-ui-insert-rx="insert:subject"
+  name="subject"
+  type="text"
+  class="crm-form-text"
+  placeholder="Subject"
+  ng-model="mailing.subject"
+  required
+/>

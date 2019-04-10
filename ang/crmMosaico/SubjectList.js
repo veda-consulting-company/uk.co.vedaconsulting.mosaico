@@ -13,6 +13,23 @@
         scope.ts = CRM.ts(null);
         scope.hs = crmUiHelp({file: 'CRM/Mailing/MailingUI'});
 
+        scope.addSubj = function addSubj() {
+          scope.mailing.template_options.variants = [
+            {subject: scope.mailing.subject},
+            {subject: scope.mailing.subject}
+          ]
+        };
+
+        scope.rmSubj = function rmSubj(vid) {
+          var m = scope.mailing;
+          m.template_options.variants.splice(vid, 1);
+          if (m.template_options.variants.length === 1) {
+            m.subject = m.template_options.variants[0].subject;
+            delete m.template_options.variants;
+          }
+        };
+
+        scope.labels = ['A', 'B'];
       }
     };
 

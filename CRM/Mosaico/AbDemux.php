@@ -34,6 +34,7 @@ class CRM_Mosaico_AbDemux {
     'open_tracking' => 1,
     'url_tracking' => 1,
   ];
+  const DEFAULT_WINNING_TIME = '+2 days';
 
   /**
    * List of properties that may be overriden in variants.
@@ -147,7 +148,13 @@ class CRM_Mosaico_AbDemux {
       // Not one of ours!
       return $continue($apiRequest);
     }
-    $b = $api3('Mailing', 'clone', ['id' => $a['id']]);
+    $b = $api3('Mailing', 'clone', [
+      'id' => $a['id'],
+      'api.Mailing.create' => [
+        'groups' => ['include' => [], 'exclude' => []],
+        'mailings' => ['include' => [], 'exclude' => []],
+      ],
+    ]);
     $c = $api3('Mailing', 'create', ['name' => $a['name'] . ' (C)']);
     $variants = $a['template_options']['variants'];
 
@@ -178,10 +185,8 @@ class CRM_Mosaico_AbDemux {
       'mailing_id_c' => $c['id'],
       'testing_criteria' => 'full_email',
       'group_percentage' => CRM_Utils_Array::value('variantsPct', $a['template_options'], self::DEFAULT_AB_PERCENTAGE),
-      // FIXME percentage
-      // winner_criteria: null,
-      // specific_url: '',
-      // declare_winning_time: null,
+      'winner_criteria' => 'open',
+      'declare_winning_time' => self::DEFAULT_WINNING_TIME,
     ]);
 
     $submitParams = CRM_Utils_Array::subset($apiRequest['params'], array(

@@ -14,6 +14,7 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
 
   use \Civi\Test\ContactTestTrait;
   use \Civi\Test\DbTestTrait;
+  use \Civi\Test\MailingTestTrait;
 
   /**
    * Civi\Test has many helpers, like install(), uninstall(), sql(), and sqlFile().
@@ -23,6 +24,13 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
     return \Civi\Test::headless()
       ->install(['org.civicrm.flexmailer', 'uk.co.vedaconsulting.mosaico'])
       ->apply();
+  }
+
+  protected function setUp() {
+    parent::setUp();
+
+    Civi::settings()->set('disable_mandatory_tokens_check', TRUE);
+    $this->createLoggedInUser();
   }
 
   public function getVariantExamples() {
@@ -54,10 +62,6 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
    */
   public function testMailingSubmit($inputVariantA, $inputVariantB, $expectVariantA, $expectVariantB) {
     $this->assertTrue(Civi::container()->has('mosaico_ab_demux'), 'Mosaico services should be active in test environment');
-
-    Civi::settings()->set('disable_mandatory_tokens_check', TRUE);
-    $contactId = $this->createLoggedInUser();
-
     $createParams = [
       'template_type' => 'mosaico',
       'template_options' => [
@@ -71,7 +75,6 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
       'body_text' => "Placeholder",
       'body_html' => "Placeholder",
       'name' => 'AbDemuxTest' . md5(uniqid()),
-      'created_id' => $contactId,
       'header_id' => '',
       'footer_id' => '',
     ];
@@ -107,6 +110,95 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
     $bLoad = $this->callAPISuccess('Mailing', 'getsingle', ['id' => $ab['mailing_id_b']]);
     $this->assertAttributesEquals($expectVariantA, $aLoad);
     $this->assertAttributesEquals($expectVariantB, $bLoad);
+  }
+
+  /**
+   * @return array
+   */
+  public function groupPctProvider() {
+    // array(int $totalSize, int $groupPct, int $expectedCountA, $expectedCountB, $expectedCountC)
+    $cases = array();
+    $cases[] = array(1, 10, 1, 0, 0);
+    $cases[] = array(2, 10, 1, 1, 0);
+    $cases[] = array(3, 10, 1, 1, 1);
+    $cases[] = array(50, 10, 5, 5, 40);
+    $cases[] = array(50, 20, 10, 10, 30);
+    return $cases;
+  }
+
+  /**
+   * Create a test and ensure that all three mailings (A/B/C) wind up with the correct
+   * number of recipients.
+   *
+   * @param $totalGroupContacts
+   * @param $groupPct
+   * @param $expectedCountA
+   * @param $expectedCountB
+   * @param $expectedCountC
+   * @dataProvider groupPctProvider
+   */
+  public function testDistribution($totalGroupContacts, $groupPct, $expectedCountA, $expectedCountB, $expectedCountC) {
+    $this->assertTrue(Civi::container()->has('mosaico_ab_demux'), 'Mosaico services should be active in test environment');
+
+    $groupId = $this->groupCreate();
+    $result = $this->groupContactCreate($groupId, $totalGroupContacts, TRUE);
+    $this->assertEquals($totalGroupContacts, $result['added'], "in line " . __LINE__);
+
+    $mailingIdA = $this->createMailing([
+      'template_options' => [
+        'variants' => [
+          0 => ['subject' => 'Subject 1'],
+          1 => ['subject' => 'Subject 2'],
+        ],
+        'variantsPct' => $groupPct,
+      ],
+    ]);
+
+    $this->callAPISuccess('Mailing', 'create', [
+      'id' => $mailingIdA,
+      'groups' => ['include' => [$groupId]],
+    ]);
+    $this->assertJobCounts(0, $mailingIdA);
+
+    $this->callAPISuccess('Mailing', 'submit', [
+      'id' => $mailingIdA,
+      'scheduled_date' => 'now',
+      'approval_date' => 'now',
+    ]);
+
+    $ab = $this->callAPISuccess('MailingAB', 'getsingle', ['mailing_id_a' => $mailingIdA]);
+
+    $this->assertRecipientCounts($expectedCountA, $ab['mailing_id_a']);
+    $this->assertRecipientCounts($expectedCountB, $ab['mailing_id_b']);
+    $this->assertRecipientCounts($expectedCountC, $ab['mailing_id_c']);
+    $this->assertJobCounts(1, $ab['mailing_id_a']);
+    $this->assertJobCounts(1, $ab['mailing_id_b']);
+    $this->assertJobCounts(0, $ab['mailing_id_c']);
+
+    $this->callAPISuccess('MailingAB', 'submit', [
+      'id' => $ab['id'],
+      'winner_id' => $ab['mailing_id_a'],
+      'status' => 'Final',
+      'scheduled_date' => 'now',
+      'approval_date' => 'now',
+    ]);
+    $this->assertRecipientCounts($expectedCountA, $ab['mailing_id_a']);
+    $this->assertRecipientCounts($expectedCountB, $ab['mailing_id_b']);
+    $this->assertRecipientCounts($expectedCountC, $ab['mailing_id_c']);
+    $this->assertJobCounts(1, $ab['mailing_id_a']);
+    $this->assertJobCounts(1, $ab['mailing_id_b']);
+    $this->assertJobCounts(1, $ab['mailing_id_c']);
+  }
+
+  protected function assertRecipientCounts($expectCount, $mailingId) {
+    $actualCount = $this->callAPISuccess('MailingRecipients', 'getcount', ['mailing_id' => $mailingId]);
+    $this->assertEquals($expectCount, $actualCount, "check mailing recipients in line " . __LINE__);
+  }
+
+  protected function assertJobCounts($expectCount, $mailingId) {
+    $this->assertDBQuery($expectCount, 'SELECT count(*) FROM civicrm_mailing_job WHERE mailing_id = %1', [
+      1 => [$mailingId, 'Integer'],
+    ]);
   }
 
 }

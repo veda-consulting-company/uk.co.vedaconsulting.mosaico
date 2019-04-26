@@ -13,7 +13,7 @@ This extension integrates a responsive email template editor, [Mosaico](http://m
 
 * CiviCRM `v5.0`+
 * PHP-ImageMagick - recommended.
-* [FlexMailer](https://docs.civicrm.org/flexmailer/en/latest/) `v1.0-beta1`
+* [FlexMailer](https://docs.civicrm.org/flexmailer/en/latest/) `v1.0`+
 
 ### Using with Scheduled reminders, personal messages etc
 

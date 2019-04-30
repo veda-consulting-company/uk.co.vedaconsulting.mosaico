@@ -351,6 +351,9 @@ function _mosaico_civicrm_alterMailContent(&$content) {
     '[unsubscribe_link]' => '{action.unsubscribeUrl}',
   );
   $content = str_replace(array_keys($tokenAliases), array_values($tokenAliases), $content);
+
+  // Some existing and customized templates have awkward HTML <TITLE>s, which show up when viewing the mailing the browser.
+  $content = preg_replace(';(\<head.*\<title\>\s*)TITLE(\s*\</title\>.*\</head\>);ms', '\\1{mailing.subject}\\2', $content, 1);
 }
 
 /**

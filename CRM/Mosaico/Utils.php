@@ -281,8 +281,19 @@ class CRM_Mosaico_Utils {
       $width = (int) $params[0];
       $height = (int) $params[1];
 
+      // Apply a sensible maximum for images in an email
+      if ($width > 6000 || $height > 6000) {
+        throw new \Exception("The requested dimensions are too large");
+      }
+
       switch ($method) {
         case 'placeholder':
+
+          // Only privileged users can request generation of placeholders
+          if (!CRM_Core_Permission::check(['access CiviMail', 'create mailings', 'edit message templates'])) {
+            CRM_Utils_System::permissionDenied();
+          }
+
           Civi::service('mosaico_graphics')->sendPlaceholder($width, $height);
           break;
 

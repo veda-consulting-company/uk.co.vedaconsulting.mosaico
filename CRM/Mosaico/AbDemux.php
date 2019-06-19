@@ -66,13 +66,13 @@ class CRM_Mosaico_AbDemux {
     switch ($a['entity'] . '.' . $a['action']) {
       case 'Mailing.submit':
         if (is_numeric($a['params']['id'])) {
-          $event->wrap([$this, 'onSubmitMailing']);
+          $event->wrapApi([$this, 'onSubmitMailing']);
         }
         break;
 
       case 'Mailing.send_test':
         if (is_numeric($a['params']['mailing_id'])) {
-          $event->wrap([$this, 'onSendTestMailing']);
+          $event->wrapApi([$this, 'onSendTestMailing']);
         }
         break;
     }

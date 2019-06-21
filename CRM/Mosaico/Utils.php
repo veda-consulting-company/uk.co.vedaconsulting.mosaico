@@ -10,6 +10,13 @@ use CRM_Mosaico_ExtensionUtil as E;
  */
 class CRM_Mosaico_Utils {
 
+  /**
+   * Maximum image size, in total pixels, allowed for on-the-fly generation.
+   *
+   * @var int
+   */
+  const MAX_IMAGE_PIXELS = 36000000;
+
   public static function isBootstrap() {
     return strpos(CRM_Mosaico_Utils::getLayoutPath(), '/crmstar-') === FALSE;
   }
@@ -281,9 +288,9 @@ class CRM_Mosaico_Utils {
       $width = (int) $params[0];
       $height = (int) $params[1];
 
-      // Apply a sensible maximum for images in an email
-      if ($width > 6000 || $height > 6000) {
-        throw new \Exception("The requested dimensions are too large");
+      // Apply a sensible maximum size for images in an email
+      if ($width * $height > self::MAX_IMAGE_PIXELS)  {
+        throw new \Exception("The requested image size is too large");
       }
 
       switch ($method) {

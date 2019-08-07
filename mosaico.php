@@ -408,6 +408,17 @@ function mosaico_civicrm_pre($op, $objectName, $id, &$params) {
 }
 
 /**
+ * Implements hook_civicrm_alterMailContent(&$content).
+ * @param array $content
+ */
+function mosaico_civicrm_alterMailContent(&$content) {
+  if (isset($content['html'])) {
+    $re = '|src="(.*q=civicrm(%2F\|/)mosaico(%2F\|/)img&.*)"|';
+    $content['html'] = preg_replace_callback($re, 'CRM_Mosaico_Utils::cacheImage', $content['html']);
+  }
+}
+
+/**
  * Implements hook_civicrm_container().
  */
 function mosaico_civicrm_container(\Symfony\Component\DependencyInjection\ContainerBuilder $container) {

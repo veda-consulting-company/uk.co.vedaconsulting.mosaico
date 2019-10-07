@@ -408,3 +408,15 @@ function mosaico_civicrm_container(\Symfony\Component\DependencyInjection\Contai
   require_once 'CRM/Mosaico/Services.php';
   CRM_Mosaico_Services::registerServices($container);
 }
+
+/**
+ * Implements hook_civicrm_searchTasks();
+ */
+function mosaico_civicrm_searchTasks($objectName, &$tasks) {
+  if ($objectName == 'contact') {
+    $tasks[] = [
+      'title' => 'Email - schedule/send via CiviMail (traditional)',
+      'class' => 'CRM_Mosaico_Form_Task_AdhocMailingTraditional',
+    ];
+  }
+}

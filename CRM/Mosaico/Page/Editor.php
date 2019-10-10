@@ -1,5 +1,7 @@
 <?php
 
+use CRM_Mosaico_ExtensionUtil as E;
+
 class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
   const DEFAULT_MODULE_WEIGHT = 200;
 
@@ -62,6 +64,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     ));
 
     $config = array(
+      'strings' => json_decode(file_get_contents(CRM_Core_Resources::singleton()->getPath(E::LONG_NAME, 'packages/mosaico/res/lang/mosaico-fr.json'))),
       'imgProcessorBackend' => $this->getUrl('civicrm/mosaico/img', NULL, TRUE),
       'emailProcessorBackend' => 'unused-emailProcessorBackend',
       'titleToken' => 'MOSAICO Responsive Email Designer',

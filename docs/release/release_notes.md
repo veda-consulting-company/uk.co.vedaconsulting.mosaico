@@ -1,6 +1,10 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB** 
 Download via https://civicrm.org/extensions/mosaico-civicrm-integration as there are additional packaging requirements not handled by github.
 
+## Release 2.3
+
+* Change image placeholder permissions (*Fixes issue with image placeholders for some sites*).
+
 ## Release 2.2
 
 * Allow sending traditional emails as a search task.

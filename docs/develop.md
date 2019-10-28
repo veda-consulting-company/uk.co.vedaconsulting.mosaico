@@ -66,6 +66,7 @@ Whenever a change is merged or pushed to `uk.co.vedaconsulting.mosaico`, a bot a
 and publishes [uk.co.vedaconsulting.mosaico-latest.zip](https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/latest/uk.co.vedaconsulting.mosaico-latest.zip).
 
 The build/publish process has a few properties:
+
  * It combines [`uk.co.vedaconsulting.mosaico`](https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico),
    [`civicrm/mosaico`](https://github.com/civicrm/mosaico), and any other runtime dependencies into one `zip` file.
  * The version number is determined by reading `info.xml` (`<version>`) and appending the current Unix timestamp.

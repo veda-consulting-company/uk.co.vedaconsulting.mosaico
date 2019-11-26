@@ -235,14 +235,8 @@ class CRM_Mosaico_Utils {
           if (move_uploaded_file($tmp_name, $file_path) === TRUE) {
             $size = filesize($file_path);
 
-            $image = new Imagick($file_path);
-
-            $image->resizeImage($config['THUMBNAIL_WIDTH'], $config['THUMBNAIL_HEIGHT'], Imagick::FILTER_LANCZOS, 1.0, TRUE);
-            // $image->writeImage( $config['BASE_DIR'] . $config[ THUMBNAILS_DIR ] . $file_name );
-            if ($f = fopen($config['BASE_DIR'] . $config['THUMBNAILS_DIR'] . $file_name, "w")) {
-              $image->writeImageFile($f);
-            }
-            $image->destroy();
+            $thumbnail_path = $config['BASE_DIR'] . $config[ 'THUMBNAILS_DIR' ] . $file_name;
+            Civi::service('mosaico_graphics')->createResizedImage($file_path, $thumbnail_path, $config['THUMBNAIL_WIDTH'], $config['THUMBNAIL_HEIGHT']);
 
             $file = array(
               "name" => $file_name,

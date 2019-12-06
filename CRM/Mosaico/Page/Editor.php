@@ -94,6 +94,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
             ts('Contact ID') => '{contact.contact_id}',
           ),
         ),
+        'browser_spellcheck' => TRUE,
       ),
       'tinymceConfigFull' => array(
         'plugins' => array('link hr paste lists textcolor code civicrmtoken'),

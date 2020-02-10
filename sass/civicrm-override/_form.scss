@@ -41,10 +41,6 @@ span.crmMailing-include {
   color: $gray-darker;
 }
 
-a.helpicon:not(.crm-mosaico-page a.helpicon) {
-  background-color: $brand-primary;
-}
-
 .crmMailing-recip-est {
   background: $crm-white;
 }
@@ -110,8 +106,4 @@ div[ng-form="editRecipOptionsForm"] .crm-group {
 .crm-hover-button {
   background: none;
   border: none;
-}
-// Help icon styling
-.control-label a.helpicon:not(.crm-mosaico-page .control-label a.helpicon) {
-  background-color: $brand-primary;
 }

@@ -2,7 +2,7 @@ div[ng-form="editRecipOptionsForm"] .select2-container,
 .form-control.select2-container,
 .form-group .select2-container {
   background: $crm-white;
-  border: 1px solid $crm-darker-grayblue;
+  border: 1px solid $crm-grayblue-darker;
   box-shadow: $crm-form-control-shadow;
   padding: 0;
 
@@ -224,7 +224,7 @@ ul.select2-choices {
 
     select {
       background: $crm-white;
-      border: 1px solid $crm-darker-grayblue;
+      border: 1px solid $crm-grayblue-darker;
       height: 30px;
     }
   }

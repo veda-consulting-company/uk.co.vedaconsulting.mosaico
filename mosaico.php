@@ -105,7 +105,7 @@ function mosaico_civicrm_managed(&$entities) {
  */
 function mosaico_civicrm_angularModules(&$angularModules) {
   $canRead = Civi::service('civi_api_kernel')->runAuthorize(
-    'MosaicoTemplate', 'get', array('version' => 3, 'check_permissions' => 1));
+    'MosaicoTemplate', 'get', ['version' => 3, 'check_permissions' => 1]);
   if (!$canRead) {
     return;
   }
@@ -122,35 +122,35 @@ function mosaico_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
 }
 
 function mosaico_civicrm_navigationMenu(&$params) {
-  _mosaico_civix_insert_navigation_menu($params, 'Mailings', array(
+  _mosaico_civix_insert_navigation_menu($params, 'Mailings', [
     'label' => E::ts('Mosaico Templates'),
     'name' => 'mosaico_templates',
     'permission' => 'edit message templates',
-    'child' => array(),
+    'child' => [],
     'operator' => 'AND',
     'separator' => 0,
     'url' => CRM_Utils_System::url('civicrm/a/', NULL, TRUE, '/mosaico-template'),
-  ));
+  ]);
 
-  _mosaico_civix_insert_navigation_menu($params, 'Mailings', array(
+  _mosaico_civix_insert_navigation_menu($params, 'Mailings', [
     'label' => E::ts('New Mailing (Traditional)'),
     'name' => 'traditional_mailing',
     'permission' => 'access CiviMail,create mailings',
-    'child' => array(),
+    'child' => [],
     'operator' => 'OR',
     'separator' => 0,
     'url' => CRM_Utils_System::url('civicrm/a/', NULL, TRUE, '/mailing/new/traditional'),
-  ));
+  ]);
 
-  _mosaico_civix_insert_navigation_menu($params, 'Administer/CiviMail', array(
+  _mosaico_civix_insert_navigation_menu($params, 'Administer/CiviMail', [
     'label' => E::ts('Mosaico Settings'),
     'name' => 'mosaico_settings',
     'permission' => 'administer CiviCRM',
-    'child' => array(),
+    'child' => [],
     'operator' => 'AND',
     'separator' => 0,
     'url' => CRM_Utils_System::url('civicrm/admin/mosaico', 'reset=1', TRUE),
-  ));
+  ]);
 
   _mosaico_civix_navigationMenu($params);
 }
@@ -235,12 +235,12 @@ function mosaico_civicrm_check(&$messages) {
     if (version_compare($fmInfo->version, $RECOMMENDED_FLEXMAILER, '<')) {
       $messages[] = new CRM_Utils_Check_Message(
         'mosaico_flexmailer_ver',
-        E::ts('The extension %1 expects %2 version <code>%3</code> or newer. Found version <code>%4</code>.', array(
+        E::ts('The extension %1 expects %2 version <code>%3</code> or newer. Found version <code>%4</code>.', [
           1 => 'Mosaico',
           2 => 'FlexMailer',
           3 => $RECOMMENDED_FLEXMAILER,
           4 => $fmInfo->version,
-        )),
+        ]),
         E::ts('Outdated dependency'),
         \Psr\Log\LogLevel::WARNING
       );
@@ -254,7 +254,7 @@ function mosaico_civicrm_check(&$messages) {
     $response = curl_exec($handle);
     $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
     if ($httpCode == 404) {
-      $messages[] = new CRM_Utils_Check_Message('mosaico_base_url', E::ts('BASE_URL seems incorrect - %1. Images when uploaded, may not appear correctly as thumbnails. Make sure "Image Upload URL" is configured correctly with Administer » System Settings » Resouce URLs.', array(1 => $mConfig['BASE_URL'])), E::ts('Incorrect image upload url'));
+      $messages[] = new CRM_Utils_Check_Message('mosaico_base_url', E::ts('BASE_URL seems incorrect - %1. Images when uploaded, may not appear correctly as thumbnails. Make sure "Image Upload URL" is configured correctly with Administer » System Settings » Resouce URLs.', [1 => $mConfig['BASE_URL']]), E::ts('Incorrect image upload url'));
     }
   }
 
@@ -262,10 +262,10 @@ function mosaico_civicrm_check(&$messages) {
   if ($oldTplCount > 0) {
     $messages[] = new CRM_Utils_Check_Message(
       'mosaico_migrate_1x',
-      E::ts('Found %1 template(s) from CiviCRM-Mosaico v1.x. Use the <a href="%2">Migration Assistant</a> to load them in v2.x.', array(
+      E::ts('Found %1 template(s) from CiviCRM-Mosaico v1.x. Use the <a href="%2">Migration Assistant</a> to load them in v2.x.', [
         1 => $oldTplCount,
         2 => CRM_Utils_System::url('civicrm/admin/mosaico/migrate', 'reset=1'),
-      )),
+      ]),
       E::ts('Mosaico: Migrate templates (1.x => 2.x)'),
       \Psr\Log\LogLevel::WARNING
     );
@@ -280,31 +280,31 @@ function _mosaico_civicrm_check_dirs(&$messages) {
   // Check if UPLOADS directory exists and create it if it doesn't
   if (!is_dir($mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])) {
     if (!mkdir($mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'], 0775, TRUE)) {
-      $messages[] = new CRM_Utils_Check_Message('mosaico_uploads_dir', E::ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])), E::ts('UPLOADS_DIR not writable or configured'));
+      $messages[] = new CRM_Utils_Check_Message('mosaico_uploads_dir', E::ts('%1 not writable or configured.', [1 => $mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR']]), E::ts('UPLOADS_DIR not writable or configured'));
     }
   }
   elseif (!is_writable($mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])) {
-    $messages[] = new CRM_Utils_Check_Message('mosaico_uploads_dir', E::ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR'])), E::ts('UPLOADS_DIR not writable or configured'));
+    $messages[] = new CRM_Utils_Check_Message('mosaico_uploads_dir', E::ts('%1 not writable or configured.', [1 => $mConfig['BASE_DIR'] . $mConfig['UPLOADS_DIR']]), E::ts('UPLOADS_DIR not writable or configured'));
   }
 
   // Check if uploads/STATIC directory exists and create it if it doesn't
   if (!is_dir($mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])) {
     if (!mkdir($mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'], 0775, TRUE)) {
-      $messages[] = new CRM_Utils_Check_Message('mosaico_static_dir', E::ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])), E::ts('STATIC_DIR not writable or configured'));
+      $messages[] = new CRM_Utils_Check_Message('mosaico_static_dir', E::ts('%1 not writable or configured.', [1 => $mConfig['BASE_DIR'] . $mConfig['STATIC_DIR']]), E::ts('STATIC_DIR not writable or configured'));
     }
   }
   elseif (!is_writable($mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])) {
-    $messages[] = new CRM_Utils_Check_Message('mosaico_static_dir', E::ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['STATIC_DIR'])), E::ts('STATIC_DIR not writable or configured'));
+    $messages[] = new CRM_Utils_Check_Message('mosaico_static_dir', E::ts('%1 not writable or configured.', [1 => $mConfig['BASE_DIR'] . $mConfig['STATIC_DIR']]), E::ts('STATIC_DIR not writable or configured'));
   }
 
   // Check if uploads/THUMBNAILS directory exists and create it if it doesn't
   if (!is_dir($mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])) {
     if (!mkdir($mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'], 0775, TRUE)) {
-      $messages[] = new CRM_Utils_Check_Message('mosaico_thumbnails_dir', E::ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])), E::ts('THUMBNAILS_DIR not writable or configured'));
+      $messages[] = new CRM_Utils_Check_Message('mosaico_thumbnails_dir', E::ts('%1 not writable or configured.', [1 => $mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR']]), E::ts('THUMBNAILS_DIR not writable or configured'));
     }
   }
   elseif (!is_writable($mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])) {
-    $messages[] = new CRM_Utils_Check_Message('mosaico_thumbnails_dir', E::ts('%1 not writable or configured.', array(1 => $mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR'])), E::ts('THUMBNAILS_DIR not writable or configured'));
+    $messages[] = new CRM_Utils_Check_Message('mosaico_thumbnails_dir', E::ts('%1 not writable or configured.', [1 => $mConfig['BASE_DIR'] . $mConfig['THUMBNAILS_DIR']]), E::ts('THUMBNAILS_DIR not writable or configured'));
   }
 }
 
@@ -322,12 +322,12 @@ function _mosaico_civicrm_alterMailContent(&$content) {
   // Mosaico templates have a few of their own tokens which are named differently from
   // CiviMail tokens. By treating these as aliases, we can get more compatibility between
   // Civi's delivery system and upstream Mosaico templates.
-  $tokenAliases = array(
+  $tokenAliases = [
     // '[profile_link]' => 'FIXME',
     '[show_link]' => '{mailing.viewUrl}',
     '[subject]' => '{mailing.subject}',
     '[unsubscribe_link]' => '{action.unsubscribeUrl}',
-  );
+  ];
   $content = str_replace(array_keys($tokenAliases), array_values($tokenAliases), $content);
 
   // Some existing and customized templates have awkward HTML <TITLE>s, which show up when viewing the mailing the browser.
@@ -340,7 +340,7 @@ function _mosaico_civicrm_alterMailContent(&$content) {
  * @throws \CRM_Core_Exception
  */
 function mosaico_civicrm_mailingTemplateTypes(&$types) {
-  $messages = array();
+  $messages = [];
   mosaico_civicrm_check($messages);
   foreach (array_keys($messages) as $key) {
     if ($messages[$key]->getLevel() <= 4) {
@@ -355,22 +355,22 @@ function mosaico_civicrm_mailingTemplateTypes(&$types) {
     ? CRM_Mosaico_Utils::getLayoutPath()
     : '~/crmMosaico/requirements.html';
 
-  $types[] = array(
+  $types[] = [
     'name' => 'mosaico',
     'editorUrl' => $editorUrl,
     'weight' => -10,
-  );
+  ];
 }
 
 /**
  * Implements hook_civicrm_entityTypes().
  */
 function mosaico_civicrm_entityTypes(&$entityTypes) {
-  $entityTypes[] = array(
+  $entityTypes[] = [
     'name' => 'MosaicoTemplate',
     'class' => 'CRM_Mosaico_DAO_MosaicoTemplate',
     'table' => 'civicrm_mosaico_template',
-  );
+  ];
 }
 
 /**

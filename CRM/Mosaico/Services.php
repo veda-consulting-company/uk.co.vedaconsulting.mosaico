@@ -31,11 +31,11 @@ class CRM_Mosaico_Services {
   }
 
   protected static function getListenerSpecs() {
-    $listenerSpecs = array();
+    $listenerSpecs = [];
 
-    $listenerSpecs[] = array(\Civi\FlexMailer\Validator::EVENT_CHECK_SENDABLE, array('mosaico_required_tokens', 'onCheckSendable'), FM::WEIGHT_MAIN);
-    $listenerSpecs[] = array(FM::EVENT_COMPOSE, array('mosaico_flexmail_composer', 'onCompose'), FM::WEIGHT_MAIN);
-    $listenerSpecs[] = array(FM::EVENT_COMPOSE, array('mosaico_flexmail_url_filter', 'onCompose'), FM::WEIGHT_ALTER - 100);
+    $listenerSpecs[] = [\Civi\FlexMailer\Validator::EVENT_CHECK_SENDABLE, ['mosaico_required_tokens', 'onCheckSendable'], FM::WEIGHT_MAIN];
+    $listenerSpecs[] = [FM::EVENT_COMPOSE, ['mosaico_flexmail_composer', 'onCompose'], FM::WEIGHT_MAIN];
+    $listenerSpecs[] = [FM::EVENT_COMPOSE, ['mosaico_flexmail_url_filter', 'onCompose'], FM::WEIGHT_ALTER - 100];
     $listenerSpecs[] = ['hook_civicrm_alterMailContent', ['mosaico_image_filter', 'alterMailContent']];
 
     return $listenerSpecs;

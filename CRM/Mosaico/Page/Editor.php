@@ -105,7 +105,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     // Adding translation strings if exist
     $locale = CRM_Core_I18n::getLocale();
     $lang = CRM_Core_I18n_PseudoConstant::shortForLong($locale);
-    $translationFile = CRM_Core_Resources::singleton()->getPath(E::LONG_NAME, "packages/mosaico/res/lang/mosaico-{$lang}.json");
+    $translationFile = CRM_Core_Resources::singleton()->getPath(E::LONG_NAME, "packages/mosaico/dist/lang/mosaico-{$lang}.json");
     if (file_exists($translationFile)) {
       $config['strings'] = json_decode(file_get_contents($translationFile));
     }

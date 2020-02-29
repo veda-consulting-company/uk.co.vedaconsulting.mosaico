@@ -1,6 +1,6 @@
 <?php
 
-class CRM_Mosaico_TestCase extends PHPUnit_Framework_TestCase {
+class CRM_Mosaico_TestCase extends PHPUnit\Framework\TestCase {
 
   private $_apiversion = 3;
 

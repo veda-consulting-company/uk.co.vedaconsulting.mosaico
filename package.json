@@ -37,7 +37,7 @@
     "backstopjs": "^3.3.1",
     "clean": "^4.0.2",
     "fs": "0.0.1-security",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.13",
     "path": "^0.12.7",
     "plugin-error": "^1.0.1",
     "yargs": "^4.8.1"

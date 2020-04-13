@@ -1,6 +1,7 @@
 site_name: Mosaico Responsive Email Template Editor
 repo_url: https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico
-theme: material
+theme: 
+  name: material
 markdown_extensions:
   - attr_list
   - admonition

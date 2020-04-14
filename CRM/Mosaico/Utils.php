@@ -52,6 +52,36 @@ class CRM_Mosaico_Utils {
   }
 
   /**
+   * Get a list of image resize scale factors
+   *
+   * @return array
+   *   Array (int $machineName => string $label).
+   */
+  public static function getResizeScaleFactor() {
+    return [
+      '' => E::ts('None'),
+      3 => E::ts('3x'),
+      2 => E::ts('2x'),
+    ];
+  }
+
+  /**
+   * Get a list of image resize scale width limits
+   *
+   * @return array
+   *   Array (int $machineName => string $label).
+   */
+  public static function getResizeScaleWidthLimit() {
+    return [
+      ''   => E::ts('None'),
+      190  => E::ts('Upto 190 pixels (e.g 3 column blocks)'),
+      285  => E::ts('Upto 285 pixels (e.g 2 column blocks)'),
+      999  => E::ts('Upto 570 pixels (e.g 1 column blocks)'),
+      9999 => E::ts('All (other) sizes'),
+    ];
+  }
+
+  /**
    * Get the path to the Mosaico layout file.
    *
    * @return string
@@ -177,7 +207,6 @@ class CRM_Mosaico_Utils {
 
     return $mConfig;
   }
-
 
   /**
    * handler for upload requests

@@ -74,7 +74,7 @@ abstract class CRM_Mosaico_Graphics_Interface {
    *   Resize width in pixels.
    * @param int|NULL $resizeHeight
    *   Resize height in pixels.
-   * @return void
+   * @return float|null
    */
   public function adjustResizeDimensions($imgWidth, $imgHeight, &$resizeWidth, &$resizeHeight) {
     $scaleFactor = NULL;
@@ -91,7 +91,7 @@ abstract class CRM_Mosaico_Graphics_Interface {
       }
     }
     if (empty($scaleFactor)) {
-      return;
+      return NULL;
     }
     // If scale-factor make new width bigger than that of image itself, re-compute scale-factor to
     // maximum possible.
@@ -105,11 +105,12 @@ abstract class CRM_Mosaico_Graphics_Interface {
       $scaleFactor = max($possibleLevels);
     }
     if ($scaleFactor && $resizeWidth) {
-      $resizeWidth *= $scaleFactor;
+      $resizeWidth = round($resizeWidth * $scaleFactor);
     }
     if ($scaleFactor && $resizeHeight) {
-      $resizeHeight *= $scaleFactor;
+      $resizeHeight = round($resizeHeight * $scaleFactor);
     }
+    return $scaleFactor;
   }
 
 }

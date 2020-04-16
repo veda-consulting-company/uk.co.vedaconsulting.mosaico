@@ -42,19 +42,19 @@ return [
     'description' => NULL,
     'help_text' => NULL,
   ],
-  'mosaico_scale_factor1' => array(
+  'mosaico_scale_factor1' => [
     'group_name' => 'Mosaico Preferences',
     'group' => 'mosaico',
     'name' => 'mosaico_scale_factor1',
     'quick_form_type' => 'Select',
     'type' => 'String',
     'html_type' => 'select',
-    'html_attributes' => array(
+    'html_attributes' => [
       'class' => 'crm-select2',
-    ),
-    'pseudoconstant' => array(
+    ],
+    'pseudoconstant' => [
       'callback' => 'CRM_Mosaico_Utils::getResizeScaleFactor',
-    ),
+    ],
     'default' => '',
     'add' => '5.24',
     'title' => 'Image resize scale factor',
@@ -62,20 +62,20 @@ return [
     'is_contact' => 0,
     'description' => NULL,
     'help_text' => NULL,
-  ),
-  'mosaico_scale_factor2' => array(
+  ],
+  'mosaico_scale_factor2' => [
     'group_name' => 'Mosaico Preferences',
     'group' => 'mosaico',
     'name' => 'mosaico_scale_factor2',
     'quick_form_type' => 'Select',
     'type' => 'String',
     'html_type' => 'select',
-    'html_attributes' => array(
+    'html_attributes' => [
       'class' => 'crm-select2',
-    ),
-    'pseudoconstant' => array(
+    ],
+    'pseudoconstant' => [
       'callback' => 'CRM_Mosaico_Utils::getResizeScaleFactor',
-    ),
+    ],
     'default' => '',
     'add' => '5.24',
     'title' => 'Image resize scale factor',
@@ -83,20 +83,20 @@ return [
     'is_contact' => 0,
     'description' => NULL,
     'help_text' => NULL,
-  ),
-  'mosaico_scale_width_limit1' => array(
+  ],
+  'mosaico_scale_width_limit1' => [
     'group_name' => 'Mosaico Preferences',
     'group' => 'mosaico',
     'name' => 'mosaico_scale_width_limit1',
     'quick_form_type' => 'Select',
     'type' => 'String',
     'html_type' => 'select',
-    'html_attributes' => array(
+    'html_attributes' => [
       'class' => 'crm-select2',
-    ),
-    'pseudoconstant' => array(
+    ],
+    'pseudoconstant' => [
       'callback' => 'CRM_Mosaico_Utils::getResizeScaleWidthLimit',
-    ),
+    ],
     'default' => '',
     'add' => '5.24',
     'title' => 'Image resize scale factor width limit',
@@ -104,20 +104,20 @@ return [
     'is_contact' => 0,
     'description' => NULL,
     'help_text' => NULL,
-  ),
-  'mosaico_scale_width_limit2' => array(
+  ],
+  'mosaico_scale_width_limit2' => [
     'group_name' => 'Mosaico Preferences',
     'group' => 'mosaico',
     'name' => 'mosaico_scale_width_limit2',
     'quick_form_type' => 'Select',
     'type' => 'String',
     'html_type' => 'select',
-    'html_attributes' => array(
+    'html_attributes' => [
       'class' => 'crm-select2',
-    ),
-    'pseudoconstant' => array(
+    ],
+    'pseudoconstant' => [
       'callback' => 'CRM_Mosaico_Utils::getResizeScaleWidthLimit',
-    ),
+    ],
     'default' => '',
     'add' => '5.24',
     'title' => 'Image resize scale factor width limit',
@@ -125,7 +125,7 @@ return [
     'is_contact' => 0,
     'description' => NULL,
     'help_text' => NULL,
-  ),
+  ],
   'mosaico_custom_templates_dir' => [
     'group_name' => 'Mosaico Preferences',
     'group' => 'mosaico',

@@ -37,12 +37,12 @@ a way to *deploy* the folder, such as:
   <?php
   use CRM_Mymodule_ExtensionUtil as E;
   function mymodule_civicrm_mosaicoBaseTemplates(&$templates) {
-    $templates['foobar'] = array(
+    $templates['foobar'] = [
       'name' => 'foobar',
       'title' => 'Foo Bar',
       'path' => E::url('foobar/template-foobar.html'),
       'thumbnail' => E::url('foobar/edres/_full.png'),
-    );
+    ];
   }
   ```
 

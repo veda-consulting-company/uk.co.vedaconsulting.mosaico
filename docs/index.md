@@ -26,7 +26,7 @@ An experimental extension is available here: https://github.com/civicrm/org.civi
 See: https://docs.civicrm.org/sysadmin/en/latest/customize/extensions/#installing-a-new-extension
 
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**: 
-Download via https://civicrm.org/extensions/mosaico-civicrm-integration as there are additional packaging requirements not handled by github.
+Download via https://civicrm.org/extensions/email-template-builder as there are additional packaging requirements not handled by github.
 
 ## Getting started (Usage)
 

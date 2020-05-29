@@ -11,6 +11,12 @@ This extension defines a few new APIs:
   old v1.x templates.
 * `MosaicoTemplate.*`: This API provides access to the user-configurable templates.  It supports all standard CRUD
   actions (`get`, `create`, `delete`etc). Its data-structure closely adheres to Mosaico's canonical storage format.
+* `MosaicoTemplate.replaceurls`: When a database is restored in a server with a different URL, templates will need to be updated. The `replaceurls` method facilitates that migration task:
+
+```
+cv api MosaicoTemplate.replaceurls from_url="http://old.server.org" to_url="https://new.server.org"
+```
+
 * `MosaicoBaseTemplate.get`: This API provides access to the *base templates*. A base template (such as `versafix-1`)
   defines the HTML blocks that are available for drag/drop in the Mosaico palette. Note: This API is *read-only*.
   To define custom templates, see the section on "Base templates".

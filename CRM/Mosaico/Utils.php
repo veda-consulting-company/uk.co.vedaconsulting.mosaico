@@ -287,6 +287,13 @@ class CRM_Mosaico_Utils {
         throw new \Exception("The requested image size is too large");
       }
 
+      // Sometimes output buffer started by another module or plugin causes problem with
+      // image rendering. Let's clean any such buffers.
+      $levels = ob_get_level();
+      for ($i = 0; $i < $levels; $i++) {
+        ob_end_clean();
+      }
+
       switch ($method) {
         case 'placeholder':
 

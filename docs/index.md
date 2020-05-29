@@ -55,7 +55,8 @@ Open issues on [github](https://github.com/veda-consulting/uk.co.vedaconsulting.
 
 ## Migration to a new Domain
 
-If you move CiviCRM to a new domain, you must update the template paths in the CiviCRM database with a MySQL query such as:
+If you move CiviCRM to a new domain, you must update the template paths using the `replaceurls` API method:
+
 ```
-UPDATE civicrm_mosaico_template SET metadata = replace(metadata, 'old-domain.org', 'new-domain.org');
+cv api MosaicoTemplate.replaceurls from_url="http://old.server.org" to_url="https://new.server.org"
 ```

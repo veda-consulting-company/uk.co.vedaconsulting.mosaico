@@ -17,16 +17,12 @@ View/Download this extension in the [Extension Directory](https://civicrm.org/ex
  * [v2.0 Plans](https://civicrm.org/blog/jamienovick/email-template-builder-mosaico-phase-2-plans)
  * [v2.0 and Styling Blog Post](https://civicrm.org/blog/jamienovick/extreme-makeovers-civicrm-style-introducing-the-shoreditch-theme-civicrms-new-user)
 
-### Using with Scheduled reminders, personal messages etc
-
-An experimental extension is available here: https://github.com/civicrm/org.civicrm.mosaicomsgtpl
-
 ## Installation
 
-See: https://docs.civicrm.org/sysadmin/en/latest/customize/extensions/#installing-a-new-extension
+For help installing extensions, please see the [Install a New Extension section of the Extensions chapter](https://docs.civicrm.org/sysadmin/en/latest/customize/extensions/#installing-a-new-extension) in the SysAdmin Guide.
 
-**DO NOT DOWNLOAD DIRECTLY FROM GITHUB**: 
-Download via https://civicrm.org/extensions/email-template-builder as there are additional packaging requirements not handled by github.
+!!! warning "DO NOT DOWNLOAD DIRECTLY FROM GITHUB" 
+    Download Mosaico from the [Mosaico page on the CiviCRM extensions directory](https://civicrm.org/extensions/email-template-builder) as the Mosaico extension requires additional packaging steps for a working release!
 
 ## Getting started (Usage)
 
@@ -40,6 +36,12 @@ When composing a new mailing with Mosaico, the screen may be configured as a thr
 choose a layout, navigate to *Administer > CiviMail > Mosaico Settings*.
 
 If you would like to compose mailings with the *old* CiviMail screen, navigate to *Mailings > New Mailing (Traditional)*.
+
+## Using Mosaico with Scheduled Reminders / Personal Messages
+There is an experimental extension that allows Mosaico templates to be used for scheduled reminders, personal messages and a few other email related template-y things. It is called [mosaicomsgtpl](https://github.com/civicrm/org.civicrm.mosaicomsgtpl).
+
+!!! warning "Experimental"
+    To avoid confusion the above extension is experimental, whilst it is in use on production sites it would benefit from more extensive testing! If you can help [open an issue](https://github.com/civicrm/org.civicrm.mosaicomsgtpl/issues).
 
 ## Support and Maintenance
 

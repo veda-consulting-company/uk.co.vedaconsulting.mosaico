@@ -17,6 +17,7 @@ markdown_extensions:
 
 nav:
 - About: index.md
+- Setup: setup.md
 - API: api.md
 - Development: develop.md
 - Testing: testing.md

@@ -6,11 +6,11 @@ Images when uploaded in 2 columns (e.g 258 x 100) or 3 (e.g 166 x 90) column blo
 
 Introduced `Image resize scale factor` mosaico setting attempts to solve the problem by scaling uploaded images to 2x or 3x of their block size specially for 2 and 3 column layouts so upscale doesn't look distorted or low resolution. The solution also work for single column images.
 
-![Screenshot](/images/scaling-factor-config.png)
+![](./images/scaling-factor-config.png)
 
 Following example shows how a correctly configured scaling factor can improve the resolution of image rendered.
 
-![Screenshot](/images/scaling-factor-resolution-diff.png)
+![](./images/scaling-factor-resolution-diff.png)
 
 __Scaling factor config example__:  
 3x => Upto 285 pixels (covers both 2 and 3 column block images)  

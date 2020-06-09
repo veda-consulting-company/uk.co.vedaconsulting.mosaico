@@ -12,8 +12,8 @@ Following example shows how a correctly configured scaling factor can improve th
 
 ![image](https://user-images.githubusercontent.com/3448551/79334304-f59e7780-7f17-11ea-89e6-29a6576831ad.png)
 
-__Scaling factor config example__:
-3x => Upto 285 pixels (covers both 2 and 3 column block images)
+__Scaling factor config example__:  
+3x => Upto 285 pixels (covers both 2 and 3 column block images)  
 2x => All other sizes (single column block images)
 
 Which means when an image is uploaded in a block with 285 pixels (or less), image gets trimmed to 285 * 3 pixels instead of 285 pixels.

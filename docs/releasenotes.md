@@ -1,5 +1,23 @@
-**DO NOT DOWNLOAD DIRECTLY FROM GITHUB** 
+**DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via https://civicrm.org/extensions/mosaico-civicrm-integration as there are additional packaging requirements not handled by github.
+
+## Release 2.4
+
+#### Features
+* [#345](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/345) Use mosaico graphics service to resize thumbnail.
+* [#352](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/352) Make spell check available directly in mosaico.
+* [#374](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/374) Add API method to update template URLs.
+* [#371](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/371) Provide better support for high resolution images in mosaico.
+* Improvements to documentation.
+
+#### Fixes
+* Fix path to translation files.
+* [#376](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/376) Fix issue with image rendering (sometimes output buffer started by another module or plugin causes problem with image rendering).
+* Update composer libraries for PHP7.3 support.
+* Update Mosaico Services to be compatible with Symfony 4.
+* Update npm dependencies.
+* PHPUnit configuration compatible with PHPUnit6 and PHPUnit7.
+* Various tweaks for compatibility if using Shoreditch theme.
 
 ## Release 2.3
 

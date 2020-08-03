@@ -98,7 +98,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
       ],
       'tinymceConfigFull' => [
         'plugins' => ['link hr paste lists textcolor code civicrmtoken'],
-        'toolbar1' => 'bold italic forecolor backcolor hr styleselect removeformat | civicrmtoken | link unlink | pastetext code',
+        'toolbar1' => 'bold italic forecolor backcolor hr bullist styleselect removeformat | civicrmtoken | link unlink | pastetext code',
       ],
     ];
 

@@ -72,7 +72,8 @@ class CRM_Mosaico_Graphics_Intervention extends CRM_Mosaico_Graphics_Interface {
       $font->color("#B0B0B0");
     });
 
-    echo $img->response('png');
+    // $img->response returns a \Symfony\Component\HttpFoundation\Response object which will call __toString unless we pass in the send() method.
+    echo $img->response('png')->send();
   }
 
   /**

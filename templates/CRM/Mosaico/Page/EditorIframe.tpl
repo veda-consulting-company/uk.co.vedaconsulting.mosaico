@@ -24,6 +24,12 @@
 
       var plugins = [];
       var config = {/literal}{$mosaicoConfig}{literal};
+
+      window.onbeforeunload = function(e) {
+        e.preventDefault();
+        e.returnValue = "Do you really want to leave our brilliant application?";
+      };
+
       if (window.top.crmMosaicoIframe) {
         window.top.crmMosaicoIframe(window, Mosaico, config, plugins);
       }

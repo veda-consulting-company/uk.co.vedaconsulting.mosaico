@@ -24,6 +24,12 @@
 
       var plugins = [];
       var config = {/literal}{$mosaicoConfig}{literal};
+
+      window.onbeforeunload = function(e) {
+        e.preventDefault();
+        e.returnValue = "{/literal}{ts}Exit email composer without saving?{/ts}{literal}";
+      };
+
       if (window.top.crmMosaicoIframe) {
         window.top.crmMosaicoIframe(window, Mosaico, config, plugins);
       }

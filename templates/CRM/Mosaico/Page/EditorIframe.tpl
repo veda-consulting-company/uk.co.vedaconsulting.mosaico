@@ -27,7 +27,7 @@
 
       window.onbeforeunload = function(e) {
         e.preventDefault();
-        e.returnValue = "Do you really want to leave our brilliant application?";
+        e.returnValue = "{/literal}{ts}Exit email composer without saving?{/ts}{literal}";
       };
 
       if (window.top.crmMosaicoIframe) {

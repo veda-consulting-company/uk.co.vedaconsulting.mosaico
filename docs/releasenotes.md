@@ -1,6 +1,14 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via https://civicrm.org/extensions/mosaico-civicrm-integration as there are additional packaging requirements not handled by github.
 
+## Release 2.5
+
+* Fix [#319](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/319) Warn user before clicking away from mosaico editor.
+* [#388](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/388) Adds bullets (unorderd list) to editor
+* [#389](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/389)
+[#390](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/390)
+Fix placeholder images showing on Drupal8, Wordpress.
+
 ## Release 2.4
 
 #### Features

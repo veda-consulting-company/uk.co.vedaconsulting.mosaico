@@ -62,7 +62,7 @@ in https://github.com/civicrm/mosaico using [Twigflow (Rebase)](https://gist.git
 
 ## Publication
 
-Whenever a change is merged or pushed to `uk.co.vedaconsulting.mosaico`, a bot automatically builds a new `zip` archive
+Whenever a change is merged or pushed to `uk.co.vedaconsulting.mosaico`, a bot (currently on jenkins test-ci) automatically builds a new `zip` archive
 and publishes [uk.co.vedaconsulting.mosaico-latest.zip](https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/latest/uk.co.vedaconsulting.mosaico-latest.zip).
 
 The build/publish process has a few properties:
@@ -77,6 +77,13 @@ The build/publish process has a few properties:
    * A JSON document describing the build.
  * An alias is provided under the folder `latest`.
 
-The bot does *not* publish the new version to `civicrm.org`.  To do this, take the new `info.xml` file and manually
-upload it.  Since `civicrm.org` provides a directory of past and current versions, be sure to specify the download-URL
-for a specific version number (e.g.  `1.0.beta1.1478151288`) rather than an alias (`latest`).
+The bot does *not* publish the new version to `civicrm.org`.  To do this, download the `latest.zip` to get the version from the info.xml (
+eg. `2.5.1597918155`).
+
+Then add the actual release zip file to the release node on `https://civicrm.org/extensions/email-template-builder`.
+
+Example filename: `https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/2.5.1597918155/uk.co.vedaconsulting.mosaico-2.5.1597918155.zip`
+
+!!! warning
+    Last time a release was tagged (2.5) the extension publisher made it available for download via the extension feed even though it was unpublished.
+    This needs to be fixed before the next release!

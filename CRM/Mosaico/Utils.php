@@ -99,7 +99,8 @@ class CRM_Mosaico_Utils {
     ];
 
     if (empty($layout) || $layout === 'auto') {
-      return CRM_Extension_System::singleton()->getMapper()->isActiveModule('shoreditch')
+      $themes = Civi::service('themes');
+      return $themes->getActiveThemeKey() === 'shoreditch'
         ? $paths['bootstrap-wizard'] : $paths['crmstar-single'];
     }
     elseif (isset($paths[$layout])) {

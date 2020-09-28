@@ -14,6 +14,7 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
 
   use \Civi\Test\ContactTestTrait;
   use \Civi\Test\DbTestTrait;
+  use \Civi\Test\GenericAssertionsTrait;
   use \Civi\Test\MailingTestTrait;
 
   /**

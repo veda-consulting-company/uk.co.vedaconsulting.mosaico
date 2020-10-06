@@ -37,7 +37,7 @@ phpunit4 --group e2e
     3. Under "Design", open the template again.
     4. _Observe_: A full-screen dialog opens with Mosaico. It restores the content from before.
 
-## Manual Tests: Tokens
+## Manual Tests: Token Usage
 
 This extension defines a TinyMCE plugin called `civicrmtoken`.  To test this
 plugin, create a mailing with a block of content. Then try each of the following:
@@ -47,7 +47,7 @@ plugin, create a mailing with a block of content. Then try each of the following
 3. Edit a paragraph. Press `Ctrl-Shift-T` and see a dialog. Enter a filter and pick a token using the keyboard. Observe the new token in the paragraph.
 4. Edit a heading or button. Ensure that the the token icon/dropdown/hotkey work as expected. Observe the new token in the heading or button.
 
-## Manual Tests: Images and Links
+## Manual Tests: Image, Token, and Link Outputs
 
 Mosaico handles a few different kinds of images and links. To test these, create a
 mailing with content:
@@ -58,25 +58,38 @@ mailing with content:
     * Upload an image.
     * Set the button's link to an external page (eg `https://www.google.com/search?q=asdf&oq=asdf`)
     * Highlight some text. Make it a a hyperlink to a token (eg `{action.forward}`)
+    * Add some more text with different types of tokens:
+      ```
+      Hello "{contact.display_name}".
+
+      Mailing subj: "{mailing.subject}"
+
+      View in browser: "{mailing.viewUrl}" (civimail style)
+      View in browser: "[show_link]" (mosaico style)
+
+      Unsub: "{action.unsubscribeUrl}"
+      ```
 * (CON-4) Add a block which supports one image with text.
     * Go to the "Gallery". Re-use the previously uploaded image.
     * Set the button's link to an internal page (eg `http://dmaster.l/civicrm/event/info?reset=1&id=1`)
 * (CON-5) Add a footer block which uses the built-in Twitter/Facebook icons.
     * Set the link for at least one social media button. Disable any others.
 
-Now, we're going test that content appears correctly in several scenarios.  Each scenario references the "Message Evaluation Procedure" (defined further down):
+Now, we're going test that content appears correctly in several scenarios.  Each scenario references the "Message Evaluation Procedure" (MEP; defined further down):
 
-* (SC-1) Using the "Test", open the "Preview" in HTML. Perform the "Message Evaluation Procedure" (in the browser).
-* (SC-2) Using the "Test", send a message to an email address. Perform the "Message Evaluation Procedure" (in the email).
-* (SC-3) Finalize and submit the mailing. Trigger cron (eg `cv api -U admin job.process_mailing`). Perform the "Message Evaluation Procedure" (in the email).
-* (SC-4) In the email, click the link to "View in Browser". Perform the "Message Evaluation Procedure" (in the browser).
+* (SC-1) Using the "Test", open the "Preview" in HTML. Perform the MEP (in the browser).
+* (SC-2) Using the "Test", send a message to an email address. Perform the MEP (in the email).
+* (SC-3) Finalize and submit the mailing. Trigger cron (eg `cv api -U admin job.process_mailing`). Perform the MEP (in the email).
+* (SC-4) In the email, click the link to "View in Browser". Perform the MEP (in the browser).
+* (SC-5) In the email, copy the link to to "View in Browser". Open a new or private browser session (unauthenticated). Paste and open the link. Perform the MEP (in the browser).
 
-The "Message Evaluation Procedure" is:
+The "Message Evaluation Procedure" (MEP) is:
 
 * (MEP-1) Check the the first block:
      * (a) The image should appear. Inspect it to see that the URL is absolute.
      * (b) The button should appear. Inspect it to see that the URL is absolute. Click it and see that it opens.
      * (c) The highlighted text should be a link. Inspect it to see that the URL is absolute. Click it and see that it opens.
+     * (d) The additional tokens should be evaluated and show either text (contact's name and mailing subject) or URLs (view and unsubscribe URLs)
 * (MEP-2) Check the second block:
      * (a) The image should appear. Inspect it to see that the URL is absolute.
      * (b) The button should appear. Inspect it to see that the URL is absolute. Click it and see that it opens.

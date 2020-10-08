@@ -1,5 +1,7 @@
 <?php
 
+use CRM_Mosaico_ExtensionUtil as E;
+
 /**
  * @package CRM
  * @copyright CiviCRM LLC https://civicrm.org/licensing
@@ -109,7 +111,7 @@ class CRM_Mosaico_DAO_MessageTemplate extends CRM_Core_DAO {
         'id' => [
           'name' => 'id',
           'type' => CRM_Utils_Type::T_INT,
-          'description' => CRM_Mosaico_ExtensionUtil::ts('Unique Settings ID'),
+          'description' => E::ts('Unique Settings ID'),
           'required' => TRUE,
           'where' => 'civicrm_mosaico_msg_template.id',
           'table_name' => 'civicrm_mosaico_msg_template',
@@ -120,8 +122,8 @@ class CRM_Mosaico_DAO_MessageTemplate extends CRM_Core_DAO {
         'msg_tpl_id' => [
           'name' => 'msg_tpl_id',
           'type' => CRM_Utils_Type::T_INT,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('message template ID'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('FK to civicrm_msg_template.'),
+          'title' => E::ts('message template ID'),
+          'description' => E::ts('FK to civicrm_msg_template.'),
           'required' => TRUE,
           'where' => 'civicrm_mosaico_msg_template.msg_tpl_id',
           'table_name' => 'civicrm_mosaico_msg_template',
@@ -141,7 +143,7 @@ class CRM_Mosaico_DAO_MessageTemplate extends CRM_Core_DAO {
         'hash_key' => [
           'name' => 'hash_key',
           'type' => CRM_Utils_Type::T_STRING,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('hash_key'),
+          'title' => E::ts('hash_key'),
           'maxlength' => 32,
           'size' => CRM_Utils_Type::MEDIUM,
           'where' => 'civicrm_mosaico_msg_template.hash_key',
@@ -153,8 +155,8 @@ class CRM_Mosaico_DAO_MessageTemplate extends CRM_Core_DAO {
         'name' => [
           'name' => 'name',
           'type' => CRM_Utils_Type::T_STRING,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('name'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('name'),
+          'title' => E::ts('name'),
+          'description' => E::ts('name'),
           'maxlength' => 32,
           'size' => CRM_Utils_Type::MEDIUM,
           'where' => 'civicrm_mosaico_msg_template.name',
@@ -166,8 +168,8 @@ class CRM_Mosaico_DAO_MessageTemplate extends CRM_Core_DAO {
         'html' => [
           'name' => 'html',
           'type' => CRM_Utils_Type::T_LONGTEXT,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('HTML'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('HTML'),
+          'title' => E::ts('HTML'),
+          'description' => E::ts('HTML'),
           'where' => 'civicrm_mosaico_msg_template.html',
           'table_name' => 'civicrm_mosaico_msg_template',
           'entity' => 'MessageTemplate',
@@ -180,8 +182,8 @@ class CRM_Mosaico_DAO_MessageTemplate extends CRM_Core_DAO {
         'metadata' => [
           'name' => 'metadata',
           'type' => CRM_Utils_Type::T_LONGTEXT,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('metadata'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('metadata'),
+          'title' => E::ts('metadata'),
+          'description' => E::ts('metadata'),
           'where' => 'civicrm_mosaico_msg_template.metadata',
           'table_name' => 'civicrm_mosaico_msg_template',
           'entity' => 'MessageTemplate',
@@ -194,8 +196,8 @@ class CRM_Mosaico_DAO_MessageTemplate extends CRM_Core_DAO {
         'template' => [
           'name' => 'template',
           'type' => CRM_Utils_Type::T_LONGTEXT,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('template'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('template'),
+          'title' => E::ts('template'),
+          'description' => E::ts('template'),
           'where' => 'civicrm_mosaico_msg_template.template',
           'table_name' => 'civicrm_mosaico_msg_template',
           'entity' => 'MessageTemplate',

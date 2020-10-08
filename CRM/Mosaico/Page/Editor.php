@@ -88,10 +88,10 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
         'civicrmtoken' => [
           'tokens' => $mailTokens['values'],
           'hotlist' => [
-            ts('First Name') => '{contact.first_name}',
-            ts('Last Name') => '{contact.last_name}',
-            ts('Display Name') => '{contact.display_name}',
-            ts('Contact ID') => '{contact.contact_id}',
+            E::ts('First Name') => '{contact.first_name}',
+            E::ts('Last Name') => '{contact.last_name}',
+            E::ts('Display Name') => '{contact.display_name}',
+            E::ts('Contact ID') => '{contact.contact_id}',
           ],
         ],
         'browser_spellcheck' => TRUE,

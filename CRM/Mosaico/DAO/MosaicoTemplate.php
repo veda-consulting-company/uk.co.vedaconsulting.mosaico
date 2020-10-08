@@ -1,5 +1,7 @@
 <?php
 
+use CRM_Mosaico_ExtensionUtil as E;
+
 /**
  * @package CRM
  * @copyright CiviCRM LLC https://civicrm.org/licensing
@@ -111,7 +113,7 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
         'id' => [
           'name' => 'id',
           'type' => CRM_Utils_Type::T_INT,
-          'description' => CRM_Mosaico_ExtensionUtil::ts('Unique Template ID'),
+          'description' => E::ts('Unique Template ID'),
           'required' => TRUE,
           'where' => 'civicrm_mosaico_template.id',
           'table_name' => 'civicrm_mosaico_template',
@@ -122,8 +124,8 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
         'title' => [
           'name' => 'title',
           'type' => CRM_Utils_Type::T_STRING,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('Title'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('Title'),
+          'title' => E::ts('Title'),
+          'description' => E::ts('Title'),
           'maxlength' => 255,
           'size' => CRM_Utils_Type::HUGE,
           'where' => 'civicrm_mosaico_template.title',
@@ -135,8 +137,8 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
         'base' => [
           'name' => 'base',
           'type' => CRM_Utils_Type::T_STRING,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('Base Template'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('Name of the Mosaico base template (e.g. versafix-1)'),
+          'title' => E::ts('Base Template'),
+          'description' => E::ts('Name of the Mosaico base template (e.g. versafix-1)'),
           'maxlength' => 64,
           'size' => CRM_Utils_Type::BIG,
           'where' => 'civicrm_mosaico_template.base',
@@ -148,8 +150,8 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
         'html' => [
           'name' => 'html',
           'type' => CRM_Utils_Type::T_LONGTEXT,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('HTML'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('Fully renderd HTML'),
+          'title' => E::ts('HTML'),
+          'description' => E::ts('Fully renderd HTML'),
           'where' => 'civicrm_mosaico_template.html',
           'table_name' => 'civicrm_mosaico_template',
           'entity' => 'MosaicoTemplate',
@@ -159,8 +161,8 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
         'metadata' => [
           'name' => 'metadata',
           'type' => CRM_Utils_Type::T_LONGTEXT,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('metadata'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('Mosaico metadata (JSON)'),
+          'title' => E::ts('metadata'),
+          'description' => E::ts('Mosaico metadata (JSON)'),
           'where' => 'civicrm_mosaico_template.metadata',
           'table_name' => 'civicrm_mosaico_template',
           'entity' => 'MosaicoTemplate',
@@ -170,8 +172,8 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
         'content' => [
           'name' => 'content',
           'type' => CRM_Utils_Type::T_LONGTEXT,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('Content'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('Mosaico content (JSON)'),
+          'title' => E::ts('Content'),
+          'description' => E::ts('Mosaico content (JSON)'),
           'where' => 'civicrm_mosaico_template.content',
           'table_name' => 'civicrm_mosaico_template',
           'entity' => 'MosaicoTemplate',
@@ -181,8 +183,8 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
         'msg_tpl_id' => [
           'name' => 'msg_tpl_id',
           'type' => CRM_Utils_Type::T_INT,
-          'title' => CRM_Mosaico_ExtensionUtil::ts('message template ID'),
-          'description' => CRM_Mosaico_ExtensionUtil::ts('FK to civicrm_msg_template.'),
+          'title' => E::ts('message template ID'),
+          'description' => E::ts('FK to civicrm_msg_template.'),
           'required' => FALSE,
           'where' => 'civicrm_mosaico_template.msg_tpl_id',
           'table_name' => 'civicrm_mosaico_template',

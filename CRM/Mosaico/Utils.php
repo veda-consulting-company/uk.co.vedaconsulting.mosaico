@@ -328,7 +328,11 @@ class CRM_Mosaico_Utils {
         case 'placeholder':
 
           // Only privileged users can request generation of placeholders
-          if (!CRM_Core_Permission::check([['access CiviMail', 'create mailings', 'edit message templates']])) {
+          // Skip permission check for Joomla as backend base url (example.org/administrator) is separate from
+          // frontend url (example.org/index.php) and civicrm/mosaico/img url is frontend.
+          if (CRM_Core_Config::singleton()->userFramework != 'Joomla' &&
+            !CRM_Core_Permission::check([['access CiviMail', 'create mailings', 'edit message templates']])
+          ) {
             CRM_Utils_System::permissionDenied();
           }
 

@@ -24,11 +24,13 @@
 
       var plugins = [];
       var config = {/literal}{$mosaicoConfig}{literal};
-
-      window.onbeforeunload = function(e) {
-        e.preventDefault();
-        e.returnValue = "{/literal}{ts}Exit email composer without saving?{/ts}{literal}";
-      };
+      
+      window.addEventListener('beforeunload', function(e) {
+        if(window.parent.document.getElementsByTagName('iframe')[0].style.display !== "none") {
+          e.preventDefault();
+          e.returnValue = "{/literal}{ts}Exit email composer without saving?{/ts}{literal}";
+        }
+      });
 
       if (window.top.crmMosaicoIframe) {
         window.top.crmMosaicoIframe(window, Mosaico, config, plugins);

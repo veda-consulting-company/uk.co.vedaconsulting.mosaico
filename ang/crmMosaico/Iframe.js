@@ -67,7 +67,7 @@
       }
 
       this.render = function render() {
-        $iframe = $('<iframe frameborder="0" class="ui-front">');
+        $iframe = $('<iframe id="crm-mosaico" frameborder="0" class="ui-front">');
         $('body').append($iframe);
         onResize();
         $(window).on('resize', onResize);

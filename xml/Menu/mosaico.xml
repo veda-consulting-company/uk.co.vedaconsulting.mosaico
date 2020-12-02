@@ -27,6 +27,13 @@
     <access_arguments>access CiviMail;create mailings;edit message templates</access_arguments>
   </item>
   <item>
+    <path>civicrm/mosaico/img/placeholder</path>
+    <page_callback>CRM_Mosaico_Utils::processImg</page_callback>
+    <title>Integration with Mosaico</title>
+    <access_callback>CRM_Core_Permission::checkMenu</access_callback>
+    <access_arguments>access CiviMail;create mailings;edit message templates</access_arguments>
+  </item>
+  <item>
     <path>civicrm/mosaico/img</path>
     <page_callback>CRM_Mosaico_Utils::processImg</page_callback>
     <title>Integration with Mosaico</title>

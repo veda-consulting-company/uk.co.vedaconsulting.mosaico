@@ -26,7 +26,7 @@
       var config = {/literal}{$mosaicoConfig}{literal};
       
       window.addEventListener('beforeunload', function(e) {
-        if(window.parent.document.getElementsByTagName('iframe')[0].style.display !== "none") {
+        if(window.parent.document.getElementById('crm-mosaico').style.display !== "none") {
           e.preventDefault();
           e.returnValue = "{/literal}{ts}Exit email composer without saving?{/ts}{literal}";
         }

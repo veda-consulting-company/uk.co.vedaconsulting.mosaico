@@ -44,6 +44,18 @@
         <span class="description">{ts}When uploading images, the mosaico editor trims it down to very required size (in pixels). Use scale factor setting to keep some buffer (2x or 3x) so upscale doesn't look distorted or low resolution. Example:{/ts}<br/>{ts}3x => Upto 285 pixels (covers both 2 and 3 column block images){/ts}<br/>{ts}2x => All other sizes (single column block images){/ts}</span>
       </td>
     </tr>
+    <tr class="crm-mosaico-form-block-mosaico_hide_base_templates">
+      <td class="label">
+        {$form.mosaico_hide_base_templates.label}
+      </td>
+      <td>
+        {$form.mosaico_hide_base_templates.html}<br/>
+        <span class="description">
+          Comma separated list of Mosaico templates to hide.
+          Example: tedc15, tutorial
+        </span>
+      </td>
+    </tr>
   </table>
   <div class="crm-submit-buttons">{include file="CRM/common/formButtons.tpl" location="bottom"}</div>
 </div>

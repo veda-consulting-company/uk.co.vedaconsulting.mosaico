@@ -156,4 +156,18 @@ return [
     'description' => NULL,
     'help_text' => NULL,
   ],
+  'mosaico_hide_base_templates' => [
+    'group_name' => 'Mosaico Preferences',
+    'group' => 'mosaico',
+    'name' => 'mosaico_hide_base_templates',
+    'type' => 'String',
+    'html_type' => 'text',
+    'default' => '',
+    'add' => '5.25',
+    'title' => 'Hide these base templates',
+    'is_domain' => 1,
+    'is_contact' => 0,
+    'description' => NULL,
+    'help_text' => NULL,
+  ],
 ];

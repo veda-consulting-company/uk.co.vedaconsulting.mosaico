@@ -17,7 +17,8 @@ class CRM_Mosaico_Form_MosaicoAdmin extends CRM_Admin_Form_Setting {
     'mosaico_scale_width_limit1' => 'Mosaico Preferences',
     'mosaico_scale_width_limit2' => 'Mosaico Preferences',
     'mosaico_custom_templates_dir' => 'Mosaico Custom Templates Directory',
-    'mosaico_custom_templates_url' => 'Mosaico Custom Templates URL'
+    'mosaico_custom_templates_url' => 'Mosaico Custom Templates URL',
+    'mosaico_hide_base_templates' => 'Mosaico Preferences'
   ];
 
   /**

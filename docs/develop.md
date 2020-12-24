@@ -62,7 +62,7 @@ in https://github.com/civicrm/mosaico using [Twigflow (Rebase)](https://gist.git
 
 ## Publication
 
-Whenever a change is merged or pushed to `uk.co.vedaconsulting.mosaico`, a bot (currently on [jenkins test-ci](https://test.civicrm.org/view/Tools/job/Tool-Publish-mosaico/)) automatically builds a new `zip` archive
+Whenever a change is merged or pushed to `uk.co.vedaconsulting.mosaico`, a bot on [jenkins test-ci](https://test.civicrm.org/view/Tools/job/Tool-Publish-mosaico/) automatically builds a new `zip` archive
 and publishes [uk.co.vedaconsulting.mosaico-latest.zip](https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/latest/uk.co.vedaconsulting.mosaico-latest.zip).
 
 The build/publish process has a few properties:

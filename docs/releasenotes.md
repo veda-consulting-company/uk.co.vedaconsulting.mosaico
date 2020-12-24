@@ -1,5 +1,5 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
-Download via https://civicrm.org/extensions/mosaico-civicrm-integration as there are additional packaging requirements not handled by github.
+Download via [the extensions directory](https://civicrm.org/extensions/mosaico-civicrm-integration) as there are additional packaging requirements not handled by github.
 
 ## Release 2.6
 

@@ -311,8 +311,10 @@ class CRM_Mosaico_Utils {
       throw new CRM_Mosaico_Graphics_Exception('Invalid method for processImg');
     }
 
-    $params = CRM_Utils_Request::retrieveValue('params', 'CommaSeparatedIntegers', NULL, TRUE, 'GET');
-    [$width, $height] = explode(",", $params);
+    $params = CRM_Utils_Request::retrieveValue('params', 'String', NULL, TRUE, 'GET');
+    $params = explode(',', $params);
+    $width = (int) $params[0];
+    $height = (int) $params[1];
 
     // Apply a sensible maximum size for images in an email
     if ($width * $height > self::MAX_IMAGE_PIXELS)  {

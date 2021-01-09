@@ -61,7 +61,7 @@ CREATE TABLE `civicrm_mosaico_msg_template` (
  
  
 ,          CONSTRAINT FK_civicrm_mosaico_msg_template_msg_tpl_id FOREIGN KEY (`msg_tpl_id`) REFERENCES `civicrm_msg_template`(`id`) ON DELETE CASCADE  
-)    ;
+) ENGINE=InnoDB    ;
 
 -- /*******************************************************
 -- *
@@ -85,6 +85,6 @@ CREATE TABLE `civicrm_mosaico_template` (
  
  
 ,          CONSTRAINT FK_civicrm_mosaico_template_msg_tpl_id FOREIGN KEY (`msg_tpl_id`) REFERENCES `civicrm_msg_template`(`id`) ON DELETE SET NULL  
-)    ;
+) ENGINE=InnoDB    ;
 
  

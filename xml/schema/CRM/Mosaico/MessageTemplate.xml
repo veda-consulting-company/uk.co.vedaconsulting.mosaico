@@ -6,7 +6,8 @@
   <name>civicrm_mosaico_msg_template</name>
   <comment>Mosaico Templates Table</comment>
   <log>true</log>
-
+  <title>Mosaico Message Template</title>
+  <titlePlural>Mosaico Message Templates</titlePlural>
   <field>
     <name>id</name>
     <type>int unsigned</type>

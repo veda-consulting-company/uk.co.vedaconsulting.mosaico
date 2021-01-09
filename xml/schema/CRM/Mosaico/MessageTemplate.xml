@@ -46,6 +46,7 @@
     <length>32</length>
     <title>hash_key</title>
     <unique>true</unique>
+    <required>true</required>
   </field>
 
   <field>
@@ -54,6 +55,7 @@
     <length>32</length>
     <comment>name</comment>
     <title>name</title>
+    <required>true</required>
   </field>
 
   <field>
@@ -66,6 +68,7 @@
       <cols>75</cols>
     </html>
     <comment>HTML</comment>
+    <required>true</required>
   </field>
 
   <field>
@@ -78,6 +81,7 @@
       <cols>75</cols>
     </html>
     <comment>metadata</comment>
+    <required>true</required>
   </field>
 
   <field>
@@ -90,5 +94,6 @@
       <cols>75</cols>
     </html>
     <comment>template</comment>
+    <required>true</required>
   </field>
 </table>

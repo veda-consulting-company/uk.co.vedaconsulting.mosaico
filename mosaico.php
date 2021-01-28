@@ -424,7 +424,7 @@ function mosaico_civicrm_searchTasks($objectName, &$tasks) {
 function mosaico_civicrm_mosaicoBaseTemplates(&$templates) {
   $templatesToHide = Civi::settings()->get('mosaico_hide_base_templates');
 
-  foreach (explode(',', $templatesToHide) as $key ) {
-    unset($templates[trim($key)]);
+  foreach ($templatesToHide as $templateKey ) {
+    unset($templates[trim($templateKey)]);
   }
 }

@@ -49,11 +49,7 @@
         {$form.mosaico_hide_base_templates.label}
       </td>
       <td>
-        {$form.mosaico_hide_base_templates.html}<br/>
-        <span class="description">
-          Comma separated list of Mosaico templates to hide.
-          Example: tedc15, tutorial
-        </span>
+        {$form.mosaico_hide_base_templates.html}
       </td>
     </tr>
   </table>

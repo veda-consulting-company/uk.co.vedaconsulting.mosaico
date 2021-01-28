@@ -82,6 +82,14 @@ class CRM_Mosaico_Utils {
   }
 
   /**
+   * Get the list of templates directly from the disk.
+   */
+  public static function findBaseTemplatesFromDisk() {
+    $templates = CRM_Mosaico_BAO_MosaicoTemplate::findBaseTemplates(TRUE, FALSE);
+    return array_map(function($template) { return $template['name']; }, $templates);
+  }
+
+  /**
    * Get the path to the Mosaico layout file.
    *
    * @return string

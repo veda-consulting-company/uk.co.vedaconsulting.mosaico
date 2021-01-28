@@ -1,5 +1,12 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
-Download via https://civicrm.org/extensions/mosaico-civicrm-integration as there are additional packaging requirements not handled by github.
+Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
+
+## Release 2.6
+
+* [#321](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/321) Introduce A/B testing for subject lines.
+* [#406](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/406) Fix for mosaico placeholder images not accessible in joomla.
+* [#409](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/409) Fix Leave site? warning when not required.
+* [#412](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/412) Use standard methods and add validation to URL params for placeholder image endpoint.
 
 ## Release 2.5
 

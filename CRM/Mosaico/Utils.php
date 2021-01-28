@@ -310,55 +310,58 @@ class CRM_Mosaico_Utils {
   public static function processImg() {
     $config = self::getConfig();
     $methods = ['placeholder', 'resize', 'cover'];
-    if ($_SERVER["REQUEST_METHOD"] == "GET") {
-      $method = CRM_Utils_Array::value('method', $_GET, 'cover');
-      if (!in_array($method, $methods)) {
-        $method = 'cover'; // Old behavior. Seems silly. Being cautious.
-      }
+    if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+      CRM_Utils_System::civiExit();
+    }
 
-      $params = explode(",", $_GET["params"]);
-      $width = (int) $params[0];
-      $height = (int) $params[1];
+    $method = CRM_Utils_Request::retrieveValue('method', 'String', 'cover', TRUE, 'GET');
+    if (!in_array($method, $methods)) {
+      throw new CRM_Mosaico_Graphics_Exception('Invalid method for processImg');
+    }
 
-      // Apply a sensible maximum size for images in an email
-      if ($width * $height > self::MAX_IMAGE_PIXELS)  {
-        throw new \Exception("The requested image size is too large");
-      }
+    $params = CRM_Utils_Request::retrieveValue('params', 'String', NULL, TRUE, 'GET');
+    $params = explode(',', $params);
+    $width = (int) $params[0];
+    $height = (int) $params[1];
 
-      // Sometimes output buffer started by another module or plugin causes problem with
-      // image rendering. Let's clean any such buffers.
-      $levels = ob_get_level();
-      for ($i = 0; $i < $levels; $i++) {
-        ob_end_clean();
-      }
+    // Apply a sensible maximum size for images in an email
+    if ($width * $height > self::MAX_IMAGE_PIXELS)  {
+      throw new \CRM_Mosaico_Graphics_Exception('The requested image size is too large');
+    }
 
-      switch ($method) {
-        case 'placeholder':
-          Civi::service('mosaico_graphics')->sendPlaceholder($width, $height);
-          break;
+    // Sometimes output buffer started by another module or plugin causes problem with
+    // image rendering. Let's clean any such buffers.
+    $levels = ob_get_level();
+    for ($i = 0; $i < $levels; $i++) {
+      ob_end_clean();
+    }
 
-        case 'resize':
-        case 'cover':
-          $func = ($method === 'resize') ? 'createResizedImage' : 'createCoveredImage';
+    switch ($method) {
+      case 'placeholder':
+        Civi::service('mosaico_graphics')->sendPlaceholder($width, $height);
+        break;
 
-          $path_parts = pathinfo($_GET["src"]);
-          $src_file = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $path_parts["basename"];
-          $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $path_parts["basename"];
-          // $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $method . '-' . $width . "x" . $height . '-' . $path_parts["basename"];
-          // The current naming convention for cache-files is buggy because it means that all variants
-          // of the basename *must* have the same size, which breaks scenarios for re-using images
-          // from the gallery. However, to fix it, one must also fix CRM_Mosaico_ImageFilter.
+      case 'resize':
+      case 'cover':
+        $func = ($method === 'resize') ? 'createResizedImage' : 'createCoveredImage';
 
-          if (!file_exists($src_file)) {
-            throw new \Exception("Failed to locate source file: " . $path_parts["basename"]);
-          }
-          if (!file_exists($cache_file)) {
-            Civi::service('mosaico_graphics')->$func($src_file, $cache_file, $width, $height);
-          }
-          self::sendImage($cache_file);
-          break;
+        $path_parts = pathinfo(CRM_Utils_String::purifyHTML(CRM_Utils_Request::retrieveValue('src', 'String', NULL, TRUE, 'GET')));
+        $src_file = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $path_parts["basename"];
+        $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $path_parts["basename"];
+        // $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $method . '-' . $width . "x" . $height . '-' . $path_parts["basename"];
+        // The current naming convention for cache-files is buggy because it means that all variants
+        // of the basename *must* have the same size, which breaks scenarios for re-using images
+        // from the gallery. However, to fix it, one must also fix CRM_Mosaico_ImageFilter.
 
-      }
+        if (!file_exists($src_file)) {
+          throw new \CRM_Mosaico_Graphics_Exception("Failed to locate source file: {$path_parts['basename']}");
+        }
+        if (!file_exists($cache_file)) {
+          Civi::service('mosaico_graphics')->$func($src_file, $cache_file, $width, $height);
+        }
+        self::sendImage($cache_file);
+        break;
+
     }
     CRM_Utils_System::civiExit();
   }

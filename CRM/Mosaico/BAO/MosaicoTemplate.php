@@ -49,8 +49,8 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
   /**
    * @return mixed
    */
-  public static function findBaseTemplates() {
-    if (!isset(Civi::$statics[__CLASS__]['bases'])) {
+  public static function findBaseTemplates($ignoreCache = FALSE, $dispatchHooks = TRUE) {
+    if (!isset(Civi::$statics[__CLASS__]['bases']) || $ignoreCache) {
       $templatesDir = CRM_Core_Resources::singleton()->getPath('uk.co.vedaconsulting.mosaico');
       if (!$templatesDir) {
         return FALSE;
@@ -91,7 +91,7 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
       // Sort the base templates into alphabetical order
       ksort($records, SORT_NATURAL | SORT_FLAG_CASE);
 
-      if (class_exists('\Civi\Core\Event\GenericHookEvent')) {
+      if (class_exists('\Civi\Core\Event\GenericHookEvent') && $dispatchHooks) {
         \Civi::dispatcher()->dispatch('hook_civicrm_mosaicoBaseTemplates',
           \Civi\Core\Event\GenericHookEvent::create([
             'templates' => &$records,

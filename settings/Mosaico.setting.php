@@ -156,4 +156,26 @@ return [
     'description' => NULL,
     'help_text' => NULL,
   ],
+  'mosaico_hide_base_templates' => [
+    'group_name' => 'Mosaico Preferences',
+    'group' => 'mosaico',
+    'name' => 'mosaico_hide_base_templates',
+    'type' => 'Array',
+    'html_type' => 'select',
+    'quick_form_type' => 'Select',
+    'html_attributes' => [
+      'multiple' => 1,
+      'class' => 'huge crm-select2',
+    ],
+    'pseudoconstant' => [
+      'callback' => 'CRM_Mosaico_Utils::findBaseTemplatesFromDisk',
+    ],
+    'default' => [],
+    'add' => '5.25',
+    'title' => 'Hide these base templates',
+    'is_domain' => 1,
+    'is_contact' => 0,
+    'description' => NULL,
+    'help_text' => NULL,
+  ],
 ];

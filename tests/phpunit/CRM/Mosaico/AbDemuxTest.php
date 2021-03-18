@@ -27,7 +27,7 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
       ->apply();
   }
 
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     Civi::settings()->set('disable_mandatory_tokens_check', TRUE);
@@ -61,7 +61,7 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
    *
    * @dataProvider getVariantExamples
    */
-  public function testMailingSubmit($inputVariantA, $inputVariantB, $expectVariantA, $expectVariantB) {
+  public function testMailingSubmit($inputVariantA, $inputVariantB, $expectVariantA, $expectVariantB): void {
     $this->assertTrue(Civi::container()->has('mosaico_ab_demux'), 'Mosaico services should be active in test environment');
     $createParams = [
       'template_type' => 'mosaico',
@@ -138,7 +138,7 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
    * @param $expectedCountC
    * @dataProvider groupPctProvider
    */
-  public function testDistribution($totalGroupContacts, $groupPct, $expectedCountA, $expectedCountB, $expectedCountC) {
+  public function testDistribution($totalGroupContacts, $groupPct, $expectedCountA, $expectedCountB, $expectedCountC): void {
     $this->assertTrue(Civi::container()->has('mosaico_ab_demux'), 'Mosaico services should be active in test environment');
 
     $groupId = $this->groupCreate();

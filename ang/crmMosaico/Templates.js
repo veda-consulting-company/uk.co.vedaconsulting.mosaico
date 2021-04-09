@@ -12,7 +12,8 @@
         type: base.title,
         thumbnail: base.thumbnail,
         path: base.path,
-        isBase: true
+        isBase: true,
+        isHidden: base.is_hidden
       };
     }
     function filterTemplate(tpl) {
@@ -89,7 +90,9 @@
           $timeout(function(){resolve({});}, 100);
         });
       },
-      getBases: function(){ return cache.bases; },
+      getBases: function() {
+        return cache.bases.filter((template) => !template.isHidden );
+      },
       getConfigured: function(){ return cache.configured; },
       getAll: function(){ return cache.all; }
     };

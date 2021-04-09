@@ -72,6 +72,9 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
         }
       }
 
+      // get list of base templates that needs be to hidden from the UI
+      $templatesToHide = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_hide_base_templates');
+
       $records = [];
 
       foreach ($templatesLocation as $templateLocation) {
@@ -80,11 +83,18 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
           $templateHTML = "{$templateLocation['url']}/{$template}/template-{$template}.html";
           $templateThumbnail = "{$templateLocation['url']}/{$template}/edres/_full.png";
 
+          // let's add hidden flag to templates that needs to be excluded from the display
+          $isHidden = false;
+          if (!empty($templatesToHide) && in_array($template, $templatesToHide)) {
+            $isHidden = true;
+          }
+
           $records[$template] = [
             'name' => $template,
             'title' => $template,
             'thumbnail' => $templateThumbnail,
             'path' => $templateHTML,
+            'is_hidden' => $isHidden,
           ];
         }
       }

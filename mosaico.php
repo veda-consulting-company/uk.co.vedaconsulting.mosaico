@@ -415,22 +415,3 @@ function mosaico_civicrm_searchTasks($objectName, &$tasks) {
     ];
   }
 }
-
-/**
- * Implements hook_civicrm_mosaicoBaseTemplates().
- *
- * @link https://docs.civicrm.org/mosaico/en/latest/api/
- */
-function mosaico_civicrm_mosaicoBaseTemplates(&$templates) {
-  // get list of base templates that needs be to hidden from the UI
-  $templatesToHide = Civi::settings()->get('mosaico_hide_base_templates');
-
-  // let's add hidden flag to templates that needs to be excluded from the display
-  foreach ($templates as $templateName => &$template) {
-    $isHidden = false;
-    if (in_array($templateName, $templatesToHide)) {
-      $isHidden = true;
-    }
-    $template['is_hidden'] = $isHidden;
-  }
-}

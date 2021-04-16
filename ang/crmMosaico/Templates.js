@@ -91,10 +91,12 @@
         });
       },
       getBases: function() {
-        return cache.bases.filter((template) => !template.isHidden );
+        return cache.bases.filter((template) => !template.isHidden);
       },
       getConfigured: function(){ return cache.configured; },
-      getAll: function(){ return cache.all; }
+      getAll: function() {
+        return cache.all.filter((template) => !template.isHidden);
+      }
     };
   });
 

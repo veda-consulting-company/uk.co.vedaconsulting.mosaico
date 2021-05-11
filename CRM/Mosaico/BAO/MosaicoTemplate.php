@@ -25,7 +25,7 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
   /**
    * Helps updating the URLs in templates so they can be reused
    * after restoring a dump database in a new server.
-   * 
+   *
    * @param string $fromUrl URL of the server where the
    *   templates were created
    * @param string $toUrl URL of the current server
@@ -73,7 +73,7 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
       }
 
       // get list of base templates that needs be to hidden from the UI
-      $templatesToHide = CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_hide_base_templates');
+      $templatesToHide = \Civi::settings()->get('mosaico_hide_base_templates');
 
       $records = [];
 

@@ -159,7 +159,7 @@ function mosaico_civicrm_navigationMenu(&$params) {
     'child' => [],
     'operator' => 'AND',
     'separator' => 0,
-    'url' => CRM_Utils_System::url('civicrm/admin/mosaico', 'reset=1', TRUE),
+    'url' => CRM_Utils_System::url('civicrm/admin/setting/mosaico', 'reset=1', TRUE),
   ]);
 
   _mosaico_civix_navigationMenu($params);
@@ -201,7 +201,7 @@ function mosaico_civicrm_check(&$messages) {
     $messages[] = new CRM_Utils_Check_Message(
       'mosaico_graphics',
       E::ts('Mosaico requires a graphics driver such as PHP-ImageMagick or PHP-GD. For more information, see <a href="%1">Mosaico Settings</a>.', [
-        1 => \CRM_Utils_System::url('civicrm/admin/mosaico', 'reset=1'),
+        1 => \CRM_Utils_System::url('civicrm/admin/setting/mosaico', 'reset=1'),
       ])
       . "<p><em>" . E::ts("Error: %1", [1 => $e->getMessage()]) . "</em></p>",
       E::ts('Graphics driver not available'),

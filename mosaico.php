@@ -334,7 +334,7 @@ function _mosaico_civicrm_alterMailContent(&$content) {
   // Civi's delivery system and upstream Mosaico templates.
   $tokenAliases = [
     // '[profile_link]' => 'FIXME',
-    '[show_link]' => '{mailing.viewUrl}',
+    '[show_link]' => '{mailing.viewUrl}&cid={contact.contact_id}&{contact.checksum}',
     '[subject]' => '{mailing.subject}',
     '[unsubscribe_link]' => '{action.unsubscribeUrl}',
   ];

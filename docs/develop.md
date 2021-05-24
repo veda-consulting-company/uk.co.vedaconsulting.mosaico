@@ -10,6 +10,11 @@ This option requires several command-line tools:
  * [`grunt-cli`](http://gruntjs.com/getting-started)
  * [`cv`](https://github.com/civicrm/cv)
 
+!!! note "nodejs"
+    Currently the mosaico build script only works with node v8 and older. You can use `nvm` -
+    https://github.com/nvm-sh/nvm#installing-and-updating to use multiple versions of nodejs.
+    Eg. `nvm install 8 && nvm use 8`
+
 Once these are installed, you should:
 
 ```

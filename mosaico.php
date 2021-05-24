@@ -428,3 +428,28 @@ function mosaico_civicrm_mosaicoBaseTemplates(&$templates) {
     unset($templates[trim($templateKey)]);
   }
 }
+
+/**
+ * Listen to prepare event and a mailing wrapper for the
+ * Mailing.submit and Mailing.send_test api actions.
+ *
+ * @param \Civi\API\Event\PrepareEvent $event
+ */
+function mosaico_wrapMailingApi($event) {
+  $a = $event->getApiRequest();
+  switch ($a['entity'] . '.' . $a['action']) {
+    case 'Mailing.submit':
+      if (is_numeric($a['params']['id'])) {
+        $abMux = \Civi::service('mosaico_ab_demux');
+        $event->wrapApi([$abMux,'onSubmitMailing']);
+      }
+      break;
+
+    case 'Mailing.send_test':
+      if (is_numeric($a['params']['mailing_id'])) {
+        $abMux = \Civi::service('mosaico_ab_demux');
+        $event->wrapApi([$abMux, 'onSendTestMailing']);
+      }
+      break;
+  }
+}

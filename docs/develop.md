@@ -88,7 +88,3 @@ eg. `2.5.1597918155`).
 Then add the actual release zip file to the release node on `https://civicrm.org/extensions/email-template-builder`.
 
 Example filename: `https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/2.5.1597918155/uk.co.vedaconsulting.mosaico-2.5.1597918155.zip`
-
-!!! warning
-    Last time a release was tagged (2.5) the extension publisher made it available for download via the extension feed even though it was unpublished.
-    This needs to be fixed before the next release!

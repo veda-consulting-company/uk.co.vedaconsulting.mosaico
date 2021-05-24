@@ -4,10 +4,9 @@ This extension integrates a responsive email template editor, [Mosaico](https://
 
 View/Download this extension in the [Extension Directory](https://civicrm.org/extensions/email-template-builder).
 
-## Compatibility / Requirements
-* CiviCRM 5.24+
+## Requirements
 * PHP-ImageMagick - recommended.
-* [FlexMailer](https://docs.civicrm.org/flexmailer/en/latest/) 1.1+ 
+* [FlexMailer](https://docs.civicrm.org/flexmailer/en/latest/)
 
 ## History and blog posts
  * [Initial Blog Post](https://civicrm.org/blogs/parvez/a-new-beginning-for-civimail)
@@ -21,7 +20,7 @@ View/Download this extension in the [Extension Directory](https://civicrm.org/ex
 
 For help installing extensions, please see the [Install a New Extension section of the Extensions chapter](https://docs.civicrm.org/sysadmin/en/latest/customize/extensions/#installing-a-new-extension) in the SysAdmin Guide.
 
-!!! warning "DO NOT DOWNLOAD DIRECTLY FROM GITHUB" 
+!!! warning "DO NOT DOWNLOAD DIRECTLY FROM GITHUB"
     Download Mosaico from the [Mosaico page on the CiviCRM extensions directory](https://civicrm.org/extensions/email-template-builder) as the Mosaico extension requires additional packaging steps for a working release!
 
 ## Getting started (Usage)

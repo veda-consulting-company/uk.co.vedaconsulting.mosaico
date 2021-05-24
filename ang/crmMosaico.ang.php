@@ -32,5 +32,6 @@ $result = [
 ];
 
 $result['css'][]= ($result['settings']['useBootstrap']) ? 'css/mosaico-bootstrap.css' : 'css/mosaico-crmstar.css';
+$result['bundles']= ($result['settings']['useBootstrap']) ? ['bootstrap3'] : [];
 
 return $result;

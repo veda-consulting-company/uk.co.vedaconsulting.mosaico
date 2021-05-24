@@ -58,27 +58,6 @@ class CRM_Mosaico_AbDemux {
   ];
 
   /**
-   * @param \Civi\API\Event\PrepareEvent $event
-   */
-  public function wrapMailingApi($event) {
-    // TODO: Maybe move this to a more central file so that "AbDemux.php" isn't parsed unless it's needed.
-    $a = $event->getApiRequest();
-    switch ($a['entity'] . '.' . $a['action']) {
-      case 'Mailing.submit':
-        if (is_numeric($a['params']['id'])) {
-          $event->wrapApi([$this, 'onSubmitMailing']);
-        }
-        break;
-
-      case 'Mailing.send_test':
-        if (is_numeric($a['params']['mailing_id'])) {
-          $event->wrapApi([$this, 'onSendTestMailing']);
-        }
-        break;
-    }
-  }
-
-  /**
    * Handle the Mailing.send_test API.
    *
    * If there are `template_options.variants`, then we send all the variants

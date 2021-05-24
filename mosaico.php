@@ -417,19 +417,6 @@ function mosaico_civicrm_searchTasks($objectName, &$tasks) {
 }
 
 /**
- * Implements hook_civicrm_mosaicoBaseTemplates().
- *
- * @link https://docs.civicrm.org/mosaico/en/latest/api/
- */
-function mosaico_civicrm_mosaicoBaseTemplates(&$templates) {
-  $templatesToHide = Civi::settings()->get('mosaico_hide_base_templates');
-
-  foreach ($templatesToHide as $templateKey ) {
-    unset($templates[trim($templateKey)]);
-  }
-}
-
-/**
  * Listen to prepare event and a mailing wrapper for the
  * Mailing.submit and Mailing.send_test api actions.
  *

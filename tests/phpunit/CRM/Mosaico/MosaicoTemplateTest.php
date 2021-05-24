@@ -12,7 +12,7 @@ require_once __DIR__ . '/TestCase.php';
  */
 class CRM_Mosaico_MosaicoTemplateTest extends CRM_Mosaico_TestCase implements EndToEndInterface {
 
-  public static function setUpBeforeClass() {
+  public static function setUpBeforeClass(): void {
     // See: https://github.com/civicrm/org.civicrm.testapalooza/blob/master/civi-test.md
 
     // Example: Install this extension. Don't care about anything else.

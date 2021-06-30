@@ -73,3 +73,80 @@ function example_civicrm_mosaicoConfig(&$config) {
   $config['tinymceConfigFull']['toolbar1'] = 'bold italic removeformat | link unlink | civicrmtoken | pastetext code';
 }
 ```
+
+## hook_civicrm_mosaicoStyleUrlsAlter(&$styleUrls)
+
+`$styleUrls` is an array of URLs for stylesheets to be loaded in the Mosaico composer interface. Alter (add, remove, change) array elements as needed.
+
+Example from  [Campaign Advocacy](https://github.com/twomice/civicrm-campaignadvocacy):
+
+```php
+function campaignadv_civicrm_mosaicoStyleUrlsAlter(&$styleUrls) {
+  $res = CRM_Core_Resources::singleton();
+  $snippets = array_merge(Civi::service('bundle.coreResources')->getAll(), Civi::service('bundle.coreStyles')->getAll());
+
+  // crm-i.css added ahead of other styles so it can be overridden by FA.
+  array_unshift($styleUrls, $res->getUrl('civicrm', 'css/crm-i.css', TRUE));
+
+  foreach ($snippets as $snippet) {
+    $itemUrl = NULL;
+    if (
+      FALSE !== strpos($snippet['name'], 'css')
+      // Exclude jquery ui theme styles, which conflict with Mosaico styles.
+      && FALSE === strpos($snippet['name'], '/jquery-ui/themes/')
+    ) {
+      if ($snippet['styleUrl'] ?? FALSE) {
+        $itemUrl = $snippet['styleUrl'];
+      }
+      elseif ($snippet['styleFile'] && count($snippet['styleFile']) == 2) {
+        $itemUrl = $res->getUrl($snippet['styleFile'][0], $snippet['styleFile'][1], TRUE);
+      }
+      if ($itemUrl) {
+        $styleUrls[] = $itemUrl;
+      }
+    }
+  }
+
+  // Include our own abridged styles from jquery-ui 'smoothness' theme, as
+  // required for our jquery-ui dialog, but which don't conflict with Mosaico.
+  $styleUrls[] = $res->getUrl('campaignadv', 'css/jquery-ui-smoothness-partial.css', TRUE);
+}
+```
+
+## hook_civicrm_mosaicoScriptUrlsAlter(&$scriptUrls)
+
+`$scriptUrls` is an array of URLs for JavaScript files to be loaded in the Mosaico composer interface. Alter (add, remove, change) array elements as needed.
+
+Example from  [Campaign Advocacy](https://github.com/twomice/civicrm-campaignadvocacy):
+
+```php
+function campaignadv_civicrm_mosaicoScriptUrlsAlter(&$scriptUrls) {
+  $res = CRM_Core_Resources::singleton();
+  $snippets = Civi::service('bundle.coreResources')->getAll();
+  foreach ($snippets as $snippet) {
+    $itemUrl = NULL;
+    if (
+        FALSE !== strpos($snippet['name'], 'js')
+        && !strpos($snippet['name'], 'crm.menubar.js')
+        && !strpos($snippet['name'], 'crm.menubar.min.js')
+        && !strpos($snippet['name'], 'crm.wysiwyg.js')
+        && !strpos($snippet['name'], 'crm.wysiwyg.min.js')
+        && !strpos($snippet['name'], 'l10n-js')
+      ) {
+      if ($snippet['scriptUrl'] ?? FALSE) {
+        $itemUrl = $snippet['scriptUrl'];
+      }
+      elseif ($snippet['scriptFile'] && count($snippet['scriptFile']) == 2) {
+        $itemUrl = $res->getUrl($snippet['scriptFile'][0], $snippet['scriptFile'][1], TRUE);
+      }
+      if ($itemUrl) {
+        $scriptUrls[] = $itemUrl;
+      }
+    }
+  }
+
+  // Include our own JS (this url generates dynammic JS containing apprpopriate settings per session).
+  $url = CRM_Utils_System::url('civicrm/campaignadv/mosaico-js', '', TRUE, NULL, NULL, NULL, NULL);
+  $scriptUrls[] = $url;
+}
+```

@@ -321,12 +321,19 @@ class CRM_Mosaico_Utils {
       CRM_Utils_System::civiExit();
     }
 
-    $method = CRM_Utils_Request::retrieveValue('method', 'String', 'cover', TRUE, 'GET');
+    $method = CRM_Utils_Request::retrieveValue('method', 'String', 'cover', FALSE, 'GET');
     if (!in_array($method, $methods)) {
-      throw new CRM_Mosaico_Graphics_Exception('Invalid method for processImg');
+      \Civi::log()->error('Invalid method for processImg: ' . $method);
+      http_response_code(400);
+      CRM_Utils_System::civiExit();
     }
 
-    $params = CRM_Utils_Request::retrieveValue('params', 'String', NULL, TRUE, 'GET');
+    $params = CRM_Utils_Request::retrieveValue('params', 'String', NULL, FALSE, 'GET');
+    if (empty($params)) {
+      \Civi::log()->error('Invalid params for processImg: ' . $params);
+      http_response_code(400);
+      CRM_Utils_System::civiExit();
+    }
     $params = explode(',', $params);
     $width = (int) $params[0];
     $height = (int) $params[1];

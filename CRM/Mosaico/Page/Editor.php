@@ -88,12 +88,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
         'toolbar1' => 'bold italic civicrmtoken',
         'civicrmtoken' => [
           'tokens' => $mailTokens['values'],
-          'hotlist' => [
-            E::ts('First Name') => '{contact.first_name}',
-            E::ts('Last Name') => '{contact.last_name}',
-            E::ts('Display Name') => '{contact.display_name}',
-            E::ts('Contact ID') => '{contact.contact_id}',
-          ],
+          'hotlist' => CRM_Mosaico_Utils::getMailingTokens(TRUE),
         ],
         'browser_spellcheck' => TRUE,
       ],

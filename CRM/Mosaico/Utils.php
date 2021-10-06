@@ -90,6 +90,41 @@ class CRM_Mosaico_Utils {
   }
 
   /**
+   * Get a list of token options.
+   *
+   * @param boolean $hotlist
+   *   return only hotlist tokens if TRUE
+   *
+   * @return array
+   *   Array (string $machineName => string $label).
+   */
+  public static function getMailingTokens($hotlist = FALSE) {
+    $mailTokens = civicrm_api3('Mailing', 'gettokens', [
+      'entity' => ['contact', 'mailing'],
+      'sequential' => 1,
+    ])['values'];
+    $hotlistTokens = Civi::settings()->get('mosaico_hotlist_tokens');
+    $tokens = [];
+    foreach ($mailTokens as $token) {
+      if (!empty($token['children'])) {
+        foreach ($token['children'] as $child) {
+          if (!empty($child['id'])) {
+            if ($hotlist) {
+              if (in_array($child['id'], $hotlistTokens)) {
+                $tokens[$child['text']] = $child['id'];
+              }
+            }
+            else {
+              $tokens[$child['id']] = $child['text'];
+            }
+          }
+        }
+      }
+    }
+    return $tokens;
+  }
+
+  /**
    * Get the path to the Mosaico layout file.
    *
    * @return string

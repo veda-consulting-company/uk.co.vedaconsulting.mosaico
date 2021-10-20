@@ -1,5 +1,11 @@
 (function(angular, $, _) {
 
+  // The STALE_FLAG is added to `body_html` when it is out-of-sync with the `template_options.mosaicoContent`.
+  // Why does this exist? We want to autosave while the user interacts with the editor.
+  // However, rendering HTML while the user interacts is problematic (eg requires ~200ms on i3-10100/Firefox v93;
+  // eg provokes JS warnings). So we save just `mosaicoContent` (JSON) and allow the `body_html` to grow stale.
+  var STALE_FLAG = '<!--STALE-->';
+
   angular.module('crmMosaico').config(function($routeProvider) {
       $routeProvider.when('/mosaico-template', {
         controller: 'CrmMosaicoListCtrl',
@@ -81,20 +87,35 @@
       warmTplId = tpl.id;
       var openPromise = crmMosaicoTemplates.getFull(tpl).then(function(fullTpl) {
         if (crmMosaicoIframe) crmMosaicoIframe.destroy();
+        var lastHtml = fullTpl.html;
 
         crmMosaicoIframe = new CrmMosaicoIframe({
+          syncInterval: 30*1000, // Moderately infrequent. AJAX save operation fires immediately.
           model: {
             template: tpl.baseDetails.path,
             metadata: fullTpl.metadata,
             content: fullTpl.content
           },
           actions: {
+            sync: function(ko, viewModel, iframeState) {
+              if (!iframeState.isVisible) return;
+
+              viewModel.metadata.changed = Date.now();
+
+              var savePromise = crmApi('MosaicoTemplate', 'create', {
+                id: tpl.id,
+                html: STALE_FLAG + lastHtml,
+                metadata: viewModel.exportMetadata(),
+                content: viewModel.exportJSON()
+              });
+              crmStatus({start: ts('Saving draft'), success: ts('Saved draft')}, savePromise);
+            },
             save: function(ko, viewModel) {
               viewModel.metadata.changed = Date.now();
 
               var savePromise = crmApi('MosaicoTemplate', 'create', {
                 id: tpl.id,
-                html: viewModel.exportHTML(),
+                html: lastHtml = viewModel.exportHTML(),
                 metadata: viewModel.exportMetadata(),
                 content: viewModel.exportJSON()
               }).then(function() {

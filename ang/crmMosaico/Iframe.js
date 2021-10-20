@@ -4,7 +4,7 @@
    * The class CrmMosaicoIframe allows you to instantiate and manage a
    * full-screen IFRAME with embedded Mosaico runtime.
    */
-  angular.module('crmMosaico').factory('CrmMosaicoIframe', function(crmUiAlert, $q, $timeout, $rootScope) {
+  angular.module('crmMosaico').factory('CrmMosaicoIframe', function(crmUiAlert, $q, $timeout, $rootScope, $interval) {
 
     /**
      * @param Object newOptions
@@ -22,6 +22,7 @@
     return function CrmMosaicoIframe(options){
       var cfg = {
         url: CRM.url('civicrm/mosaico/iframe', 'snippet=1'),
+        syncInterval: 1000,
         dimensions: function resize() {
           var c = CRM.crmMosaico || {};
           var top = 0, left = 0, width = $(window).width(), height = $(window).height();
@@ -40,6 +41,7 @@
 
       var model = cfg.model, actions = cfg.actions;
       var isVisible = false, $iframe = null, iframe = null;
+      var syncHandle = null;
 
       if (actions.save && actions.close) {
         throw "Error: Save and Close actions are mutually exclusive";
@@ -133,6 +135,10 @@
       };
 
       this.destroy = function destroy() {
+        if (syncHandle) {
+          $interval.cancel(syncHandle);
+          syncHandle = null;
+        }
         this.hide();
         $(window).off('resize', onResize);
         if ($iframe) $iframe.remove();
@@ -169,6 +175,11 @@
         }
         if (actions.test) {
           viewModel.test = mkCmd("Test", actions.test);
+        }
+        if (actions.sync) {
+          syncHandle = $interval(function() {
+            actions.sync(ko, viewModel, {isVisible: isVisible});
+          }, cfg.syncInterval);
         }
       }
 

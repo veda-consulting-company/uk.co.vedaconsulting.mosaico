@@ -1,5 +1,11 @@
 (function(angular, $, _) {
 
+  // The STALE_FLAG is added to `body_html` when it is out-of-sync with the `template_options.mosaicoContent`.
+  // Why does this exist? We want to autosave while the user interacts with the editor.
+  // However, rendering HTML while the user interacts is problematic (eg requires ~200ms on i3-10100/Firefox v93;
+  // eg provokes JS warnings). So we save just `mosaicoContent` (JSON) and allow the `body_html` to grow stale.
+  var STALE_FLAG = '<!--STALE-->';
+
   // This provides additional actions for editing a Mosaico mailing.
   // It coexists with crmMailing's EditMailingCtrl.
   angular.module('crmMosaico').controller('CrmMosaicoMixinCtrl', function CrmMosaicoMixinCtrl($scope, dialogService, crmMosaicoTemplates, crmStatus, CrmMosaicoIframe, $timeout) {
@@ -51,8 +57,22 @@
           return;
         }
 
-        function syncModel(viewModel) {
-          mailing.body_html = viewModel.exportHTML();
+        function syncModel(viewModel, mode) {
+          switch (mode) {
+            case 'full':
+              mailing.body_html = viewModel.exportHTML();
+              break;
+
+            case 'partial':
+              if (mailing.body_html && !mailing.body_html.startsWith(STALE_FLAG)) {
+                mailing.body_html = STALE_FLAG + mailing.body_html;
+              }
+              break;
+
+            default:
+              console.log('Unrecognized syncModel(...mode): ' + mode);
+          }
+
           mailing.template_options = mailing.template_options || {};
           // Mosaico exports JSON. Keep their original encoding... or else the loader throws an error.
           mailing.template_options.mosaicoMetadata = viewModel.exportMetadata();
@@ -60,21 +80,27 @@
         }
 
         crmMosaicoIframe = new CrmMosaicoIframe({
+          syncInterval: 1000, // Moderately frequent. Note that the main editor has its own autosave on a longer schedule.
           model: {
             template: $scope.mosaicoCtrl.getTemplate(mailing).path,
             metadata: mailing.template_options.mosaicoMetadata,
             content: mailing.template_options.mosaicoContent
           },
           actions: {
+            sync: function(ko, viewModel, iframeState) {
+              if (iframeState.isVisible) {
+                syncModel(viewModel, 'partial');
+              }
+            },
             close: function(ko, viewModel) {
               viewModel.metadata.changed = Date.now();
-              syncModel(viewModel);
+              syncModel(viewModel, 'full');
               // TODO: When autosave is better integrated, remove this.
               $timeout(function(){$scope.save();}, 100);
               crmMosaicoIframe.hide('crmMosaicoEditorDialog');
             },
             test: function(ko, viewModel) {
-              syncModel(viewModel);
+              syncModel(viewModel, 'full');
 
               var model = {mailing: $scope.mailing, attachments: $scope.attachments};
               var options = CRM.utils.adjustDialogDefaults(angular.extend(

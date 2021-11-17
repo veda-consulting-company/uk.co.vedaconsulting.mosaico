@@ -185,4 +185,31 @@ return [
     'help_text' => NULL,
     'settings_pages' => ['mosaico' => ['weight' => 90]]
   ],
+  'mosaico_hotlist_tokens' => [
+    'group_name' => 'Mosaico Preferences',
+    'group' => 'mosaico',
+    'name' => 'mosaico_hotlist_tokens',
+    'type' => 'Array',
+    'html_type' => 'select',
+    'html_attributes' => [
+      'multiple' => 1,
+      'class' => 'huge crm-select2',
+    ],
+    'pseudoconstant' => [
+      'callback' => 'CRM_Mosaico_Utils::getMailingTokens',
+    ],
+    'default' => [
+      '{contact.first_name}',
+      '{contact.last_name}',
+      '{contact.display_name}',
+      '{contact.contact_id}',
+    ],
+    'add' => '5.41',
+    'title' => E::ts('Mosaico hotlist tokens'),
+    'is_domain' => 1,
+    'is_contact' => 0,
+    'description' => NULL,
+    'help_text' => NULL,
+    'settings_pages' => ['mosaico' => ['weight' => 90]]
+  ],
 ];

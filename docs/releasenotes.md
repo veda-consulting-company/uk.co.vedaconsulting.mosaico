@@ -1,6 +1,14 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 2.8
+
+* [#456](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/456) Add hooks to alter relevant assets in the Mosaico interface.
+* [#462](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/462) PHP7.4 compatibility - Fix usage of Curly brackets to do array access.
+* [#463](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/463) Improve error handling on image params.
+* [#468](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/468) Allow users to choose hotlist tokens.
+* [#472](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/472) / [#444](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/444) Auto-save after idle-timeout (~4s) and/or active-timeout (~90s)
+
 ## Release 2.7
 
 * [#440](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/440) Add support for personalized tokens for "View in your browser" mode.

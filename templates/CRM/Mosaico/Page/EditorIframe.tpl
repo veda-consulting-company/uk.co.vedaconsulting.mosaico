@@ -22,7 +22,7 @@
         return;
       }
 
-      var plugins = [];
+      var plugins = {/literal}{$mosaicoPlugins}{literal};
       var config = {/literal}{$mosaicoConfig}{literal};
       
       window.addEventListener('beforeunload', function(e) {

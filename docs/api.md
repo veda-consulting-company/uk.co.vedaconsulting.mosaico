@@ -103,3 +103,34 @@ function campaignadv_civicrm_mosaicoScriptUrlsAlter(&$scriptUrls) {
   $scriptUrls[] = $url;
 }
 ```
+
+## hook_civicrm_mosaicoPlugin(&$plugins)
+
+This hook can be implemented to add custom JS plugins to the Mosaico object during initialization, see [here](https://github.com/voidlabs/mosaico/wiki/Mosaico-Plugins) on how plugins work in Mosaico.
+
+Example usage:
+```
+/**
+ * Implements hook_civicrm_mosaicoPlugin().
+ */
+function example_civicrm_mosaicoPlugin(&$plugins) {
+    $plugins[] = _example_alert_plugin();
+}
+  
+/**
+ * Example plugin to display alert on init and dispose.
+ */  
+function _example_alert_plugin(){
+    $plugin = <<< JS
+        function(vm) {
+            alert("test-plugin");
+            return {
+                    init: function(vm){alert("init");}, 
+                    dispose:  function(vm){alert("dispose");}
+                }  
+        }
+    JS;
+
+    return $plugin;
+}
+```

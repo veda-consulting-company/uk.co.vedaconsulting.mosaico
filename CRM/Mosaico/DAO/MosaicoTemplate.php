@@ -219,6 +219,27 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
           ],
           'add' => NULL,
         ],
+        'category_id' => [
+          'name' => 'category_id',
+          'type' => CRM_Utils_Type::T_INT,
+          'title' => E::ts('Category ID'),
+          'description' => E::ts('ID of the category this mailing template is currently belongs. Foreign key to civicrm_option_value.'),
+          'required' => FALSE,
+          'where' => 'civicrm_mosaico_template.category_id',
+          'table_name' => 'civicrm_mosaico_template',
+          'entity' => 'MosaicoTemplate',
+          'bao' => 'CRM_Mosaico_DAO_MosaicoTemplate',
+          'localizable' => 0,
+          'FKClassName' => 'CRM_Core_DAO_MessageTemplate',
+          'html' => [
+            'type' => 'Select',
+          ],
+          'pseudoconstant' => [
+            'optionGroupName' => 'mailing_template_category',
+            'optionEditPath' => 'civicrm/admin/options/mailing_template_category',
+          ],
+          'add' => NULL,
+        ],
       ];
       CRM_Core_DAO_AllCoreTables::invoke(__CLASS__, 'fields_callback', Civi::$statics[__CLASS__]['fields']);
     }

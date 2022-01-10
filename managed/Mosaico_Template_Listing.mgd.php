@@ -1,5 +1,4 @@
 <?php 
-
 return [
   [
     'name' => 'SavedSearch_Mosaico_Template_List', 

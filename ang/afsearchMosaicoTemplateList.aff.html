@@ -1,4 +1,8 @@
 <div af-fieldset="">
-  <af-field name="category_id" defn="{input_attrs: {multiple: true}, label: 'Category'}" />
+  <div class="af-container af-layout-cols">
+    <af-field name="title" />
+    <af-field name="base" />
+    <af-field name="category_id" defn="{input_attrs: {multiple: true}}" />
+  </div>
   <crm-search-display-table search-name="Mosaico_Template_List" display-name="Mosaico_Template_List"></crm-search-display-table>
 </div>

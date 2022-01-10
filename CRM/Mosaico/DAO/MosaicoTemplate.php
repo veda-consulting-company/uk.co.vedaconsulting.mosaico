@@ -145,6 +145,9 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
           'entity' => 'MosaicoTemplate',
           'bao' => 'CRM_Mosaico_DAO_MosaicoTemplate',
           'localizable' => 0,
+          'html' => [
+            'type' => 'Text',
+          ],
           'add' => NULL,
         ],
         'base' => [
@@ -159,6 +162,9 @@ class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Core_DAO {
           'entity' => 'MosaicoTemplate',
           'bao' => 'CRM_Mosaico_DAO_MosaicoTemplate',
           'localizable' => 0,
+          'html' => [
+            'type' => 'Text',
+          ],
           'add' => NULL,
         ],
         'html' => [

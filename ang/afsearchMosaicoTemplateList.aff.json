@@ -1,0 +1,16 @@
+{
+    "type": "search",
+    "requires": [],
+    "title": "Mosaico Template List",
+    "description": "",
+    "is_dashlet": false,
+    "is_public": false,
+    "is_token": false,
+    "server_route": "civicrm/mosaico-template-list",
+    "permission": "access CiviCRM",
+    "entity_type": null,
+    "join_entity": null,
+    "contact_summary": null,
+    "redirect": null,
+    "create_submission": null
+}

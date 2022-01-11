@@ -9,7 +9,7 @@ return [
       'version' => 4, 
       'values' => [
         'name' => 'Mosaico_Template_List', 
-        'label' => 'Mosaico Template List', 
+        'label' => 'Mosaico Templates (new)', 
         'form_values' => NULL, 
         'search_custom_id' => NULL, 
         'api_entity' => 'MosaicoTemplate', 
@@ -83,16 +83,30 @@ return [
               'links' => [
                 [
                   'path' => 'civicrm/', 
-                  'icon' => 'fa-eye', 
-                  'text' => 'View', 
+                  'icon' => 'fa-eye',
+                  'text' => 'Preview',
                   'style' => 'default', 
                   'target' => 'crm-popup',
                 ],
                 [
+                  'path' => 'civicrm/',
+                  'icon' => 'fa-pencil',
+                  'text' => 'Edit',
+                  'style' => 'default',
+                  'target' => 'crm-popup',
+                ],
+                [
                   'path' => 'civicrm/', 
-                  'icon' => 'fa-pencil', 
-                  'text' => 'Edit', 
-                  'style' => 'default', 
+                  'icon' => 'fa-wrench', 
+                  'text' => 'Settings', 
+                  'style' => 'default',
+                  'target' => 'crm-popup',
+                ],
+                [
+                  'path' => 'civicrm/', 
+                  'icon' => 'fa-clone', 
+                  'text' => 'Copy', 
+                  'style' => 'default',
                   'target' => 'crm-popup',
                 ],
                 [

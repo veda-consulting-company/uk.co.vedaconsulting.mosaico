@@ -92,6 +92,7 @@
       <optionGroupName>mailing_template_category</optionGroupName>
     </pseudoconstant>
     <html>
+      <label>Category</label>
       <type>Select</type>
     </html>
   </field>

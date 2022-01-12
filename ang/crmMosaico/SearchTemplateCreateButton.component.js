@@ -1,5 +1,5 @@
 (function(angular, $, _) {
-  angular.module('crmMosaico').component('crmMosaicoSearchTemplateListButtons', {
+  angular.module('crmMosaico').component('crmMosaicoSearchTemplateCreateButton', {
     bindings: {
       tpl: '<',
       refresh: '&'

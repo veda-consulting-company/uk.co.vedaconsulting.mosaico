@@ -1,8 +1,12 @@
 (function (angular, $, _) {
 
-  angular.module('crmMosaico').factory('crmMosaicoTemplates', function ($q, crmApi, $timeout) {
+  angular.module('crmMosaico').factory('crmMosaicoTemplates', function ($q, crmApi, $timeout, CrmMosaicoIframe, crmBlocker, crmStatus) {
     var ts = CRM.ts(null);
     var cache = {};
+    var block = crmBlocker();
+
+    // Track zero or one instances of CrmMosaicoIframe.
+    var currentIframe, warmTplId;
 
     function filterBase(base) {
       return {
@@ -50,6 +54,15 @@
       return tpl;
     }
 
+    function getFull(template) {
+      if (!template.isBase) {
+        return crmApi('MosaicoTemplate', 'getsingle', {id: template.id});
+      }
+      return $q(function(resolve){
+        $timeout(function(){resolve({});}, 100);
+      });
+    }
+
     return {
       // Return Promise<void>
       whenLoaded: function whenLoaded() {
@@ -82,23 +95,13 @@
         });
       },
       // Load the full content of a template (HTML, metadata, content -- as applicable).
-      getFull: function getFull(template) {
-        if (!template.isBase) {
-          return crmApi('MosaicoTemplate', 'getsingle', {id: template.id});
-        }
-        return $q(function(resolve){
-          $timeout(function(){resolve({});}, 100);
-        });
-      },
+      getFull: getFull,
       getBases: function() {
         return cache.bases.filter((template) => !template.isHidden);
       },
       getConfigured: function(){ return cache.configured; },
       getAll: function() {
         return cache.all.filter((template) => !template.isHidden);
-      },
-      getBase: function(baseName) {
-        return cache.basesByName[baseName];
       },
       save: function(tplId, viewModel) {
         viewModel.metadata.changed = Date.now();
@@ -107,6 +110,58 @@
           html: viewModel.exportHTML(),
           metadata: viewModel.exportMetadata(),
           content: viewModel.exportJSON()
+        });
+      },
+      edit: function(tpl) {
+        function save(tplId, viewModel) {
+          viewModel.metadata.changed = Date.now();
+          return crmApi('MosaicoTemplate', 'create', {
+            id: tplId,
+            html: viewModel.exportHTML(),
+            metadata: viewModel.exportMetadata(),
+            content: viewModel.exportJSON()
+          });
+        }
+
+        return $q(function(resolve, reject) {
+          if (block.check()) {
+            return reject({});
+          }
+
+          if (warmTplId === tpl.id) {
+            currentIframe.show();
+            return reject({});
+          }
+
+          warmTplId = tpl.id;
+          var openPromise = getFull(tpl).then(function(fullTpl) {
+            if (currentIframe) currentIframe.destroy();
+            // FIXME: baseDetails seems like redundant data
+            var base = tpl.baseDetails || cache.basesByName[tpl.base];
+            currentIframe = new CrmMosaicoIframe({
+              model: {
+                template: base.path,
+                metadata: fullTpl.metadata,
+                content: fullTpl.content
+              },
+              actions: {
+                sync: function(ko, viewModel) {
+                  var savePromise = save(tpl.id, viewModel);
+                  crmStatus({start: ts('Saving'), success: ts('Saved')}, savePromise);
+                },
+                save: function(ko, viewModel) {
+                  var savePromise = save(tpl.id, viewModel).then(function(result) {
+                    currentIframe.hide();
+                    resolve(result);
+                  });
+                  crmStatus({start: ts('Saving'), success: ts('Saved')}, savePromise);
+                }
+              }
+            });
+            return currentIframe.open();
+          });
+
+          block(crmStatus({start: ts('Loading...'), success: null}, openPromise));
         });
       }
     };

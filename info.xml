@@ -19,7 +19,7 @@
   <version>2.8</version>
   <develStage>stable</develStage>
   <compatibility>
-    <ver>5.45</ver>
+    <ver>5.46</ver>
   </compatibility>
   <requires>
     <ext>org.civicrm.flexmailer</ext>

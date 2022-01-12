@@ -1,6 +1,6 @@
 {
     "type": "search",
-    "requires": [],
+    "requires": ["crmMosaico"],
     "title": "Mosaico Templates (new)",
     "description": "",
     "is_dashlet": false,

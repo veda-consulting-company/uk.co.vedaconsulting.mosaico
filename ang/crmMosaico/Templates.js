@@ -96,6 +96,18 @@
       getConfigured: function(){ return cache.configured; },
       getAll: function() {
         return cache.all.filter((template) => !template.isHidden);
+      },
+      getBase: function(baseName) {
+        return cache.basesByName[baseName];
+      },
+      save: function(tplId, viewModel) {
+        viewModel.metadata.changed = Date.now();
+        return crmApi('MosaicoTemplate', 'create', {
+          id: tplId,
+          html: viewModel.exportHTML(),
+          metadata: viewModel.exportMetadata(),
+          content: viewModel.exportJSON()
+        });
       }
     };
   });

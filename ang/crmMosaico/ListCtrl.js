@@ -30,16 +30,6 @@
       }
     });
 
-    function _saveTpl(tplId, viewModel) {
-      viewModel.metadata.changed = Date.now();
-      return crmApi('MosaicoTemplate', 'create', {
-        id: tplId,
-        html: viewModel.exportHTML(),
-        metadata: viewModel.exportMetadata(),
-        content: viewModel.exportJSON()
-      });
-    }
-
     $scope.createTpl = function createTpl(tpl) {
       return crmMosaicoPrompt(ts('Create new template'), ts('New Template (%1)', {1: tpl.type}))
         .then(function(newTitle) {
@@ -100,11 +90,11 @@
           },
           actions: {
             sync: function(ko, viewModel) {
-              var savePromise = _saveTpl(tpl.id, viewModel);
+              var savePromise = crmMosaicoTemplates.save(tpl.id, viewModel);
               crmStatus({start: ts('Saving'), success: ts('Saved')}, savePromise);
             },
             save: function(ko, viewModel) {
-              var savePromise = _saveTpl(tpl.id, viewModel).then(function() {
+              var savePromise = crmMosaicoTemplates.save(tpl.id, viewModel).then(function() {
                 crmMosaicoIframe.hide();
               });
               crmStatus({start: ts('Saving'), success: ts('Saved')}, savePromise);

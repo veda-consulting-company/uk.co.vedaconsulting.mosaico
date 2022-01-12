@@ -42,7 +42,7 @@ return [
       'version' => 4,
       'values' => [
         'name' => 'Mosaico_Template_List',
-        'label' => 'Mosaico Template List',
+        'label' => 'Mosaico Templates',
         'saved_search_id.name' => 'Mosaico_Template_List',
         'type' => 'table',
         'settings' => [

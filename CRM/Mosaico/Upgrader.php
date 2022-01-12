@@ -120,6 +120,8 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
       FOREIGN KEY (`msg_tpl_id`) REFERENCES `civicrm_msg_template`(`id`)
       ON DELETE SET NULL
     ');
+    
+    CRM_Core_Invoke::rebuildMenuAndCaches(TRUE);
 
     return TRUE;
   }

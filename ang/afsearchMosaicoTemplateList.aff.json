@@ -1,7 +1,7 @@
 {
     "type": "search",
     "requires": ["crmMosaico"],
-    "title": "Mosaico Templates (new)",
+    "title": "Mosaico Templates",
     "description": "",
     "is_dashlet": false,
     "is_public": false,

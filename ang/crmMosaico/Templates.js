@@ -17,6 +17,8 @@
         thumbnail: base.thumbnail,
         path: base.path,
         isBase: true,
+        category_id: null,
+        category: ts('Base Template'),
         isHidden: base.is_hidden
       };
     }
@@ -29,14 +31,20 @@
         type: base.title,
         thumbnail: base.thumbnail,
         path: base.path,
+        base: tpl.base,
+        category_id: tpl.category_id,
+        category: tpl.category_id && cache.categoriesByValue[tpl.category_id] ? cache.categoriesByValue[tpl.category_id].label : '',
         isBase: false
       };
     }
 
     crmApi({
-      bases: ['MosaicoBaseTemplate', 'get', {sequential: 1, 'options': {'sort': 'title ASC', 'limit': 0}}],
-      templates: ['MosaicoTemplate', 'get', {sequential: 1, 'options': {'sort': 'title ASC', 'limit': 0}, return:['title', 'base']}]
+      bases: ['MosaicoBaseTemplate', 'get', {sequential: 1, options: {sort: 'title ASC', limit: 0}}],
+      templates: ['MosaicoTemplate', 'get', {sequential: 1, options: {sort: 'title ASC', limit: 0}, return: ['title', 'base', 'category_id']}],
+      categories: ['OptionValue', 'get', {sequential: 1, is_active: 1, option_group_id: 'mailing_template_category', options: {sort: 'weight ASC', limit: 0}, return: ['value', 'label']}]
     }).then(function(r){
+      cache.categories = r.categories.values;
+      cache.categoriesByValue = _.indexBy(r.categories.values, 'value');
       cache.basesByName = _.indexBy(r.bases.values, 'name');
       cache.bases = _.map(r.bases.values, filterBase);
       cache.configured = _.map(r.templates.values, filterTemplate);
@@ -102,6 +110,9 @@
       getConfigured: function(){ return cache.configured; },
       getAll: function() {
         return cache.all.filter((template) => !template.isHidden);
+      },
+      getCategories: function() {
+        return cache.categories;
       },
       save: function(tplId, viewModel) {
         viewModel.metadata.changed = Date.now();

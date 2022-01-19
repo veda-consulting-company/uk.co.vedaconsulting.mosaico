@@ -125,6 +125,27 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
   }
 
   /**
+   * Add domain_id to the civicrm_mosaico_template table.
+   */
+  public function upgrade_4705() {
+    $this->ctx->log->info('Applying update 4705');
+
+    CRM_Core_DAO::executeQuery('
+      ALTER TABLE civicrm_mosaico_template
+      ADD COLUMN `domain_id` int unsigned NULL COMMENT \'FK from civicrm_domain.\'
+    ');
+
+    CRM_Core_DAO::executeQuery('
+      ALTER TABLE civicrm_mosaico_template
+      ADD CONSTRAINT FK_civicrm_mosaico_template_domain_id
+      FOREIGN KEY (`domain_id`) REFERENCES `civicrm_domain`(`id`)
+      ON DELETE SET NULL
+    ');
+
+    return TRUE;
+  }
+
+  /**
    * Example: Run an external SQL script.
    *
    * @return TRUE on success

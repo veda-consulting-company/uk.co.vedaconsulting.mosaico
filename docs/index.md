@@ -61,3 +61,7 @@ If you move CiviCRM to a new domain, you must update the template paths using th
 ```
 cv api MosaicoTemplate.replaceurls from_url="http://old.server.org" to_url="https://new.server.org"
 ```
+
+## Multisite Support - Restrict image gallery to each domain
+- You need to ensure that you have separate images directory in each multisite, so that each site would have unique set of images in their gallery while editing a template.
+- You can set images directory in Administer >> System Settings >> Directories.

@@ -9,7 +9,6 @@
         scope.$watch(attr.crmMailing, function(newValue) {
           scope.mailing = newValue;
         });
-        scope.groupNames = CRM.crmMailing.testGroupNames || CRM.crmMailing.groupNames;
         scope.ts = CRM.ts(null);
         scope.hs = crmUiHelp({file: 'CRM/Mailing/MailingUI'});
         scope.testContact = {email: CRM.crmMailing.defaultTestEmail};

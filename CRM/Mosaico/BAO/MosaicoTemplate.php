@@ -84,10 +84,7 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
           $templateThumbnail = "{$templateLocation['url']}/{$template}/edres/_full.png";
 
           // let's add hidden flag to templates that needs to be excluded from the display
-          $isHidden = false;
-          if (!empty($templatesToHide) && in_array($template, $templatesToHide)) {
-            $isHidden = true;
-          }
+          $isHidden = !empty($templatesToHide) && in_array($template, $templatesToHide);
 
           $records[$template] = [
             'name' => $template,

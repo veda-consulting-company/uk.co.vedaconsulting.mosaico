@@ -51,7 +51,6 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     ];
   }
 
-
   /**
    * Generate the configuration options for `Mosaico.init()`.
    *
@@ -150,7 +149,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
 
   /**
    * Gets the plugins for `Mosaico.init()`.
-   * 
+   *
    * @return array
    */
   public function getMosaicoPlugins() {

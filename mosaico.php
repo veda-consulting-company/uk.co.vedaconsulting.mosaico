@@ -358,12 +358,9 @@ function mosaico_civicrm_mailingTemplateTypes(&$types) {
     }
   }
 
-  // v4.6 compat
-  require_once 'CRM/Mosaico/Utils.php';
-
-  $editorUrl = empty($messages)
-    ? CRM_Mosaico_Utils::getLayoutPath()
-    : '~/crmMosaico/requirements.html';
+  $editorUrl = empty($messages) ?
+    CRM_Mosaico_Utils::getLayoutPath() :
+    '~/crmMosaico/requirements.html';
 
   $types[] = [
     'name' => 'mosaico',
@@ -405,7 +402,7 @@ function mosaico_civicrm_container(\Symfony\Component\DependencyInjection\Contai
 }
 
 /**
- * Implements hook_civicrm_searchTasks();
+ * Implements hook_civicrm_searchTasks().
  */
 function mosaico_civicrm_searchTasks($objectName, &$tasks) {
   if ($objectName == 'contact') {
@@ -428,7 +425,7 @@ function mosaico_wrapMailingApi($event) {
     case 'Mailing.submit':
       if (is_numeric($a['params']['id'])) {
         $abMux = \Civi::service('mosaico_ab_demux');
-        $event->wrapApi([$abMux,'onSubmitMailing']);
+        $event->wrapApi([$abMux, 'onSubmitMailing']);
       }
       break;
 

@@ -86,7 +86,7 @@ class CRM_Mosaico_Utils {
    */
   public static function findBaseTemplatesFromDisk() {
     $templates = CRM_Mosaico_BAO_MosaicoTemplate::findBaseTemplates(TRUE, FALSE);
-    return array_map(function($template) { return $template['name']; }, $templates);
+    return array_column($templates, 'name', 'name');
   }
 
   /**
@@ -308,7 +308,7 @@ class CRM_Mosaico_Utils {
           if (move_uploaded_file($tmp_name, $file_path) === TRUE) {
             $size = filesize($file_path);
 
-            $thumbnail_path = $config['BASE_DIR'] . $config[ 'THUMBNAILS_DIR' ] . $file_name;
+            $thumbnail_path = $config['BASE_DIR'] . $config['THUMBNAILS_DIR'] . $file_name;
             try {
               Civi::service('mosaico_graphics')->createResizedImage($file_path, $thumbnail_path, $config['THUMBNAIL_WIDTH'], $config['THUMBNAIL_HEIGHT']);
               $file = [
@@ -374,7 +374,7 @@ class CRM_Mosaico_Utils {
     $height = (int) $params[1];
 
     // Apply a sensible maximum size for images in an email
-    if ($width * $height > self::MAX_IMAGE_PIXELS)  {
+    if ($width * $height > self::MAX_IMAGE_PIXELS) {
       throw new \CRM_Mosaico_Graphics_Exception('The requested image size is too large');
     }
 
@@ -429,7 +429,8 @@ class CRM_Mosaico_Utils {
     $mime_type = CRM_Utils_Array::value(
       pathinfo($file, PATHINFO_EXTENSION), $mimeMap, 'image/jpeg');
 
-    $expiry_time = 2592000;  //30days (60sec * 60min * 24hours * 30days)
+    // 30days (60sec * 60min * 24hours * 30days)
+    $expiry_time = 2592000;
     header("Pragma: cache");
     header("Cache-Control: max-age=" . $expiry_time . ", public");
     header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expiry_time) . ' GMT');

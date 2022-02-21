@@ -125,7 +125,7 @@ function do_zipfile() {
        ## Get any files in the project root, except for dotfiles.
        find . -mindepth 1 -maxdepth 1 -type f -o -type d | grep -v '^\./\.'
        ## Get any files in the main subfolders.
-       find CRM/ ang/ api/ bin/ css/ js/ sql/ sass/ settings/ templates/ tests/ vendor/ xml/ -type f -o -type d
+       find CRM/ Civi/ ang/ api/ bin/ css/ js/ managed/ sql/ sass/ settings/ templates/ tests/ vendor/ xml/ -type f -o -type d
        ## Get the distributable files for Mosaico.
        find packages/mosaico/{NOTICE,README,LICENSE,dist,templates}* -type f -o -type d
     } \

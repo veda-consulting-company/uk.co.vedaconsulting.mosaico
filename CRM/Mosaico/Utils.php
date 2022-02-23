@@ -17,10 +17,6 @@ class CRM_Mosaico_Utils {
    */
   const MAX_IMAGE_PIXELS = 36000000;
 
-  public static function isBootstrap() {
-    return strpos(CRM_Mosaico_Utils::getLayoutPath(), '/crmstar-') === FALSE;
-  }
-
   /**
    * Get a list of layout options.
    *
@@ -30,7 +26,6 @@ class CRM_Mosaico_Utils {
   public static function getLayoutOptions() {
     return [
       'auto' => E::ts('Automatically select a layout'),
-      'crmstar-single' => E::ts('Single Page (crm-*)'),
       'bootstrap-single' => E::ts('Single Page (Bootstrap CSS)'),
       'bootstrap-wizard' => E::ts('Wizard (Bootstrap CSS)'),
     ];
@@ -136,15 +131,13 @@ class CRM_Mosaico_Utils {
     $prefix = '~/crmMosaico/EditMailingCtrl';
 
     $paths = [
-      'crmstar-single' => "$prefix/crmstar-single.html",
       'bootstrap-single' => "$prefix/bootstrap-single.html",
       'bootstrap-wizard' => "$prefix/bootstrap-wizard.html",
     ];
 
-    if (empty($layout) || $layout === 'auto') {
-      $themes = Civi::service('themes');
-      return $themes->getActiveThemeKey() === 'shoreditch'
-        ? $paths['bootstrap-wizard'] : $paths['crmstar-single'];
+    // Legacy handling for 'crmstar-single' - treat as 'auto'
+    if (empty($layout) || $layout === 'auto' || $layout === 'crmstar-single') {
+      return $paths['bootstrap-wizard'];
     }
     elseif (isset($paths[$layout])) {
       return $paths[$layout];

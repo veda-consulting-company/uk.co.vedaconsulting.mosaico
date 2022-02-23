@@ -1,6 +1,12 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 2.9
+
+* [#478](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/478) Add Mosaico Template Listing page based on Searchkit.
+* Add template "Categories" and allow them to be filtered in the UI.
+* [#470](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/470) Add hooks to alter Mosaico plugins
+
 ## Release 2.8
 
 * [#456](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/456) Add hooks to alter relevant assets in the Mosaico interface.

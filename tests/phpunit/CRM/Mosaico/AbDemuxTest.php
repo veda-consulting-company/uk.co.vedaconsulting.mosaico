@@ -23,7 +23,7 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
    */
   public function setUpHeadless() {
     return \Civi\Test::headless()
-      ->install(['org.civicrm.flexmailer', 'uk.co.vedaconsulting.mosaico'])
+      ->install(['org.civicrm.search_kit', 'org.civicrm.flexmailer', 'uk.co.vedaconsulting.mosaico'])
       ->apply();
   }
 

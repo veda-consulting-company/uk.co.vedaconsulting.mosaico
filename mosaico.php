@@ -406,10 +406,12 @@ function mosaico_civicrm_container(\Symfony\Component\DependencyInjection\Contai
  */
 function mosaico_civicrm_searchTasks($objectName, &$tasks) {
   if ($objectName == 'contact') {
-    $tasks[] = [
-      'title' => E::ts('Email - schedule/send via CiviMail (traditional)'),
-      'class' => 'CRM_Mosaico_Form_Task_AdhocMailingTraditional',
-    ];
+    if (CRM_Core_Permission::access('CiviMail')) {
+      $tasks[] = [
+          'title' => E::ts('Email - schedule/send via CiviMail (traditional)'),
+          'class' => 'CRM_Mosaico_Form_Task_AdhocMailingTraditional',
+      ];
+    }
   }
 }
 

@@ -56,7 +56,12 @@ return [
             'show_count' => TRUE,
             'expose_limit' => TRUE,
           ],
-          'sort' => [],
+          'sort' => [
+            [
+              'title',
+              'ASC',
+            ],
+          ],
           'columns' => [
             [
               'type' => 'field',

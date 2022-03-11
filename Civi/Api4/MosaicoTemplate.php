@@ -10,4 +10,16 @@ namespace Civi\Api4;
  */
 class MosaicoTemplate extends Generic\DAOEntity {
 
+  /**
+   * @return array
+   */
+  public static function permissions() {
+    return [
+      'get' => ['access CiviCRM'],
+      'create' => ['edit message templates'],
+      'update' => ['edit message templates'],
+      'delete' => ['edit message templates'],
+    ];
+  }
+
 }

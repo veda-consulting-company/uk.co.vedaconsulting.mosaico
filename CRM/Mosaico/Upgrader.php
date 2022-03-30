@@ -5,14 +5,39 @@
  */
 class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
 
-  // By convention, functions that look like "function upgrade_NNNN()" are
-  // upgrade tasks. They are executed in order (like Drupal's hook_update_N).
-
   /**
-   * Example: Run an external SQL script when the module is installed.
-   *
+   * Install module
+   */
   public function install() {
-    $this->executeSqlFile('sql/myinstall.sql');
+    // This would normally be added by Mailing_Template_Category.mgd.php but needs to be present before we save the option value
+    // The 'match' param will prevent it from being double-inserted.
+    \Civi\Api4\OptionGroup::save(FALSE)
+      ->addRecord([
+        'name' => 'mailing_template_category',
+        'title' => 'Mailing Template Category',
+        'is_reserved' => TRUE,
+        'is_active' => TRUE,
+      ])
+      ->setMatch(['name'])
+      ->execute();
+
+    $existingCategories = \Civi\Api4\OptionValue::get()
+      ->selectRowCount()
+      ->addWhere('option_group_id.name', '=', 'mailing_template_category')
+      ->execute();
+
+    // If there are no categories, insert the default "Newsletter"
+    if (!$existingCategories->count()) {
+      \Civi\Api4\OptionValue::save(FALSE)
+        ->addRecord([
+          'option_group_id.name' => 'mailing_template_category',
+          'label' => 'Newsletter',
+          'value' => '1',
+          'name' => 'newsletter',
+          'is_default' => TRUE,
+        ])
+        ->execute();
+    }
   }
 
   /**
@@ -120,7 +145,7 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
       FOREIGN KEY (`msg_tpl_id`) REFERENCES `civicrm_msg_template`(`id`)
       ON DELETE SET NULL
     ');
-    
+
     CRM_Core_Invoke::rebuildMenuAndCaches(TRUE);
 
     return TRUE;
@@ -136,6 +161,52 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
       ALTER TABLE civicrm_mosaico_template
       ADD COLUMN `category_id` int unsigned NULL COMMENT \'ID of the category this mailing template is currently belongs. Foreign key to civicrm_option_value.\'
     ');
+
+    return TRUE;
+  }
+
+  /**
+   * Convert "Newsletter" category from a managed entity to a one-off insert.
+   */
+  public function upgrade_4706() {
+    $this->ctx->log->info('Applying update 4706');
+
+    // Stop managing the "newsletter" category - it should only be inserted once as a default,
+    // but the "managed" thing was preveting the user from deleting it.
+    \Civi\Api4\Managed::delete(FALSE)
+      ->addWhere('module', '=', 'uk.co.vedaconsulting.mosaico')
+      ->addWhere('name', '=', 'OptionGroup_mailing_template_category_newsletter')
+      ->execute();
+
+    // This would normally be added by Mailing_Template_Category.mgd.php but needs to be present before we save the option value
+    // The 'match' param will prevent it from being double-inserted.
+    \Civi\Api4\OptionGroup::save(FALSE)
+      ->addRecord([
+        'name' => 'mailing_template_category',
+        'title' => 'Mailing Template Category',
+        'is_reserved' => TRUE,
+        'is_active' => TRUE,
+      ])
+      ->setMatch(['name'])
+      ->execute();
+
+    $existingCategories = \Civi\Api4\OptionValue::get()
+      ->selectRowCount()
+      ->addWhere('option_group_id.name', '=', 'mailing_template_category')
+      ->execute();
+
+    // If there are no categories, insert the default "Newsletter"
+    if (!$existingCategories->count()) {
+      \Civi\Api4\OptionValue::save(FALSE)
+        ->addRecord([
+          'option_group_id.name' => 'mailing_template_category',
+          'label' => 'Newsletter',
+          'value' => '1',
+          'name' => 'newsletter',
+          'is_default' => TRUE,
+        ])
+        ->execute();
+    }
 
     return TRUE;
   }

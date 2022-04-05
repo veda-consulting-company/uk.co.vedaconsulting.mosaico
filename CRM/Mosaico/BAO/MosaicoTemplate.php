@@ -65,7 +65,7 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
       $templatesLocation[] = ['dir' => $templatesDir, 'url' => $templatesUrl];
 
       $customTemplatesDir = \Civi::paths()->getPath(CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_custom_templates_dir'));
-      $customTemplatesUrl = \Civi::paths()->getUrl(CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_custom_templates_url'));
+      $customTemplatesUrl = \Civi::paths()->getUrl(CRM_Core_BAO_Setting::getItem('Mosaico Preferences', 'mosaico_custom_templates_url'),'absolute');
       if (!is_null($customTemplatesDir) && !is_null($customTemplatesUrl)) {
         if (is_dir($customTemplatesDir)) {
           $templatesLocation[] = ['dir' => $customTemplatesDir, 'url' => $customTemplatesUrl];

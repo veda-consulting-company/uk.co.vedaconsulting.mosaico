@@ -342,6 +342,7 @@ function mosaico_civicrm_mailingTemplateTypes(&$types) {
  * Implements hook_civicrm_entityTypes().
  */
 function mosaico_civicrm_entityTypes(&$entityTypes) {
+  // _mosaico_civix_civicrm_entityTypes($entityTypes);
   $entityTypes[] = [
     'name' => 'MosaicoTemplate',
     'class' => 'CRM_Mosaico_DAO_MosaicoTemplate',
@@ -408,12 +409,3 @@ function mosaico_wrapMailingApi($event) {
       break;
   }
 }
-
-// /**
-//  * Implements hook_civicrm_entityTypes().
-//  *
-//  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
-//  */
-// function mosaico_civicrm_entityTypes(&$entityTypes) {
-//   _mosaico_civix_civicrm_entityTypes($entityTypes);
-// }

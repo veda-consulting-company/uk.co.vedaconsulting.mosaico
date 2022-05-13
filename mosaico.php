@@ -13,15 +13,6 @@ function mosaico_civicrm_config(&$config) {
 }
 
 /**
- * Implements hook_civicrm_xmlMenu().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_xmlMenu
- */
-function mosaico_civicrm_xmlMenu(&$files) {
-  _mosaico_civix_civicrm_xmlMenu($files);
-}
-
-/**
  * Implements hook_civicrm_install().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_install
@@ -82,18 +73,6 @@ function mosaico_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
 }
 
 /**
- * Implements hook_civicrm_managed().
- *
- * Generate a list of entities to create/deactivate/delete when this module
- * is installed, disabled, uninstalled.
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_managed
- */
-function mosaico_civicrm_managed(&$entities) {
-  _mosaico_civix_civicrm_managed($entities);
-}
-
-/**
  * Implements hook_civicrm_angularModules().
  *
  * Generate a list of Angular modules.
@@ -109,7 +88,6 @@ function mosaico_civicrm_angularModules(&$angularModules) {
   if (!$canRead) {
     return;
   }
-  _mosaico_civix_civicrm_angularModules($angularModules);
 }
 
 function mosaico_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
@@ -120,15 +98,6 @@ function mosaico_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
       $field->after('<div crm-ui-field="{name: \'subform.dist\', title: ts(\'Distribution\')}" ng-if="mailing.template_options.variants"><crm-mosaico-distribution crm-mailing="mailing" /></div>');
     });
   $angular->add($changeSet);
-}
-
-/**
- * Implements hook_civicrm_alterSettingsFolders().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_alterSettingsFolders
- */
-function mosaico_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
-  _mosaico_civix_civicrm_alterSettingsFolders($metaDataFolders);
 }
 
 function mosaico_civicrm_navigationMenu(&$params) {
@@ -439,3 +408,12 @@ function mosaico_wrapMailingApi($event) {
       break;
   }
 }
+
+// /**
+//  * Implements hook_civicrm_entityTypes().
+//  *
+//  * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_entityTypes
+//  */
+// function mosaico_civicrm_entityTypes(&$entityTypes) {
+//   _mosaico_civix_civicrm_entityTypes($entityTypes);
+// }

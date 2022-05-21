@@ -72,24 +72,6 @@ function mosaico_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
   return _mosaico_civix_civicrm_upgrade($op, $queue);
 }
 
-/**
- * Implements hook_civicrm_angularModules().
- *
- * Generate a list of Angular modules.
- *
- * Note: This hook only runs in CiviCRM 4.5+. It may
- * use features only available in v4.6+.
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_caseTypes
- */
-function mosaico_civicrm_angularModules(&$angularModules) {
-  $canRead = Civi::service('civi_api_kernel')->runAuthorize(
-    'MosaicoTemplate', 'get', ['version' => 3, 'check_permissions' => 1]);
-  if (!$canRead) {
-    return;
-  }
-}
-
 function mosaico_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
   $changeSet = \Civi\Angular\ChangeSet::create('mosaico_subject_list')
     ->alterHtml('~/crmMailing/BlockMailing.html', function (phpQueryObject $doc) {

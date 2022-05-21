@@ -3,6 +3,11 @@
 // in CiviCRM. See also:
 // http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_angularModules
 
+$canRead = Civi::service('civi_api_kernel')->runAuthorize('MosaicoTemplate', 'get', ['version' => 3, 'check_permissions' => 1]);
+if (!$canRead) {
+  return [];
+}
+
 $result = [
   'requires' => ['crmUi', 'crmUtil', 'ngRoute', 'crmMailing', 'crmDialog'],
   'js' =>

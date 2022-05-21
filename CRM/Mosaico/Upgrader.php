@@ -21,7 +21,7 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
       ->setMatch(['name'])
       ->execute();
 
-    $existingCategories = \Civi\Api4\OptionValue::get()
+    $existingCategories = \Civi\Api4\OptionValue::get(FALSE)
       ->selectRowCount()
       ->addWhere('option_group_id.name', '=', 'mailing_template_category')
       ->execute();

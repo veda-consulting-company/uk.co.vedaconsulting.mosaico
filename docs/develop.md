@@ -1,37 +1,97 @@
 # Development
 
-## Download via Git
+This extension integrates `voidlabs/mosaico` with CiviCRM.  Like CiviCRM, the main body of this extension is built on
+PHP, MySQL, and AngularJS. You can generally develop updates to the extension in a regular CiviCRM environment.
 
-This option requires several command-line tools:
+There are a few important exceptions and additions: the stylesheets (`./sass`, `./css`) and the editor (`voidlabs/mosaico`).
+If you wish to develop patches for these, then it will require additional tools and processes.
 
- * [`git`](https://git-scm.com/)
- * [`nodejs`](https://nodejs.org/en)
- * [`npm`](https://www.npmjs.com)
- * [`grunt-cli`](http://gruntjs.com/getting-started)
- * [`cv`](https://github.com/civicrm/cv)
+## Requirements
 
-!!! note "nodejs"
-    Currently the mosaico build script only works with node v8 and older. You can use `nvm` -
-    https://github.com/nvm-sh/nvm#installing-and-updating to use multiple versions of nodejs.
-    Eg. `nvm install 8 && nvm use 8`
+* *Basic Development*
+    * CiviCRM
+    * [`git`](https://git-scm.com/)
+    * [`composer`](https://git-scm.com/)
+    * [`cv`](https://github.com/civicrm/cv) (*recommended*)
+    * [`phpunit`](https://phpunit.de) (*recommended*)
+* *Stylesheet Development* and *Editor Development*
+    * [`nodejs`](https://nodejs.org/en) (*Currently the mosaico build script only works with node v8 and older. You can use
+        [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) to use multiple versions of nodejs. Eg. `nvm install 8 && nvm use 8`*)
+    * [`npm`](https://www.npmjs.com)
+    * [`grunt-cli`](http://gruntjs.com/getting-started)
+    * [`shoreditch`](https://github.com/civicrm/org.civicrm.shoreditch) (*recommended*)
 
-Once these are installed, you should:
+## Basic Development
+
+The process is similar to many CiviCRM extensions:
 
 ```
 ## Navigate to your extension directory, e.g.
 cd sites/default/files/civicrm/ext
 
 ## Download the extensions
-git clone https://github.com/civicrm/org.civicrm.flexmailer
-git clone https://github.com/civicrm/org.civicrm.shoreditch
 git clone https://github.com/veda-consulting/uk.co.vedaconsulting.mosaico
 
 ## Download additional dependencies
 cd uk.co.vedaconsulting.mosaico
-./bin/setup.sh -D
+composer install
+
+## Enable the extension via web UI or CLI, e.g.
+cv en mosaico
 ```
 
-## Setup.sh
+At this point, you can iteratively develop patches.  Submit proposed updates via Github pull-requests.
+
+## Stylesheet Development
+
+We use Gulp and Sass for styling and handle different running tasks. Firstly, you should install node packages using npm package manager:
+
+```
+npm install
+```
+
+Styling changes should go into `sass` directory and compiled to CSS using the following command:
+```
+gulp sass
+```
+
+Once you are done making your changes, please use BackstopJS (see [Testing](/testing#backstopjs-visual-regression-testing) to check for any possible visual regression issues.
+
+Commit changes for both SCSS and CSS. Submit proposed updates via Github pull-requests.
+
+## Editor Development
+
+The CiviCRM extension (`uk.co.vedaconsulting.mosaico`) depends on the editor ([mosaico](https://github.com/voidlabs/mosaico)), which is an
+independent project. The `mosaico` component has its own requirements and workflows.
+
+`uk.co.vedaconsulting.mosaico` uses a pre-built copy of `mosaico` (`./packages/mosaico`), so you may work on `uk.co.vedaconsulting.mosaico`
+without needing to understand `mosaico` development.  However, if you are doing development for both, then there are a few important details:
+
+* __Using `mosaico.git` in the extension__: You may replace the pre-built folder (`./packages/mosaico`) with a git repo. The extension specifically
+  uses a fork (https://github.com/civicrm/mosaico) with a few small patches. Typical setup steps:
+    ```bash
+    ## Remove pre-built copy of mosaico
+    rm -rf packages/mosaico
+
+    ## Download git repo
+    git clone https://github.com/civicrm/mosaico.git -b v0.15-civicrm-2
+
+    ## Build
+    cd packages/civicrm
+    npm install
+    grunt build
+    ```
+* __Branching for `mosaico.git`__: The `civicrm/mosaico` fork follows the [Twigflow (Rebase)](https://gist.github.com/totten/39e932e5d10bc9e73e82790b2475eff2) pattern.
+  You will notice additional branches such as `v0.15-civicrm-2` (*a branch derived from `v0.15` for use by `civicrm`; it is the second major variant of the branch*).
+* __Tagging for `mosaico.git`__: If there has been an update to `mosaico.git`, then you should make a new tag (eg `v0.15-civicrm-2.1`). Github will generate
+  a pre-built package for the new version.
+* __Updating the dependency__: If there is a newer build of `mosaico`, then you may edit `./composer.json` and update the the `extra: downloads` configuration.
+    ```bash
+    vi composer.json
+    composer update --lock
+    ```
+
+## Addendum: Setup.sh
 
 The script `bin/setup.sh` handles various build activities:
 
@@ -46,26 +106,7 @@ The script `bin/setup.sh` handles various build activities:
 ./bin/setup.sh -z
 ```
 
-## Styling Changes
-
-We use Gulp and Sass for styling and handle different running tasks. Firstly, you should install node packages using npm package manager:
-```
-npm install
-```
-
-Styling changes should go into `sass` directory and compiled to CSS using the following command:
-```
-gulp sass
-```
-
-Once you are done making your changes, please use BackstopJS (see [Testing](/testing#backstopjs-visual-regression-testing) to check for any possible visual regression issues
-
-## Patching Mosaico
-
-This extension ships with a patched version of Mosaico. The patches are maintained as a fork
-in https://github.com/civicrm/mosaico using [Twigflow (Rebase)](https://gist.github.com/totten/39e932e5d10bc9e73e82790b2475eff2).
-
-## Publication
+## Addendum: Publication
 
 Whenever a change is merged or pushed to `uk.co.vedaconsulting.mosaico`, a bot on [jenkins test-ci](https://test.civicrm.org/view/Tools/job/Tool-Publish-mosaico/) automatically builds a new `zip` archive
 and publishes [uk.co.vedaconsulting.mosaico-latest.zip](https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/latest/uk.co.vedaconsulting.mosaico-latest.zip).

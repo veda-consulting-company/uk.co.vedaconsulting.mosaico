@@ -52,7 +52,7 @@ class CRM_Mosaico_MosaicoTemplateTest extends CRM_Mosaico_TestCase implements En
     $this->assertTrue(is_array($getResult['values'][$createResult['id']]));
     foreach ($getResult['values'] as $value) {
       $this->assertEquals('<p>hello</p>', $value['html']);
-      $this->assertEquals(['foo' => 'bar'], json_decode($value['metadata'], 1));
+      $this->assertEquals(['foo' => 'bar', 'template' => NULL], json_decode($value['metadata'], 1));
       $this->assertEquals(['abc' => 'def'], json_decode($value['content'], 1));
     }
 
@@ -80,7 +80,8 @@ class CRM_Mosaico_MosaicoTemplateTest extends CRM_Mosaico_TestCase implements En
     $this->assertEquals('MosaicoTemplateTest bar', $clone['title']);
     $this->assertEquals('versafix-1', $clone['base']);
     $this->assertEquals('<p>hello</p>', $clone['html']);
-    $this->assertEquals(json_encode(['foo' => 'bar']), $clone['metadata']);
+    $template = _civicrm_api3_mosaico_template_getDomainFrom(CRM_Utils_System::baseURL()) ? trim(parse_url(CRM_Utils_System::baseURL())['path'], '/') : CRM_Utils_System::baseURL();
+    $this->assertEquals(json_encode(['foo' => 'bar', 'template' => $template]), $clone['metadata']);
     $this->assertEquals(json_encode(['abc' => 'def']), $clone['content']);
   }
 

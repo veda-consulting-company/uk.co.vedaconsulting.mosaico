@@ -338,8 +338,8 @@ function mosaico_civicrm_entityTypes(&$entityTypes) {
 function mosaico_civicrm_pre($op, $objectName, $id, &$params) {
   if ($objectName === 'Mailing' && $op === 'create') {
     if (isset($params['template_type']) && $params['template_type'] === 'mosaico') {
-      $params['header_id'] = NULL;
-      $params['footer_id'] = NULL;
+      $params['header_id'] = 'null';
+      $params['footer_id'] = 'null';
     }
   }
 }

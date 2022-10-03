@@ -64,7 +64,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     ]);
 
     $config = [
-      'imgProcessorBackend' => $this->getUrl('civicrm/mosaico/img', NULL, FALSE),
+      'imgProcessorBackend' => $this->getUrl('civicrm/mosaico/img', NULL, TRUE),
       'imgPlaceholderUrl' => $this->getUrl('civicrm/mosaico/img/placeholder', NULL, FALSE),
       'emailProcessorBackend' => 'unused-emailProcessorBackend',
       'titleToken' => 'MOSAICO Responsive Email Designer',

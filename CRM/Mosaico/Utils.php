@@ -387,7 +387,7 @@ class CRM_Mosaico_Utils {
       case 'cover':
         $func = ($method === 'resize') ? 'createResizedImage' : 'createCoveredImage';
 
-        $path_parts = pathinfo(CRM_Utils_String::purifyHTML(CRM_Utils_Request::retrieveValue('src', 'String', NULL, TRUE, 'GET')));
+        $path_parts = pathinfo(CRM_Utils_String::purifyHTML(urldecode(str_replace('%25', '%', CRM_Utils_Request::retrieveValue('src', 'String', NULL, TRUE, 'GET')))));
         $src_file = $config['BASE_DIR'] . $config['UPLOADS_DIR'] . $path_parts["basename"];
         $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $path_parts["basename"];
         // $cache_file = $config['BASE_DIR'] . $config['STATIC_DIR'] . $method . '-' . $width . "x" . $height . '-' . $path_parts["basename"];

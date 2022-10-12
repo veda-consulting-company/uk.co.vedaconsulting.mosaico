@@ -15,11 +15,11 @@
     <url desc="Support">https://vedaconsulting.co.uk</url>
     <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
   </urls>
-  <releaseDate>2022-02-23</releaseDate>
-  <version>2.9</version>
+  <releaseDate>2022-10-12</releaseDate>
+  <version>2.10</version>
   <develStage>stable</develStage>
   <compatibility>
-    <ver>5.48</ver>
+    <ver>5.49</ver>
   </compatibility>
   <requires>
     <ext>org.civicrm.flexmailer</ext>

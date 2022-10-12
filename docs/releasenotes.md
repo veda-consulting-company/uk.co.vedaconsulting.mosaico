@@ -1,6 +1,35 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 2.10
+
+* Fix [#539](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/539) Fix issue with urls that are double url encoded.
+* Fix issue where by some large placeholders aren't rendering behind application load balancers.
+* Fix broken images when not logged in - accidently changed with multisite patches.
+* [#489](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/489) Add validation rule to Mosaico uploader.
+* [#536](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/536) Pass in String null so that db field is set to NULL.
+* [#533](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/533) Add type hint to return value.
+* [#530](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/530) Multisite support for search kit templates display.
+* [#532](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/532) Fix tests following #529.
+* [#410](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/410) Multisite support for mosaico.
+* [#528](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/528) Various updates for `develop.md`.
+* [#525](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/525) Download Mosaico JS files via composer-downloads-plugin.
+* [#512](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/512) Define customTemplatesUrl absolute as templatesUrl.
+* [#523](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/523) Fix crash when installing via CLI.
+* [#520](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/520) Update civix templates.
+* [#508](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/508) Bump postcss from 5.2.18 to 7.0.36.
+* [#501](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/501) Switch newsletter category to one-time insert instead of managed.
+* [#507](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/507) Use CiviCRM core Guzzle dependencies.
+* [#500](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/500) Default orderBy Title on template listing search display.
+* [#502](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/502) Add APIv4 permissions for MosaicoTemplate.
+* Switch newsletter category to one-time insert instead of a managed entity.
+* Default orderBy Title on template listing search display.
+* [#496](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/496) Don't add the "schedule/send via CiviMail" search task, if the user has insufficient permissions.
+* [#488](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/488) Validate multiple email when testing.
+* [#490](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/490) Loosen restrictions on required fields.
+* [#493](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/493) Ensure that when tests are run search kit is installed.
+* [#485](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/485) Remove crmStar styling, require Bootstrap3.
+
 ## Release 2.9
 
 * [#478](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/478) Add Mosaico Template Listing page based on Searchkit.

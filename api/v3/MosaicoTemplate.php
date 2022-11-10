@@ -73,12 +73,11 @@ function civicrm_api3_mosaico_template_get($params) {
     $metaData = json_decode($getresult['values'][0]['metadata'], TRUE);
     $baseTemplateURL = $metaData['template'];
 
-    $baseURL = CRM_Utils_System::baseURL();
-
     if (_civicrm_api3_mosaico_template_getDomainFrom($baseTemplateURL)) {
+      $baseUrlParts = parse_url(CRM_Utils_System::baseURL());
       $urlParts = parse_url($baseTemplateURL);
       $templatePath = $urlParts['path'];
-      $currentURL = CRM_Utils_System::baseURL() . $templatePath;
+      $currentURL = $baseUrlParts['scheme'] . '://' . $baseUrlParts['host'] . $templatePath;
     } else {
       $currentURL = $baseTemplateURL;
     }

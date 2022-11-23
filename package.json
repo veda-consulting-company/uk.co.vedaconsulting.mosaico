@@ -21,7 +21,7 @@
   "homepage": "https://github.com/compucorp/uk.co.vedaconsulting.mosaico#readme",
   "devDependencies": {
     "ansi-colors": "^2.0.2",
-    "backstopjs": "^5.4.4",
+    "backstopjs": "^6.1.4",
     "civicrm-scssroot": "git://github.com/totten/civicrm-scssroot.git#v0.1.1",
     "clean": "^4.0.2",
     "fs": "0.0.1-security",

@@ -351,24 +351,20 @@ class CRM_Mosaico_Utils {
 
     $method = CRM_Utils_Request::retrieveValue('method', 'String', 'cover', FALSE, 'GET');
     if (!in_array($method, $methods)) {
-      \Civi::log()->error('Invalid method for processImg: ' . $method);
-      http_response_code(400);
-      CRM_Utils_System::civiExit();
+      self::returnBadRequest('Invalid method for processImg: ' . $method);
     }
 
-    $params = CRM_Utils_Request::retrieveValue('params', 'String', NULL, FALSE, 'GET');
-    if (empty($params)) {
-      \Civi::log()->error('Invalid params for processImg: ' . $params);
-      http_response_code(400);
-      CRM_Utils_System::civiExit();
+    $rawParams = CRM_Utils_Request::retrieveValue('params', 'String', NULL, FALSE, 'GET');
+    if (empty($rawParams)) {
+      self::returnBadRequest('Invalid params for processImg: ' . $rawParams);
     }
-    $params = explode(',', $params);
+    $params = explode(',', $rawParams);
     $width = (int) $params[0];
     $height = (int) $params[1];
 
     // Apply a sensible maximum size for images in an email
     if ($width * $height > self::MAX_IMAGE_PIXELS) {
-      throw new \CRM_Mosaico_Graphics_Exception('The requested image size is too large');
+      self::returnBadRequest('The requested image size is too large');
     }
 
     // Sometimes output buffer started by another module or plugin causes problem with
@@ -396,7 +392,7 @@ class CRM_Mosaico_Utils {
         // from the gallery. However, to fix it, one must also fix CRM_Mosaico_ImageFilter.
 
         if (!file_exists($src_file)) {
-          throw new \CRM_Mosaico_Graphics_Exception("Failed to locate source file: {$path_parts['basename']}");
+          self::returnBadRequest("Failed to locate source file: {$path_parts['basename']}");
         }
         if (!file_exists($cache_file)) {
           Civi::service('mosaico_graphics')->$func($src_file, $cache_file, $width, $height);
@@ -408,19 +404,24 @@ class CRM_Mosaico_Utils {
     CRM_Utils_System::civiExit();
   }
 
+  private static function returnBadRequest($message) {
+    \Civi::log('mosaico')->error($message);
+    http_response_code(400);
+    CRM_Utils_System::civiExit();
+  }
+
   /**
    * @param string $file
    *   Full path to the image file.
    */
-  public static function sendImage($file) {
+  public static function sendImage(string $file) {
     $mimeMap = [
       'gif' => 'image/gif',
       'jpg' => 'image/jpeg',
       'jpeg' => 'image/jpeg',
       'png' => 'image/png',
     ];
-    $mime_type = CRM_Utils_Array::value(
-      pathinfo($file, PATHINFO_EXTENSION), $mimeMap, 'image/jpeg');
+    $mime_type = $mimeMap[pathinfo($file, PATHINFO_EXTENSION)] ?? 'image/jpeg';
 
     // 30days (60sec * 60min * 24hours * 30days)
     $expiry_time = 2592000;
@@ -429,14 +430,9 @@ class CRM_Mosaico_Utils {
     header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expiry_time) . ' GMT');
     header("Content-type:" . $mime_type);
 
-    $fh = fopen($file, 'r');
-    if ($fh === FALSE) {
-      throw new \Exception("Failed to read image file: $file");
-    }
-    while (!feof($fh)) {
-      echo fread($fh, 2048);
-    }
-    fclose($fh);
+    readfile($file);
+    ob_flush();
+    flush();
   }
 
 }

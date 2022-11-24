@@ -80,7 +80,7 @@ function civicrm_api3_mosaico_template_get($params) {
       $templatePath = $urlParts['path'];
       $currentURL = CRM_Utils_System::baseURL() . $templatePath;
     } else {
-      $currentURL = CRM_Utils_System::baseURL() . $baseTemplateURL;
+      $currentURL = $baseTemplateURL;
     }
 
     $metaData['template'] = $currentURL;

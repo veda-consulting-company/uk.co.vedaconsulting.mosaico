@@ -1,6 +1,16 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 2.11 (not yet released)
+*
+* [#569](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/569) Use more standard param for pragma header.
+* [#568](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/568) On WordPress mosaico/img may have a / after - teach the regex to replace this with static images. Fixes performance issues with bulk mailings on WordPress sites.
+* Test fixes / PHP8.2 compatibility fixes.
+* [#549](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/549) Improve performance (response time) of image processing backend.
+* [#554](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/554) Template path fixes.
+* Library updates.
+* [#541](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/541) Fix 2.10 upgrade from command line.
+
 ## Release 2.10
 
 * Fix [#539](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/539) Fix issue with urls that are double url encoded.

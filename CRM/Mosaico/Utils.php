@@ -425,7 +425,7 @@ class CRM_Mosaico_Utils {
 
     // 30days (60sec * 60min * 24hours * 30days)
     $expiry_time = 2592000;
-    header("Pragma: cache");
+    header("Pragma: public");
     header("Cache-Control: max-age=" . $expiry_time . ", public");
     header('Expires: ' . gmdate('D, d M Y H:i:s', time() + $expiry_time) . ' GMT');
     header("Content-type:" . $mime_type);

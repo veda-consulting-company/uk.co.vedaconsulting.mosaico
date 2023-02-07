@@ -47,7 +47,7 @@
           ng-change="checkReplyToChange(mailing)"
           ng-model="mailing.replyto_email"
       >
-        <option value=""></option>
+        <option value=""> </option>
         <option ng-repeat="frm in crmFromAddresses.getAll() | filter:{is_active:1} | orderBy:'weight'" value="{{frm.label}}">{{frm.label}}</option>
       </select>
     </div>

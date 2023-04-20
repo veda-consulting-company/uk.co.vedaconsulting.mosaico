@@ -89,7 +89,7 @@ class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
    */
   public function upgrade_4701() {
     $this->ctx->log->info('Applying update 4701');
-    if (CRM_Core_DAO::checkFieldExists('civicrm_setting', 'group_name')) {
+    if (CRM_Core_BAO_SchemaHandler::checkIfFieldExists('civicrm_setting', 'group_name')) {
       CRM_Core_DAO::executeQuery('UPDATE civicrm_setting SET group_name = "Mosaico Preferences" WHERE name="mosaico_layout"');
     }
     return TRUE;

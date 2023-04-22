@@ -25,21 +25,11 @@ function mosaico_civicrm_install() {
 }
 
 /**
- * Implements hook_civicrm_postInstall().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_postInstall
- */
-function mosaico_civicrm_postInstall() {
-  _mosaico_civix_civicrm_postInstall();
-}
-
-/**
  * Implements hook_civicrm_uninstall().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_uninstall
  */
 function mosaico_civicrm_uninstall() {
-  _mosaico_civix_civicrm_uninstall();
 
   $schema = new CRM_Logging_Schema();
   $schema->fixSchemaDifferences();
@@ -52,24 +42,6 @@ function mosaico_civicrm_uninstall() {
  */
 function mosaico_civicrm_enable() {
   _mosaico_civix_civicrm_enable();
-}
-
-/**
- * Implements hook_civicrm_disable().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_disable
- */
-function mosaico_civicrm_disable() {
-  _mosaico_civix_civicrm_disable();
-}
-
-/**
- * Implements hook_civicrm_upgrade().
- *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_upgrade
- */
-function mosaico_civicrm_upgrade($op, CRM_Queue_Queue $queue = NULL) {
-  return _mosaico_civix_civicrm_upgrade($op, $queue);
 }
 
 function mosaico_civicrm_alterAngular(\Civi\Angular\Manager $angular) {

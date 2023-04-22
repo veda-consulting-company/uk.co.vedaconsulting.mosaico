@@ -1,6 +1,10 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 2.12 (2023-04-22)
+
+* [#577](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/577) 5.60 compatibility.
+
 ## Release 2.11 (2023-02-14)
 
 * [#569](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/569) Use more standard param for pragma header.

@@ -3,7 +3,7 @@
 /**
  * Collection of upgrade steps.
  */
-class CRM_Mosaico_Upgrader extends CRM_Mosaico_Upgrader_Base {
+class CRM_Mosaico_Upgrader extends CRM_Extension_Upgrader_Base {
 
   /**
    * Install module

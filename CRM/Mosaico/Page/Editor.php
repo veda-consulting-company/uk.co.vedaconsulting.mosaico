@@ -24,20 +24,8 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     $mosaicoDistUrl = CRM_Mosaico_Utils::getMosaicoDistUrl('relative');
     $mosaicoExtUrl = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico');
     return [
-      "{$mosaicoDistUrl}/vendor/knockout.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/jquery.min.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/jquery-ui.min.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/jquery.ui.touch-punch.min.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/load-image.all.min.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/canvas-to-blob.min.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/jquery.iframe-transport.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/jquery.fileupload.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/jquery.fileupload-process.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/jquery.fileupload-image.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/jquery.fileupload-validate.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/knockout-jqueryui.min.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/tinymce.min.js?r={$cacheCode}",
-      "{$mosaicoDistUrl}/mosaico.min.js?v=0.15?&={$cacheCode}",
+      "{$mosaicoDistUrl}/rs/mosaico-libs-and-tinymce.min.js?v=0.18&r={$cacheCode}",
+      "{$mosaicoDistUrl}/rs/mosaico.min.js?v=0.18&r={$cacheCode}",
     ];
   }
 
@@ -46,8 +34,8 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     $mosaicoDistUrl = CRM_Mosaico_Utils::getMosaicoDistUrl('relative');
     // $mosaicoExtUrl = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico');
     return [
-      "{$mosaicoDistUrl}/mosaico-material.min.css?v=0.10&r={$cacheCode}",
-      "{$mosaicoDistUrl}/vendor/notoregular/stylesheet.css?r={$cacheCode}",
+      "{$mosaicoDistUrl}/rs/mosaico-libs-and-tinymce.min.css?v=0.18&r={$cacheCode}",
+      "{$mosaicoDistUrl}/rs/mosaico-material.min.css?v=0.18&r={$cacheCode}",
     ];
   }
 

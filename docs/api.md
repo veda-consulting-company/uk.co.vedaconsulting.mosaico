@@ -11,10 +11,14 @@ This extension defines a few new APIs:
   old v1.x templates.
 * `MosaicoTemplate.*`: This API provides access to the user-configurable templates.  It supports all standard CRUD
   actions (`get`, `create`, `delete`etc). Its data-structure closely adheres to Mosaico's canonical storage format.
-* `MosaicoTemplate.replaceurls`: When a database is restored in a server with a different URL, templates will need to be updated. The `replaceurls` method facilitates that migration task:
+* `MosaicoTemplate.replaceurls`: When a database is restored in a server with a different URL or if paths change then templates will need to be updated. The `replaceurls` method facilitates that migration task:
 
 ```
 cv api MosaicoTemplate.replaceurls from_url="http://old.server.org" to_url="https://new.server.org"
+```
+  Migrating from Drupal 7 to WordPress:
+```
+cv api MosaicoTemplate.replaceurls from_url="/sites/default/files/civicrm/" to_url="/wp-content/uploads/civicrm/"
 ```
 
 * `MosaicoBaseTemplate.get`: This API provides access to the *base templates*. A base template (such as `versafix-1`)
@@ -116,18 +120,18 @@ Example usage:
 function example_civicrm_mosaicoPlugin(&$plugins) {
     $plugins[] = _example_alert_plugin();
 }
-  
+
 /**
  * Example plugin to display alert on init and dispose.
- */  
+ */
 function _example_alert_plugin(){
     $plugin = <<< JS
         function(vm) {
             alert("test-plugin");
             return {
-                    init: function(vm){alert("init");}, 
+                    init: function(vm){alert("init");},
                     dispose:  function(vm){alert("dispose");}
-                }  
+                }
         }
     JS;
 

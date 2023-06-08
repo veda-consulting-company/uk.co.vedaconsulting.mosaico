@@ -1,6 +1,13 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 3.0 (2023-06-08)
+
+**Major change: Mosaico library and versafix template updated to latest versions (0.18.9, 1.3.4)**
+
+* **Update mosaico library to latest version (0.18).**
+* [#593](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/593) Enhance api call replaceurls.
+
 ## Release 2.12 (2023-04-22)
 
 * [#577](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/577) 5.60 compatibility.

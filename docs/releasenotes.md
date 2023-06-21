@@ -1,6 +1,10 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 3.1 (2023-06-21)
+
+* Fix [#596](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/596) Fix image placeholders and translation.
+
 ## Release 3.0 (2023-06-08)
 
 **Major change: Mosaico library and versafix template updated to latest versions (0.18.9, 1.3.4)**

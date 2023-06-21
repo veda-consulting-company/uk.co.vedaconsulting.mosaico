@@ -24,8 +24,8 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     $mosaicoDistUrl = CRM_Mosaico_Utils::getMosaicoDistUrl('relative');
     $mosaicoExtUrl = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico');
     return [
-      "{$mosaicoDistUrl}/rs/mosaico-libs-and-tinymce.min.js?v=0.18&r={$cacheCode}",
-      "{$mosaicoDistUrl}/rs/mosaico.min.js?v=0.18&r={$cacheCode}",
+      "{$mosaicoDistUrl}/mosaico-libs-and-tinymce.min.js?v=0.18&r={$cacheCode}",
+      "{$mosaicoDistUrl}/mosaico.min.js?v=0.18&r={$cacheCode}",
     ];
   }
 
@@ -34,8 +34,8 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     $mosaicoDistUrl = CRM_Mosaico_Utils::getMosaicoDistUrl('relative');
     // $mosaicoExtUrl = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico');
     return [
-      "{$mosaicoDistUrl}/rs/mosaico-libs-and-tinymce.min.css?v=0.18&r={$cacheCode}",
-      "{$mosaicoDistUrl}/rs/mosaico-material.min.css?v=0.18&r={$cacheCode}",
+      "{$mosaicoDistUrl}/mosaico-libs-and-tinymce.min.css?v=0.18&r={$cacheCode}",
+      "{$mosaicoDistUrl}/mosaico-material.min.css?v=0.18&r={$cacheCode}",
     ];
   }
 
@@ -89,7 +89,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
     // Adding translation strings if exist
     $locale = CRM_Core_I18n::getLocale();
     $lang = CRM_Core_I18n_PseudoConstant::shortForLong($locale);
-    $translationFile = CRM_Core_Resources::singleton()->getPath(E::LONG_NAME, "packages/mosaico/dist/lang/mosaico-{$lang}.json");
+    $translationFile = CRM_Core_Resources::singleton()->getPath(E::LONG_NAME, "packages/mosaico/dist/rs/lang/mosaico-{$lang}.json");
     if (file_exists($translationFile)) {
       $config['strings'] = json_decode(file_get_contents($translationFile));
     }

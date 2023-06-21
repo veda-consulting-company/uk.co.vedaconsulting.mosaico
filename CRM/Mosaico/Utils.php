@@ -161,7 +161,7 @@ class CRM_Mosaico_Utils {
   public static function getMosaicoDistUrl($preferFormat, $file = NULL) {
     $key = "distUrl";
     if (!isset(Civi::$statics[__CLASS__][$key])) {
-      Civi::$statics[__CLASS__][$key] = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist');
+      Civi::$statics[__CLASS__][$key] = CRM_Core_Resources::singleton()->getUrl('uk.co.vedaconsulting.mosaico', 'packages/mosaico/dist/rs');
     }
     return self::filterAbsoluteRelative($preferFormat, Civi::$statics[__CLASS__][$key] . ($file ? "/$file" : ''));
   }

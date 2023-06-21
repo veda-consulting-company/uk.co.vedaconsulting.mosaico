@@ -129,3 +129,9 @@ eg. `2.5.1597918155`).
 Then add the actual release zip file to the release node on `https://civicrm.org/extensions/email-template-builder`.
 
 Example filename: `https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/2.5.1597918155/uk.co.vedaconsulting.mosaico-2.5.1597918155.zip`
+
+### Currently you should trigger manually the following hooks:
+
+* https://civicrm.org/extdir-backend/scan/5243 - this triggers the release process on https://civicrm.org/extensions, generates the unpublished release node and sends an email with a link to that node.
+* https://docs.civicrm.org/admin/publish/mosaico - this forces an update of the mosaico docs
+

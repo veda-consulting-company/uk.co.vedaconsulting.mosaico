@@ -22,3 +22,12 @@ For any image larger than that, size is reduced to 2x size of the block.
 __Note__: higher the scaling factor, higher the resolution but lower the compression.
 
 Scaling is not tied to any particular type of image. Png format supports lossless compression and therefore compression appears less than jpg images which support lossy compression.
+
+## Editor language
+
+Mosaico will attempt to use the same language as the CiviCRM interface, if the translation files are present in the `packages/mosaico/dist/rs/lang/` directory.
+
+For the TinyMCE editor that is part of Mosaico, the files must be added in `packages/mosaico/dist/tinymce/langs/xx_YY.js`. Sometimes the language is formatted as `xx_YY`, sometimes only `xx`. See the links below for the files and name:
+
+- [Download TinyMCE translations](https://www.tiny.cloud/get-tiny/language-packages/)
+- [TinyMCE locale names](https://www.tiny.cloud/docs-4x/configure/localization/)

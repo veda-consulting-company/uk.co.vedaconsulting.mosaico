@@ -21,7 +21,7 @@ class CRM_Mosaico_AbDemuxTest extends CRM_Mosaico_TestCase implements \Civi\Test
    * Generated Entity IDs keyed by the entity name
    * @var array
    */
-  protected $ids;
+  public $ids;
 
   /**
    * Civi\Test has many helpers, like install(), uninstall(), sql(), and sqlFile().

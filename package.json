@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/compucorp/uk.co.vedaconsulting.mosaico.git"
+    "url": "git+https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/compucorp/uk.co.vedaconsulting.mosaico/issues"
+    "url": "https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues"
   },
-  "homepage": "https://github.com/compucorp/uk.co.vedaconsulting.mosaico#readme",
+  "homepage": "https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico#readme",
   "devDependencies": {
     "ansi-colors": "^2.0.2",
     "backstopjs": "^6.1.4",

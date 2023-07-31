@@ -1,6 +1,13 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 3.2 (not yet released)
+
+* Update to Mosaico library v0.18.10 (was v0.18.9).
+* [#510](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/510) Add support for TinyMCE translations.
+* [#572](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/572) Resolve #572 by ensuring that the value of the base template option is the name of the base template not the title.
+* [#597](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/597) Specify 'match' in mgd.php files.
+
 ## Release 3.1 (2023-06-21)
 
 * Fix [#596](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/596) Fix image placeholders and translation.

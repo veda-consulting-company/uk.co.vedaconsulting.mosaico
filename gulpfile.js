@@ -5,7 +5,7 @@ const gulp = require('gulp');
  */
 (function(){
   const sass = require('gulp-sass');
-  const cssnano = require('gulp-cssnano');
+  const minifyCss = require('gulp-clean-css');
   const sourcemaps = require('gulp-sourcemaps');
   const autoprefixer = require('gulp-autoprefixer');
   const postcss = require('gulp-postcss');
@@ -33,7 +33,7 @@ const gulp = require('gulp');
         prefix: bootstrapNamespace + ' ',
         exclude: [/^html/, /^body/, /^.select2-drop-auto-width/, /^div\[ng-controller="PreviewMailingDialogCtrl"\]/]
       })]))
-      .pipe(cssnano())
+      .pipe(minifyCss())
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest('./css/'));
 
@@ -48,7 +48,7 @@ const gulp = require('gulp');
         browsers: ['last 2 versions'],
         cascade: false
       }))
-      .pipe(cssnano())
+      .pipe(minifyCss())
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest('./css/'));
 
@@ -63,7 +63,7 @@ const gulp = require('gulp');
         browsers: ['last 2 versions'],
         cascade: false
       }))
-      .pipe(cssnano())
+      .pipe(minifyCss())
       .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest('./css/'));
   });
@@ -80,7 +80,7 @@ const gulp = require('gulp');
     */
   gulp.task('watch', () => {
     gulp.watch('sass/**/*.scss', ['sass']);
-  }); 
+  });
 }());
 
 /**

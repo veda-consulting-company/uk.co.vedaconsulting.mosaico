@@ -28,7 +28,7 @@
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-clean": "^0.4.0",
-    "gulp-cssnano": "^2.1.2",
+    "gulp-clean-css": "^4.2.0",
     "gulp-file": "^0.4.0",
     "gulp-notify": "^4.0.0",
     "gulp-postcss": "^9.0.1",

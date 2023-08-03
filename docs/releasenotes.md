@@ -1,7 +1,7 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
-## Release 3.2 (not yet released)
+## Release 3.2 (2023-08-03)
 
 * Update to Mosaico library v0.18.10 (was v0.18.9).
 * [#510](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/510) Add support for TinyMCE translations.

@@ -3,26 +3,6 @@
 class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
 
   /**
-   * Create a new MosaicoTemplate based on array-data
-   *
-   * @param array $params key-value pairs
-   * @return CRM_Mosaico_DAO_MosaicoTemplate|NULL
-   *
-  public static function create($params) {
-    $className = 'CRM_Mosaico_DAO_MosaicoTemplate';
-    $entityName = 'MosaicoTemplate';
-    $hook = empty($params['id']) ? 'create' : 'edit';
-
-    CRM_Utils_Hook::pre($hook, $entityName, CRM_Utils_Array::value('id', $params), $params);
-    $instance = new $className();
-    $instance->copyValues($params);
-    $instance->save();
-    CRM_Utils_Hook::post($hook, $entityName, $instance->id, $instance);
-
-    return $instance;
-  } */
-
-  /**
    * Helps updating the URLs in templates so they can be reused
    * after restoring a dump database in a new server.
    *
@@ -156,6 +136,26 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
     }
 
     return Civi::$statics[__CLASS__]['bases'];
+  }
+
+  public static function getBaseTemplateOptions(): array {
+    $suffixMap = [
+      'id' => 'name',
+      'name' => 'name',
+      'label' => 'title',
+      'url' => 'thumbnail',
+    ];
+    $options = [];
+    foreach (self::findBaseTemplates() as $template) {
+      $option = [];
+      if (empty($template['is_hidden'])) {
+        foreach ($suffixMap as $suffix => $key) {
+          $option[$suffix] = $template[$key];
+        }
+        $options[] = $option;
+      }
+    }
+    return $options;
   }
 
 }

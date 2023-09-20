@@ -431,7 +431,9 @@ class CRM_Mosaico_Utils {
     header("Content-type:" . $mime_type);
 
     readfile($file);
-    ob_flush();
+    if (ob_get_length()) {
+      ob_flush();
+    }
     flush();
   }
 

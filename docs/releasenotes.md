@@ -1,6 +1,12 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 3.3 (2023-10-15)
+
+* [#617](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/617) Angular - Switch to settingsFactory.
+* [#612](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/612) Fix notice error about no buffer to flush.
+* [#609](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/609) Add pseudoconstant for base template and regenerate DAOs.
+
 ## Release 3.2 (2023-08-03)
 
 * Update to Mosaico library v0.18.10 (was v0.18.9).

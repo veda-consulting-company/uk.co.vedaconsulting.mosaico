@@ -33,13 +33,17 @@ class CRM_Mosaico_ImageFilter extends \Civi\FlexMailer\Listener\BaseListener {
 
     $mosaico_image_upload_dir = rawurlencode($this->config['BASE_URL'] . $this->config['UPLOADS_URL']);
 
-    $e->content = preg_replace_callback(
-      "/src=\".+img[\/]?\?src=(" . $mosaico_image_upload_dir . ")(.+)&.*\"/U",
-      function($matches){
-        return "src=\"" . rawurldecode($matches[1]) . "static/" . rawurldecode($matches[2]) . "\"";
-      },
-      $e->content
-    );
+    foreach ($e->content as $key => $item) {
+      if(!is_array($item)) {
+        $e->content[$key] = preg_replace_callback(
+          "/src=\".+img[\/]?\?src=(" . $mosaico_image_upload_dir . ")(.+)&.*\"/U",
+          function($matches){
+            return "src=\"" . rawurldecode($matches[1]) . "static/" . rawurldecode($matches[2]) . "\"";
+          },
+          $item
+        );
+      }
+    }
   }
 
 }

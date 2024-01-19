@@ -44,15 +44,19 @@ At this point, you can iteratively develop patches.  Submit proposed updates via
 
 ## Stylesheet Development
 
-We use Gulp and Sass for styling and handle different running tasks. Firstly, you should install node packages using npm package manager:
+This project depends on `sass` and also on the [shoreditch theme](https://github.com/civicrm/org.civicrm.shoreditch/) to compile its CSS.
+
+Before you can compile the CSS you need to do the following from within this extension's directory:
 
 ```
 npm install
+git clone https://github.com/civicrm/org.civicrm.shoreditch.git
 ```
 
-Styling changes should go into `sass` directory and compiled to CSS using the following command:
+You can then compile the Sass from sass/, recreating files in css/ like this:
+
 ```
-gulp sass
+./compile-sass-to-css.sh
 ```
 
 Once you are done making your changes, please use BackstopJS (see [Testing](/testing#backstopjs-visual-regression-testing) to check for any possible visual regression issues.

@@ -8,3 +8,4 @@ tests/backstop_data/screenshots
 tests/backstop_data/*_report
 tests/backstop_data/backstop.temp.json
 tests/backstop_data/site-config.json
+org.civicrm.shoreditch

@@ -2,15 +2,11 @@
   float: none;
 
   .crm-mosaico-template-item {
-    width: 240px;
 
     .crm-mosaico-template-image-wrapper {
       height: 275px;
     }
 
-    .crm-mosaico-template-title-wrapper p {
-      width: 225px;
-    }
   }
 }
 
@@ -84,7 +80,6 @@
     border: 1px solid $crm-mosaico-template-border;
     color: $gray-darker;
     font-weight: 600;
-    height: 60px;
     line-height: 16px;
     overflow: hidden;
     padding: 10px 5px;

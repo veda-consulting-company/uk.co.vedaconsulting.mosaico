@@ -14,7 +14,7 @@
         scope.hs = crmUiHelp({file: 'CRM/Mailing/MailingUI'});
         scope.checkPerm = CRM.checkPerm;
 
-        scope.addSubj = () => crmMosaicoVariants.add(scope.mailing, 'subject');
+        scope.addSubj = () => crmMosaicoVariants.split(scope.mailing, 'subject');
         scope.rmSubj = (vid) => crmMosaicoVariants.remove(scope.mailing, 'subject', vid);
         scope.isSplit = () => crmMosaicoVariants.isSplit(scope.mailing, 'subject');
         scope.labels = crmMosaicoVariants.getLabels();

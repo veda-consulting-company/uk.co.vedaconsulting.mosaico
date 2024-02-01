@@ -6,32 +6,51 @@
       return JSON.parse(angular.toJson(obj));
     }
 
-    return {
+    const mainPlaceholders = {subject: 'VARIANT SUBJECTS', body_html: 'VARIANT HTMLS', mosaicoTemplate: "", mosaicoMetadata: '{}', mosaicoContent: '{}'};
+
+    const self = {
       getLabels: () => ['A', 'B'],
 
-      // Enable variations for a particular field
-      // Ex: crmMosaicoVariants.addVariation(mymailing, 'subject')
-      add: function add(mailing, field) {
+      // Enable variations for a particular field. (By default, old value is copied to A+B. But you can optionally override B.)
+      // Ex: crmMosaicoVariants.split(mymailing, 'subject')
+      // Ex: crmMosaicoVariants.split(mymailing, ['body_html', 'mosaicoContent'])
+      // Ex: crmMosaicoVariants.split(mymailing, 'subject', '')
+      // Ex: crmMosaicoVariants.split(mymailing, ['body_html', 'mosaicoContent'], {body_html: '', mosaicoContent: null})
+      split: function split(mailing, field, bValue) {
+        if (_.isArray(field)) {
+          bValue = bValue || {};
+          return angular.forEach(field, (f) => self.split(mailing, f, bValue[field]));
+        }
+
         mailing.template_options.variants = mailing.template_options.variants || [];
-        for (var vid = 0; vid < 2; vid++) {
-          mailing.template_options.variants[vid] = mailing.template_options.variants[vid] || {};
-          mailing.template_options.variants[vid][field] = mailing[field];
+
+        const mainObj = field.match(/^mosaico/) ? mailing.template_options : mailing;
+        mailing.template_options.variants[0] = mailing.template_options.variants[0] || {};
+
+        mailing.template_options.variants[1] = mailing.template_options.variants[1] || {};
+        mailing.template_options.variants[0][field] = mainObj[field];
+        mailing.template_options.variants[1][field] = (bValue === undefined ? mainObj[field] : bValue);
+
+        if (mainPlaceholders[field] !== undefined) {
+          mainObj[field] = mainPlaceholders[field];
         }
       },
 
       // Disable variations for a particular field. Remove a particular record.
-      // Ex: crmMosaicoVariants.removeVariation(mymailing, 'subject', 1)
-      remove: function remove(mailing, field, badVid) {
-        delete mailing.template_options.variants[badVid][field];
-
-        // If there's only one value of `field`, then move it to top.
-        const remainders = _.filter(mailing.template_options.variants, (v) => v[field] !== undefined);
-        if (remainders.length === 1) {
-          mailing[field] = remainders[0][field];
-          for (var delVid = 0; delVid < 2; delVid++) {
-            delete mailing.template_options.variants[delVid][field];
-          }
+      // Ex: crmMosaicoVariants.remove(mymailing, 'subject', 0)
+      // Ex: crmMosaicoVariants.remove(mymailing, ['body_html', 'mosaicoContent'], 1)
+      remove: function remove(mailing, field, deleteVid) {
+        if (_.isArray(field)) {
+          return angular.forEach(field, (f) => self.remove(mailing, f, deleteVid));
         }
+
+        const mainObj = field.match(/^mosaico/) ? mailing.template_options : mailing;
+        const deadVariant = mailing.template_options.variants[deleteVid];
+        const liveVariant = mailing.template_options.variants[deleteVid ? 0 : 1];
+
+        mainObj[field] = liveVariant[field];
+        delete liveVariant[field];
+        delete deadVariant[field];
 
         // If the variants are empty, then delete the variant objects
         const nonEmpties = _.filter(mailing.template_options.variants, (v) => !_.isEmpty(angularObj(v)));
@@ -44,5 +63,6 @@
         return mailing.template_options && mailing.template_options.variants && (field in mailing.template_options.variants[0]);
       }
     };
+    return self;
   });
 })(angular, CRM.$, CRM._);

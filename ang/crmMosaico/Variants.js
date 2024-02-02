@@ -73,8 +73,17 @@
         return preview;
       },
 
+      // isSplit(mailing): Determine if there are -any- split/variant fields.
+      // isSplit(mailing, field): Determine if a -specific- field has variations.
       isSplit: function isSplit(mailing, field) {
-        return mailing.template_options && mailing.template_options.variants && (field in mailing.template_options.variants[0]);
+        if (!mailing.template_options || !mailing.template_options.variants) {
+          return false;
+        }
+        if (field) {
+          return (field in mailing.template_options.variants[0]);
+        }
+        const nonEmpties = _.filter(mailing.template_options.variants, (v) => !_.isEmpty(angularObj(v)));
+        return nonEmpties.length > 0;
       }
     };
     return self;

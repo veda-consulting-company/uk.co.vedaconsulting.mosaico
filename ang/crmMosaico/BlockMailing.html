@@ -65,8 +65,8 @@
     </div>
   </div>
 
-  <div class="form-group" ng-if="mailing.template_options.variants && mailing.template_options.variants[0].subject && mailing.template_options.variants[1].subject">
-    <em>({{ts('You have chosen two subject lines. We will organize a A/B testing to determine which is better.')}})</em>
+  <div class="form-group" ng-if="isMailingSplit(mailing, 'subject')">
+    <em>({{ts('Define two options for the subject. We will use A/B testing to determine which is better.')}})</em>
   </div>
 
   <span ng-controller="EditUnsubGroupCtrl">

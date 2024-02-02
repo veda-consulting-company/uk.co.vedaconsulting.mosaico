@@ -59,6 +59,20 @@
         }
       },
 
+      // Create a new, flat `mailing` record which includes overrides for a specific variant.
+      preview: function preview(mailing, vid) {
+        const preview = angular.copy(mailing, {}, 5);
+        if (vid !== null && vid !== undefined) {
+          angular.extend(preview, mailing.template_options.variants[vid]);
+        }
+        delete preview.id;
+        delete preview.template_options.variants;
+        delete preview.mosaicoTemplate;
+        delete preview.mosaicoMetadata;
+        delete preview.mosaicoContent;
+        return preview;
+      },
+
       isSplit: function isSplit(mailing, field) {
         return mailing.template_options && mailing.template_options.variants && (field in mailing.template_options.variants[0]);
       }

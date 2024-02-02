@@ -111,7 +111,7 @@
                 test: function(ko, viewModel) {
                   syncModel(viewModel);
 
-                  var model = {mailing: $scope.mailing, attachments: $scope.attachments};
+                  var model = {mailing: $scope.mailing, attachments: $scope.attachments, variantId: $scope.variantId};
                   var options = CRM.utils.adjustDialogDefaults(angular.extend(
                     {autoOpen: false, title: ts('Preview / Test'), width: 550},
                     options

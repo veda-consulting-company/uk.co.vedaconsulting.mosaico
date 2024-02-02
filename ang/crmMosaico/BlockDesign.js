@@ -24,7 +24,8 @@
         $scope.mosaicoCtrl = {
           templates: [],
           // Fill a given "mailing" which the chosen "template".
-          select: function(mailing, template) {
+          select: function(template) {
+            const mailing = scope.mailing;
             var topt = mailing.template_options = mailing.template_options || {};
             var promise = crmMosaicoTemplates.getFull(template).then(function(tplCtnt){
               topt.mosaicoTemplate = template.id;
@@ -32,18 +33,21 @@
               topt.mosaicoContent = tplCtnt.content;
               mailing.body_html = tplCtnt.html;
               // console.log('select', {isAr1: _.isArray(mailing.template_options), isAr2: _.isArray(topt), m: mailing, t: template});
-              $scope.mosaicoCtrl.edit(mailing);
+              $scope.mosaicoCtrl.edit();
             });
             return crmStatus({start: ts('Loading...'), success: null}, promise);
           },
-          hasSelection: function(mailing) {
+          hasSelection: function() {
+            const mailing = scope.mailing;
             return !!mailing.template_options.mosaicoTemplate;
           },
-          hasMarkup: function(mailing) {
+          hasMarkup: function() {
+            const mailing = scope.mailing;
             return !!mailing.body_html;
           },
           // Figure out which "template" was previously used with a "mailing."
-          getTemplate: function(mailing) {
+          getTemplate: function() {
+            const mailing = scope.mailing;
             if (!mailing || !mailing.template_options || !mailing.template_options.mosaicoTemplate) {
               return null;
             }
@@ -53,7 +57,8 @@
             return matches.length > 0 ? matches[0] : null;
           },
           // Reset all Mosaico data in a "mailing'.
-          reset: function(mailing) {
+          reset: function() {
+            const mailing = scope.mailing;
             if (crmMosaicoIframe) crmMosaicoIframe.destroy();
             crmMosaicoIframe = null;
             delete mailing.template_options.mosaicoTemplate;
@@ -62,7 +67,8 @@
             mailing.body_html = '';
           },
           // Edit a mailing in Mosaico.
-          edit: function(mailing) {
+          edit: function() {
+            const mailing = scope.mailing;
             if (crmMosaicoIframe) {
               crmMosaicoIframe.show();
               return;
@@ -78,7 +84,7 @@
 
             crmMosaicoIframe = new CrmMosaicoIframe({
               model: {
-                template: $scope.mosaicoCtrl.getTemplate(mailing).path,
+                template: $scope.mosaicoCtrl.getTemplate().path,
                 metadata: mailing.template_options.mosaicoMetadata,
                 content: mailing.template_options.mosaicoContent
               },

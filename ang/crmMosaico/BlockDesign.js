@@ -6,6 +6,7 @@
         // crmMosaicoCtrl: '@',
         crmMailing: '@',
         crmMailingAttachments: '@',
+        crmMailingVariant: '@',
       },
       templateUrl: '~/crmMosaico/BlockDesign.html',
       link: function (scope, elm, attr) {
@@ -15,9 +16,23 @@
         scope.$parent.$watch(attr.crmMailingAttachments, function(newValue){
           scope.attachments = newValue;
         });
+        scope.$parent.$watch(attr.crmMailingVariant, function(newValue){
+          scope.variantId = newValue;
+        });
         scope.crmMailingConst = CRM.crmMailing;
         scope.ts = CRM.ts(null);
         scope.hs = crmUiHelp({file: 'CRM/Mailing/MailingUI'});
+
+        function _object(prop) {
+          const mailing = scope.mailing;
+          mailing.template_options = mailing.template_options || {};
+
+          if (scope.variantId !== null) return mailing.template_options.variants[scope.variantId];
+          return prop.match(/^mosaico/) ? mailing.template_options : mailing;
+        }
+        function getProp(prop) { return _object(prop)[prop]; }
+        function setProp(prop, value) { _object(prop)[prop] = value; }
+        function deleteProp(prop) { delete _object(prop)[prop]; }
 
         const $scope = scope;
         var crmMosaicoIframe = null, activeDialogs = {};
@@ -25,68 +40,60 @@
           templates: [],
           // Fill a given "mailing" which the chosen "template".
           select: function(template) {
-            const mailing = scope.mailing;
-            var topt = mailing.template_options = mailing.template_options || {};
             var promise = crmMosaicoTemplates.getFull(template).then(function(tplCtnt){
-              topt.mosaicoTemplate = template.id;
-              topt.mosaicoMetadata = tplCtnt.metadata;
-              topt.mosaicoContent = tplCtnt.content;
-              mailing.body_html = tplCtnt.html;
-              // console.log('select', {isAr1: _.isArray(mailing.template_options), isAr2: _.isArray(topt), m: mailing, t: template});
+              setProp('mosaicoTemplate', template.id);
+              setProp('mosaicoMetadata', tplCtnt.metadata);
+              setProp('mosaicoContent', tplCtnt.content);
+              setProp('body_html', tplCtnt.html);
               $scope.mosaicoCtrl.edit();
             });
             return crmStatus({start: ts('Loading...'), success: null}, promise);
           },
           hasSelection: function() {
-            const mailing = scope.mailing;
-            return !!mailing.template_options.mosaicoTemplate;
+            return !!getProp('mosaicoTemplate');
           },
           hasMarkup: function() {
-            const mailing = scope.mailing;
-            return !!mailing.body_html;
+            return !!getProp('body_html');
           },
           // Figure out which "template" was previously used with a "mailing."
           getTemplate: function() {
             const mailing = scope.mailing;
-            if (!mailing || !mailing.template_options || !mailing.template_options.mosaicoTemplate) {
+            if (!mailing || !getProp('mosaicoTemplate')) {
               return null;
             }
             var matches = _.where($scope.mosaicoCtrl.templates, {
-              id: mailing.template_options.mosaicoTemplate
+              id: getProp('mosaicoTemplate')
             });
             return matches.length > 0 ? matches[0] : null;
           },
           // Reset all Mosaico data in a "mailing'.
           reset: function() {
-            const mailing = scope.mailing;
             if (crmMosaicoIframe) crmMosaicoIframe.destroy();
             crmMosaicoIframe = null;
-            delete mailing.template_options.mosaicoTemplate;
-            delete mailing.template_options.mosaicoMetadata;
-            delete mailing.template_options.mosaicoContent;
-            mailing.body_html = '';
+            deleteProp('mosaicoTemplate');
+            deleteProp('mosaicoMetadata');
+            deleteProp('mosaicoContent');
+            setProp('body_html', '');
           },
           // Edit a mailing in Mosaico.
           edit: function() {
-            const mailing = scope.mailing;
             if (crmMosaicoIframe) {
               crmMosaicoIframe.show();
               return;
             }
 
             function syncModel(viewModel) {
-              mailing.body_html = viewModel.exportHTML();
-              mailing.template_options = mailing.template_options || {};
+              setProp('body_html', viewModel.exportHTML());
               // Mosaico exports JSON. Keep their original encoding... or else the loader throws an error.
-              mailing.template_options.mosaicoMetadata = viewModel.exportMetadata();
-              mailing.template_options.mosaicoContent = viewModel.exportJSON();
+              setProp('mosaicoMetadata', viewModel.exportMetadata());
+              setProp('mosaicoContent', viewModel.exportJSON());
             }
 
             crmMosaicoIframe = new CrmMosaicoIframe({
               model: {
                 template: $scope.mosaicoCtrl.getTemplate().path,
-                metadata: mailing.template_options.mosaicoMetadata,
-                content: mailing.template_options.mosaicoContent
+                metadata: getProp('mosaicoMetadata'),
+                content: getProp('mosaicoContent')
               },
               actions: {
                 sync: function(ko, viewModel) {
@@ -105,7 +112,6 @@
                   syncModel(viewModel);
 
                   var model = {mailing: $scope.mailing, attachments: $scope.attachments};
-                  console.log('test!', model);
                   var options = CRM.utils.adjustDialogDefaults(angular.extend(
                     {autoOpen: false, title: ts('Preview / Test'), width: 550},
                     options

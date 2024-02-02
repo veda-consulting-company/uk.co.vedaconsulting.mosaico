@@ -7,7 +7,7 @@
       </div>
 
       <div crmb-wizard-step crm-title="ts('Design')" ng-form="designForm">
-        <div crm-mosaico-block-design crm-mailing="mailing" crm-mailing-attachments="attachments" crm-mosaico-ctrl="mosaicoCtrl"></div>
+        <div crm-mosaico-block-design crm-mailing="mailing" crm-mailing-attachments="attachments" on-save="save()"></div>
       </div>
 
       <div crmb-wizard-step crm-title="ts('Options')" ng-form="optionsForm">

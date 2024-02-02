@@ -36,6 +36,12 @@
             });
             return crmStatus({start: ts('Loading...'), success: null}, promise);
           },
+          hasSelection: function(mailing) {
+            return !!mailing.template_options.mosaicoTemplate;
+          },
+          hasMarkup: function(mailing) {
+            return !!mailing.body_html;
+          },
           // Figure out which "template" was previously used with a "mailing."
           getTemplate: function(mailing) {
             if (!mailing || !mailing.template_options || !mailing.template_options.mosaicoTemplate) {

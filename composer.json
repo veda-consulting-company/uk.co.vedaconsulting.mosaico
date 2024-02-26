@@ -5,7 +5,7 @@
     "civicrm/composer-downloads-plugin": "^3.0"
   },
   "replace": {
-    "guzzlehttp/guzzle": "^6.5",
+    "guzzlehttp/guzzle": "^6.5 || ^7.0",
     "guzzlehttp/psr7": "^1.8.5"
   },
   "config": {

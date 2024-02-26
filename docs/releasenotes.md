@@ -1,6 +1,19 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 3.4 (2024-02-26)
+
+* Support guzzle 7.0
+* Update mosaico library
+* [#632](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/632), 
+[#631](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/631),
+[#630](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/630) Css, html fixes for selecting a template.
+  * Replace gulpfile with node sass
+  * Fix fixed width on chosen tpl display on mailing design screen
+
+* [#627](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/627) Move navigation menu items declarations to managed entities.
+* [#620](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/620) Update info.xml to link to correct page to download from and whereto report issues.
+
 ## Release 3.3 (2023-10-15)
 
 * [#617](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/617) Angular - Switch to settingsFactory.

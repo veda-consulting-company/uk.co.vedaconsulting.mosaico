@@ -29,7 +29,7 @@
   <comments>To help contribute please contact us on support@vedaconsulting.co.uk or initiate a conversation / issue on github.</comments>
   <civix>
     <namespace>CRM/Mosaico</namespace>
-    <format>23.02.1</format>
+    <format>24.02.1</format>
   </civix>
   <classloader>
     <psr0 prefix="CRM_" path=""/>
@@ -43,5 +43,5 @@
     <mixin>smarty-v2@1.0.1</mixin>
     <mixin>entity-types-php@1.0.0</mixin>
   </mixins>
-  <upgrader>CRM_Mosaico_Upgrader</upgrader>
+  <upgrader>CiviMix\Schema\Mosaico\AutomaticUpgrader</upgrader>
 </extension>

@@ -139,45 +139,49 @@ div[ng-controller=PreviewMailingDialogCtrl] iframe.resized {
   z-index: -1;
 }
 
-.crm-mosaico-selected.center-block {
+#bootstrap-theme .crm-mosaico-selected.center-block {
   float: none;
 }
-.crm-mosaico-selected.center-block .crm-mosaico-template-item .crm-mosaico-template-image-wrapper {
+#bootstrap-theme .crm-mosaico-selected.center-block .crm-mosaico-template-item .crm-mosaico-template-image-wrapper {
   height: 275px;
 }
 
-.crm-mosaico-template-item {
+.mosaico-templates-list {
+  margin-top: 2rem;
+}
+
+#bootstrap-theme .crm-mosaico-template-item.thumbnail {
+  padding: 0;
+  display: flex;
+  width: 100%;
   background: #f3f6f7;
   border: 2px solid #fff;
   border-radius: 4px;
   margin: auto;
   opacity: 1;
-  width: 165px;
   margin-bottom: 30px;
 }
-.crm-mosaico-template-item.thumbnail {
-  padding: 0;
-}
-.crm-mosaico-template-item:hover {
+#bootstrap-theme .crm-mosaico-template-item:hover {
   border: 2px solid #0071bd;
   box-shadow: inset 0 1px 10px 0 rgba(0, 0, 0, 0.25);
 }
-.crm-mosaico-template-item:hover .crm-mosaico-template-actions {
+#bootstrap-theme .crm-mosaico-template-item:hover .crm-mosaico-template-actions {
   opacity: 1;
 }
-.crm-mosaico-template-item:hover img {
+#bootstrap-theme .crm-mosaico-template-item:hover img {
   opacity: 0.66;
 }
-.crm-mosaico-template-item .crm-mosaico-template-image-wrapper {
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-image-wrapper {
   background: #333;
-  height: 200px;
+  flex: 0 0 160px;
   overflow: hidden;
   position: relative;
+  height: 275px;
 }
-.crm-mosaico-template-item .crm-mosaico-template-image-wrapper img {
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-image-wrapper img {
   height: auto !important;
 }
-.crm-mosaico-template-item .crm-mosaico-template-actions-wrapper {
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-actions-wrapper {
   bottom: 0;
   display: table;
   height: 100%;
@@ -188,21 +192,21 @@ div[ng-controller=PreviewMailingDialogCtrl] iframe.resized {
   top: 0;
   width: 100%;
 }
-.crm-mosaico-template-item .crm-mosaico-template-actions {
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-actions {
   display: table-cell;
   opacity: 0;
   transition: opacity 400ms;
   vertical-align: middle;
 }
-.crm-mosaico-template-item .crm-mosaico-template-image-wrapper .crm-mosaico-template-actions .btn {
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-image-wrapper .crm-mosaico-template-actions .btn {
   float: none !important;
   margin-bottom: 7px;
   width: 63%;
 }
-.crm-mosaico-template-item .crm-mosaico-template-image-wrapper .crm-mosaico-template-actions .btn:last-child {
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-image-wrapper .crm-mosaico-template-actions .btn:last-child {
   margin-bottom: 0;
 }
-.crm-mosaico-template-item .crm-mosaico-template-title-wrapper {
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-title-wrapper {
   border: 1px solid #e8eef0;
   color: #464354;
   font-weight: 600;
@@ -211,20 +215,13 @@ div[ng-controller=PreviewMailingDialogCtrl] iframe.resized {
   padding: 10px 5px;
   position: relative;
   vertical-align: middle;
-  text-align: center;
   text-decoration: none;
+  flex: 1 0 160px;
 }
-.crm-mosaico-template-item .crm-mosaico-template-title-wrapper small {
+#bootstrap-theme .crm-mosaico-template-item .crm-mosaico-template-title-wrapper small {
   display: block;
   font-weight: 400;
   margin-top: 3px;
-}
-.crm-mosaico-template-item .crm-mosaico-template-title-wrapper p {
-  left: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 160px;
 }
 
 .crmMosaico-schedule-inner {

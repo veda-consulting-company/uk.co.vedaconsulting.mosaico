@@ -24,4 +24,5 @@ fi
 
 node_modules/.bin/sass \
   sass/mosaico-bootstrap.scss:css/mosaico-bootstrap.css \
-  sass/legacy.scss:css/legacy.css
+  sass/legacy.scss:css/legacy.css \
+  && echo "OK" || echo "Failed"

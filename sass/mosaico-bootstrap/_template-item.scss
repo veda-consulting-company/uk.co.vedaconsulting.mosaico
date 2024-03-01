@@ -1,8 +1,8 @@
-.crm-mosaico-selected.center-block {
+
+#bootstrap-theme .crm-mosaico-selected.center-block {
   float: none;
 
   .crm-mosaico-template-item {
-
     .crm-mosaico-template-image-wrapper {
       height: 275px;
     }
@@ -10,17 +10,22 @@
   }
 }
 
-.crm-mosaico-template-item {
-  background: $crm-mosaico-template-item;
-  border: 2px solid $crm-white;
-  border-radius: 4px;
-  margin: auto;
-  opacity: 1;
-  width: 165px;
-  margin-bottom: 30px;
+.mosaico-templates-list  {
+  margin-top: 2rem;
+}
+#bootstrap-theme .crm-mosaico-template-item {
 
+  // Override a very general #bootstrap-theme.thumbnail rule
   &.thumbnail {
     padding: 0;
+    display: flex;
+    width: 100%;
+    background: $crm-mosaico-template-item;
+    border: 2px solid $crm-white;
+    border-radius: 4px;
+    margin: auto;
+    opacity: 1;
+    margin-bottom: 30px;
   }
 
   &:hover {
@@ -38,9 +43,10 @@
 
   .crm-mosaico-template-image-wrapper {
     background: $crm-mosaico-template-item-wrapper;
-    height: 200px;
+    flex: 0 0 160px;
     overflow: hidden;
     position: relative;
+    height: 275px;
 
     img {
       height: auto !important;
@@ -85,8 +91,8 @@
     padding: 10px 5px;
     position: relative;
     vertical-align: middle;
-    text-align: center;
     text-decoration: none;
+    flex: 1 0 160px;
 
     small {
       display: block;
@@ -94,12 +100,5 @@
       margin-top: 3px;
     }
 
-    p {
-      left: 50%;
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 160px;
-    }
   }
 }

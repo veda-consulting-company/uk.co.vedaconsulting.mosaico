@@ -65,9 +65,8 @@
     </div>
   </div>
 
-  <div class="form-group" ng-if="mailing.template_options.variants">
-    <label class="control-label">{{ts('Distribution')}}</label>
-    <crm-mosaico-distribution crm-mailing="mailing" />
+  <div class="form-group" ng-if="isMailingSplit(mailing, 'subject')">
+    <em>({{ts('Define two options for the subject. We will use A/B testing to determine which is better.')}})</em>
   </div>
 
   <span ng-controller="EditUnsubGroupCtrl">

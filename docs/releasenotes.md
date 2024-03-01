@@ -1,6 +1,11 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 3.5 (2024-03-01)
+
+* [#638](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/638) Fix issues with labels on template selection.
+* [#633](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/633) Add A/B testing for email design
+
 ## Release 3.4 (2024-02-26)
 
 * Support guzzle 7.0

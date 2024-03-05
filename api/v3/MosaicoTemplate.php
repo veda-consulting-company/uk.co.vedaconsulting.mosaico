@@ -78,7 +78,8 @@ function civicrm_api3_mosaico_template_get($params) {
     if (_civicrm_api3_mosaico_template_getDomainFrom($baseTemplateURL)) {
       $urlParts = parse_url($baseTemplateURL);
       $templatePath = $urlParts['path'];
-      $currentURL = CRM_Utils_System::baseURL() . $templatePath;
+      // fix language prefix url: https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/issues/567
+      $currentURL = CRM_Utils_File::addTrailingSlash(CIVICRM_UF_BASEURL, '/') . $templatePath;
     } else {
       $currentURL = $baseTemplateURL;
     }

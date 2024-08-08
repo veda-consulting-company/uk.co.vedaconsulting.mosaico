@@ -54,40 +54,6 @@ function mosaico_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
   $angular->add($changeSet);
 }
 
-function mosaico_civicrm_navigationMenu(&$params) {
-  _mosaico_civix_insert_navigation_menu($params, 'Mailings', [
-    'label' => E::ts('Mosaico Templates'),
-    'name' => 'mosaico_templates',
-    'permission' => 'edit message templates',
-    'child' => [],
-    'operator' => 'AND',
-    'separator' => 0,
-    'url' => CRM_Utils_System::url('civicrm/mosaico-template-list'),
-  ]);
-
-  _mosaico_civix_insert_navigation_menu($params, 'Mailings', [
-    'label' => E::ts('New Mailing (Traditional)'),
-    'name' => 'traditional_mailing',
-    'permission' => 'access CiviMail,create mailings',
-    'child' => [],
-    'operator' => 'OR',
-    'separator' => 0,
-    'url' => CRM_Utils_System::url('civicrm/a/', NULL, TRUE, '/mailing/new/traditional'),
-  ]);
-
-  _mosaico_civix_insert_navigation_menu($params, 'Administer/CiviMail', [
-    'label' => E::ts('Mosaico Settings'),
-    'name' => 'mosaico_settings',
-    'permission' => 'administer CiviCRM',
-    'child' => [],
-    'operator' => 'AND',
-    'separator' => 0,
-    'url' => CRM_Utils_System::url('civicrm/admin/setting/mosaico', 'reset=1', TRUE),
-  ]);
-
-  _mosaico_civix_navigationMenu($params);
-}
-
 /**
  * Implements hook_civicrm_alterAPIPermissions().
  *

@@ -1,5 +1,7 @@
 <?php
 
+use CRM_Mosaico_ExtensionUtil as E;
+
 class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
 
   /**
@@ -89,6 +91,7 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
       $templatesUrl = CRM_Mosaico_Utils::getTemplatesUrl('absolute');
 
       $templatesLocation[] = ['dir' => $templatesDir, 'url' => $templatesUrl];
+      $templatesLocation[] = ['dir' => E::path('templates/Mosaico'), 'url' => E::url('templates/Mosaico')];
 
       $customTemplatesDir = \Civi::paths()->getPath(\Civi::settings()->get('mosaico_custom_templates_dir'));
       $customTemplatesUrl = \Civi::paths()->getUrl(\Civi::settings()->get('mosaico_custom_templates_url'), 'absolute');

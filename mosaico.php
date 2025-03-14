@@ -54,6 +54,12 @@ function mosaico_civicrm_alterAngular(\Civi\Angular\Manager $angular) {
   $angular->add($changeSet);
 }
 
+function mosaico_civicrm_buildAsset($asset, $params, &$mimeType, &$content) {
+  if ($asset === 'mosaico-base.html') {
+    (new CRM_Mosaico_DynamicTemplate())->buildAsset($asset, $params, $mimeType, $content);
+  }
+}
+
 /**
  * Implements hook_civicrm_alterAPIPermissions().
  *

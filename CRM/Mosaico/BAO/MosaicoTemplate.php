@@ -109,7 +109,29 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
       foreach ($templatesLocation as $templateLocation) {
         foreach (glob("{$templateLocation['dir']}/*", GLOB_ONLYDIR) as $dir) {
           $template = basename($dir);
-          $templateHTML = "{$templateLocation['url']}/{$template}/template-{$template}.html";
+          $templateDir = "{$templateLocation['dir']}/{$template}";
+
+          foreach (['html', 'tpl', 'php'] as $templateType) {
+            $templatePath = "$templateDir/template-{$template}.$templateType";
+            if (file_exists($templatePath)) {
+              $templateSrc = $templatePath;
+              switch ($templateType) {
+                case 'html':
+                  $templateUrl = "{$templateLocation['url']}/{$template}/template-{$template}.html";
+                  break;
+
+                case 'tpl':
+                case 'php':
+                  $siteSettings = [
+                    /* Lookup any settings defined by site-builder, e.g. preferred social platforms  */
+                  ];
+                  $templateUrl = Civi::service('asset_builder')
+                    ->getUrl('mosaico-base.html', ['name' => $template, ...$siteSettings]);
+                  break;
+              }
+              break;
+            }
+          }
           $templateThumbnail = "{$templateLocation['url']}/{$template}/edres/_full.png";
 
           // let's add hidden flag to templates that needs to be excluded from the display
@@ -119,7 +141,10 @@ class CRM_Mosaico_BAO_MosaicoTemplate extends CRM_Mosaico_DAO_MosaicoTemplate {
             'name' => $template,
             'title' => $template,
             'thumbnail' => $templateThumbnail,
-            'path' => $templateHTML,
+            'type' => $templateType,
+            'src' => $templateSrc,
+            'path' => $templateUrl,
+            'resourceUrl' => "{$templateLocation['url']}/{$template}",
             'is_hidden' => $isHidden,
           ];
         }

@@ -1629,69 +1629,69 @@
                         <td align="center" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'colors'">
                           <span data-ko-display="fbVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="fbVisible" href="" style="-ko-attr-href: @fbUrl">
-                            <img src="img/social_def/facebook_ok.png" alt="Facebook" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/facebook_ok.png" alt="Facebook" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="twVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="twVisible" href="" style="-ko-attr-href: @twUrl">
-                            <img src="img/social_def/twitter_ok.png" alt="Twitter" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/twitter_ok.png" alt="Twitter" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="webVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="webVisible" href="" style="-ko-attr-href: @webUrl; display: none">
-                            <img src="img/social_def/web_ok.png" alt="Web" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/web_ok.png" alt="Web" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="inVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="inVisible" href="" style="-ko-attr-href: @inUrl; display: none">
-                            <img src="img/social_def/linkedin_ok.png" alt="Linkedin" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/linkedin_ok.png" alt="Linkedin" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="flVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="flVisible" href="" style="-ko-attr-href: @flUrl; display: none">
-                            <img src="img/social_def/flickr_ok.png" alt="Flickr" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/flickr_ok.png" alt="Flickr" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="viVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="viVisible" href="" style="-ko-attr-href: @viUrl; display: none">
-                            <img src="img/social_def/vimeo_ok.png" alt="Vimeo" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/vimeo_ok.png" alt="Vimeo" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="instVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="instVisible" href="" style="-ko-attr-href: @instUrl; display: none">
-                            <img src="img/social_def/instagram_ok.png" alt="Instagram" border="0"  class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/instagram_ok.png" alt="Instagram" border="0"  class="socialIcon" />
                           </a>
                           <span data-ko-display="youVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="youVisible" href="" style="-ko-attr-href: @youUrl; display: none">
-                            <img src="img/social_def/youtube_ok.png" alt="Youtube" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/youtube_ok.png" alt="Youtube" border="0" class="socialIcon" />
                           </a>
                         </td>
                         <td align="center" valign="middle" class="links-color socialLinks mobile-textcenter" data-ko-display="socialIconType eq 'bw'" style="display:  none">
                           <span data-ko-display="fbVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="fbVisible" href="" style="-ko-attr-href: @fbUrl">
-                            <img src="img/social_def/facebook_bw_ok.png" alt="Facebook" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/facebook_bw_ok.png" alt="Facebook" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="twVisible" data-ko-wrap="false">&nbsp;</span>
                           <a data-ko-display="twVisible" href="" style="-ko-attr-href: @twUrl">
-                            <img src="img/social_def/twitter_bw_ok.png" alt="Twitter" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/twitter_bw_ok.png" alt="Twitter" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="webVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="webVisible" href="" style="-ko-attr-href: @webUrl; display: none">
-                            <img src="img/social_def/web_bw_ok.png" alt="Web" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/web_bw_ok.png" alt="Web" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="inVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="inVisible" href="" style="-ko-attr-href: @inUrl; display: none">
-                            <img src="img/social_def/linkedin_bw_ok.png" alt="Linkedin" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/linkedin_bw_ok.png" alt="Linkedin" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="flVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="flVisible" href="" style="-ko-attr-href: @flUrl; display: none">
-                            <img src="img/social_def/flickr_bw_ok.png" alt="Flickr" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/flickr_bw_ok.png" alt="Flickr" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="viVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="viVisible" href="" style="-ko-attr-href: @viUrl; display: none">
-                            <img src="img/social_def/vimeo_bw_ok.png" alt="Vimeo" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/vimeo_bw_ok.png" alt="Vimeo" border="0" class="socialIcon" />
                           </a>
                           <span data-ko-display="instVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="instVisible" href="" style="-ko-attr-href: @instUrl; display: none">
-                            <img src="img/social_def/instagram_bw_ok.png" alt="Instagram" border="0"  class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/instagram_bw_ok.png" alt="Instagram" border="0"  class="socialIcon" />
                           </a>
                           <span data-ko-display="youVisible" data-ko-wrap="false" style="display: none">&nbsp;</span>
                           <a data-ko-display="youVisible" href="" style="-ko-attr-href: @youUrl; display: none">
-                            <img src="img/social_def/youtube_bw_ok.png" alt="Youtube" border="0" class="socialIcon" />
+                            <img src="<?php echo $_template['resourceUrl']; ?>/img/social_def/youtube_bw_ok.png" alt="Youtube" border="0" class="socialIcon" />
                           </a>
                         </td>
                       </tr>

@@ -23,7 +23,7 @@ function _civicrm_api3_job_mosaico_migrate_spec(&$spec) {
  */
 function civicrm_api3_job_mosaico_migrate($params) {
   $newTpls = [];
-  $dao = new CRM_Mosaico_DAO_MessageTemplate();
+  $dao = new CRM_Mosaico_DAO_MosaicoMsgTemplate();
   $dao->find();
   while ($dao->fetch()) {
     $metadata = json_decode($dao->metadata, TRUE);

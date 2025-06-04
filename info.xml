@@ -21,11 +21,15 @@
   <compatibility>
     <ver>6.0</ver>
   </compatibility>
-  <requires>
-    <ext>org.civicrm.flexmailer</ext>
-    <ext>org.civicrm.search_kit</ext>
-    <ext>org.civicrm.afform</ext>
-  </requires>
+  <smarty_compatibility>
+    <ver>5</ver>
+  </smarty_compatibility>
+  <php_compatibility>
+    <ver>8.1</ver>
+    <ver>8.2</ver>
+    <ver>8.3</ver>
+    <ver>8.4</ver>
+  </php_compatibility>
   <comments>To help contribute please contact us on support@vedaconsulting.co.uk or initiate a conversation / issue on github.</comments>
   <civix>
     <namespace>CRM/Mosaico</namespace>

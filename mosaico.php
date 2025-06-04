@@ -253,6 +253,8 @@ function mosaico_civicrm_mailingTemplateTypes(&$types) {
 
   $types[] = [
     'name' => 'mosaico',
+    'label' => E::ts('Mosaico'),
+    'description' => E::ts('Drag and drop template-based editor creates responsive emails that look great on all devices.'),
     'editorUrl' => $editorUrl,
     'weight' => -10,
   ];

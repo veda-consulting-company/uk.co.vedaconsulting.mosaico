@@ -9,21 +9,19 @@
  * This stub provides compatibility. It is not intended to be modified in a
  * substantive way. Property annotations may be added, but are not required.
  * @property string $id
- * @property string $title
- * @property string $base
+ * @property string $msg_tpl_id
+ * @property string $hash_key
+ * @property string $name
  * @property string $html
  * @property string $metadata
- * @property string $content
- * @property string $msg_tpl_id
- * @property string $category_id
- * @property string $domain_id
+ * @property string $template
  */
-class CRM_Mosaico_DAO_MosaicoTemplate extends CRM_Mosaico_DAO_Base {
+class CRM_Mosaico_DAO_MosaicoMsgTemplate extends CRM_Mosaico_DAO_Base {
 
   /**
    * Required by older versions of CiviCRM (<5.74).
    * @var string
    */
-  public static $_tableName = 'civicrm_mosaico_template';
+  public static $_tableName = 'civicrm_mosaico_msg_template';
 
 }

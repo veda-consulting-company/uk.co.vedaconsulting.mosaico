@@ -65,7 +65,7 @@ class api_v3_Job_MosaicoMigrateTest extends \PHPUnit\Framework\TestCase implemen
   }
 
   protected function createExampleLegacyTemplate(): void {
-    $msgTpl = civicrm_api3('MosaicoMsgTemplate', 'create', [
+    $msgTpl = civicrm_api3('MessageTemplate', 'create', [
       'msg_title' => 'The Title',
       'msg_subject' => 'The Subject',
       'msg_html' => '<p>Placeholder</p>',

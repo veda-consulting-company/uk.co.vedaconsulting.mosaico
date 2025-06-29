@@ -56,11 +56,16 @@ Open issues on [github](https://github.com/veda-consulting/uk.co.vedaconsulting.
 
 ## Migration to a new Domain
 
+It is recommended that you use this extension to help with migration: https://civicrm.org/extensions/mosaico-and-mailing-configuration-changes
+
+### Old Method
 If you move CiviCRM to a new domain, you must update the template paths using the `replaceurls` API method:
 
 ```
 cv api MosaicoTemplate.replaceurls from_url="http://old.server.org" to_url="https://new.server.org"
 ```
+
+
 ## Multisite Support - Restrict mosaico templates & image gallery to domain specific
 - Mosaico templates will be restricted to each domain in multi sites
 - You need to ensure that you have separate image upload directory set in Directory settings & Resource URLs settings, so that each site would have unique set of images in their gallery while editing a mosaico template.

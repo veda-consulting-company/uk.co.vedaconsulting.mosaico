@@ -1,6 +1,17 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 3.7 (not yet released)
+
+* Update to latest upstream library.
+* [#660](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/660) Update composer.json, add type:civicrm-ext to allow the Mosaico extension to be installed via Composer.
+* [#664](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/664) Fix duplicate contact creation when sending a test to multiple emails when there's a space after the comma.
+* [#673](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/673) Add label and description to templateType.
+* [#672](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/672) Convert to EntityFrameworkV2.
+* Add compatibility declarations, remove requires for compulsory extensions.
+* [#674](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/674) Civi cannot handle Drupal multilanguage path, cannot find template url.
+* Remove legacy MosaicoMsgTemplate entity (not used since Mosaico 1.x).
+
 ## Release 3.6 (2024-09-06)
 
 * Replace htmlspecialchars with escape (Smarty5 compatibility).

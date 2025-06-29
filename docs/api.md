@@ -5,10 +5,6 @@ CiviCRM's APIv3 framework provides a way for consumers to manage data and call s
 
 This extension defines a few new APIs:
 
-* `Job.mosaico_migrate`: If you need to perform an automated migration from v1.x to v2.x, use this API to copy all
-  v1.x templates to v2.x.
-* `Job.mosaico_purge`: If you need to perform an automated migration from v1.x to v2.x, use this API to clear out the
-  old v1.x templates.
 * `MosaicoTemplate.*`: This API provides access to the user-configurable templates.  It supports all standard CRUD
   actions (`get`, `create`, `delete`etc). Its data-structure closely adheres to Mosaico's canonical storage format.
 * `MosaicoTemplate.replaceurls`: When a database is restored in a server with a different URL or if paths change then templates will need to be updated. The `replaceurls` method facilitates that migration task:

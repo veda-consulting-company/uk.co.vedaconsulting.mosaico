@@ -3,16 +3,13 @@ set -e
 
 EXTROOT=$(cd `dirname $0`/..; pwd)
 EXTKEY="uk.co.vedaconsulting.mosaico"
-XMLBUILD="$EXTROOT/build/xml/schema"
 
 ##############################
 function do_help() {
   echo "usage: $0 [options]"
   echo "example: $0"
   echo "  -h     (Help)           Show this help screen"
-  echo "  -a     (All)            Implies -Dg (default)"
   echo "  -D     (Download)       Download dependencies"
-  echo "  -g     (GenCode)        Generate DAO files, SQL files, etc"
   echo "  -z     (Zip)            Build installable ZIP file"
 }
 
@@ -27,56 +24,6 @@ function use_civiroot() {
       exit
     fi
   fi
-}
-
-##############################
-## Make a tempdir, $ext/build/xml/schema; compile full XML tree
-function buildXmlSchema() {
-  use_civiroot
-
-  mkdir -p "$XMLBUILD"
-
-  ## Mix together main xml files
-  cp -fr "$CIVIROOT"/xml/schema/* "$XMLBUILD/"
-  cp -fr "$EXTROOT"/xml/schema/* "$XMLBUILD/"
-
-  ## Build root xml file
-  ## We build on the core Schema.xml so that we don't have to do as much work to
-  ## manage inter-table dependencies
-  grep -v '</database>' "$CIVIROOT"/xml/schema/Schema.xml > "$XMLBUILD"/Schema.xml
-  cat "$XMLBUILD"/Schema.xml.inc >> "$XMLBUILD"/Schema.xml
-  echo '</database>' >> "$XMLBUILD"/Schema.xml
-}
-
-##############################
-## Run GenCode; copy out the DAOs
-function buildDAO() {
-  use_civiroot
-  pushd $CIVIROOT/xml > /dev/null
-    php GenCode.php $XMLBUILD/Schema.xml
-  popd > /dev/null
-
-  [ ! -d "$EXTROOT/CRM/Mosaico/DAO/" ] && mkdir -p "$EXTROOT/CRM/Mosaico/DAO/"
-  cp -f "$CIVIROOT/CRM/Mosaico/DAO"/* "$EXTROOT/CRM/Mosaico/DAO/"
-}
-
-##############################
-function cleanup() {
-  use_civiroot
-  for DIR in "$XMLBUILD" "$CIVIROOT/CRM/Mosaico" "$EXTROOT/CRM/Mosaico/DAO/" ; do
-    if [ -e "$DIR" ]; then
-      rm -rf "$DIR"
-    fi
-  done
-}
-
-##############################
-function do_gencode() {
-  cleanup
-  buildXmlSchema
-  buildDAO
-  echo
-  echo "If there have been XML schema changes, then be sure to manually update the .sql files!"
 }
 
 ##############################
@@ -119,23 +66,14 @@ function do_zipfile() {
 ## Main
 HAS_ACTION=
 
-while getopts "aDghz" opt; do
+while getopts "Dhz" opt; do
   case $opt in
     h)
       do_help
       HAS_ACTION=1
       ;;
-    a)
-      do_download
-      do_gencode
-      HAS_ACTION=1
-      ;;
     D)
       do_download
-      HAS_ACTION=1
-      ;;
-    g)
-      do_gencode
       HAS_ACTION=1
       ;;
     z)

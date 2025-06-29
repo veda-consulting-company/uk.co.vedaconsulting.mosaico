@@ -15,8 +15,8 @@ If you wish to develop patches for these, then it will require additional tools 
     * [`cv`](https://github.com/civicrm/cv) (*recommended*)
     * [`phpunit`](https://phpunit.de) (*recommended*)
 * *Stylesheet Development* and *Editor Development*
-    * [`nodejs`](https://nodejs.org/en) (*Currently the mosaico build script only works with node v8 and older. You can use
-        [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) to use multiple versions of nodejs. Eg. `nvm install 8 && nvm use 8`*)
+    * [`nodejs`](https://nodejs.org/en) (*Currently the mosaico build script is requires v18 or v22. You can use
+        [nvm](https://github.com/nvm-sh/nvm#installing-and-updating) to use multiple versions of nodejs. Eg. `nvm install 22 && nvm use 22`*)
     * [`npm`](https://www.npmjs.com)
     * [`grunt-cli`](http://gruntjs.com/getting-started)
     * [`shoreditch`](https://github.com/civicrm/org.civicrm.shoreditch) (*recommended*)
@@ -44,13 +44,12 @@ At this point, you can iteratively develop patches.  Submit proposed updates via
 
 ## Stylesheet Development
 
-This project depends on `sass` and also on the [shoreditch theme](https://github.com/civicrm/org.civicrm.shoreditch/) to compile its CSS.
+This project depends on `sass` to compile its CSS.
 
 Before you can compile the CSS you need to do the following from within this extension's directory:
 
 ```
 npm install
-git clone https://github.com/civicrm/org.civicrm.shoreditch.git
 ```
 
 You can then compile the Sass from sass/, recreating files in css/ like this:
@@ -78,7 +77,7 @@ without needing to understand `mosaico` development.  However, if you are doing 
     rm -rf packages/mosaico
 
     ## Download git repo
-    git clone https://github.com/civicrm/mosaico.git -b v0.15-civicrm-2
+    git clone https://github.com/civicrm/mosaico.git -b v0.18.10-civicrm-1
 
     ## Build
     cd packages/civicrm
@@ -87,7 +86,7 @@ without needing to understand `mosaico` development.  However, if you are doing 
     ```
 * __Branching for `mosaico.git`__: The `civicrm/mosaico` fork follows the [Twigflow (Rebase)](https://gist.github.com/totten/39e932e5d10bc9e73e82790b2475eff2) pattern.
   You will notice additional branches such as `v0.15-civicrm-2` (*a branch derived from `v0.15` for use by `civicrm`; it is the second major variant of the branch*).
-* __Tagging for `mosaico.git`__: If there has been an update to `mosaico.git`, then you should make a new tag (eg `v0.15-civicrm-2.1`). Github will generate
+* __Tagging for `mosaico.git`__: If there has been an update to `mosaico.git`, then you should make a new tag (eg `v0.18.10-civicrm-4.0`). Github will generate
   a pre-built package for the new version.
 * __Updating the dependency__: If there is a newer build of `mosaico`, then you may edit `./composer.json` and update the the `extra: downloads` configuration.
     ```bash
@@ -102,9 +101,6 @@ The script `bin/setup.sh` handles various build activities:
 ```
 ## Download dependencies
 ./bin/setup.sh -D
-
-## Regenerate DAOs
-./bin/setup.sh -g
 
 ## Build zip archive
 ./bin/setup.sh -z

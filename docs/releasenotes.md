@@ -1,7 +1,7 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
-## Release 3.7 (not yet released)
+## Release 3.7 (2025-07-03)
 
 * Update to latest upstream library.
 * [#660](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/660) Update composer.json, add type:civicrm-ext to allow the Mosaico extension to be installed via Composer.

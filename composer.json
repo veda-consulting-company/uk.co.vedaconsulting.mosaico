@@ -3,7 +3,8 @@
   "type": "civicrm-ext",
   "require": {
     "intervention/image": "^2.4",
-    "civicrm/composer-downloads-plugin": "^3.0 || ^4.0"
+    "civicrm/composer-downloads-plugin": "^3.0 || ^4.0",
+    "cweagans/composer-patches": "~1.0"
   },
   "replace": {
     "guzzlehttp/guzzle": "^6.5 || ^7.0",
@@ -11,7 +12,8 @@
   },
   "config": {
     "allow-plugins": {
-      "civicrm/composer-downloads-plugin": true
+      "civicrm/composer-downloads-plugin": true,
+      "cweagans/composer-patches": true
     }
   },
   "extra": {
@@ -20,6 +22,11 @@
         "version": "v0.18.10-civicrm-4.0",
         "path": "packages/mosaico",
         "url": "https://github.com/civicrm/mosaico/releases/download/{$version}/mosaico-dist.tar.gz"
+      }
+    },
+    "patches": {
+      "intervention/image": {
+        "Apply patch to fix deprecation notice in gd imagepolygon and imagefilledpolygon": "./patches/gd_deprecation_notice_fix_for_imagefilledpolygon.patch"
       }
     }
   }

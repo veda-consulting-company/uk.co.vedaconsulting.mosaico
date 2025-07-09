@@ -33,9 +33,9 @@
           });
         };
         scope.doSend = function doSend(recipient) {
-          var trimmed = recipient.email.replace(/\s/, '');
+          recipient = JSON.parse(JSON.stringify(recipient).replace(/\,\s/g, ','));
           scope.$eval(attr.onSend, {
-            preview: {recipient: {email: trimmed}}
+            preview: {recipient: recipient}
           });
         };
 

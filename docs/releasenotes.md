@@ -1,6 +1,11 @@
 **DO NOT DOWNLOAD DIRECTLY FROM GITHUB**
 Download via [the extensions directory](https://civicrm.org/extensions/email-template-builder) as there are additional packaging requirements not handled by github.
 
+## Release 3.8 (2025-07-09)
+
+* [#683](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/683) - Use upstream tidy process to fix the send to a group functionality whilst preserving fix for #664 (Fix send test email to group).
+* [#677](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/677) - Fix deprecation notices on PHP8.1.
+
 ## Release 3.7 (2025-07-03)
 
 * Update to latest upstream library.

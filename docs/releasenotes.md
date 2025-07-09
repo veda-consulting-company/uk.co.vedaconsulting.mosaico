@@ -5,6 +5,7 @@ Download via [the extensions directory](https://civicrm.org/extensions/email-tem
 
 * [#683](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/683) - Use upstream tidy process to fix the send to a group functionality whilst preserving fix for #664 (Fix send test email to group).
 * [#677](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/677) - Fix deprecation notices on PHP8.1.
+* [#685](https://github.com/veda-consulting-company/uk.co.vedaconsulting.mosaico/pull/685) Cannot edit saved templates after #674.
 
 ## Release 3.7 (2025-07-03)
 

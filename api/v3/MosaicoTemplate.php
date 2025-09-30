@@ -76,7 +76,8 @@ function civicrm_api3_mosaico_template_get($params) {
     if (_civicrm_api3_mosaico_template_getDomainFrom($baseTemplateURL)) {
       $urlParts = parse_url($baseTemplateURL);
       $templatePath = $urlParts['path'];
-      $currentURL =  \Civi::paths()->getVariable('cms.root', 'url') . '/' . $templatePath;
+      $currentURL = rtrim(\Civi::paths()->getVariable('cms.root', 'url'), "/") .
+                    '/' . ltrim($templatePath,'/');
     } else {
       $currentURL = $baseTemplateURL;
     }

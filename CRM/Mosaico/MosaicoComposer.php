@@ -14,6 +14,17 @@ class CRM_Mosaico_MosaicoComposer extends \Civi\FlexMailer\Listener\DefaultCompo
     return $mailing->template_type === 'mosaico';
   }
 
+  public function onCompose(
+    \Civi\FlexMailer\Event\ComposeBatchEvent $e
+  ) {
+    if (!$this->isActive() || !$this->isSupported($e->getMailing())) {
+      return;
+    }
+    parent::onCompose($e);
+    // Disable the processing in the parent onCompose function now that we have processed it already
+    \Civi::service('civi_flexmailer_default_composer')->setActive(FALSE);
+  }
+
   public function createTokenProcessorContext(
     \Civi\FlexMailer\Event\ComposeBatchEvent $e
   ) {

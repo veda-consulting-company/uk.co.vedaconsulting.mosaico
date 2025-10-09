@@ -145,7 +145,7 @@ class CRM_Mosaico_Page_Editor extends CRM_Core_Page {
    */
   protected function getMaxFileSize() {
     $fakeUnlimited = 25 * 1024 * 1024;
-    $iniVal = ini_get('upload_max_filesize') ? CRM_Utils_Number::formatUnitSize(ini_get('upload_max_filesize'), TRUE) : $fakeUnlimited;
+    $iniVal = ini_get('upload_max_filesize') ? ini_parse_quantity(ini_get('upload_max_filesize')) : $fakeUnlimited;
     $settingVal = Civi::settings()->get('maxFileSize') ? (1024 * 1024 * Civi::settings()->get('maxFileSize')) : $fakeUnlimited;
     return (int) min($iniVal, $settingVal);
   }

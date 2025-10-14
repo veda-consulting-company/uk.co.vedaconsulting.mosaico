@@ -1,3 +1,6 @@
+# MOVED TO https://lab.civicrm.org/extensions/mosaico
+
+
 # Mosaico - Responsive email template editor
 
 This extension integrates a responsive email template editor, [Mosaico](https://mosaico.io/), with CiviCRM.

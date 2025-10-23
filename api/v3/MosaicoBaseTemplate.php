@@ -42,7 +42,7 @@ function _civicrm_api3_mosaico_base_template_get_spec(&$spec) {
  *
  * @param array $params
  * @return array API result descriptor
- * @throws API_Exception
+ * @throws CRM_Core_Exception
  */
 function civicrm_api3_mosaico_base_template_get($params) {
   return _civicrm_api3_basic_array_get('MosaicoBaseTemplate', $params, CRM_Mosaico_BAO_MosaicoTemplate::findBaseTemplates(), 'name',

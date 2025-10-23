@@ -17,7 +17,7 @@ function _civicrm_api3_mosaico_template_create_spec(&$spec) {
  *
  * @param array $params
  * @return array API result descriptor
- * @throws API_Exception
+ * @throws CRM_Core_Exception
  */
 function civicrm_api3_mosaico_template_create($params) {
   // Add current domain id to the template while creating
@@ -48,7 +48,7 @@ function civicrm_api3_mosaico_template_create($params) {
  *
  * @param array $params
  * @return array API result descriptor
- * @throws API_Exception
+ * @throws CRM_Core_Exception
  */
 function civicrm_api3_mosaico_template_delete($params) {
   return _civicrm_api3_basic_delete('CRM_Mosaico_BAO_MosaicoTemplate', $params);
@@ -59,7 +59,7 @@ function civicrm_api3_mosaico_template_delete($params) {
  *
  * @param array $params
  * @return array API result descriptor
- * @throws API_Exception
+ * @throws CRM_Core_Exception
  */
 function civicrm_api3_mosaico_template_get($params) {
   // Added the current domain id to the template while retrieving
@@ -105,7 +105,7 @@ function _civicrm_api3_mosaico_template_clone_spec(&$spec) {
  * @param array $params
  *
  * @return array
- * @throws \CiviCRM_API3_Exception
+ * @throws \CRM_Core_Exception
  */
 function civicrm_api3_mosaico_template_clone($params) {
   $BLACKLIST = ['id'];
@@ -153,7 +153,7 @@ function _civicrm_api3_mosaico_template_replaceurls_spec(&$spec) {
  *
  * @param array $params
  * @return array API result descriptor
- * @throws API_Exception
+ * @throws CRM_Core_Exception
  */
 function civicrm_api3_mosaico_template_replaceurls($params) {
   // If no `to_url` was passed, the current server base URL will be used

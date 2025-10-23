@@ -71,7 +71,7 @@ class CRM_Mosaico_AbDemux {
    * @param callable $continue
    *   The original/upstream implementation of Mailing.send_test API.
    * @return array
-   * @throws \API_Exception
+   * @throws \CRM_Core_Exception
    */
   public function onSendTestMailing($apiRequest, $continue) {
     if (empty($apiRequest['params']['mailing_id'])) {
@@ -114,12 +114,12 @@ class CRM_Mosaico_AbDemux {
    * @param callable $continue
    *   The original/upstream implementation of Mailing.submit API.
    * @return array
-   * @throws \API_Exception
+   * @throws \CRM_Core_Exception
    */
   public function onSubmitMailing($apiRequest, $continue) {
     civicrm_api3_verify_mandatory($apiRequest['params'], 'CRM_Mailing_DAO_Mailing', array('id'));
     if (!isset($apiRequest['params']['scheduled_date']) && !isset($apiRequest['params']['approval_date'])) {
-      throw new API_Exception("Missing parameter scheduled_date and/or approval_date");
+      throw new CRM_Core_Exception("Missing parameter scheduled_date and/or approval_date");
     }
 
     $api3 = $this->makeApi3($apiRequest);
@@ -230,7 +230,7 @@ class CRM_Mosaico_AbDemux {
    * @param array|object $mailing
    * @param array $variant
    * @return array|object
-   * @throws \API_Exception
+   * @throws \CRM_Core_Exception
    */
   protected function applyVariant(&$mailing, $variant) {
     $overrides = array_intersect(array_keys($variant), $this->variantFields);
@@ -253,7 +253,7 @@ class CRM_Mosaico_AbDemux {
       }
     }
     else {
-      throw new API_Exception("Cannot apply variant - unrecognized mailing object");
+      throw new CRM_Core_Exception("Cannot apply variant - unrecognized mailing object");
     }
     return $mailing;
   }
